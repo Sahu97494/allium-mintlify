@@ -3,10 +3,6 @@ body {
   font-family: "Manrope", sans-serif;
 }
 
-.relative.mt-8.prose.prose-gray a {
-  text-decoration: underline;
-}
-
 .relative.mt-8.prose.prose-gray a.card {
   text-decoration: none;
 }
