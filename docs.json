@@ -28,7 +28,7 @@
           {
             "group": "Welcome to Allium",
             "pages": [
-              "home"
+              "products/home"
             ]
           },
           {
