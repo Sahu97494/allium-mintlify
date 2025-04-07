@@ -23,7 +23,7 @@
         ]
       },
       {
-        "tab": "Guides",
+        "tab": "Products",
         "groups": [
           {
             "group": "Welcome to Allium",
@@ -38,23 +38,23 @@
                 "group": "Allium Developer",
                 "icon": "square-code",
                 "pages": [
-                  "data-products-real-time/allium-developer",
-                  "data-products-real-time/allium-developer/wallet-apis",
-                  "data-products-real-time/allium-developer/nft-apis",
-                  "data-products-real-time/allium-developer/token-prices-apis"
+                  "products/data-products-real-time/allium-developer",
+                  "products/data-products-real-time/allium-developer/wallet-apis",
+                  "products/data-products-real-time/allium-developer/nft-apis",
+                  "products/data-products-real-time/allium-developer/token-prices-apis"
                 ]
               },
               {
                 "group": "Allium Datastreams",
                 "icon": "arrow-progress",
                 "pages": [
-                  "data-products-real-time/allium-datastreams",
+                  "products/data-products-real-time/allium-datastreams",
                   {
                     "group": "Kafka & Pub/Sub",
                     "icon": "share-nodes",
                     "pages": [
-                      "data-products-real-time/allium-datastreams/kafka-pubsub",
-                      "data-products-real-time/allium-datastreams/kafka-pubsub/getting-started-with-google-pub-sub"
+                      "products/data-products-real-time/allium-datastreams/kafka-pubsub",
+                      "products/data-products-real-time/allium-datastreams/kafka-pubsub/getting-started-with-google-pub-sub"
                     ]
                   }
                 ]
@@ -68,48 +68,53 @@
                 "group": "Allium Explorer",
                 "icon": "crosshairs-simple",
                 "pages": [
-                  "data-products-analytics/allium-explorer",
+                  "products/data-products-analytics/allium-explorer",
                   {
                     "group": "Explorer API",
                     "icon": "code",
                     "pages": [
-                      "data-products-analytics/allium-explorer/explorer-api",
-                      "data-products-analytics/allium-explorer/explorer-api/explorer-api-user-tutorial",
+                      "products/data-products-analytics/allium-explorer/explorer-api",
+                      "products/data-products-analytics/allium-explorer/explorer-api/explorer-api-user-tutorial",
                       {
                         "group": "Explorer API Reference",
                         "icon": "code",
                         "pages": [
-                          "data-products-analytics/allium-explorer/explorer-api/post-get-requests",
-                          "data-products-analytics/allium-explorer/explorer-api/execute-query-async",
-                          "data-products-analytics/allium-explorer/explorer-api/get-latest-query-run-handler",
-                          "data-products-analytics/allium-explorer/explorer-api/get-query-run-status",
-                          "data-products-analytics/allium-explorer/explorer-api/get-query-run-results",
-                          "data-products-analytics/allium-explorer/explorer-api/cancel-query-run"
+                          "products/data-products-analytics/allium-explorer/explorer-api/post-get-requests",
+                          "products/data-products-analytics/allium-explorer/explorer-api/execute-query-async",
+                          "products/data-products-analytics/allium-explorer/explorer-api/get-latest-query-run-handler",
+                          "products/data-products-analytics/allium-explorer/explorer-api/get-query-run-status",
+                          "products/data-products-analytics/allium-explorer/explorer-api/get-query-run-results",
+                          "products/data-products-analytics/allium-explorer/explorer-api/cancel-query-run"
                         ]
                       }
                     ]
                   },
-                  "data-products-analytics/allium-explorer/query-runner",
-                  "data-products-analytics/allium-explorer/data-upload",
-                  "data-products-analytics/allium-explorer/visualisations",
-                  "data-products-analytics/allium-explorer/allium-ai-assistant",
-                  "data-products-analytics/allium-explorer/metrics"
+                  "products/data-products-analytics/allium-explorer/query-runner",
+                  "products/data-products-analytics/allium-explorer/data-upload",
+                  "products/data-products-analytics/allium-explorer/visualisations",
+                  "products/data-products-analytics/allium-explorer/allium-ai-assistant",
+                  "products/data-products-analytics/allium-explorer/metrics"
                 ]
               },
               {
                 "group": "Allium Datashares",
                 "icon": "server",
                 "pages": [
-                  "data-products-analytics/allium-datashares",
-                  "data-products-analytics/allium-datashares/databricks",
-                  "data-products-analytics/allium-datashares/snowflake",
-                  "data-products-analytics/allium-datashares/bigquery",
-                  "data-products-analytics/allium-datashares/s3-gcs",
-                  "data-products-analytics/allium-datashares/bi-visualization-tools"
+                  "products/data-products-analytics/allium-datashares",
+                  "products/data-products-analytics/allium-datashares/databricks",
+                  "products/data-products-analytics/allium-datashares/snowflake",
+                  "products/data-products-analytics/allium-datashares/bigquery",
+                  "products/data-products-analytics/allium-datashares/s3-gcs",
+                  "products/data-products-analytics/allium-datashares/bi-visualization-tools"
                 ]
               }
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
           {
             "group": "Featured Solutions",
             "pages": [
