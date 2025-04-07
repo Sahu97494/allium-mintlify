@@ -1,0 +1,20 @@
+---
+title: 'Holdings Overview'
+description: 'Wallet Portfolio Holdings'
+---
+
+The Holdings API provides comprehensive realtime and historical coverage of USD holdings for a given wallet. These endpoints are based on balance history and price data aggregated over set granularities. Prices are derived from Allium's real-time DEX trade feeds. Holdings are aggregated at 15s, 5m, 1h, and 1d level granularities with corresponding retentions.
+
+**Key Features:**
+
+- **Real-Time & Historical Data**: Latest balances & prices update in real time, while historical holdings data is available for tracking portfolios over time.
+- **Aggregated Coverage**: USD Holdings for each wallet is aggregated over all tokens that a user holds and returned at set time granularities.
+- **Single Call Multi-chain Support**: Request aggregated holdings across several chains in a single API call.
+
+**Current Limitations & Roadmap**:
+
+- Currently, the Holdings API only supports Solana and bitcoin.
+- Support for additional chains and liquidity pool-based pricing is in development.
+- This API is under active development, and improvements are ongoing.
+
+If you are interested in testing the Holdings API or need portfolio data for other chains, please reach out to our team.
