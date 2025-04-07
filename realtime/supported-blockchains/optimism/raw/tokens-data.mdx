@@ -1,0 +1,55 @@
+---
+title: "Tokens Data"
+---
+
+Decoded ERC token metadata.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query ERC tokens by contract address.
+
+```
+select * from optimism.erc20_tokens limit 1
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+<Tabs>
+
+<Tab title="ERC20">
+
+ERC20 tokens equivalent (e.g. BEP-20, TRC-20 tokens)
+
+```
+                                                       Table "evm.erc20_tokens"
+     Column      |            Type             | Collation | Nullable |      Default      | Storage  | Compression | Stats target | Description
+-----------------+-----------------------------+-----------+----------+-------------------+----------+-------------+--------------+-------------
+ address         | character varying(42)       |           | not null |                   | extended |             |              |
+ name            | character varying           |           |          |                   | extended |             |              |
+ symbol          | character varying           |           |          |                   | extended |             |              |
+ decimals        | bigint                      |           |          |                   | plain    |             |              |
+ block_timestamp | timestamp without time zone |           |          |                   | plain    |             |              |
+ block_number    | bigint                      |           |          |                   | plain    |             |              |
+ block_hash      | character varying(66)       |           |          |                   | extended |             |              |
+ _created_at     | timestamp without time zone |           |          | CURRENT_TIMESTAMP | plain    |             |              |
+ _updated_at     | timestamp without time zone |           |          | CURRENT_TIMESTAMP | plain    |             |              |
+Indexes:
+    "erc20_tokens_pk" PRIMARY KEY, btree (address)
+    "erc20_tokens_address_index" btree (address)
+    "erc20_tokens_block_timestamp_index" btree (block_timestamp DESC)
+    "erc20_tokens_symbol_index" btree (symbol)
+```
+
+</Tab>
+
+</Tabs>

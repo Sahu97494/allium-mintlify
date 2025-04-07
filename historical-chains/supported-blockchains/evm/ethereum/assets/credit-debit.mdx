@@ -1,0 +1,50 @@
+---
+title: "Overview"
+---
+
+Credit Debit tables contain the amount and direction (credit/debit) of every transfer event of all assets (ETH, ERC20, ERC721 and ERC1155) across all Ethereum wallets. This table will include two rows for every event, with one row representing credit and one row representing debit. Asset-specific tables are also available for query.
+
+### Difference with transfers
+
+Unlike token transfers, data here is organized into **credit&#x20;**&#x61;nd **debit&#x20;**&#x72;ows (similar to the accounting concept called "double entry book").
+
+### Methodology
+
+Using an ERC20 token as an example, &#x61;**&#x20;token transfer** will be represented as follows:
+
+<table><thead><tr><th width="166.33333333333331">from_address</th><th width="180">to_address</th><th width="100">amount</th><th>event</th></tr></thead><tbody><tr><td>X</td><td>Y</td><td>1250</td><td>X transfers 1250 tokens to Y</td></tr></tbody></table>
+
+In credit debit, it will be represented **two rows**.
+
+<table><thead><tr><th width="134">address </th><th width="208">counterparty_address </th><th width="100">amount</th><th>event</th></tr></thead><tbody><tr><td>X </td><td>Y</td><td>-1250</td><td> X decrease 1250 tokens to Y </td></tr><tr><td>Y</td><td>X</td><td>1250</td><td>Y increase 1250 tokens from </td></tr></tbody></table>
+
+### Sample Query
+
+Debit and credit of ETH from a particular transaction.
+
+```sql
+select * from ethereum.assets.credit_debit
+where block_number = '5030097'
+and transaction_hash = '0x1c2eb8b98e9917b30e402d519c1545116e7432699dffced4041c980cd8b6a4d6'
+```
+
+Getting the cumulative change of USDC holdings in Uniswap v3 USDC-WETH pool in the last 30 days
+
+```sql
+select
+  date(block_timestamp) as date,
+  token_name, 
+  sum(amount) as delta,
+  sum(delta) over (order by date) as net_change
+from
+  ethereum.assets.credit_debit
+  where address = '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640' -- USDC-ETH Uniswap v3 5bp
+  and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC Token Address
+and current_date - date(block_timestamp) < 30
+group by date, token_name
+order by date desc 
+```
+
+### Table Columns
+
+<table><thead><tr><th width="168">Column Name</th><th width="224">Description</th><th>Example (Credit) </th><th>Example (Debit) </th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account that was credited or debited <code>value</code> amount of token</td><td><mark style="color:orange;"><code>0x72e77c9c17ca1c99bd9eb2f1011c752431625533</code></mark></td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>counterparty_address</td><td>The address of counter party of this credit or debit transfer.</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td><mark style="color:orange;"><code>0x72e77c9c17ca1c99bd9eb2f1011c752431625533</code></mark></td><td></td></tr><tr><td>token_address</td><td>Token address of the asset transferred.<br /><br />Note: Native ETH does not have a contract address, but for convention, it is labelled as: <code>0x0000000000000000000000000000000000000000</code></td><td><code>0x0000000000000000000000000000000000000000</code></td><td><code>0x0000000000000000000000000000000000000000</code></td><td></td></tr><tr><td>token_name</td><td>Name of the asset transferred.</td><td><code>ETH</code></td><td><code>ETH</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of the asset transferred.</td><td><code>ETH</code></td><td><code>ETH</code></td><td></td></tr><tr><td>raw_amount</td><td>Amount of tokens moved (unnormalized). <br /><br />For ERC721 and ERC1155 tokens, there are no decimals division involved. </td><td><code>-9E+15</code></td><td><code>9E+15</code></td><td></td></tr><tr><td>amount</td><td><p>Amount of token moved, normalized.</p><p><br /></p></td><td><code>-0.009</code></td><td><code>0.009</code></td><td></td></tr><tr><td>usd_amount</td><td>The amount of tokens moved, in $USD.</td><td><code>-7.731</code></td><td><code>7.731</code></td><td></td></tr><tr><td>usd_exchange_rate</td><td>Token symbol of this token.</td><td><code>859</code></td><td><code>859</code></td><td></td></tr><tr><td>transaction_hash</td><td>Transaction hash that this transfer belongs to.</td><td><code>0x1c2eb8b98e9917b30e402d519c1545116e7432699dffced4041c980cd8b6a4d6</code></td><td><code>0x1c2eb8b98e9917b30e402d519c1545116e7432699dffced4041c980cd8b6a4d6</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred.</td><td><code>2018-02-04T16:10:48</code></td><td><code>2018-02-04T16:10:48</code></td><td></td></tr><tr><td>block_number</td><td>The block number that the corresponding transaction of this transfer belongs to.</td><td><code>5030097</code></td><td><code>5030097</code></td><td></td></tr><tr><td>block_hash</td><td>The block hash that the corresponding transaction of this transfer belongs to.</td><td><code>0xea0ad2b10c2815f54a925c13161a252848ff9814cc49b16060c4a0782630bd38</code></td><td><code>0xea0ad2b10c2815f54a925c13161a252848ff9814cc49b16060c4a0782630bd38</code></td><td></td></tr><tr><td>token_type</td><td>The type of asset transferred. Currently supports ETH, ERC20, ERC721 and ERC1155 tokens.</td><td><code>ETH</code></td><td><code>ETH</code></td><td></td></tr><tr><td>unique_id</td><td>Unique id generated to each transfer. Includes transaction hash, log index and credit and debit transaction type. </td><td><code>trace-call_0x1c2eb8b98e9917b30e402d519c1545116e7432699dffced4041c980cd8b6a4d6_6_credit</code></td><td><code>trace-call_0x1c2eb8b98e9917b30e402d519c1545116e7432699dffced4041c980cd8b6a4d6_6_debit</code></td><td></td></tr></tbody></table>

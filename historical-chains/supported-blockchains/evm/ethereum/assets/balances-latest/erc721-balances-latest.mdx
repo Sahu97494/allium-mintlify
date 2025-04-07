@@ -1,0 +1,26 @@
+---
+title: "ERC721 Balances Latest"
+description: Historical ERC721 balances of all addresses at every block height.
+---
+
+<Info>
+Note that we don't have USD prices for NFT balances yet
+</Info>
+
+The ERC721 balances latest table contains the current ERC721 balances of all addresses.
+
+### Sample Query
+
+Getting the ERC721 latest balance of Beanz NFT from an address.
+
+```sql
+select * from ethereum.assets.erc721_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0x306b1ea3ecdf94ab739f1910bbda052ed4a9f949' -- Beanz NFT 
+```
+
+Currently, the USD exchange rates of ERC721 tokens are not available.
+
+### Table Columns
+
+<table><thead><tr><th width="239">Column Name</th><th width="268.3333333333333">Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td>0x44228c343e102d2860a800f05da2f09cd00f0c60</td></tr><tr><td>token_address</td><td>Addres of the token.</td><td>0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258</td></tr><tr><td>token_name</td><td>Name of the token.</td><td>Otherdeed</td></tr><tr><td>token_symbol</td><td>Symbol of the token.</td><td>OTHR</td></tr><tr><td>token_id</td><td>Token ID of the ERC721 token.</td><td>80383</td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved.</td><td>1</td></tr><tr><td>raw_balance_str</td><td>Balance of tokens (unnormalized) in string. For ERC721 tokens, there are no decimals division involved.</td><td>1</td></tr><tr><td>balance_str</td><td>Balance of tokens in string. For ERC721 tokens, the max balance is 1.</td><td>1</td></tr><tr><td>balance</td><td>Balance of tokens. For ERC721 tokens, the max balance is 1.</td><td>1</td></tr><tr><td>usd_balance_current</td><td><p>USD balance of ERC721 token at the current timestamp. </p><p></p><p>N/A for ERC721 tokens currently.</p></td><td>NULL</td></tr><tr><td>usd_balance_at_block_timestamp</td><td>USD balance of ERC721 token at the timestamp of the last activity that resulted in balance change.</td><td>NULL</td></tr><tr><td>usd_exchange_rate_current</td><td>USD exchange rate of ERC721 token at the current timestamp.<br /><br />N/A for ERC721 tokens currently.</td><td>NULL</td></tr><tr><td>usd_exchange_rate_at_block_timestamp</td><td>USD exchange rate of ERC721 token at the timestamp of the last activity that resulted in balance update.</td><td>NULL</td></tr><tr><td>last_activity_block_timestamp</td><td>Timestamp of the last activity that resulted in this balance.</td><td>2023-03-14 14:12:23</td></tr><tr><td>last_activity_block_number</td><td>Block number of the last activity that resulted in this balance.</td><td>16,826,706</td></tr><tr><td>last_activity_block_hash</td><td>Block hash of the last activity that resulted in this balance.</td><td>0x230f13eae18b694dae232baae4dc78e9b9ca09f937d242d13380f075eb888ead</td></tr><tr><td>_updated_at__usd_exchange_rate_current</td><td>Timestamp of the current USD exchange.</td><td>NULL</td></tr><tr><td>unique_id</td><td>Unique ID of the balance.</td><td>block-16826706_address-0x44228c343e102d2860a800f05da2f09cd00f0c60_token_address-0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258_token_id-80383_erc721</td></tr><tr><td>_updated_at</td><td>Timestamp of the balance update.</td><td>2023-03-14 15:28:54</td></tr></tbody></table>

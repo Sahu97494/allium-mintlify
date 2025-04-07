@@ -1,0 +1,21 @@
+---
+title: "ETH Balances"
+description: Historical ETH balance of all addresses at every block height.
+---
+
+ETH balances table contains the balance of all addresses, at every block height. Use this table to easily plot the change in the balance of an address or a group of addresses over time.
+
+### Sample Query
+
+Get ETH balances of an address in the last 7 days. If no ETH transactions are performed over the previous 7 days, the output will be empty.
+
+```sql
+select * from ethereum.assets.eth_balances
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and current_date - date(block_timestamp) < 7
+order by block_number desc 
+```
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th>Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>raw_balance</td><td>Balance of eth in <a href="https://www.investopedia.com/terms/w/wei.asp">wei</a>.</td><td><code>1,000,000,000,000,000,000</code></td><td></td></tr><tr><td>balance</td><td>Balance of ether.</td><td><code>1</code></td><td></td></tr><tr><td>usd_value</td><td>The amount of ether, in $USD.</td><td><code>10</code></td><td></td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the <code>usd_value</code>.</td><td><code>1</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the <code>balance</code>.</td><td><code>2022-09-15 13:51:47</code></td><td></td></tr><tr><td>block_number</td><td>The number of the block that resulted in the <code>balance</code>.</td><td><code>15539508</code></td><td></td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the <code>balance</code>.</td><td><code>0x25680259dfb40b4ee724ae22fda01a34e6d598c5f2fc25b6d871cb56c488de70</code></td><td></td></tr></tbody></table>

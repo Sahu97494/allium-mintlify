@@ -1,0 +1,33 @@
+---
+title: "Messages"
+---
+
+TON messages are data packets that can contain various types of information, including transactions, smart contract instructions, and communication between network participants.
+
+### Table Columns
+
+| Column Name        | Description                                                                |
+| ------------------ | -------------------------------------------------------------------------- |
+| workchain          | The workchain identifier where the message was sent.                       |
+| shard              | The shard identifier where the message was sent.                           |
+| seqno              | The sequence number of the message.                                        |
+| bounce             | Indicates if the message should be bounced back to the sender if it fails. |
+| bounced            | Indicates if the message was bounced back to the sender.                   |
+| utime              | The Unix timestamp when the message was created.                           |
+| created\_lt        | Logical time when the message was created.                                 |
+| destination        | The destination address of the message.                                    |
+| fwd\_fee           | The forward fee associated with the message.                               |
+| hash               | The hash of the message.                                                   |
+| ihr\_disabled      | Indicates if the Instant Hypercube Routing (IHR) is disabled.              |
+| ihr\_fee           | The fee associated with the IHR.                                           |
+| import\_fee        | The import fee associated with the message.                                |
+| init\_state        | The initial state of the message.                                          |
+| masterchain\_seqno | The sequence number of the masterchain block.                              |
+| message\_content   | The content of the message.                                                |
+| message\_index     | The index of the message within the block.                                 |
+| opcode             | The operation code associated with the message.                            |
+| source             | The source address of the message.                                         |
+| transaction\_hash  | The hash of the associated transaction.                                    |
+| value              | The value transferred by the message.                                      |
+| \_created\_at      | Timestamp of the entry creation.                                           |
+| \_updated\_at      | Timestamp of the entry update.                                             |

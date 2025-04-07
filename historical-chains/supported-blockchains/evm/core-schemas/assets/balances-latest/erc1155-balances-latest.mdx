@@ -1,0 +1,46 @@
+---
+title: "ERC1155 Balances Latest"
+description: "The current ERC1155 balance of all addresses."
+---
+
+The `assets.erc1155_balances_latest` table contains the current ERC1155 balances of all addresses.
+
+### Sample Query
+
+Getting the latest ERC1155 Balances address.
+
+```sql
+select * from ethereum.assets.erc1155_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+```
+
+Note that ERC1155 permits the creation of both semi-fungible tokens and non-fungible tokens. In other words, there can be more than one quantity for a particular ERC1155 token ID.
+
+Currently, the USD exchange rates of ERC1155 tokens are not available.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                              | Data Type        | Description                                                                                     |
+|------------------------------------------|------------------|-------------------------------------------------------------------------------------------------|
+| address                                  | VARCHAR          | Address of the account                                                                         |
+| token_address                            | VARCHAR          | Address of the token                                                                           |
+| token_name                               | VARCHAR          | Name of the token                                                                              |
+| token_symbol                             | VARCHAR          | Symbol of the token                                                                            |
+| token_id                                 | VARCHAR          | Token ID of the ERC1155 token                                                                  |
+| raw_balance                              | INTEGER          | Balance of ERC1155 token unnormalized                                                          |
+| raw_balance_str                          | VARCHAR          | Balance of ERC1155 token unnormalized in string format                                          |
+| balance_str                              | VARCHAR          | Balance of ERC1155 token in string format                                                       |
+| balance                                  | INTEGER          | Balance of ERC1155 token normalized                                                            |
+| usd_balance_current                      | FLOAT            | USD balance of ERC1155 token at the current timestamp                                           |
+| usd_balance_at_block_timestamp           | FLOAT            | USD balance of ERC1155 token at the timestamp of the last activity that resulted in balance change |
+| usd_exchange_rate_current                | FLOAT            | USD exchange rate of ERC1155 token at the current timestamp                                     |
+| usd_exchange_rate_at_block_timestamp     | FLOAT            | USD exchange rate of ERC1155 token at the timestamp of the last activity that resulted in balance update |
+| last_activity_block_timestamp            | TIMESTAMP_NTZ(9) | The timestamp of the block that resulted in the balance                                         |
+| last_activity_block_number               | INTEGER          | The number of the block that resulted in the balance                                           |
+| last_activity_block_hash                 | VARCHAR          | The hash of the block that resulted in the balance                                             |
+| _updated_at__usd_exchange_rate_current   | TIMESTAMP_NTZ(9) | Timestamp of the current USD exchange rate                                                     |
+| unique_id                                | VARCHAR          | Unique ID of the balance                                                                       |
+| _updated_at                              | TIMESTAMP_NTZ(9) | Timestamp of the balance update                                                                |
+

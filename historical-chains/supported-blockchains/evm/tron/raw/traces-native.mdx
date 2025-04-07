@@ -1,0 +1,49 @@
+---
+title: "Traces Native"
+---
+
+`tron.raw.traces_native` contains trace calls, or internal transaction data from Tron's native API call.
+
+Internal Transactions represent all transactions that happen in a smart contract call.
+
+Some important information is included in the transaction, such as the sender/receiver address in a token/trx transfer transaction, trx/token amount, transfer status, etc.
+
+<Info>
+**Internal Transactions on Tron vs Other EVMs**
+
+* Traces on Tron network differ slightly from the EVM counterparts. There are no input and output fields. For more details, refer to Tron's documentation on internal transactions at[this link](https://github.com/tronprotocol/documentation/blob/master/English_Documentation/TRON_Virtual_Machine/InternalTransaction.md).
+
+* The transaction hash in this table does not have a 0x prefix.
+</Info>
+
+### Query Sample
+
+Finding TRC10 transfers.
+
+```sql
+select * from tron.raw.traces_native
+where token_id is not null -- Filters for TRC10 transfers.
+limit 100
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                                                                                    | Example                                                             |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| transaction\_hash          | Transaction hash of the main transaction.                                                                                                      | ea126d37c665b0c6364abd19acf4571f7ad7cb5e39ae9a4b876181ccd6815ae9    |
+| from\_address              | The address send trx or trc10 token                                                                                                            | TEEXEWrkMFKapSMJ6mErg39ELFKDqEs6w3                                  |
+| to\_address                | The address recieve trx or trc10 token                                                                                                         | TLUqyV9rGYXZ2E8kXe6J3P1rvYV1Au1Goe                                  |
+| call\_value                | The amount of trx or trc10 token.                                                                                                              | 10000000000                                                         |
+| token\_id                  | The trc10 tokenId. An empty value represents trx.                                                                                              |                                                                     |
+| trace\_type                | Trace type (or note). This can only have 3 types of values, call, create, suicide, that represent the internaltransaction type.                | call                                                                |
+| rejected                   | Show whether this internal transaction is rejected due to some error. If true, the internal transaction is rejected and it is not be executed. |                                                                     |
+| extra                      | Extra fields                                                                                                                                   |                                                                     |
+| trace\_hash                | Unique identifier for a internal transaction. Should not exist same hash across all InternalTransactions or transactions.                      | f36a3242bb7036196f321ab3cf30c259f8422b053b1f2e6d108d2624bbaf4729    |
+| trace\_index               | Index of the trace flatten within the transaction                                                                                              | 1                                                                   |
+| subtraces                  | Internally generated subtraces                                                                                                                 | 0                                                                   |
+| trace\_id                  | Unique trace id.                                                                                                                               | f36a3242bb7036196f321ab3cf30c259f8422b053b1f2e6d108d2624bbaf4729\_0 |
+| block\_timestamp           | Block timestamp of the internal transaction.                                                                                                   | 2018-11-07 08:38:18                                                 |
+| block\_number              | Block number of the internal transaction.                                                                                                      | 3875914                                                             |
+| internal\_transaction\_raw | Internal Transaction JSON for legacy Tron Traces.                                                                                              |                                                                     |
+| \_created\_at              | Timestamp of entry creation. (Null for v0 data)                                                                                                |                                                                     |
+| \_updated\_at              | Timestamp of entry updated. (Null for v0 data)                                                                                                 |                                                                     |

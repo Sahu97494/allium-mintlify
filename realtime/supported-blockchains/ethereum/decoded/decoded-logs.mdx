@@ -1,0 +1,61 @@
+---
+title: "Decoded Logs"
+---
+
+<Info>
+  This table has 1 row for every log, regardless of whether it is decoded or
+  not.
+</Info>
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query decoded event logs by contract address/topic0.
+
+```sql
+select * from ethereum.decoded_logs
+where address = '0x29f0096512b4af1d689c1a11a867a6e707a8dcde' limit 10
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+Key fields in addition to raw event logs data
+
+- name - name of the event e.g. `Transfer`
+
+- params - json field containing all the arguments of the event log
+
+```
+                                               Partitioned table "evm.decoded_logs"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ address           | character varying(42)       |           |          |         | extended |             |              |
+ name              | character varying           |           |          |         | extended |             |              |
+ params            | jsonb                       |           |          |         | extended |             |              |
+ topic0            | character varying(66)       |           |          |         | extended |             |              |
+ transaction_hash  | character varying(66)       |           | not null |         | extended |             |              |
+ log_index         | bigint                      |           | not null |         | plain    |             |              |
+ block_timestamp   | timestamp without time zone |           | not null |         | plain    |             |              |
+ block_number      | bigint                      |           |          |         | plain    |             |              |
+ block_hash        | character varying(66)       |           |          |         | extended |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ transaction_index | bigint                      |           |          |         | plain    |             |              |
+Partition key: RANGE (block_timestamp)
+Indexes:
+    "decoded_logs_pk" PRIMARY KEY, btree (transaction_hash, log_index, block_timestamp)
+    "decoded_logs_address_block_timestamp_index" btree (address, block_timestamp DESC)
+    "decoded_logs_block_index" btree (block_number)
+    "decoded_logs_block_timestamp_index" btree (block_timestamp DESC)
+```

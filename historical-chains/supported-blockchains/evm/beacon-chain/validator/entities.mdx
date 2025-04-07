@@ -1,0 +1,47 @@
+---
+title: "Entities"
+description: Identify Beacon Chain entities
+---
+
+Identify Beacon Chain validators metrics with `beacon.validators.entities`
+
+<Check>
+**Entities Coverage**
+
+Beacon validators entities identified: \~ 80% (Feb 2025)
+</Check>
+
+### Sample Queries
+
+Identifying the distribution of Beacon Chain incomes amongst active validators.
+
+```sql
+select 
+    date_trunc('week', slot_timestamp) as date,
+    nvl(entity, 'unlabeled') as label,
+    sum(consensus_income) as daily_income
+from beacon.validator.income 
+    left join beacon.validator.entities on entities.pubkey = income.pubkey
+group by 1,2 
+```
+
+### Table Columns
+
+Unique key : `validator_index`
+
+| Column Name             | Description                                                                                                                   | Example                                                                                            |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| validator\_index        | Unique index of validator.                                                                                                    | 916,865                                                                                            |
+| pubkey                  | The validator's BLS public key, uniquely identifying them. \_48-bytes, hex encoded with 0x prefix, case insensitive.          | 0xb20cbf80ded11e4089be8ff68c3150aa19f1a5dc064450a1a10097194f1d09d470261c183d8ca44717a4da7cafa11c4f |
+| entity                  | Name of the entity.                                                                                                           | okx                                                                                                |
+| category                | Category of the entity.                                                                                                       | cex                                                                                                |
+| last\_status            | Last status of the validator.                                                                                                 | active\_ongoing                                                                                    |
+| address                 | Mainnet transaction signer of the initial deposit.                                                                            | 0x5a0036bcab4501e70f086c634e2958a8beae3a11                                                         |
+| funder                  | Mainnet ETH Funder of the initial deposit.                                                                                    | 0x5a0036bcab4501e70f086c634e2958a8beae3a11                                                         |
+| staking\_contract       | Staking contract that the validator deposited the ETH into. Most staking contract will be the Beacon Chain Deposit Contract.  | 0x00000000219ab540356cbb839cbe05303d7705fa                                                         |
+| withdrawal\_credentials | The root of withdrawal credentials.                                                                                           | 0x010000000000000000000000e839a3e9efb32c6a56ab7128e51056585275506c                                 |
+| withdrawal\_prefix      | The first byte of this credential is known as the withdrawal prefix. This value is currently either 0x00 or 0x01.             | 0x01                                                                                               |
+| withdrawal\_address     | ETH1 Withdrawal address specified in withdrawal credentials, applicable for validators with 0x01 withdrawal credentials only. | 0xe839a3e9efb32c6a56ab7128e51056585275506c                                                         |
+| activation\_epoch       | Epoch when validator activated. FAR\_FUTURE\_EPOCH if not activated.                                                          | 230889                                                                                             |
+| exit\_epoch             | Exit epoch, if applicable.                                                                                                    | -1                                                                                                 |
+| updated\_at             | Timestamp of entry update.                                                                                                    | 2023-10-08 23:59:59.000 +0000                                                                      |

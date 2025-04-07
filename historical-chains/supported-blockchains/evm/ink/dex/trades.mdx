@@ -1,0 +1,64 @@
+---
+title: "Trades"
+---
+
+The `dex.trades` table contains swaps made on decentralized exchanges, consolidated into a single table.
+
+### Coverage:
+
+Currently, we support over 40+ DEX projects across 20+ protocol versions on Ethereum. This table does not include aggregator DEX trades.
+
+| Projects                                                                                                                                                                                                                                                                                                                                                                 | Protocols                                                                 |
+| ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------- |
+| dyorswap, inkswap, inkyswap, squidswap, uniswap | uniswap\_v2                                                               |
+| uniswap, velodrome                                                                                                                                                                                                                                                                                                                                                      | uniswap\_v3                                                               |
+| uniswap                                                                                                                                                                                                                                                                                                                                                                  | uniswap\_v4                                                               |
+| velodrome                                                                                                                                                                                                                                                                                                                                                                | velodrome\_v2                                                             |
+
+### Table Columns
+
+`_str` columns are numeric fields cast to `varchar` to retain precision.
+
+Unique Key: `unique_id`
+
+| Column                          | Data Type         | Description                                                                                                                                                             |
+| ------------------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| project                         | VARCHAR           | The project (decentralized exchange) of the liquidity pool that the swap occurred from.                                                                                 |
+| protocol                        | VARCHAR           | DEX protocol (& version, if applicable) of the contract address facilitating the swap.                                                                                  |
+| liquidity\_pool\_address        | VARCHAR           | Contract address of the liquidity pool holding the asset. For protocol without the concept of LP such as airswap, this will be null.                                    |
+| sender\_address                 | VARCHAR           | The address of the sender emitted on the swap event logs. This can be a router or pool address.                                                                         |
+| to\_address                     | VARCHAR           | Address of the recipient emitted on the swap event logs. For example, recipient\_address from the uniswap v3 swap event log.                                            |
+| token\_sold\_address            | VARCHAR           | Token address of the token sold.                                                                                                                                        |
+| token\_sold\_name               | VARCHAR           | Name of the token sold.                                                                                                                                                 |
+| token\_sold\_symbol             | VARCHAR           | Symbol of the token sold.                                                                                                                                               |
+| token\_sold\_decimals           | BIGINT            | Token decimals of the token sold.                                                                                                                                       |
+| token\_sold\_amount\_raw\_str   | VARCHAR           | Raw amount of tokens sold (unnormalized) in string.                                                                                                                     |
+| token\_sold\_amount\_raw        | FLOAT             | Raw amount of tokens sold (unnormalized).                                                                                                                               |
+| token\_sold\_amount\_str        | VARCHAR           | Amount of tokens sold in string.                                                                                                                                        |
+| token\_sold\_amount             | FLOAT             | Amount of tokens sold.                                                                                                                                                  |
+| usd\_sold\_amount               | FLOAT             | Amount of token sold in USD value.                                                                                                                                      |
+| token\_bought\_address          | VARCHAR           | Token address of the token bought, i.e. the asset acquired from the trade.                                                                                              |
+| token\_bought\_name             | VARCHAR           | Name of the token bought.                                                                                                                                               |
+| token\_bought\_symbol           | VARCHAR           | Symbol of the token bought.                                                                                                                                             |
+| token\_bought\_decimals         | BIGINT            | Token decimals of the token bought.                                                                                                                                     |
+| token\_bought\_amount\_raw\_str | VARCHAR           | Raw amount of tokens bought (unnormalized) in string.                                                                                                                   |
+| token\_bought\_amount\_raw      | FLOAT             | Raw amount of tokens bought (unnormalized).                                                                                                                             |
+| token\_bought\_amount\_str      | VARCHAR           | Amount of tokens bought in string.                                                                                                                                      |
+| token\_bought\_amount           | FLOAT             | Amount of tokens bought.                                                                                                                                                |
+| usd\_bought\_amount             | FLOAT             | Amount of token bought in USD value.                                                                                                                                    |
+| usd\_amount                     | FLOAT             | USD value of the swap. This field preferentially selects the USD value of ETH and Stablecoin (USDT/USDC) tokens, as spam token prices may conflate the true swap value. |
+| extra\_fields                   | VARIANT           | This field contains all the extra columns emitted from the event/function call that were not part of the convetional DEX trades columns.                                |
+| swap\_count                     | BIGINT            | Swap count within the transaction.                                                                                                                                      |
+| transaction\_fees               | VARCHAR           | Fees paid at the transaction level. Varchar to retain precision.                                                                                                        |
+| transaction\_fees\_usd          | FLOAT             | Fees paid in USD.                                                                                                                                                       |
+| fee\_details                    | VARIANT           | Additional fee details of the transaction, including max priority fee, gas price and gas used for the transaction.                                                      |
+| transaction\_from\_address      | VARCHAR           | Transaction sender address. I.e. the address of the transaction initiator. (from\_address in the raw.transactions field for the transaction\_hash of this swap).        |
+| transaction\_to\_address        | VARCHAR           | Transaction receiver. (to\_address in the raw.transactions field for the transaction\_hash of this swap).                                                               |
+| transaction\_hash               | VARCHAR           | Transaction hash that this swap belongs to.                                                                                                                             |
+| transaction\_index              | BIGINT            | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                    |
+| selector                        | VARCHAR           | 4byte selector of the transaction.                                                                                                                                      |
+| log\_index                      | BIGINT            | The position of the swap event log in the transaction.                                                                                                                  |
+| block\_timestamp                | TIMESTAMP\_NTZ(9) | Block timestamp of the swap event.                                                                                                                                      |
+| block\_number                   | BIGINT            | Block number of the swap event.                                                                                                                                         |
+| block\_hash                     | VARCHAR           | Block hash of the swap event.                                                                                                                                           |
+| unique\_id                      | VARCHAR           | Unique ID of each trade.                                                                                                                                                |

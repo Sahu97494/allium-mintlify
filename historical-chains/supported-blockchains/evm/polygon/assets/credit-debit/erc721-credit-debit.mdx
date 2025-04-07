@@ -1,0 +1,29 @@
+---
+title: "ERC721 Credit Debit"
+description: Credit and debit entries of all addresses for every ERC721 token transfer.
+---
+
+The ERC721 credit debit table allows you to easily track the inflows and outflows of every ERC721 token belonging to all addresses.
+
+### Table Columns
+
+| Column Name           | Description                                                                                                                                        | Example                                                                                      |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- |
+| address               | Address of the account that was credited or debited value amount of ERC721 token                                                                   | 0xb127e39f6388ce52fa81a7e1f705eac0cacba2c0                                                   |
+| counterparty\_address | The address of counter party of this credit or debit transfer.                                                                                     | 0x3a5606e418cda21ad8ff43ab38310fb3038037fa                                                   |
+| token\_address        | Token address of the ERC721 token.                                                                                                                 | 0x143530dea74f16908beb5f1aeced31d3adf0ddd5                                                   |
+| token\_name           | Name of the ERC721 token.                                                                                                                          | Memphis, TN Pop Art Edition                                                                  |
+| token\_symbol         | Token symbol of this token.                                                                                                                        | SWEDC                                                                                        |
+| token\_id             | Unique ID of the ERC721 token.                                                                                                                     | 317                                                                                          |
+| raw\_amount           | Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved.                                                      | 1                                                                                            |
+| raw\_amount\_str      | Balance of tokens (unnormalized) in string.                                                                                                        | 1                                                                                            |
+| amount                | Amount of tokens moved.                                                                                                                            | 1                                                                                            |
+| amount\_str           | Amount of tokens moved in string.                                                                                                                  | 1                                                                                            |
+| usd\_amount           | Amount of tokens moved in USD value.                                                                                                               |                                                                                              |
+| usd\_exchange\_rate   | This is the price of a single token, in $USD. Refer to Hourly Token Prices for more information.                                                   |                                                                                              |
+| transaction\_hash     | Transaction hash that this transfer belongs to.                                                                                                    | 0xd419c2f51508cdbd90bf417482ea87a72940e78e8cef066f97d38eb536c01af5                           |
+| log\_index            | The log index that corresponds to this transfer.                                                                                                   | 85                                                                                           |
+| block\_timestamp      | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred. | 2021-11-23 05:40:24                                                                          |
+| block\_number         | The block number that the corresponding transaction of this transfer belongs to.                                                                   | 21,696,780                                                                                   |
+| block\_hash           | The block hash that the corresponding transaction of this transfer belongs to.                                                                     | 0x5cc91cb56c332b64b3bf0b88b9658ef2a1905fef263af7d283cbf21a43a4df50                           |
+| unique\_id            | Unique id generated to each transfer. Includes transaction hash, log index and credit and debit transaction type.                                  | txn-0xd419c2f51508cdbd90bf417482ea87a72940e78e8cef066f97d38eb536c01af5\_log\_index-85\_debit |

@@ -1,0 +1,32 @@
+---
+title: "ERC721 Balances"
+description: "Historical ERC721 balances of all addresses at every block height."
+---
+
+The `assets.erc721_balances` table contains the ERC721 balances of all addresses, at every block height.
+
+<Info>
+USD prices for NFT token balances are not supported currently.
+</Info>
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name          | Data Type        | Description                                                                                     |
+|----------------------|------------------|-------------------------------------------------------------------------------------------------|
+| address              | VARCHAR          | The wallet address holding the tokens                                                          |
+| token_address        | VARCHAR          | Contract address of the token                                                                  |
+| token_name           | VARCHAR          | Name of the token                                                                              |
+| token_symbol         | VARCHAR          | Symbol of the token                                                                            |
+| token_id             | VARCHAR          | Unique identifier for the specific token within the collection (e.g., for ERC721 or ERC1155)   |
+| raw_balance          | FLOAT            | Token balance, unnormalized                                                                    |
+| raw_balance_str      | VARCHAR          | Token balance as string to retain precision                                                    |
+| balance              | FLOAT            | Token balance, normalized                                                                      |
+| balance_str          | VARCHAR          | Token balance as string to retain precision                                                    |
+| transaction_hash     | VARCHAR          | Hash of the transaction that last modified the balance                                         |
+| block_timestamp      | TIMESTAMP_NTZ(9) | Timestamp of the block                                                                         |
+| block_number         | BIGINT           | Number of the block                                                                            |
+| block_hash           | VARCHAR          | Hash of the block                                                                              |
+| unique_id            | VARCHAR          | Unique identifier of the balances entry                                                        |
+

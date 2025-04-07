@@ -1,0 +1,32 @@
+---
+title: "ERC1155 Credit Debit"
+description: Credit and debit entries of all addresses for every ERC1155 token transfer.
+---
+
+ERC1155 credit debit table allows you to easily track the inflows and outflows of every ERC1155 token belonging to all addresses.
+
+### Table Columns
+
+| Column Name           | Description                                                                                                                                        | Example                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| event\_type           | Transfer event type specific to ERC1155 tokens. Either transfer\_single or batch\_transfer.                                                        | transfer\_single                                                                              |
+| address               | Address of the account that was credited or debited value amount of ERC1155 token                                                                  | 0x8c97a5d0facc749c890506a0040fde4eac295060                                                    |
+| counterparty\_address | The address of counter party of this credit or debit transfer.                                                                                     | 0x30581532061320ef5d40cc7ce401f98bb38fadc8                                                    |
+| token\_address        | Token address of the ERC1155 token.                                                                                                                | 0x2953399124f0cbb46d2cbacd8a89cf0599974963                                                    |
+| token\_name           | Name of the ERC1155 token.                                                                                                                         | OpenSea Collections                                                                           |
+| token\_symbol         | Token symbol of this token.                                                                                                                        | OPENSTORE                                                                                     |
+| token\_id             | Unique ID of the ERC1155 token.                                                                                                                    | 63591737130667138653353858929682882208604401490798423943212309265208714461204                 |
+| raw\_amount           | Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved.                                                      | -1                                                                                            |
+| raw\_amount\_str      | Balance of tokens (unnormalized) in string.                                                                                                        | -1                                                                                            |
+| amount                | Amount of tokens moved.                                                                                                                            | -1                                                                                            |
+| amount\_str           | Amount of tokens moved in string.                                                                                                                  | -1                                                                                            |
+| usd\_amount           | Amount of tokens moved in USD value.                                                                                                               |                                                                                               |
+| usd\_exchange\_rate   | This is the price of a single token, in $USD. Refer to Hourly Token Prices for more information.                                                   |                                                                                               |
+| operator              | The operator is defined as the addresses authorized (or approved) by a NFT owner to spend all of his token Ids.                                    | 0x8c97a5d0facc749c890506a0040fde4eac295060                                                    |
+| transaction\_hash     | Transaction hash that this transfer belongs to.                                                                                                    | 0xa8e3ff122db54517910a3ed5ad4dce37b2e060ecdcf60176e3dd62ae57f535c5                            |
+| log\_index            | The log index that corresponds to this transfer.                                                                                                   | 72                                                                                            |
+| block\_timestamp      | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred. | 2021-12-12 00:04:23                                                                           |
+| block\_number         | The block number that the corresponding transaction of this transfer belongs to.                                                                   | 22,415,381                                                                                    |
+| block\_hash           | The block hash that the corresponding transaction of this transfer belongs to.                                                                     | 0x3de27a49a335584e077d189b9fc73e87805fba1cea0a7bf38eb52ddf08376034                            |
+| unique\_id            | Unique id generated to each transfer. Includes transaction hash, log index and credit and debit transaction type.                                  | txn-0xa8e3ff122db54517910a3ed5ad4dce37b2e060ecdcf60176e3dd62ae57f535c5\_log\_index-72\_credit |
+

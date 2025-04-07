@@ -1,0 +1,27 @@
+---
+title: "ETH Balances Latest"
+description: The current MATIC balance of all addresses.
+---
+
+The `assets.matic_balances_latest` table contains the **latest** balance of MATIC of all addresses. It is otherwise identical to MATIC Balance.
+
+### Table Columns
+
+| Column Name                               | Description                                                                                       | Example                                                            |
+| ----------------------------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| address                                   | Address of the account.                                                                           | 0xfc6b13fa53d369ca727ae1103e287786eedea24b                         |
+| token\_address                            | Address of the Ether, which is represented as nulll address.                                      | 0x0000000000000000000000000000000000000000                         |
+| token\_name                               | Name of the token.                                                                                | MATIC                                                              |
+| token\_symbol                             | Symbol of the token.                                                                              | MATIC                                                              |
+| raw\_balance                              | [Raw balance of ether in wei.](https://www.investopedia.com/terms/w/wei.asp)                      | 6.15E+16                                                           |
+| raw\_balance\_str                         | Raw balance of ether in wei and in string format.                                                 | 61546380600000001                                                  |
+| balance\_str                              | Balance of ether normalized and in string format.                                                 | 0.0615463806                                                       |
+| balance                                   | Balance of ether normalized.                                                                      | 0.0615463806                                                       |
+| usd\_balance\_current                     | USD balance of MATIC at the current timestamp.                                                    | 0.04698450695                                                      |
+| usd\_balance\_at\_block\_timestamp        | USD balance of MATIC at the timestamp of the last activity that resulted in balance change.       | 0.1121375055                                                       |
+| usd\_exchange\_rate\_current              | USD exchange rate of MATIC at the current timestamp.                                              | 0.7634                                                             |
+| usd\_exchange\_rate\_at\_block\_timestamp | USD exchange rate of MATIC at the timestamp of the last activity that resulted in balance update. | 1.822                                                              |
+| transaction\_hash                         | The transaction hash that resulted in the balance update.                                         | 0x29bbe45222f99a2d89ece577b2c21a42ecd575146b9231d9486624e3281c7c84 |
+| last\_activity\_block\_timestamp          | The last timestamp of the block that that resulted in the balance update.                         | 2022-02-15 15:41:46                                                |
+| last\_activity\_block\_number             | The last block number that resulted in the balance update.                                        | 24,975,778                                                         |
+| last\_activity\_block\_hash               | The last hash of the block that resulted in the balance update.                                   | 0xbd5913bce15ce278f8cfe889253ff58cf445e907e6724f1de972a2d0c74797fc |

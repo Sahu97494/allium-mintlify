@@ -1,0 +1,35 @@
+---
+title: "Latest Balances"
+description: "  The latest balances table records the latest block height at which an address's balance changed. Includes USD value where applicable. Can be used to analyze latest changes in balance."
+---
+
+Sample query:
+
+```sql
+select * from bitcoin.assets.balances_latest
+where last_activity_block_timestamp >= current_timestamp - interval '5 hours';
+```
+
+Table Columns
+
+| Column Name                               | Description                                                                                                | Example                                                                 |
+| ----------------------------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| address                                   | Address of the account.                                                                                    | bc1qdm8s6drm6dkvfqczyneldq2zmw5995dg3hhvky                              |
+| token\_address                            | Token address of the asset, 0x0000000000000000000000000000000000000000 for native token                    | 0x0000000000000000000000000000000000000000                              |
+| token\_name                               | Name of the token.                                                                                         | BTC                                                                     |
+| token\_symbol                             | Token symbol of this token.                                                                                | BTC                                                                     |
+| raw\_balance                              | Balance of tokens (unnormalized)                                                                           | 15,834,706                                                              |
+| raw\_balance\_str                         | Balance of tokens (unnormalized) in string.                                                                | 15834706                                                                |
+| balance\_str                              | Balance of the token, normalized by the decimal points defined by BTC protocol in sats. One sat = 1e-8 btc | 0.15834706                                                              |
+| balance                                   | Balance of this token, normalized by the decimal points defined in the token contract.                     | 0.15834706                                                              |
+| usd\_balance\_current                     | The amount of tokens, in $USD at the current time                                                          | 5,373.119530803                                                         |
+| usd\_balance\_at\_block\_timestamp        | The amount of tokens, in $USD at the price evaluated at the time of the block\_timestamp                   | 5,403.393905204                                                         |
+| usd\_exchange\_rate\_current              | The exchange rate used to calculate the usd\_value at current time                                         | 33,932.55                                                               |
+| usd\_exchange\_rate\_at\_block\_timestamp | The exchange rate used to calculate the usd\_value at block\_timestamp                                     | 34,123.74                                                               |
+| last\_activity\_block\_timestamp          | The latest timestamp of the block that that resulted in change in balance.                                 | 2023-10-24 09:34:58                                                     |
+| last\_activity\_block\_number             | The number of the latest block that resulted in  change in balance.                                        | 813,624                                                                 |
+| last\_activity\_block\_hash               | The hash of the latest block that resulted in change in balance.                                           | 00000000000000000003306de67b0a54e98ef716b46b012d4d0937286e38d577        |
+| `_updated_at__usd_exchange_rate_current`  | Time the usd exchange rate was calculated                                                                  | 2023-10-24 17:00:00                                                     |
+| `_updated_at__unhydrated`                 | Time the raw balance was calculated                                                                        | 2023-10-24 18:17:07                                                     |
+| `_updated_at`                             | Time the row was updated                                                                                   | 2023-10-24 18:17:07                                                     |
+| unique\_id                                | Unique ID of the balances entry                                                                            | block-20755138\_address-0xe6c27255fbb9d3a9718fb5e2dc313cd6eba10b78\_eth |

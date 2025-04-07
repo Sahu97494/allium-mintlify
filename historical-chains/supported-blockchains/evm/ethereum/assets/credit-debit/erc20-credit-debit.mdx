@@ -1,0 +1,27 @@
+---
+title: "ERC20 Credit Debit"
+description: Credit and debit entries of all addresses for every ERC20 token transfer.
+---
+
+<Info>
+We only use CEX USD prices to estimate the usd\_amount. This has the benefit of excluding scam tokens, but some defi tokens might not be covered.
+</Info>
+
+The ERC20 credit debit table allows you to easily track the inflows and outflows of every ERC20 token belonging to all addresses.
+
+### Sample Query
+
+Getting the ERC20 Credit Debit of USDC tokens of an address.
+
+This will provide an overview of all the in and outflows of an ERC20 token of interest to a wallet.
+
+```sql
+select * from ethereum.assets.erc20_credit_debit
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC 
+order by block_number desc  
+```
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th>Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account that was credited or debited <code>value</code> amount of ERC20 token</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>counterparty_address</td><td>The address of counter party of this credit or debit transfer.</td><td><code>0x55fe002aeff02f77364de339a1292923a15844b8</code></td><td></td></tr><tr><td>token_address</td><td>Token address of the ERC20 token.</td><td><code>0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</code></td><td></td></tr><tr><td>token_name</td><td>Name of the ERC20 token.</td><td><code>USD Coin</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td><code>USDC</code></td><td></td></tr><tr><td>raw_amount</td><td>Amount of tokens moved (unnormalized).</td><td><code>49995000000</code></td><td></td></tr><tr><td>raw_amount_str</td><td>Amount of tokens moved (unnormalized) in string.</td><td><code>49995000000</code></td><td></td></tr><tr><td>amount</td><td>Amount of tokens moved, normalized by the decimal points defined in the ERC20 token contract. For example, USDC has 6 decimals, so this value is the <code>raw_value</code> divided by 10^6.</td><td><code>49995</code></td><td></td></tr><tr><td>amount_str</td><td>Amount of tokens moved, normalized in string.</td><td><code>49995</code></td><td></td></tr><tr><td>usd_value</td><td>The amount of tokens moved, in $USD.</td><td><code>49980.0015</code></td><td></td></tr><tr><td>usd_exchange_rate</td><td>This is the price of a single token, in $USD.<br /><br />Refer to <a href="../../../../../../historical-verticals/prices/">Hourly Token Prices</a> for more information.</td><td><code>0.9997</code></td><td></td></tr><tr><td>transaction_hash</td><td>Transaction hash that this transfer belongs to.</td><td><code>0xcb1368a1121566799c15a1c80b0a80f2b5022b961399cc1bb7fb24321cfc1b25</code></td><td></td></tr><tr><td>log_index</td><td>The log index that corresponds to this transfer.</td><td><code>89</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred.</td><td><code>2022-01-28T15:17:56</code></td><td></td></tr><tr><td>block_number</td><td>The block number that the corresponding transaction of this transfer belongs to.</td><td><code>14094940</code></td><td></td></tr><tr><td>block_hash</td><td>The block hash that the corresponding transaction of this transfer belongs to.</td><td><code>0x3aabbdb1d24d525053ecd3bc4a68828ab2e601cf803bef2fef824576f488e802</code></td><td></td></tr><tr><td>unique_id</td><td>Unique id generated to each  transfer. Includes transaction hash, log index and credit and debit transaction type. </td><td><code>0xcb1368a1121566799c15a1c80b0a80f2b5022b961399cc1bb7fb24321cfc1b25_log_index-89_credit</code> <br /></td><td></td></tr></tbody></table>

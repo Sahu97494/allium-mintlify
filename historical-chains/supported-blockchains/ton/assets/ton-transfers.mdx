@@ -1,0 +1,51 @@
+---
+title: "Ton Transfers"
+---
+
+(Beta) The `ton.assets.ton_transfers` table includes transfers of TON from messages (and internal transfers) as well as TON consumed from transaction fees.
+
+<Warning>
+**This table is in Beta**
+
+* There may be unaccounted edge cases involving Ton transfers
+
+**All address fields used in this table will be in Hex format and upper casing**
+
+* There are up to 5 equivalent addresses for a given address on Ton.
+
+  * Use this website to convert the desired address [https://ton.org/address/](https://ton.org/address/)
+
+* Example of Hex address: `0:B113A994B5024A16719F69139328EB759596C38A25F59028B146FECDC3621DFE`
+</Warning>
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name         | Description                                                                                         |
+| ------------------- | --------------------------------------------------------------------------------------------------- |
+| from\_address       | The address of the sender of the TON transfer                                                       |
+| to\_address         | The address of the recipient of the TON transfer                                                    |
+| token\_address      | The address of the token contract (always '0' for native TON)                                       |
+| token\_name         | The name of the token (always 'Toncoin' for native TON)                                             |
+| token\_symbol       | The symbol of the token (always 'TON' for native TON)                                               |
+| raw\_amount\_str    | The raw transfer amount as a string to retain precision                                             |
+| raw\_amount         | The raw transfer amount as a float                                                                  |
+| amount\_str         | The normalized transfer amount as a string (9 decimal places), in string format to retain precision |
+| amount              | The normalized transfer amount as a float                                                           |
+| usd\_amount         | The USD value of the transfer at the hour of the transaction                                        |
+| usd\_exchange\_rate | The USD/TON exchange rate at the time of the transaction                                            |
+| transfer\_type      | The type of transfer, can be fees or value\_transfer                                                |
+| opcode              | The operation code associated with the transfer                                                     |
+| utime               | The timestamp of the transfer                                                                       |
+| transaction\_hash   | The hash of the transaction containing this transfer                                                |
+| message\_hash       | The hash of the message associated with this transfer                                               |
+| transaction\_index  | The index of the transaction within the block                                                       |
+| message\_index      | The index of the message within the transaction                                                     |
+| seqno               | The sequence number of the transaction                                                              |
+| shard               | The shard identifier for this transaction                                                           |
+| workchain           | The workchain identifier for this transaction                                                       |
+| unique\_id          | A unique identifier for this transfer                                                               |
+| block\_timestamp    | The timestamp of the block containing this transfer                                                 |
+| created\_at         | Timestamp when this record was created                                                              |
+| updated\_at         | Timestamp when this record was last updated                                                         |

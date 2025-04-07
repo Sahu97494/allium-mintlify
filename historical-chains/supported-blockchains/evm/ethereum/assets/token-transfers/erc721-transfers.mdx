@@ -1,0 +1,40 @@
+---
+title: "ERC721 Transfers"
+---
+
+The ERC721 Token Transfers table records all transactions made with unique, non-fungible tokens that adhere to the ERC721 standard.
+
+This table provides details on the type of transfer, the sending and receiving wallet addresses, the specific ERC721 token ID involved in the transfer, and the amount (if applicable) of the transfer.
+
+### Sample Query
+
+Get the total number of address that ever received a BoredApe.
+
+```sql
+select count(distinct to_address) 
+from ethereum.assets.erc721_token_transfers 
+where token_address ='0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d' --BoredApe
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                               |
+| -------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | 0x9b50d9ca924997415dd1bc8d62efc1c9fd36074e                                            |
+| to\_address                | Address where the token is being transferred to.                                       | 0x9839c3d781bee5401a34e1820cd6613a235a9e49                                            |
+| token\_address             | Token address of the asset transferred.                                                | 0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d                                            |
+| token\_name                | Token name.                                                                            | BoredApeYachtClub                                                                     |
+| token\_symbol              | Token symbol.                                                                          | BAYC                                                                                  |
+| token\_id                  | Unique ID of the ERC token.                                                            | 3341                                                                                  |
+| raw\_amount\_str           | Amount of tokens moved unnormalized, in string (to retain precision).                  | 1                                                                                     |
+| raw\_amount                | Amount of tokens moved, unnormalized.                                                  | 1                                                                                     |
+| amount\_str                | Amount of token moved, normalized, in string (to retain precision).                    | 1                                                                                     |
+| amount                     | Amount of token moved, normalized.                                                     | 1                                                                                     |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0x9b50d9ca924997415dd1bc8d62efc1c9fd36074e                                            |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0x7be8076f4ea4a4ad08075c2508e481d6c946d12b                                            |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0xb7850d48090f3cfcce9f3def76883ffc8f723a8dd99a4d2e8451ca70998437a8                    |
+| log\_index                 | The log index that corresponds to this transfer.                                       | 21                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2021-11-14 00:40:03                                                                   |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 13,610,892                                                                            |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x3e157f6155b28d47e151f270f42cb26e066ec7009dd9d3aeeaa8c21d890ce591                    |
+| unique\_id                 | Unique id generated to each transfer.                                                  | txn-0xb7850d48090f3cfcce9f3def76883ffc8f723a8dd99a4d2e8451ca70998437a8\_log\_index-21 |

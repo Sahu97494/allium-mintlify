@@ -1,0 +1,28 @@
+---
+title: "ERC1155 Balances Latest"
+description: The current ERC1155 balance of all addresses.
+---
+
+<Info>
+Note that we don't have USD prices for NFT balances yet
+</Info>
+
+The ERC1155 balances latest table contains the current ERC1155 balances of all addresses.
+
+### Sample Query
+
+Getting the latest ERC1155 Balances address.
+
+```sql
+select * from ethereum.assets.erc1155_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+```
+
+Note that ERC1155 permits the creation of both semi-fungible tokens and non-fungible tokens. In other words, there can be more than one quantity for a particular ERC1155 token ID.
+
+Currently, the USD exchange rates of ERC1155 tokens are not available.
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th width="230.66666666666666">Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td>0x8080a4d7ef2401b90bd5cf0041e533ce51035ebb</td></tr><tr><td>token_address</td><td>Addres of the token.</td><td>0xd955e7bd8ca9f2aad391760f849cfa4ee2d80d57</td></tr><tr><td>token_name</td><td>Name of the token.</td><td>HELIX - Collectables</td></tr><tr><td>token_symbol</td><td>Symbol of the token.</td><td></td></tr><tr><td>token_id</td><td>Token ID.</td><td>19</td></tr><tr><td>raw_balance</td><td>Balance of ERC1155 token unnormalized.</td><td>1</td></tr><tr><td>raw_balance_str</td><td>Balance of ERC1155 token unnormalized in string.</td><td>1</td></tr><tr><td>balance_str</td><td>Balance of ERC1155 token in string.</td><td>1</td></tr><tr><td>balance</td><td>Balance of ERC1155 token.</td><td>1</td></tr><tr><td>usd_balance_current</td><td>USD balance of ERC1155 token at the current timestamp.</td><td>NULL</td></tr><tr><td>usd_balance_at_block_timestamp</td><td>USD balance of ERC1155 token at the timestamp of the last activity that resulted in balance change.</td><td>NULL</td></tr><tr><td>usd_exchange_rate_current</td><td>USD exchange rate of ERC1155 token at the current timestamp.</td><td>NULL</td></tr><tr><td>usd_exchange_rate_at_block_timestamp</td><td>USD exchange rate of ERC1155 token at the timestamp of the last activity that resulted in balance update.</td><td>NULL</td></tr><tr><td>last_activity_block_timestamp</td><td>The timestamp of the block that that resulted in the balance.</td><td>2023-03-14 10:12:59</td></tr><tr><td>last_activity_block_number</td><td>The number of the block that resulted in the balance.</td><td>16,825,516</td></tr><tr><td>last_activity_block_hash</td><td>The hash of the block that that resulted in the balance.</td><td>0xe9e8062af71dc440cad49079844d88e6b3a8cdec95cd036f2b27d10a239b6c77</td></tr><tr><td>_updated_at__usd_exchange_rate_current</td><td>Timestamp of the current USD exchange.</td><td>NULL</td></tr><tr><td>unique_id</td><td>Unique ID of the balance.</td><td>block-16825516_address-0x8080a4d7ef2401b90bd5cf0041e533ce51035ebb_token_address-0xd955e7bd8ca9f2aad391760f849cfa4ee2d80d57_token_id-19_erc1155</td></tr><tr><td>_updated_at</td><td>Timestamp of the balance update.</td><td>2023-03-14 16:28:37</td></tr></tbody></table>
+

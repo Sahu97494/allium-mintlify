@@ -1,0 +1,232 @@
+---
+title: "Stablecoins"
+icon: "circle-dollar"
+description: "Get macro metrics to granular transaction details of Stablecoin movements on chain."
+---
+
+Our `crosschain.stablecoin` schemas allow users to investigate onchain stablecoin activity across multiple blockchains.
+
+The stablecoin vertical supports currencies aside from usd (e.g. cny, jpy, try, eur, cad, etc.)
+
+| Table Name | Description |
+|------------|-------------|
+| [`crosschain.stablecoin.list`](/historical-verticals/stablecoins#stablecoins-list) | Table of main stablecoins (inclusive of other currencies) and their respective contract addresses across various chains. |
+| [`crosschain.stablecoin.transfers`](/historical-verticals/stablecoins#stablecoin-transfers) | Transfers of all stablecoins indexed by Allium.<br/>Includes all stablecoins on `crosschain.stablecoin.list` |
+| [`crosschain.metrics.stablecoin_volume`](/historical-verticals/stablecoins#stablecoin-volume-metrics) | Pre-built metrics for stablecoin transfer activity (e.g. volume & transaction counts), aggregated by day, chain and token address.<br/>Includes adjusted activity metrics. |
+
+### Chain Coverage
+<Accordion title="Click to expand">
+| Chain          | `stablecoin.list` | `stablecoin.transfers` | `metrics.stablecoin_volume` |
+|----------------|-------------------|-------------------------|------------------------------|
+| aptos          | ✓                 | ✓                       | ✓                            |
+| arbitrum       | ✓                 | ✓                       | ✓                            |
+| arbitrum_nova  | ✓                 | -                       | -                            |
+| astar          | ✓                 | -                       | -                            |
+| avalanche      | ✓                 | ✓                       | ✓                            |
+| base           | ✓                 | ✓                       | ✓                            |
+| berachain      | ✓                 | ✓                       | ✓                            |
+| blast          | ✓                 | ✓                       | ✓                            |
+| bsc            | ✓                 | ✓                       | ✓                            |
+| celo           | ✓                 | ✓                       | ✓                            |
+| cosmos         | ✓                 | -                       | -                            |
+| ethereum       | ✓                 | ✓                       | ✓                            |
+| fantom         | ✓                 | -                       | -                            |
+| fraxtal        | ✓                 | -                       | -                            |
+| gnosis         | ✓                 | -                       | -                            |
+| hedera         | ✓                 | -                       | -                            |
+| imx_zkevm      | ✓                 | -                       | -                            |
+| ink            | ✓                 | -                       | -                            |
+| linea          | ✓                 | -                       | -                            |
+| manta_pacific  | ✓                 | -                       | -                            |
+| mantle         | ✓                 | -                       | -                            |
+| metis          | ✓                 | -                       | -                            |
+| mode           | ✓                 | ✓                       | ✓                            |
+| near           | ✓                 | ✓                       | ✓                            |
+| oasys          | ✓                 | -                       | -                            |
+| optimism       | ✓                 | ✓                       | ✓                            |
+| osmosis        | ✓                 | -                       | -                            |
+| polygon        | ✓                 | ✓                       | ✓                            |
+| polygon_zkevm  | ✓                 | ✓                       | ✓                            |
+| real           | ✓                 | -                       | -                            |
+| ronin          | ✓                 | -                       | -                            |
+| rootstock      | ✓                 | -                       | -                            |
+| scroll         | ✓                 | ✓                       | ✓                            |
+| solana         | ✓                 | ✓                       | ✓                            |
+| soneium        | ✓                 | -                       | -                            |
+| sonic          | ✓                 | ✓                       | ✓                            |
+| starknet       | ✓                 | -                       | -                            |
+| sui            | ✓                 | ✓                       | ✓                            |
+| ton            | ✓                 | ✓                       | ✓                            |
+| tron           | ✓                 | ✓                       | ✓                            |
+| unichain       | ✓                 | ✓                       | ✓                            |
+| worldchain     | ✓                 | ✓                       | ✓                            |
+| zksync         | ✓                 | ✓                       | ✓                            |
+
+</Accordion>
+
+We are currently working on expanding stablecoin coverage for more chains and add on a case by case basis. Please reach out to us if you have any questions or would like to request coverage for a specific chain.
+
+## Stablecoins List
+
+The stablecoin list includes a list of curated stablecoins with various denominations. This list is used to identify the list of stablecoins to be included in the `crosschain.stablecoin.transfers` table.
+
+**Unique Key**: `chain`, `address`
+
+| Column Name | Description |
+|-------------|-------------|
+| currency | The ISO currency code (e.g. usd, eur, jpy, xau (gold)) of the stablecoin, in lower case. |
+| base_asset | The underlying stablecoin for stablecoins that are issued by third parties, such as bridges, or defi-protocols. |
+| address | The contract address of the stablecoin. The contract address for a stablecoin is unique on the blockchain. |
+| symbol | Symbol of the token, in lower case by default. |
+| name | Name of the token. |
+| decimals | Decimals of the token, used for normalization. This field is optional and may be null. |
+| chain | Blockchain of the where the stablecoin is based, in lower case. |
+| is_bridge | When TRUE, this means that the stablecoin is bridged. |
+
+<Tabs>
+<Tab title="Stablecoin Base Assets">
+
+Stablecoins can be broadly classified into their underlying **peg mechanism.**
+
+They can be fiat-backed, commodity-backed, algorithmic, crypto-backed (DAI), or a hybrid of many.
+
+For **fiat-backed stablecoins**, there is often a regulated entity involved in the issuance and management of the stablecoin ensuring its stability and value. These entity-issued stablecoins are said to be "native".
+
+Using USDC as an example, there are multiple variants of USDC:
+
+* A **native stablecoin** refers to a stablecoin issued directly from a regulated entity such as Circle, which is redeemable for the underlying asset (be it US Dollars, Euros, etc). Circle maintains a list of their native stablecoins [here](https://www.circle.com/en/multi-chain-usdc).
+
+* A **bridged stablecoin** refers to a stablecoin that is issued by a third-party application (e.g. Wormhole, Axelar, etc.) issued by locking a native stablecoin in a smart contract on one blockchain to mint a bridged stablecoin on another blockchain.
+
+* A **defi variant stablecoin** refers to a stablecoin issued by a decentralized application (e.g. Compound, Aave, etc.) and is backed by the underlying collateral assets in the protocol. One example is Aave interest-bearing USDC [(aUSDC)](https://etherscan.io/address/0xbcca60bb61934080951369a648fb03df4f96263c).
+
+The `base_asset` field in the stablecoin list aims to capture the underlying stablecoin of a token. For example, Axelar USDC, Aave USDC, and Bridged USDC.e on Avalanche will all be labelled as `usdc` its `base_asset`.
+</Tab>
+</Tabs>
+## Stablecoin Transfers
+
+The stablecoin transfers table contains all on-chain transfers of stablecoins found in the stablecoin list. This table allows users to aggregate stablecoin activity across multiple chains while also fetching granular transfer details.
+
+*A short primer on Allium's transfer schema and how it maps to the on-chain data can be found here:*
+<Card title="Token Transfers" icon="money-bill-transfer" href="/historical-verticals/token-transfers" horizontal />
+### Sample Query
+
+Overview of transfer volume of usd stablecoins on blockchains indexed by Allium in the last 6 months.
+
+```sql
+select 
+    date_trunc('week', block_timestamp) as date,
+    chain,
+    token_symbol,
+    count(distinct from_address) as senders,
+    sum(amount) as daily_volume 
+    from crosschain.stablecoin.transfers 
+where 1=1 
+    and block_timestamp > current_timestamp - interval '6 months'
+    and currency = 'usd' -- iso currency code
+group by all
+```
+
+### Table Columns
+
+Blockchains Supported: ethereum, bsc, optimism, polygon, base, avalanche, solana, arbitrum, scroll, celo, blast, tron, ton^, polygon\_zkevm
+
+^ ton transfers are currently in beta.
+
+| Column Name | Description | Example |
+|-------------|-------------|---------|
+| chain | Blockchain of the transfer. | ethereum |
+| token_type | Token Standard. (E.g. erc20, trc20, spl) | erc20 |
+| from_address | Address where the token is being transferred from. **Sender address (not token account) for Solana.** | 0x8ebad4aa179cb14c8939ef8d3785859a7cf45673 |
+| to_address | Address where the token is being transferred to. **Recipient address (not token account) for Solana.** | 0x61da7961439f671ddc02b18ce0575cc585c3dcd9 |
+| token_address | Token address of the asset transferred. **Token mint for Solana.** | 0xdac17f958d2ee523a2206206994597c13d831ec7 |
+| token_name | Name of the asset transferred. | Tether USD |
+| token_symbol | Symbol of the asset transferred. | USDT |
+| raw_amount | Amount of tokens moved (unnormalized). | 1993200000 |
+| amount | Amount of token moved, normalized. | 1993.2 |
+| usd_amount | USD value of the amount of tokens transferred. | 1995.1932 |
+| transaction_from_address | The address of the sending party of this transaction. **Signer address for Solana.** | 0x8ebad4aa179cb14c8939ef8d3785859a7cf45673 |
+| transaction_to_address | The address of the receiving party of this transaction (could be a contract address). **Null for Solana** | 0x4f391c202a906eed9e2b63fdd387f28e952782e2 |
+| transaction_hash | Transaction hash that this transfer belongs to. | 0xeb63929f60bf8a6013fcdbe6af3a6687652ecbebb53f08da08f91f24d9980e19 |
+| block_timestamp | The time when the block that contains this transaction was included on the blockchain. | 2020-05-04 04:34:53 |
+| block_number | The block number that the corresponding transaction of this transfer belongs to. **Block Height for Solana.** | 9997570 |
+| block_hash | The block hash that the corresponding transaction of this transfer belongs to. | 0x31ba5abf842755faebb7dbdd2f7a6d3d017351807b735c8eb19f4002ff9c2a5c |
+| unique_id | Unique id generated for each transfer. | txn-0xeb63929f60bf8a6013fcdbe6af3a6687652ecbebb53f08da08f91f24d9980e19_log_index-89 |
+| currency | The **ISO currency code** (e.g. usd, eur, jpy, xau (gold)) of the stablecoin in **lowercasing**. | usd |
+| base_asset | The base assets in symbol in **lowercasing**. (i.e. usdt, usdc, tusd, dai, etc). | usdt |
+| is_bridge | When **TRUE**, this means that the stablecoin is a bridged entity from Wormhole and/or bridges based on their token names. | FALSE |
+
+
+*For non-EVM compatible chains such as Solana, the underlying columns mapping for certain columns are annotated accordingly.*
+
+## Stablecoin Metrics
+
+The `crosschain.metrics.stablecoin_volume` table aggregates stablecoin activity from `crosschain.stablecoin.transfers` by day, chain and token address.
+
+It includes adjusted activity metrics using the following methodologies:
+
+* **Single Direction Max Transfer -** only the largest stablecoin amount transferred within a single transaction is counted
+
+* **Single Direction Net Transfer -** the largest net stablecoin amount transferred per token, to a single address, for each transaction, is counted
+
+* **Entity Adjusted, Single Direction Max Transfer -** in addition, to applying the Single Direction Max Transfer logic, this methodology also uses labels & heuristics to remove bot related activity (e.g. if an address does more than 1,000 transactions and \$10m in transfer volume in a rolling 30-day window), or intra-exchange volume (i.e. when transfers are made between two CEX/DEX addresses)
+
+### Table Columns
+
+**Unique Key**: `chain`, `activity_date`, `token_address`
+
+<Tabs>
+<Tab title="Raw Metrics">
+| Column Name                  | Description |
+|-----------------------------|-------------|
+| chain                       | The name of the blockchain |
+| token_address               | The address of the stablecoin |
+| token_symbol                | The token symbol of the stablecoin |
+| currency                    | The ISO currency code (e.g. usd, eur, jpy, xau (gold)) of the stablecoin in lowercasing |
+| base_asset                  | The base assets in symbol in lowercasing. (i.e. usdt, usdc, tusd, dai, etc) |
+| activity_date               | The date for which metrics are being calculated. Only includes completed days. |
+| transfer_tx_count           | The total number of transactions with stablecoin transfers. |
+| transfer_count              | The total number of stablecoin transfers. |
+| avg_transfer_count          | The average number of stablecoin transfers |
+| transfer_volume             | The total volume of stablecoin transfers (normalized) |
+| transfer_volume_usd         | The total volume of stablecoin transfers in USD terms |
+| avg_transfer_volume         | The average volume of stablecoin transfers (normalized) |
+| avg_transfer_volume_usd     | The average volume of stablecoin transfers in USD terms |
+| transfer_volume_is_anomaly  | A boolean flag that's set to true where the transfer_volume is excessively high for a given day, i.e. >1e18 |
+</Tab>
+<Tab title="Adjusted Metrics">
+| Methodology                                 | Column Name                                                  | Description |
+|---------------------------------------------|--------------------------------------------------------------|-------------|
+| Single Direction Max Transfer               | single_direction_max_transfer_volume                         | The adjusted total volume of stablecoin transfers (normalized), using the given methodology |
+| Single Direction Max Transfer               | single_direction_max_transfer_volume_usd                     | The adjusted total volume of stablecoin transfers in USD terms, using the given methodology |
+| Single Direction Net Transfer               | single_direction_net_transfer_volume                         | The adjusted total volume of stablecoin transfers (normalized), using the given methodology |
+| Single Direction Net Transfer               | single_direction_net_transfer_volume_usd                     | The adjusted total volume of stablecoin transfers in USD terms, using the given methodology |
+| Entity Adjusted, Single Direction Max Transfer | entity_adjusted_single_direction_max_transfer_tx_count      | The adjusted total amount of transactions with stablecoin transfers, using the given methodology |
+| Entity Adjusted, Single Direction Max Transfer | entity_adjusted_single_direction_max_transfer_volume        | The adjusted total volume of stablecoin transfers (normalized), using the given methodology |
+| Entity Adjusted, Single Direction Max Transfer | entity_adjusted_single_direction_max_transfer_volume_usd    | The adjusted total volume of stablecoin transfers in USD terms, using the given methodology |
+</Tab>
+</Tabs>
+
+### Sample Queries
+
+**1) Get the monthly stablecoin transfer metrics for all USD currencies in the last 24 months, excluding anomalies and using the Entity Adjusted, Single Direction Max Transfer methodology**
+<Frame caption="https://app.allium.so/s/f2IsUx3F">
+<img src="/images/image-guide-historical-vertical-stablecoins.webp" />
+</Frame>
+
+```sql
+select 
+    date_trunc('month', activity_date) as month,
+    sum(entity_adjusted_single_direction_max_transfer_tx_count) as num_transactions,
+    sum(entity_adjusted_single_direction_max_transfer_volume_usd/pow(10,9)) as usd_volume_billions
+from crosschain.metrics.stablecoin_volume
+where 1=1
+    and currency = 'usd' -- limit to USD currencies
+    and transfer_volume_is_anomaly = false -- exclude high volume days, where total raw volume is >1e18
+    and activity_date >= current_date - interval '24 months'
+    and activity_date < date_trunc('month', current_date) -- exclude incomplete months
+group by all
+order by 1 desc
+```
+
+

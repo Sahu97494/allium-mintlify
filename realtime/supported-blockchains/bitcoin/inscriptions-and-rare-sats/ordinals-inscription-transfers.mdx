@@ -1,0 +1,38 @@
+---
+title: "Ordinals Inscription Transfers"
+---
+
+Ordinals inscription transfers involve moving inscribed satoshis from one Bitcoin wallet to another. Each transfer preserves the inscription's data, maintaining its uniqueness and ownership history on-chain. The process is similar to standard Bitcoin transactions, but with inscribed satoshis acting like digital collectibles. Ownership is updated with each transfer, allowing inscribed satoshis to be traded or collected while remaining part of the Bitcoin blockchain.
+
+Read more in docs here: [https://docs.ordinals.com/](https://docs.ordinals.com/)
+
+### Sample Query
+
+Fetch inscription transfers for a given address
+
+```sql
+select * from bitcoin.ordinals_inscription_transfers where from_address = 'bc1p757l4macyx2s4wrnhjyafwehtjra0reqptqjxw2265vjer29h25qfv3ash';
+```
+
+### Table Columns
+
+| Column            | Description                                                                                                       | Example                                                            |
+| ----------------- | ----------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| from_address      | address the inscription was sent from                                                                             | bc1p757l4macyx2s4wrnhjyafwehtjra0reqptqjxw2265vjer29h25qfv3ash     |
+| input_index       | index of input containing inscription                                                                             | 0                                                                  |
+| from_utxo_id      | utxo id of input containing inscription                                                                           | d59fcdb27c33d8ec4c27a8d806ee679ac0d6411c7a921fc6e862d9478fa87846:0 |
+| from_utxo_offset  | input utxo offset of satoshi containing inscription                                                               | 0                                                                  |
+| to_address        | address the inscription was sent to                                                                               | bc1pzu0u7lhdy69r64v9n94rerpdfu5qe82zdmkmx7zj5uw3dezyzt5serrgzd     |
+| output_index      | index of output containing inscription                                                                            | 0                                                                  |
+| to_utxo_id        | utxo id of output containing inscription                                                                          | 67022c7df83e4b2c74761172f97d1c47db209ced8b2cbe5dc16c4063a9ee9528:0 |
+| to_utxo_offset    | output utxo offset of satoshi containing inscription                                                              | 0                                                                  |
+| inscription_id    | inscription id                                                                                                    | 67022c7df83e4b2c74761172f97d1c47db209ced8b2cbe5dc16c4063a9ee9528i0 |
+| transfer_count    | number of times the inscription was transferred, note that only the first transfer counts as per inscription docs | 0                                                                  |
+| transaction_hash  | transaction hash of transfer                                                                                      | 67022c7df83e4b2c74761172f97d1c47db209ced8b2cbe5dc16c4063a9ee9528   |
+| block_hash        | block hash of transfer                                                                                            | 00000000000000000004f3f03394c49cffb4efe7208e413cc36ee45e6992cdfc   |
+| block_number      | block number of transfer                                                                                          | 778741                                                             |
+| block_timestamp   | block timestamp of transfer                                                                                       | 2023-03-01 03:03:50                                                |
+| transaction_index | transaction index of transfer                                                                                     | 916                                                                |
+| value             | value of utxo containing inscription                                                                              | 4000                                                               |
+| sat_tx_offset     | sat level offset of output containing inscription                                                                 | 0                                                                  |
+| is_token          | whether transferred inscription is a brc-20 token                                                                 | f                                                                  |

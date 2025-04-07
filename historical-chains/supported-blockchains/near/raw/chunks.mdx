@@ -1,0 +1,36 @@
+---
+title: "Chunks"
+---
+
+Chunks are subdivisions of blocks in NEAR's sharded architecture. Each chunk contains a subset of the transactions and receipts for a particular shard, facilitating parallel processing and scalability. Chunks are identified by a hash and are associated with a specific block.
+
+### Table Columns
+
+| Column Name              | Description                                                                                   |
+| ------------------------ | --------------------------------------------------------------------------------------------- |
+| balance\_burnt           | The number of tokens burnt                                                                    |
+| block\_hash              | The hash of the block                                                                         |
+| block\_height            | The height of the block                                                                       |
+| block\_timestamp         | The time at which the block was created/added to the chain                                    |
+| chunk\_hash              | The hash of the chunk                                                                         |
+| encoded\_length          | The chunk length encoded in integer format                                                    |
+| encoded\_merkle\_root    | The encoded merkle root                                                                       |
+| gas\_limit               | The maximum gas allowed in this block                                                         |
+| gas\_used                | The total used gas by all transactions in this block                                          |
+| height\_created          | The chunk height created                                                                      |
+| height\_included         | The included height of the chunk                                                              |
+| outcome\_root            | The root of the outcome trie of the block                                                     |
+| outgoing\_receipts\_root | The root of the outgoing receipts of the block                                                |
+| prev\_block\_hash        | The hash of the previous block chunk corresponding to the current one                         |
+| prev\_state\_root        | The previous state of the root of the corresponding block                                     |
+| receipt\_count           | The number of receipts in this chunk                                                          |
+| rent\_paid               | The number of tokens paid as rent                                                             |
+| shard\_id                | The id of the multiple data grouped together                                                  |
+| signature                | The standard ed25519 signature type                                                           |
+| transactions\_count      | The number of transactions in this chunk                                                      |
+| tx\_root                 | The transaction root                                                                          |
+| validator\_proposals     | An array of proposals provided by the validators                                              |
+| validator\_reward        | The reward sent to the validators                                                             |
+| included                 | Whether this chunk is included in the parent block or not (height\_included == block\_height) |
+| \_created\_at            | Timestamp of the entry creation                                                               |
+| \_updated\_at            | Timestamp of the entry update                                                                 |

@@ -1,0 +1,27 @@
+---
+title: "Receipts"
+---
+
+Receipts are the result of executed transactions. They are used to track the outcomes and states changes produced by the transaction execution, including any cross-contract calls. Each receipt has a unique ID and links to the originating transaction.
+
+### Table Columns
+
+| Column Name             | Description                                                |
+| ----------------------- | ---------------------------------------------------------- |
+| block\_hash             | The hash of the block containing the chunk                 |
+| block\_height           | The height of the block                                    |
+| block\_timestamp        | The time at which the block was created/added to the chain |
+| chunk\_hash             | The hash of the chunk                                      |
+| predecessor\_id         | The ID of the predecessor block                            |
+| receipt                 | The receipt associated with the chunk                      |
+| receipt\_id             | The unique identifier of the receipt                       |
+| receipt\_index          | The index of the receipt within the chunk                  |
+| receiver\_id            | The account ID of the receipt receiver                     |
+| actions                 | The actions performed in the chunk                         |
+| gas\_price              | The price per unit of gas for transactions in the chunk    |
+| input\_data\_ids        | The IDs of the input data for the chunk                    |
+| output\_data\_receivers | The receivers of the output data for the chunk             |
+| signer\_id              | The account ID of the chunk originator                     |
+| signer\_public\_key     | The public key of the chunk signer                         |
+| \_created\_at           | Timestamp when the record was created                      |
+| \_updated\_at           | Timestamp when the record was last updated                 |

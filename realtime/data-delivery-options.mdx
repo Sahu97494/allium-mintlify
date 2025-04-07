@@ -1,0 +1,49 @@
+---
+title: "Data Delivery Interfaces"
+description: Allium Developer provides access to blockchain data through Raw and Enriched Endpoints via SQL API, and also through real-time Data Streams
+icon: "code"
+---
+
+## (1) Raw Data and Enriched Endpoints
+
+Our SQL interface provides access to both raw and enriched blockchain data through several fixed data types:
+
+| Raw Data Type       | Description                                                                                                     | Example                                                                     |
+| ------------------- | --------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------- |
+| Balances            | Current token holdings with USD valuations.                                                                     | Current token holdings with USD valuations                                  |
+| Transaction History | Raw transaction data.                                                                                           | Raw transaction data                                                        |
+| Prices              | Realtime Token price data _(private preview)_                                                                   | Real-time token price data for supported tokens _(Private preview feature)_ |
+
+| Enriched Data Type            | Description                         | Example                                                                        |
+| ----------------------------- | ----------------------------------- | ------------------------------------------------------------------------------ |
+| PnL Calculators               | Portfolio performance metrics       | Calculations of portfolio gains/losses, including historical performance       |
+| Txn History with Annotations  | Decoded smart contract interactions | Detailed transaction history with annotations explaining contract interactions |
+| DeFi Balances _(Coming Soon)_ | Protocol positions and yields       | Balances from DeFi protocols, including yields and positions _(coming soon)_   |
+
+<Frame>
+  <img src="/images/datadelivery1.png" />
+</Frame>
+
+## (2) Custom SQL Endpoints
+
+For specialized data needs, Allium's SQL interface supports custom queries across their dataset. This enables flexible query construction, cross-chain data analysis, and complex aggregations and joins to meet specific requirements.
+
+<Frame>
+  <img src="/images/datadelivery2.png" />
+</Frame>
+
+## (3) Allium Datastreams
+
+Allium Datastreams delivers real-time event data through enterprise message brokers (Kafka/PubSub/SNS). This service provides instant transaction and event notifications, allows custom filtering and subscriptions, and ensures guaranteed message ordering for reliable data delivery.
+
+We highly recommend this approach over web hooks as (1) it **guarantees delivery** even if either side has an outage, (2) most event buses have a retention policy that allows **replay of historical messages**
+
+<Frame>
+  <img src="/images/datadelivery3.png" />
+</Frame>
+
+## Usage Patterns
+
+Some users are happy with using the endpoints as is, though depending on the use case, some customers may want to use Datastreams to receive notifications and then do a more computationally "expensive" query post alert. They leverage a hybrid architecture where real-time event streams trigger SQL queries for a more comprehensive data pull.
+
+For example, when a streaming alert notifies an application about a new transaction, it can automatically initiate SQL queries to enrich that data with historical context or perform complex analytics.

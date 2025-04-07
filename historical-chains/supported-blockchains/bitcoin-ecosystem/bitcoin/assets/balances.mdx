@@ -1,0 +1,27 @@
+---
+title: "Balances"
+descrription: "The balances table contains all changes in the balance of assets across all Bitcoin wallets. Can be used to easily plot changes in balance over time."
+---
+
+Sample query:
+
+```sql
+select * from bitcoin.assets.balances
+where block_timestamp >= current_timestamp - interval '5 hours';
+```
+
+Table Columns
+
+| Column Name         | Description                                                                                                | Example                                                           |
+| ------------------- | ---------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------- |
+| address             | Address of the account.                                                                                    | bc1qvs5783dumxhulduns7r48tk744dulw2x2nt2kk                        |
+| raw\_balance        | Balance of tokens (unnormalized)                                                                           | 15,834,706                                                        |
+| raw\_balance\_str   | String of balance of tokens                                                                                | 15834706                                                          |
+| balance             | Balance of the token, normalized by the decimal points defined by BTC protocol in sats. One sat = 1e-8 btc | 0.15834706                                                        |
+| balance\_str        | Balance of this token, normalized by the decimal points defined in the token contract.                     | 0.15834706                                                        |
+| usd\_balance        | The amount of tokens, in $USD at the current time.                                                         | 5,373.119530803                                                   |
+| usd\_exchange\_rate | The exchange rate used to calculate the usd\_value at current time.                                        | 33,932.55                                                         |
+| block\_timestamp    | The timestamp of the block that that resulted in change in balance.                                        | 2023-10-24 09:34:58                                               |
+| block\_number       | The number of the block that resulted in change in balance.                                                | 813,624                                                           |
+| block\_hash         | The hash of block that resulted in change in balance.                                                      | 00000000000000000003306de67b0a54e98ef716b46b012d4d0937286e38d577  |
+| unique\_id          | Unique ID of the balances entry                                                                            | block-813634\_address-18BHxCWdeGXLFm9BwpmaPzEMLbcxHxiwRj\_bitcoin |

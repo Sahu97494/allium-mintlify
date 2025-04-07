@@ -1,0 +1,50 @@
+---
+title: "Overview"
+description: Analyze NFT ecosystem trends with easy to use schemas.
+---
+
+Our NFT schemas includes mints, trades and trades\_with.
+
+## NFT Trades
+
+NFT trades provide aggregate and marketplace-specific trades from indexed marketplaces and protocols. The majority of these tables are included in `ethereum.nfts.trades`
+
+The NFT trades table includes the following coverage on top of basic trades data:
+
+1. **Marketplace Aggregators**
+
+   * NFT trades routed via Gem and Genie are labeled in all trade-related tables, enabling easy aggregator-level analytics.
+
+2. **NFT AMMs:**
+
+   * Swaps via Sudoswap and details about the NFTs involved, all rolled up into an easy-to-use table.
+
+3. **OTCs NFT:**
+
+   * NFT Trader p2p OTC NFT swaps.
+
+**What is the difference between an NFT marketplace and a protocol?**
+
+* **An NFT marketplace** is a platform for users to buy, sell or trade their NFTs. Examples of NFT marketplace include OpenSea, Rarible, LooksRare, and X2Y2.
+
+* **An NFT marketplace protocol** is the underlying smart contract and framework facilitating the sales and trades of NFTs in the marketplace.
+
+  * A marketplace can upgrade or change its underlying protocol over time. One example is OpenSea upgrading from [Wyvern to Seaport protocol](https://nft.mirror.xyz/Bi_UbdXOi4AU3LtHT3WoLAN0a9YIWE2gYQmkyZ5whVM).
+
+  * Additionally, new or existing NFT marketplaces can choose to fork existing protocols for their platform.
+
+## NFT Mints
+
+NFT mints table provides enriched data on on-chain NFT mints.
+
+The aggregated mints table contains standard and contract-specific mints (e.g. Seadrop, NewCloneTicker, etc) enriched with minting currency and cost in USD denomination. Non-ETH mints are also indexed in our current model.
+
+Mints associated with a particular platform (e.g. fair.xyz, zora, opensea) are labeled whenever possible.
+
+## NFT+ Flags
+
+Identify meaningful NFT transaction volumes. Our curated `w_flags`model for trades and mints allows analysts to filter out inorganic NFT volumes contributed by wash trades, defi-related mints, and delisted volumes.
+
+Read more about it at [NFT+ Flags](/historical-chains/supported-blockchains/evm/ethereum/nfts/nft-flags)
+
+

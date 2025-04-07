@@ -1,0 +1,23 @@
+---
+title: "MATIC Balances"
+description: Historical MATIC (Polygon) balance of all addresses at every block height.
+---
+
+The MATIC balances table contains the balance of all addresses, at every block height. Use this table to easily plot the change in the balance of an address or a group of addresses over time.
+
+### Table Columns
+
+| Column Name         | Description                                                                                        | Example                                                                 |
+| ------------------- | -------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| address             | Address of the account.                                                                            | 0x061c76ca4f7ea27f3c127de7e2856df1fea50b8d                              |
+| raw\_balance        | [Balance of MATIC in wei.](https://www.investopedia.com/terms/w/wei.asp)                           | 1.28e+17                                                                |
+| raw\_balance\_str   | Balance of tokens (unnormalized) in string.                                                        | 128413704281062672                                                      |
+| balance             | Balance of ether.                                                                                  | 0.1284137043                                                            |
+| balance\_str        | Balance of this ERC20 token, normalized by the decimal points defined in the ERC20 token contract. | 0.1284137043                                                            |
+| usd\_balance        | The amount of tokens, in $USD.                                                                     | 0.1768256708                                                            |
+| usd\_exchange\_rate | The exchange rate used to calculate the usd\_value.                                                | 1.377                                                                   |
+| transaction\_hash   | Transaction hash that resulted in the balance change.                                              | 0xd4a6053e03daba4dda311cff0fdc306bba6c246dbb37271a365a3ddf3140ac0f      |
+| block\_timestamp    | The timestamp of the block that that resulted in the balance.                                      | 2021-09-15 18:47:11                                                     |
+| block\_number       | The number of the block that resulted in the balance.                                              | 19,144,939                                                              |
+| block\_hash         | The hash of the block that resulted in the balance.                                                | 0x5ea2e8bb46d6e047d8c7b67b5051c368cc1e82961e65830881c707359910d450      |
+| unique\_id          | Unique ID of the balances entry                                                                    | block-19144939\_address-0x061c76ca4f7ea27f3c127de7e2856df1fea50b8d\_eth |

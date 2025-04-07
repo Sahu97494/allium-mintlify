@@ -1,0 +1,32 @@
+---
+title: "Multi Currency Trades"
+---
+
+### Context
+
+By convention, most NFT trades only involve one currency, where the buyer senders erc20/native token to purchase an NFT from the marketplace. This is the case for most marketplace protocols and transactions currently.
+
+The [Seaport](https://docs.opensea.io/reference/seaport-overview) marketplace contract allows users to create and fulfill orders for ETH, ERC20, ERC721, and ERC1155 items.
+
+### Implication: Multi-currency NFT Trades
+
+The flexibility of Seaport means that there are **infinite combinations of trade setups** that can happen. As a result, it is possible to have multiple currencies offered for an NFT trade. This constitutes a small fraction of all Seaport trades.
+
+When a seaport transaction consists of mixed trades of tokens/NFTs, it is also difficult to attach a price to an NFT traded within the mixed trade. The set-up becomes more like a barter trade.
+
+### Phising Transactions
+
+This flexibility also exposes more attack vectors for malicious actors who utilize weird trade setups to phish/create fake volume. An example of such a phishing transaction is shown below:
+
+<Frame>
+<img src="/images/image-historical-evm-ethereum-nfts-trades-multi-currency.avif" />
+</Frame>
+
+Multi-currency trade flagged as a [phishing transaction](https://etherscan.io/tx/0x12c8840058532f5843e4c98865926bde88c6f0dfd7cd6127f8133bbd1f07768e). Note that the recipient of the ERC20 tokens also received the NFT.
+
+### Most multi-currency trades were flagged as phishing trades
+
+Most of the multi-currency transactions on Ethereum Opensea Seaport trades were linked to phishing addresses labeled on Etherscan. Like the one shown above. These transactions involve the transfer of [multiple NFTs](https://etherscan.io/tx/0x4ae899024f8bfcb3448364dc603db2e6ed4eab7b3a8649176230d7e33e644d44) with minute amounts of ERC20 tokens + ETH.
+
+Hence, the USD value of the individual NFTs in such trades will not be reflected accurately. In our current NFT trades model, the prices are represented as NULL.
+

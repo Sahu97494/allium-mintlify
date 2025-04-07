@@ -1,0 +1,40 @@
+---
+title: "Bitcoin"
+sidebarTitle: Overview
+---
+
+Bitcoin Tables
+
+Our Bitcoin schema includes both raw UTXO data and ordinal inscriptions.
+
+| Description                                                                                  | Example                                                                              |
+| -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| Raw blockchain data.                                                                         | blocks, transactions, inputs, outputs                                                |
+| Mempool data.                                                                                | mempool_transactions, mempool_input, mempool_outputs                                 |
+| BTC inscription trades and mints. Includes metadata on ordinals inscription and collections. | ordinals_inscription_mints, ordinals_inscription_transfers, ordinals_token_transfers |
+
+### Bitcoin Raw Data
+
+<Frame caption="Sample bitcoin transaction. All data on mempool.space can be recreated with Allium data.">
+  <img src="/images/bitcoinraw.png" />
+</Frame>
+
+Bitcoin transactions are composed of input and output utxos going in and out of a certain transaction.
+
+### Bitcoin UTXO
+
+Bitcoin UTXO, short for Unspent Transaction Output, represents a specific amount of bitcoin that has been sent to a recipient and not yet spent.
+
+When a new transaction occurs, it references and consumes specific UTXOs as inputs and creates new UTXOs as outputs.
+
+We have schemas for Bitcoin utxo balances per address in double entry book form, as balances per change block height, and the latest balance reflected by the block height with most recent
+
+### Ordinals
+
+The _satoshi_ is the smallest denomination of the cryptocurrency bitcoin. In each Bitcoin, there are 100 million satoshis.
+
+Ordinals are a numbering scheme for satoshis that allows tracking and transferring individual sats.
+
+Bitcoin holders can “inscribe” their satoshis permanently with unique digital content of up to 4 megabytes, following the Taproot Bitcoin protocol update in 2021.
+
+As a result, can inscribe assets such as NFTs to each satoshi with the ordinal numbers as an identifier, introducing NFTs on the Bitcoin network.

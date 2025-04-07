@@ -1,0 +1,95 @@
+---
+title: "Allium AI Assistant"
+icon: "sparkles"
+description: "Converts plain English questions into SQL queries & provides explanations behind them."
+---
+
+### What is the Allium AI Assistant?
+
+The Allium AI Assistant is designed to assist users in writing SQL queries by converting plain English questions into SQL statements. This allows users to get the answers they need without having to manually write complex SQL queries.
+
+The goal is that you can spend more time conducting analysis and less time SQL writing.
+
+### How to Operate the AI Assistant
+
+The AI Assistant can be found in the sidebar menu of the Allium Explorer.
+
+<Frame>
+  <img src="/images/image-ai-assistant-1.avif" />
+</Frame>
+After the "Assistant" tab is clicked on & opened, you will be redirected to the page
+below, where you can ask questions & record your question history.
+<Frame>
+  <img src="/images/image-ai-assistant-2.avif" />
+</Frame>
+Once you ask a question, a SQL as well as a full explanation will be provided. Simply
+click "Run Query" as highlighted below and your query will be provided:
+<Frame>
+  <img src="/images/image-ai-assistant-3.png" />
+</Frame>
+The Allium Assistant can also be found within the Allium Explorer platform itself,
+right next the area in which one writes queries for quick access to troubleshooting.
+<Frame>
+  <img src="/images/image-ai-assistant-4.png" />
+</Frame>
+Once you click on the "Start" button within Allium Explorer, a new chat box will
+be prompted, in which you can ask a question in plain English and receive a SQL query
+that can be easily copied & pasted, as well as an answer with context.
+<Frame>
+  <img src="/images/image-ai-assistant-5.gif" />
+</Frame>
+### Example of What Users Can Prompt the AI Assistant:
+
+Request posed to the AI Assistant:
+
+> Derive DEX Notionals by Blockchain.
+
+SQL Query Prompted:
+
+```sql
+SELECT
+    DATE(block_timestamp) AS date,
+    chain,
+    SUM(usd_amount) AS usd_volume,
+    COUNT(distinct transaction_from_address) AS traders
+FROM
+    crosschain.dex.trades
+WHERE
+    block_timestamp >= CURRENT_TIMESTAMP - INTERVAL '90 days'
+GROUP BY
+    date, chain
+ORDER BY
+    date DESC;
+```
+
+Explanation Prompted:
+
+> This query aggregates the total notional traded on decentralized exchanges (DEX) for different blockchains by summing up `usd_amount` for each `chain` on a daily basis.
+>
+> **DEX Data Available**
+>
+> Allium provides detailed data on DEX trades, including:
+>
+> - **Trades**: Token swaps on major DEXes
+>
+> - **Aggregator Trades**: Trades executed by aggregators or contracts that route swaps across multiple liquidity pools
+>
+> - **Liquidity Pool Events**: Liquidity pool events such as mints, burns, sync, and collect
+>
+> - **Liquidity Pools**: Pool creation events and their parameters
+>
+> For more detailed information on DEX tables and their descriptions, you can visit the [DEX documentation](/historical-chains/supported-blockchains/evm/ethereum/dex). Additionally, Allium supports data for multiple blockchain protocols, including Uniswap, Sushiswap, Balancer, Curve, and others, across different chains like Ethereum, Binance Smart Chain, Avalanche, and many more.
+
+### Tips to Remember
+
+When asking the AI Assistant questions, the more precise your question is, the easier it will be for our models to understand exactly what data you hope to retrieve & provide you with the correct query the first time around.
+
+If the query does not retrieve the data you seek, troubleshoot with our assistant until it understands your request more comprehensively or reach out to us!
+
+### Assistance Beyond AI
+
+If you need more specific queries or deeper insights & need real-life Alliumite support beyond our AI Assistant, we are always here to assist at support\@allium.so. We are also more than happy to host a Slack or Telegram Channel to facilitate easy communication.
+
+### Making This Possible
+
+On top of our data models, we partner with Cortex Click for our model generation.

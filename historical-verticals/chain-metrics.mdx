@@ -1,0 +1,222 @@
+---
+title: "Chain Metrics"
+icon: "chart-column"
+description: "Precomputed metrics to analyze and compare onchain activity across chains"
+---
+
+Our Chain Metrics feature offers a powerful advantage: pre-computed blockchain metrics that save you valuable time and resources.
+
+**How It Works:**
+
+We regularly process vast amounts of blockchain data, computing essential metrics like daily active addresses, transaction volumes, and gas usage.
+
+These metrics are stored in easily accessible tables, allowing you to retrieve them with a single line of query.
+
+**Use Cases:**
+
+* Generate time-series data for visualizations without the need to write custom code.
+
+* Effortlessly compare metrics across different periods and blockchains.
+
+* Easily integrate blockchain metrics into your applications or dashboards.
+
+## Tables
+<Info>
+There are two ways to query for chain metrics:
+
+1. using `crosschain.metrics.overview`, which makes it easy to compare metrics across chains *(if included)*
+
+2. using `<chain>.metrics.overview`, which makes it easy to view relevant metrics for your desired chain
+</Info>
+
+| Table Name                    | Description                                                                                                                                                                                                                                                                                     | Chain Coverage                                                                                                                                              |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `crosschain.metrics.overview` | Daily metrics, grouped by chain, covering onchain activity such as transactions, users, fees, tokens transfers, DEXes, NFTs, stablecoins and more.<br/><br/>Metrics are not available for all chains. The column values will be `null` if not available for the given chain. | - arbitrum<br/>- avalanche<br/>- base<br/>- bitcoin<br/>- bsc<br/>- ethereum<br/>- optimism<br/>- polygon<br/>- polygon_zkevm<br/>- scroll<br/>- solana       |
+| `<chain>.metrics.overview`   | Daily metrics for a single chain. Only includes metrics that are available.                                                                                                                                                                                                                      | - All chains above                                                                                                                                          |
+
+
+### Sample Queries
+
+**1)** Get historical metrics for all available chains
+
+```sql
+select * from crosschain.metrics.overview order by activity_date desc
+```
+
+**2)** Get metrics from the last 90 days for Ethereum
+
+```sql
+select
+    *
+from crosschain.metrics.overview
+where 1=1
+    and chain = 'ethereum'
+    and activity_date >= current_date - interval '90 days'
+order by activity_date desc
+```
+
+**3)** Get total transaction fees / chain revenue for Base
+
+```sql
+select
+    activity_date,
+    transaction_fees, -- in native token, i.e. ETH
+    transaction_fees_usd -- in USD
+from base.metrics.overview
+```
+
+## Table Columns
+
+<Tabs>
+<Tab title="General Metrics">
+| Column Name | Description |
+|-------------|-------------|
+| `chain` | The name of the blockchain |
+| `activity_date` | The date for which metrics are being calculated. Only includes completed days. |
+| `native_token_symbol` | The symbol of the native token of the blockchain |
+| `native_token_price_median_usd` | The median USD price of the native token on the given date |
+| `avg_block_time` | The average time between blocks |
+| `avg_transactions_per_second` | The average number of transactions per second, calculated as the average number of transactions per block divided by the average block time (in seconds) |
+| `active_addresses` | The number of distinct wallet addresses that have initiated successful transactions |
+| `new_addresses` | The number of distinct wallet addresses that have initiated their first successful transactions |
+| `returning_addresses` | The number of distinct wallet addresses, that are not new, that have initiated successful transactions |
+| `newly_funded_addresses` | The number of distinct wallet addresses that have been funded for the first time with either native tokens or ERC20 tokens |
+| `total_transactions` | The total number of transactions, including both successful and failed transactions |
+| `success_transactions` | The total number of successful transactions only |
+| `failed_transactions` | The total number of failed transactions only |
+| `active_contracts` | The total number of distinct smart contracts that have been interacted with |
+| `new_deployed_contracts` | The total number of new smart contracts deployed |
+| `total_contract_calls` | The total number of contract calls |
+| `tvl_usd` | The total value locked in DeFi protocols in USD terms, sourced from DefiLlama |
+</Tab>
+<Tab title="Fees">
+| Column Name | Description |
+|-------------|-------------|
+| `transaction_fees` | The total transaction fees paid (including L1 and L2 fees), expressed in the native token |
+| `transaction_fees_usd` | The total transaction fees paid (including L1 and L2 fees) in USD terms |
+| `avg_transaction_fees` | The average transaction fees paid (including L1 and L2 fees) expressed in the native token, excluding system transactions (where applicable) and transactions with 0 fees |
+| `avg_transaction_fees_usd` | The average transaction fees paid (including L1 and L2 fees) in USD terms, excluding system transactions (where applicable) and transactions with 0 fees |
+| `native_token_avg_transfer_fees` | The average cost to transfer the native token, expressed in the native token |
+| `native_token_avg_transfer_fees_usd` | The average cost to transfer the native token, in USD terms |
+| `erc20_avg_transfer_fees` | The average cost to transfer ERC20 tokens, expressed in the native token |
+| `erc20_avg_transfer_fees_usd` | The average cost to transfer ERC20 tokens, in USD terms |
+| `fungible_spl_avg_transfer_fees` | The average cost to transfer fungible SPL20 tokens on Solana, expressed in the native token |
+| `fungible_spl_avg_transfer_fees_usd` | The average cost to transfer fungible SPL20 tokens on Solana, expressed in USD terms |
+| `fungible_token_avg_transfer_fees_usd` | The average cost to transfer fungible tokens across all chains, expressed in USD terms |
+| `erc721_avg_transfer_fees` | The average cost to transfer ERC721 tokens, expressed in the native token |
+| `erc721_avg_transfer_fees_usd` | The average cost to transfer ERC721 tokens, in USD terms |
+| `erc1155_avg_transfer_fees` | The average cost to transfer ERC1155 tokens, expressed in the native token |
+| `erc1155_avg_transfer_fees_usd` | The average cost to transfer ERC1155 tokens, in USD terms |
+| `nft_avg_transfer_fees` | The average cost to transfer non-fungible SPL20 tokens on Solana, expressed in the native token |
+| `nft_avg_transfer_fees_usd` | The average cost to transfer non-fungible SPL20 tokens on Solana, expressed in USD terms |
+| `nft_trade_avg_fees` | The average cost to complete an NFT trade, expressed in the native token |
+| `nft_trade_avg_fees_usd` | The average cost to complete an NFT trade, in USD terms |
+| `dex_trade_avg_fees` | The average cost to complete a DEX trade, expressed in the native token |
+| `dex_trade_avg_fees_usd` | The average cost to complete a DEX trade, in USD terms |
+</Tab>
+<Tab title="Token Supply">
+| Column | Description |
+|--------|-------------|
+| `circulating_supply` | The circulating supply of the chain's native token |
+| `non_circulating_supply` | The non-circulating supply of the chain's native token |
+| `total_supply` | The total supply of the chain's native token |
+| `_supply_updated_slot` | The block slot on Solana when the native token supply metrics were updated |
+| `_supply_updated_timestamp` | The timestamp when the native token supply metrics were updated |
+</Tab>
+<Tab title="Token Transfers">
+| Column Name | Description |
+|-------------|-------------|
+| `native_token_transfer_volume` | The total volume of native token transfers, expressed in the native token |
+| `native_token_transfer_volume_usd` | The total volume of native token transfers, in USD terms |
+| `native_token_transfer_count` | The total number of native token transfers. This includes transfers of gas paid to miners and gas burned (for Ethereum) and L1/L2 fees (for EVM L2s). |
+| `native_token_value_transfer_count` | The total number of native token value transfers. Equivalent to native_token_transfer_count excluding transfers of gas paid to miners and gas burned (for Ethereum) and L1/L2 fees (for EVM L2s). |
+| `native_token_transfer_tx_count` | The total number of transactions with native token transfers |
+| `erc20_transfer_volume_usd` | The total volume of ERC20 token transfers, in USD terms |
+| `erc20_transfer_count` | The total number of ERC20 transfers |
+| `erc20_transfer_tx_count` | The total number of transactions with ERC20 transfers |
+| `stablecoin_transfer_count` | The total number of stablecoin transfers. Includes all currencies. |
+| `stablecoin_transfer_tx_count` | The total number of transactions with stablecoin transfers. Includes all currencies. |
+| `usd_stablecoin_transfer_count` | The total number of USD stablecoin transfers. |
+| `usd_stablecoin_transfer_tx_count` | The total number of transactions with USD stablecoin transfers. |
+| `usd_stablecoin_transfer_volume_usd` | The total volume of USD stablecoin transfers, in USD terms. |
+| `user_initiated_native_token_transfer_volume` | The total volume of "user initiated" native token transfers, expressed in the native token, e.g. excluding transfers initiated by contracts. |
+| `user_initiated_native_token_transfer_volume_usd` | The total volume of "user initiated" native token transfers, in USD terms |
+| `user_initiated_native_token_transfer_count` | The total number of "user initiated" native token transfers. This includes transfers of gas paid to miners and gas burned (for Ethereum) and L1/L2 fees (for EVM L2s). |
+| `user_initiated_native_token_value_transfer_count` | The total number of "user initiated" native token value transfers. Equivalent to native_token_transfer_count excluding transfers of gas paid to miners and gas burned (for Ethereum) and L1/L2 fees (for EVM L2s). |
+| `user_initiated_native_token_transfer_tx_count` | The total number of transactions with "user initiated" native token transfers |
+| `user_initiated_erc20_transfer_volume_usd` | The total volume of "user initiated" ERC20 token transfers, in USD terms |
+| `user_initiated_erc20_transfer_count` | The total number of "user initiated" ERC20 transfers |
+| `user_initiated_erc20_transfer_tx_count` | The total number of transactions with "user initiated" ERC20 transfers |
+| `user_initiated_stablecoin_transfer_count` | The total number of "user initiated" stablecoin transfers. Includes all currencies. |
+| `user_initiated_stablecoin_transfer_tx_count` | The total number of transactions with "user initiated" stablecoin transfers. Includes all currencies. |
+| `user_initiated_usd_stablecoin_transfer_count` | The total number of "user initiated" USD stablecoin transfers. |
+| `user_initiated_usd_stablecoin_transfer_tx_count` | The total number of transactions with "user initiated" USD stablecoin transfers. |
+| `user_initiated_usd_stablecoin_transfer_volume_usd` | The total volume of "user initiated" USD stablecoin transfers, in USD terms. |
+</Tab>
+<Tab title="DEX Activity">
+| Column Name | Description |
+|-------------|-------------|
+| `dex_volume_usd` | The total volume of DEX trades, in USD terms |
+| `dex_trade_tx_count` | The total number of DEX trade transactions |
+| `dex_avg_trade_usd` | The average DEX trade size, in USD terms |
+| `dex_trader_count` | The total number of DEX traders |
+</Tab>
+<Tab title="NFT Activity">
+| Column Name | Description |
+|-------------|-------------|
+| `nft_volume_usd` | The total volume of NFT trades, in USD terms |
+| `nft_avg_trade_usd` | The average NFT trade size, in USD terms |
+| `nft_buyer_count` | The distinct number of wallet addresses that have purchased an NFT |
+| `nft_seller_count` | The distinct number of wallet addresses that have sold an NFT |
+</Tab>
+<Tab title="Chain-Specific">
+| Chain    | Column                          | Description |
+|----------|----------------------------------|-------------|
+| Ethereum | `blob_count`                     | The total number of blobs posted |
+| Ethereum | `avg_blob_count_per_block`       | The average number of blobs posted per block |
+| Ethereum | `blob_fee_raw`                   | The raw total blob fees paid (unnormalised) |
+| Ethereum | `blob_fee`                       | The total blob fees paid (normalised) |
+| Ethereum | `blob_fee_usd`                   | The USD value of the total blob fees paid |
+| Solana   | `success_voting_tx_count`        | The total number of successful voting transactions on Solana, where validators participate in Solana's consensus mechanism |
+| Solana   | `success_non_voting_tx_count`    | The total number of successful regular transactions on Solana |
+| Solana   | `failed_voting_tx_count`         | The total number of failed voting transactions on Solana, where validators participate in Solana's consensus mechanism |
+| Solana   | `failed_non_voting_tx_count`     | The total number of failed regular transactions on Solana |
+| Solana   | `spl_transfer_volume_usd`        | The total volume of SPL20 token transfers on Solana (incl. fungible & non-fungible SPL tokens), in USD terms |
+| Solana   | `spl_transfer_count`             | The total number of SPL20 token transfers on Solana (incl. fungible & non-fungible SPL tokens) |
+| Solana   | `spl_transfer_tx_count`          | The total number of transactions with SPL20 token transfers on Solana (incl. fungible & non-fungible SPL tokens) |
+| Bitcoin  | `block_subsidy`                  | The pre-determined amount of new Bitcoin minted in each block. This was initially set to 50 BTC and halves every 210,000 blocks |
+| Bitcoin  | `block_subsidy_usd`              | The pre-determined amount of new Bitcoin minted in each block, expressed in USD terms |
+| Bitcoin  | `miner_revenue`                  | The revenue earned by miners, calculated as the sum of block_subsidy and transaction_fees |
+| Bitcoin  | `miner_revenue_usd`              | The revenue earned by miners expressed in USD terms, calculated as the sum of block_subsidy_usd and transaction_fees_usd |
+| Bitcoin  | `hash_rate`                      | An estimation of the computational power being used by miners to validate and process Bitcoin transactions. Expressed as the number of Exahashes per second (EH/s) |
+</Tab>
+</Tabs>
+## Notes
+
+* **Fee Metrics**
+
+  * average transfer fee metrics are based on simple transaction types with single, direct transfers between two wallet addresses, e.g.
+
+    * for EVM chains, native token transfers where the input is `0x` and ERCX token transfers where the transfer functions are called directly by the transacting user
+
+    * for Solana, we exclude transfers initiated via program and instead limit to transactions with only 1 transfer initiated by the address sending the token (i.e. `signer = from_address`)
+
+  * `average_transaction_fees` and `average_transaction_fees_usd` exclude system transactions or other 0 fee transactions, as they would skew metrics downwards
+
+* **Token Transfer Metrics**
+
+  * `user_initiated` metrics exclude transactions initiated by contracts
+
+  * For EVM, `native_token_transfer_count` accounts for all native token transfers including gas/fee payments, but `native_token_value_transfer_count` excludes those, limiting it to transfers between EOAs/contracts. Similarly, on Solana, `native_token_value_transfer_count` excludes SOL transfers for [rent](https://solana.com/docs/core/rent) which is needed for the creation or closure of token accounts
+
+  * currently, there are only volume metrics for `usd` stablecoins, as we don't currently have prices/exchange rate conversions for non-USD currencies
+
+* **Solana Nuances**
+
+  * The [SPL token standard](https://spl.solana.com/token) can be flexibly used for both fungible and non-fungible tokens (NFTs). We identify NFTs by their `mint` address.
+
+* **Other**
+
+  * `USD` metrics (e.g. `erc20_transfer_volume_usd` , `dex_volume_usd` , `nft_volume_usd`) are subject to changes as our token/DEX/NFT coverage & price data become more complete or are updated
+
+

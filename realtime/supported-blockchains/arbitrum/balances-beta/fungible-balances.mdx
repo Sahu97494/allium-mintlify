@@ -1,0 +1,99 @@
+---
+title: "Fungible Balances"
+---
+
+The fungible balances table contains historical native token (e.g. ETH, MATIC, AVAX) and ERC20 tokens the balance of all addresses, at block height that has a balance change for the particularly address.
+
+### Sample Query
+
+Query wallet Balance of a wallet by token address.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+```sql
+select * from arbitrum.assets_fungible_balances
+where address = '0xd7e62fdd9e0e4aeb50b1148d3a2dc4d0085823c5'
+and token_address = '0x0000000000000000000000000000000000000000' -- ETH
+```
+
+</Tab>
+
+<Tab title="API (cURL)">
+
+```bash API (cURL)
+curl 'https://api.allium.so/api/v1/developer/arbitrum/address/0xd7e62fdd9e0e4aeb50b1148d3a2dc4d0085823c5/balances/fungible?page=1&size=10&token_address=0x0000000000000000000000000000000000000000' \
+  -X GET \
+  -H 'X-API-KEY: <API KEY>'
+```
+
+</Tab>
+
+</Tabs>
+
+## Table Columns
+
+<table>
+  <thead>
+    <tr>
+      <th width="166.33333333333331">Column Name</th>
+      <th width="135">Type</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>address</td>
+      <td>varchar</td>
+      <td>Address of the account.</td>
+      <td>0xd7e62fdd9e0e4aeb50b1148d3a2dc4d0085823c5</td>
+    </tr>
+    <tr>
+      <td>token_address</td>
+      <td>varchar</td>
+      <td>
+        Token address. Native ETH is represented as{" "}
+        <code>0x0000000000000000000000000000000000000000</code>
+      </td>
+      <td>0x0000000000000000000000000000000000000000</td>
+    </tr>
+    <tr>
+      <td>raw_balance</td>
+      <td>numeric(512)</td>
+      <td>
+        Unormalized token balance. For ETH, balance of eth in{" "}
+        <a href="https://www.investopedia.com/terms/w/wei.asp">wei</a>.
+      </td>
+      <td>575273824313730050</td>
+    </tr>
+    <tr>
+      <td>block_timestamp</td>
+      <td>timestamp</td>
+      <td>
+        The timestamp of the block that that resulted in the{" "}
+        <code>balance</code>.
+      </td>
+      <td>2023-10-10T01:01:00</td>
+    </tr>
+    <tr>
+      <td>block_number</td>
+      <td>bigint</td>
+      <td>
+        The number of the block that resulted in the <code>balance</code>.
+      </td>
+      <td>139189673</td>
+    </tr>
+    <tr>
+      <td>block_hash</td>
+      <td>varchar</td>
+      <td>
+        The hash of the block that resulted in the <code>balance</code>.
+      </td>
+      <td>
+        0x02081a6a84f5430760204f4b65a76298057861f87036aef5dc7f1fc3dfdae5b6
+      </td>
+    </tr>
+  </tbody>
+</table>

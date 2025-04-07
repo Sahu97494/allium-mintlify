@@ -1,0 +1,60 @@
+---
+title: "Blocks"
+---
+
+Blocks are the building blocks of blockchains and rollups.
+
+A block contains transactions which will alter the state of an EVM system incrementally. Transaction within a block can only be executed one after the other, not in parallel.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query blocks data by timestamp, block number
+
+```sql
+select * from ethereum.blocks where number = 17783260
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+```
+                                                        Table "evm.blocks"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ timestamp         | timestamp without time zone |           |          |         | plain    |             |              |
+ number            | bigint                      |           |          |         | plain    |             |              |
+ hash              | character varying(66)       |           | not null |         | extended |             |              |
+ parent_hash       | character varying(66)       |           |          |         | extended |             |              |
+ nonce             | character varying(42)       |           |          |         | extended |             |              |
+ sha3_uncles       | character varying(66)       |           |          |         | extended |             |              |
+ logs_bloom        | text                        |           |          |         | extended |             |              |
+ transactions_root | character varying(66)       |           |          |         | extended |             |              |
+ state_root        | character varying(66)       |           |          |         | extended |             |              |
+ receipts_root     | character varying(66)       |           |          |         | extended |             |              |
+ miner             | character varying(42)       |           |          |         | extended |             |              |
+ difficulty        | numeric(38,0)               |           |          |         | main     |             |              |
+ total_difficulty  | numeric(38,0)               |           |          |         | main     |             |              |
+ size              | bigint                      |           |          |         | plain    |             |              |
+ extra_data        | text                        |           |          |         | extended |             |              |
+ gas_limit         | bigint                      |           |          |         | plain    |             |              |
+ gas_used          | bigint                      |           |          |         | plain    |             |              |
+ transaction_count | bigint                      |           |          |         | plain    |             |              |
+ base_fee_per_gas  | bigint                      |           |          |         | plain    |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+Indexes:
+    "blocks_pk" PRIMARY KEY, btree (hash)
+    "blocks_number_uindex" UNIQUE, btree (number DESC)
+    "blocks_timestamp_index" btree ("timestamp" DESC)
+```

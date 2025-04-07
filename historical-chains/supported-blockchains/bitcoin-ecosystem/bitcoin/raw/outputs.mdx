@@ -1,0 +1,23 @@
+---
+title: "Outputs"
+---
+
+## Table Columns
+
+| Column Name           | Description                                                                                                                                               | Example                                                            |
+| --------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| transaction\_hash     | Unique hash of the transaction output.                                                                                                                    | 1c0c548ee49d051aebbaa42d25f6e6b87c670bdff09bf043a949121f04b8098f   |
+| block\_hash           | Block hash of the transaction output.                                                                                                                     | 00000000000000000001efb1fa7dea83fa8621c369b4bd58c3ae01c43c30c9c5   |
+| block\_number         | Block number or block height of the transaction output.                                                                                                   | 770,401                                                            |
+| block\_timestamp      | Block timestamp of the transaction output.                                                                                                                | 2023-01-05 00:54:14                                                |
+| index                 | The index of the output.                                                                                                                                  | 0                                                                  |
+| script\_asm           | Symbolic representation of the bitcoin's script language op-codes                                                                                         | OP\_HASH160 acb41dd71aa79315b97d0160a297b1ba976cc903 OP\_EQUAL     |
+| script\_hex           | Hexadecimal representation of the bitcoin's script language op-codes.                                                                                     | a914acb41dd71aa79315b97d0160a297b1ba976cc90387                     |
+| required\_signatures  | Required signatures.                                                                                                                                      | NULL                                                               |
+| type                  | The addres type of output.                                                                                                                                | scripthash                                                         |
+| addresses             | Addresses used in the transaction                                                                                                                         | 3HSBvFrBC7RFLyVohwhXQu4juAPomuY9XR                                 |
+| value                 | Value in BTC unnormalized.                                                                                                                                | 1,538,115                                                          |
+| utxo\_id              | Spent UTXO ID generated from transaction hash and index.                                                                                                  | 1c0c548ee49d051aebbaa42d25f6e6b87c670bdff09bf043a949121f04b8098f:0 |
+| address0              | Index 0 of the addresses                                                                                                                                  | 3HSBvFrBC7RFLyVohwhXQu4juAPomuY9XR                                 |
+| value\_max\_exclusive | `sum(value of all inputs with index lesser than itself) + value - 1` within the same transaction. Used for ordinal tracking where FIFO principle is used. | 1,538,115                                                          |
+| value\_min\_inclusive | `sum(value of all inputs with index lesser than itself)` within the same transaction. Used for ordinal tracking where FIFO principle is used.             | 0                                                                  |

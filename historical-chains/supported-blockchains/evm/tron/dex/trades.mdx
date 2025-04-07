@@ -1,0 +1,32 @@
+---
+title: "Trades"
+---
+
+The DEX trades table contains swaps made on decentralized exchanges, consolidated into a single table.
+
+### Project Coverage:
+
+Currently, we support the following projects on Tron.
+
+<table><thead><tr><th width="446.5">Projects</th><th>Protocol</th></tr></thead><tbody><tr><td>sunswap, justswap, intercroneswap, uswap, tofuswap</td><td>uniswap_v2</td></tr><tr><td>sunswap</td><td>uniswap_v3</td></tr></tbody></table>
+
+### Sample Query
+
+Finding the swap volume of indexed projects on Tron in the last 7 days.
+
+```sql
+select 
+  date(block_timestamp) as date,
+  project, 
+  sum(usd_amount) as usd_volume 
+from tron.dex.trades
+  where current_date - date(block_timestamp) < 7
+  group by date, project
+  order by date desc 
+```
+
+### Table Columns
+
+`_str` columns are numeric fields cast as `varchar` to retain precision when summing.
+
+<table data-header-hidden><thead><tr><th width="265">Column</th><th>Description</th></tr></thead><tbody><tr><td>project</td><td>The project (decentralized exchange) of the liquidity pool that the swap occurred from.</td></tr><tr><td>protocol</td><td>DEX protocol (&#x26; version, if applicable) of the contract address facilitating the swap.</td></tr><tr><td>liquidity_pool_address</td><td>Contract address of the liquidity pool holding the asset. For protocol without the concept of LP such as airswap, this will be null.</td></tr><tr><td>sender_address</td><td>The address of the sender emitted on the swap event logs. This can be a router or pool address, which is different from the transaction initiator transaction_from_address that initiated the swap.</td></tr><tr><td>to_address</td><td>Address of the recipient emitted on the swap event logs. For example, we use the to_address from the uniswap v2 swap event log and the recipient_address from the uniswap v3 swap event log.</td></tr><tr><td>token_sold_address</td><td>Token address of the token sold.</td></tr><tr><td>token_sold_name</td><td>Name of the token sold.</td></tr><tr><td>token_sold_symbol</td><td>Symbol of the token sold.</td></tr><tr><td>token_sold_decimals</td><td>Token decimals of the token sold.</td></tr><tr><td>token_sold_amount_raw_str</td><td>Raw amount of tokens sold (unnormalized) in string.</td></tr><tr><td>token_sold_amount_raw</td><td>Raw amount of tokens sold (unnormalized).</td></tr><tr><td>token_sold_amount_str</td><td>Amount of tokens sold in string.</td></tr><tr><td>token_sold_amount</td><td>Amount of tokens sold.</td></tr><tr><td>usd_sold_amount</td><td>Amount of token sold in USD value.</td></tr><tr><td>token_bought_address</td><td>Token address of the token bought, i.e. the asset acquired from the trade.</td></tr><tr><td>token_bought_name</td><td>Name of the token bought.</td></tr><tr><td>token_bought_symbol</td><td>Symbol of the token bought.</td></tr><tr><td>token_bought_decimals</td><td>Token decimals of the token bought.</td></tr><tr><td>token_bought_amount_raw_str</td><td>Raw amount of tokens bought (unnormalized) in string.</td></tr><tr><td>token_bought_amount_raw</td><td>Raw amount of tokens bought (unnormalized).</td></tr><tr><td>token_bought_amount_str</td><td>Amount of tokens bought in string.</td></tr><tr><td>token_bought_amount</td><td>Amount of tokens bought.</td></tr><tr><td>usd_bought_amount</td><td>Amount of token bought in USD value.</td></tr><tr><td>usd_amount</td><td>USD value of the swap. This field preferentially selects the USD value of ETH and Stablecoin (USDT/USDC) tokens, as spam token prices may conflate the true swap value.</td></tr><tr><td>extra_fields</td><td>This field contains all the extra columns emitted from the event/function call that were not part of the convetional DEX trades columns.</td></tr><tr><td>swap_count</td><td>Swap count within the transaction.</td></tr><tr><td>transaction_fees</td><td>Fees paid at the transaction level.</td></tr><tr><td>transaction_fees_usd</td><td>Fees paid in USD.</td></tr><tr><td>fee_details</td><td>Additional fee details of the transaction, including max priority fee, gas price and gas used for the transaction.</td></tr><tr><td>transaction_from_address</td><td>Transaction sender address. I.e. the address of the transaction initiator. (from_address in the raw.transactions field for the transaction_hash of this swap).</td></tr><tr><td>transaction_to_address</td><td>Transaction receiver. (to_address in the raw.transactions field for the transaction_hash of this swap).</td></tr><tr><td>transaction_hash</td><td>Transaction hash that this swap belongs to.</td></tr><tr><td>transaction_index</td><td>The position of this transaction in the block that it belongs to. The first transaction has index 0.</td></tr><tr><td>selector</td><td>4byte selector of the transaction.</td></tr><tr><td>log_index</td><td>The position of the swap event log in the transaction.</td></tr><tr><td>block_timestamp</td><td>Block timestamp of the swap event.</td></tr><tr><td>block_number</td><td>Block number of the swap event.</td></tr><tr><td>block_hash</td><td>Block hash of the swap event.</td></tr><tr><td>unique_id</td><td>Unique ID of each trade.</td></tr></tbody></table>

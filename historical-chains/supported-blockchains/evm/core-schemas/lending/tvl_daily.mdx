@@ -1,0 +1,32 @@
+---
+title: TVL Daily
+---
+
+The `lending.tvl_daily` table contains daily total value locked (TVL) for lending protocols, providing a comprehensive view of the assets locked in these protocols over time.
+
+This table offers daily snapshots of TVL across major lending protocols, broken down by token, enabling analysis of protocol growth, token distribution, and market trends.
+
+### Table Columns
+
+Unique Key: `date, address, token_address`
+
+| Column                 | Data Type         | Description                                                    |
+| ---------------------- | ----------------- | -------------------------------------------------------------- |
+| date                   | DATE              | Date of the TVL snapshot                                       |
+| project                | VARCHAR           | Name of the lending project                                    |
+| protocol               | VARCHAR           | Underlying protocol that the lending project is utilizing      |
+| address                | VARCHAR           | Address of the lending market or contract                      |
+| token\_address         | VARCHAR           | Address of the token locked in the protocol                    |
+| token\_name            | VARCHAR           | Name of the token locked in the protocol                       |
+| token\_symbol          | VARCHAR           | Symbol of the token locked in the protocol                     |
+| token\_decimals        | INTEGER           | Number of decimals of the token                                |
+| raw\_balance\_str      | VARCHAR           | Raw token balance in string format to retain precision         |
+| raw\_balance           | FLOAT             | Raw token balance as a numeric value                           |
+| balance\_str           | VARCHAR           | Normalized token balance in string format to retain precision  |
+| balance                | FLOAT             | Normalized token balance as a numeric value                    |
+| usd\_balance           | FLOAT             | USD value of the token balance at the time of the snapshot     |
+| usd\_exchange\_rate    | FLOAT             | USD exchange rate of the token at the time of the snapshot     |
+| last\_block\_timestamp | TIMESTAMP\_NTZ(9) | Timestamp of the last block included in the TVL calculation    |
+| last\_block\_number    | INTEGER           | Block number of the last block included in the TVL calculation |
+| \_created\_at          | TIMESTAMP\_NTZ(9) | Timestamp of when the record was created                       |
+| \_updated\_at          | TIMESTAMP\_NTZ(9) | Timestamp of when the record was last updated                  |

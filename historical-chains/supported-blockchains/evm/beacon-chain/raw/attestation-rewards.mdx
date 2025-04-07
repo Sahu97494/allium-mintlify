@@ -1,0 +1,68 @@
+---
+title: "Attestation Rewards"
+description: Rewards for attestations for validator on Beacon Chain.
+---
+
+### Beacon Chain Attestation Rewards
+
+**The majority of a validator's rewards come from making attestations.&#x20;**&#x57;hile assigning committees and slots is randomized, **each active validator is guaranteed to make one attestation per epoch.**
+
+Validators earn rewards for attestations only when included in Beacon Chain blocks. Each attestation consists of three votes, with rewards based on the following criteria:
+
+* Inclusion of the attestation with the correct source checkpoint within 5 slots
+
+* Inclusion of the attestation with the correct target checkpoint within 32 slots
+
+* Inclusion of the attestation with the correct head block within 1 slot
+
+<Card title="https://besu.hyperledger.org/23.7.3/public-networks/concepts/proof-of-stake/attestations">
+More on Beacon Chain Attestation rewards
+</Card>
+
+<Card title="https://eth2book.info/capella/part2/incentives/rewards/">
+More on Beacon Chain Attestation rewards
+</Card>
+
+Attestation rewards for Beacon chain are split up into two separate tables. Both tables are retrieved from [`/eth/v1/beacon/rewards/attestations/{epoch}`](https://ethereum.github.io/beacon-APIs/#/Beacon/getAttestationsRewards) RPC Method.
+
+<table><thead><tr><th width="305">Table Name</th><th>Description</th></tr></thead><tbody><tr><td><code>beacon.raw.attestation_rewards_daily</code></td><td>Table that aggregates the total reward metrics for individual validators by day. </td></tr><tr><td><code>beacon.raw.total_rewards</code></td><td>Table containing total reward metrics for individual validators in the specified epoch.<br /><br />This table returns the total number of active, ongoing validators <strong>in each Epoch.</strong> <br /><br />Note: this table size is large. Expect that query performance to be slow. It increases by about 225 epoch * # active validators ~ 250m+ rows in size daily. </td></tr><tr><td><code>beacon.raw.ideal_rewards</code></td><td>Table containing ideal reward metrics for attestations in the <strong>specified epoch.</strong><br /><br />Currently, there (as of Epoch 289619), there are always 32 rows for each epoch, each for effective balance (1 to 32 ETH) of ETH staked. </td></tr></tbody></table>
+
+### Attestation Rewards Daily
+
+Attestation reward rewards collected by validator aggregated by day from beacon.raw\.total\_rewards. Note that attestation does not include sync committee rewards.
+
+For each validator, there is only entry daily.
+
+<table><thead><tr><th>Column Name</th><th width="311">Description</th><th>Example</th></tr></thead><tbody><tr><td>Date</td><td>Date</td><td>288389</td></tr><tr><td>validator Index</td><td>Validator Index </td><td>1296908</td></tr><tr><td>min_epoch</td><td>The lowest Epoch number that the validator started attesting</td><td>287663</td></tr><tr><td>max_epoch</td><td>The largest Epoch number that the validator started attesting</td><td>287887</td></tr><tr><td>epoch_count</td><td>Number of unique epochs that the validator participated in for attestation within the day.</td><td>225</td></tr><tr><td>head</td><td>The sum reward for attesting to the head block for the specified validator</td><td>534132</td></tr><tr><td>target</td><td>The sum reward for attesting to the target block for the specified validator</td><td>1034226</td></tr><tr><td>source</td><td>The sum reward for attesting to the source block for the specified validator</td><td>552116</td></tr><tr><td>inclusion_delay</td><td>(Optional) The sum reward for including the attestation in a block with a specific delay for the specified validator</td><td>0</td></tr><tr><td>inactivity</td><td>(Optional) The inactivity penalty for the total reward calculation for the specified validator</td><td>0</td></tr><tr><td>total_rewards</td><td>The sum of rewards across head, target, source, inclusion_delay and inactivity. </td><td>2120474</td></tr></tbody></table>
+
+### Total Rewards
+
+#### Query Sample
+
+Finding the total rewards for specific Epoch
+
+```sql
+select 
+    epoch, 
+    count(distinct validator_index) as validators, 
+    sum(head) as sum_head,
+    sum(target) as sum_target,
+    sum(source) as sum_source,
+    sum(inactivity) as sum_inactvity,
+    sum_head + sum_target + sum_source + sum_inactvity as epoch_attestation_reward
+from beacon.raw.total_rewards
+where epoch = 289610
+group by all 
+```
+
+### Total Reward Columns
+
+`beacon.raw.total_rewards` contains the reward metrics for individual validators in the specified epoch.
+
+<table><thead><tr><th>Column Name</th><th width="311">Description</th><th>Example</th></tr></thead><tbody><tr><td>epoch</td><td>Epoch number</td><td>288389</td></tr><tr><td>epoch_timestamp</td><td>Epoch Timestamp</td><td>2024-06-05 05:29:59</td></tr><tr><td>execution_optimistic</td><td>A boolean indicating whether the execution of rewards for the specified epoch is done optimistically or not</td><td>FALSE</td></tr><tr><td>validator Index</td><td>Validator Index </td><td>1296908</td></tr><tr><td>head</td><td>The reward for attesting to the head block for the specified validator</td><td>2442</td></tr><tr><td>target</td><td>The reward for attesting to the target block for the specified validator</td><td>4604</td></tr><tr><td>source</td><td>The reward for attesting to the source block for the specified validator</td><td>2477</td></tr><tr><td>inclusion_delay</td><td>(Optional) The reward for including the attestation in a block with a specific delay for the specified validator</td><td></td></tr><tr><td>inactivity</td><td>(Optional) The inactivity penalty for the total reward calculation for the specified validator</td><td>0</td></tr></tbody></table>
+
+## Ideal Reward Columns
+
+Table containing ideal reward metrics for attestations in the specified epoch.
+
+<table><thead><tr><th>Column Name</th><th width="327">Description</th><th>Example</th></tr></thead><tbody><tr><td>epoch</td><td>Epoch number</td><td>5</td></tr><tr><td>epoch_timestamp</td><td>Epoch Timestamp</td><td>2020-12-01 12:01:23</td></tr><tr><td>execution_optimistic</td><td>A boolean indicating whether the execution of rewards for the specified epoch is done optimistically or not</td><td>FALSE</td></tr><tr><td>effective_balance</td><td>The effective balance for the ideal reward calculation</td><td>18,000,000,000.00</td></tr><tr><td>head</td><td>The reward for attesting to the head block</td><td>9287</td></tr><tr><td>target</td><td>The reward for attesting to the target block</td><td>9621</td></tr><tr><td>source</td><td>The reward for attesting to the source block</td><td>9622</td></tr><tr><td>inclusion_delay</td><td>(Optional) The reward for including the attestation in a block with a specific delay</td><td>9707</td></tr><tr><td>inactivity</td><td>(Optional) The inactivity penalty for the ideal reward calculation</td><td>0</td></tr></tbody></table>

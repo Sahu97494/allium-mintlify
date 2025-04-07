@@ -1,0 +1,131 @@
+---
+title: "Blocks"
+---
+
+Blocks are the building blocks of blockchains. A block contains transactions which will alter the state of the blockchain incrementally. Transaction within a block can only be executed one after the other and utxo movement is sequential based on the order of inputs and outputs within transactions and blocks. Learn more in the official Bitcoin documentation [here](https://developer.bitcoin.org/reference/block_chain.html).
+
+### Sample Query:
+
+Query to fetch the latest blocks
+
+```sql
+select *
+  from bitcoin.blocks
+order by timestamp desc
+limit 100;
+```
+
+### Table Columns
+
+<table>
+  <thead>
+    <tr>
+      <th width="212.33333333333331">Column Name</th>
+      <th>Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>timestamp</td>
+      <td>Timestamp of the block.</td>
+      <td>2023-05-18 02:56:03</td>
+    </tr>
+    <tr>
+      <td>number</td>
+      <td>Block number or block height.</td>
+      <td>790,250</td>
+    </tr>
+    <tr>
+      <td>hash</td>
+      <td>Block hash.</td>
+      <td>0000000000000000000222dfc9297b2bb90481bfa28fd04ac2e8a4dfdaab5a15</td>
+    </tr>
+    <tr>
+      <td>confirmations</td>
+      <td>
+        The number of confirmations, or -1 if the block is not on the main
+        chain. A confirmation indicates that a Bitcoin transaction has been
+        added to a block on the blockchain.
+      </td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td>The block version.</td>
+      <td>538,968,064</td>
+    </tr>
+    <tr>
+      <td>merkle_root</td>
+      <td>
+        The root node of a Merkle tree, where leaves are transaction hashes.
+      </td>
+      <td>93878cb1f1f39c03b22be799f520ed0203deb6b95db372962a60fb02e58f7ff5</td>
+    </tr>
+    <tr>
+      <td>median_time</td>
+      <td>The median block time expressed in UNIX epoch time.</td>
+      <td>1,684,374,147</td>
+    </tr>
+    <tr>
+      <td>nonce</td>
+      <td>The number of transactions made by the sender prior to this one.</td>
+      <td>e0e8d097</td>
+    </tr>
+    <tr>
+      <td>bits</td>
+      <td>The difficulty threshold specified in block header.</td>
+      <td>1705dd01</td>
+    </tr>
+    <tr>
+      <td>difficulty</td>
+      <td>
+        The estimated amount of work done to find this block relative to the
+        estimated amount of work done to find block 0.
+      </td>
+      <td>48,005,534,313,578.80</td>
+    </tr>
+    <tr>
+      <td>chainwork</td>
+      <td>Expected number of hashes required to produce the current chain.</td>
+      <td>000000000000000000000000000000000000000048d25064eab6183fd989af8a</td>
+    </tr>
+    <tr>
+      <td>transaction_count</td>
+      <td>Total number of transactions in the block.</td>
+      <td>2,958</td>
+    </tr>
+    <tr>
+      <td>previous_blockhash</td>
+      <td>The block hash of the previous block.</td>
+      <td>000000000000000000026f3c94574a40692053865a537c480609f6a5c451009a</td>
+    </tr>
+    <tr>
+      <td>next_blockhash</td>
+      <td>The block hash of the next block, if applicable.</td>
+      <td>0000000000000000000085aae10b84ae22c3f41399a0aa6018351e803739455b</td>
+    </tr>
+    <tr>
+      <td>stripped_size</td>
+      <td>The block size excluding witness data.</td>
+      <td>804,075</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>Size of the block mined.</td>
+      <td>1,585,359</td>
+    </tr>
+    <tr>
+      <td>weight</td>
+      <td>
+        <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">
+          The block weight as defined in{" "}
+        </a>
+        <a href="https://github.com/bitcoin/bips/blob/master/bip-0141.mediawiki">
+          BIP 141
+        </a>
+      </td>
+      <td>3,997,584</td>
+    </tr>
+  </tbody>
+</table>

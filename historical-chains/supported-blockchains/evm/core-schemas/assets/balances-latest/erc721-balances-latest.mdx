@@ -1,0 +1,46 @@
+---
+title: "ERC721 Balances Latest"
+description: "Historical ERC721 balances of all addresses at every block height."
+---
+
+The `assets.erc721_balances_latest` table contains the current ERC721 balances of all addresses.
+
+### Sample Query
+
+Getting the ERC721 latest balance of Beanz NFT from an address.
+
+```sql
+select * from ethereum.assets.erc721_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0x306b1ea3ecdf94ab739f1910bbda052ed4a9f949' -- Beanz NFT 
+```
+
+Currently, the USD exchange rates of ERC721 tokens are not available.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                              | Data Type        | Description                                                                                     |
+|------------------------------------------|------------------|-------------------------------------------------------------------------------------------------|
+| address                                  | VARCHAR          | Address of the account                                                                         |
+| token_address                            | VARCHAR          | Address of the token                                                                           |
+| token_name                               | VARCHAR          | Name of the token                                                                              |
+| token_symbol                             | VARCHAR          | Symbol of the token                                                                            |
+| token_id                                 | VARCHAR          | Token ID of the ERC721 token                                                                   |
+| raw_balance                              | INTEGER          | Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved    |
+| raw_balance_str                          | VARCHAR          | Balance of tokens (unnormalized) in string. For ERC721 tokens, there are no decimals division involved |
+| balance_str                              | VARCHAR          | Balance of tokens in string. For ERC721 tokens, the max balance is 1                           |
+| balance                                  | INTEGER          | Balance of tokens. For ERC721 tokens, the max balance is 1                                     |
+| usd_balance_current                      | FLOAT            | USD balance of ERC721 token at the current timestamp (N/A for ERC721 tokens currently)         |
+| usd_balance_at_block_timestamp           | FLOAT            | USD balance of ERC721 token at the timestamp of the last activity that resulted in balance change |
+| usd_exchange_rate_current                | FLOAT            | USD exchange rate of ERC721 token at the current timestamp (N/A for ERC721 tokens currently)   |
+| usd_exchange_rate_at_block_timestamp     | FLOAT            | USD exchange rate of ERC721 token at the timestamp of the last activity that resulted in balance update |
+| last_activity_block_timestamp            | TIMESTAMP_NTZ(9) | Timestamp of the last activity that resulted in this balance                                   |
+| last_activity_block_number               | INTEGER          | Block number of the last activity that resulted in this balance                                |
+| last_activity_block_hash                 | VARCHAR          | Block hash of the last activity that resulted in this balance                                  |
+| _updated_at__usd_exchange_rate_current   | TIMESTAMP_NTZ(9) | Timestamp of the current USD exchange                                                         |
+| unique_id                                | VARCHAR          | Unique ID of the balance                                                                       |
+| _updated_at                              | TIMESTAMP_NTZ(9) | Timestamp of the balance update                                                                |
+
+

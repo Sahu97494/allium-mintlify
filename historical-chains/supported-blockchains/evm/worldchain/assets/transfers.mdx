@@ -1,0 +1,55 @@
+---
+title: "Overview"
+---
+
+## Token Transfers
+
+Token transfers represent the movement of assets between addresses on the blockchain. We track transfers across all major token standards to provide comprehensive coverage of asset movements.
+
+<Info>
+Native gas tokens are represented as `0x0000000000000000000000000000000000000000` in the `token_address` in our assets schemas.
+</Info>
+
+#### Overview
+
+Our token transfer tables capture all asset movements including:
+
+* Native token transfers (ETH, MATIC, etc.)
+
+* ERC20 token transfers
+
+* ERC721 NFT transfers
+
+* ERC1155 multi-token transfers
+
+#### Transfer Types Tracked
+
+1. **Native Token Transfers**
+
+   * Direct value transfers
+
+   * Gas payments
+
+   * Block rewards
+
+   * Internal transfers (from traces)
+
+2. **ERC20 Transfers**
+
+   * Standard token transfers
+
+   * Minting events
+
+   * Burning events
+
+   * Wrapped token operations
+
+3. **NFT Transfers (ERC721)**
+
+   * Single token transfers
+
+4. **Multi-Token Transfers (ERC1155)**
+
+   * Single and batch transfers
+
+

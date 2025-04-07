@@ -1,0 +1,172 @@
+---
+title: "Transactions"
+---
+
+Transactions are cryptographically signed instructions from accounts.
+
+An account will initiate a transaction to update the state of the Oasys network. Transactions always originate from an externally owned account (a smart contract can not initiate a transaction). Transactions, which change the state of the EVM, need to be broadcast to the whole network. Any node can broadcast a request for a transaction to be executed on the EVM; after this happens, a validator will execute the transaction and propagate the resulting state change to the rest of the network.
+
+### Action labels
+
+When using the API, transactions are enriched with action labels that convey the primary intention of the transaction from the perspective of the wallet that created the transaction. Action labeling coverage is not guaranteed to be exhaustive, but will be improved over time.
+
+#### Supported labels
+
+<table data-full-width="false">
+  <thead>
+    <tr>
+      <th width="167">Category</th>
+      <th width="484">Name</th>
+      <th>Status</th>
+      <th data-hidden>Name</th>
+      <th data-hidden>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>DEX</td>
+      <td>dex_swap</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td>dex_swap</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DEX</td>
+      <td>dex_add_liquidity</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td>dex_add_liquidity</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DEX</td>
+      <td>dex_remove_liquidty</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td>dex_remove_liquidity</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>DEX</td>
+      <td>dex_deploy_liquidity_pool</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td>dex_deploy_liquidity_pool</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>NFT</td>
+      <td>nft_buy</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td>nft_buy</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>NFT</td>
+      <td>nft_sell</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td>nft_</td>
+      <td></td>
+    </tr>
+    <tr>
+      <td>NFT</td>
+      <td>nft_mint</td>
+      <td>
+        <span data-gb-custom-inline data-tag="emoji" data-code="2705">
+          ✅
+        </span>
+      </td>
+      <td></td>
+      <td></td>
+    </tr>
+  </tbody>
+</table>
+
+### Sample Query
+
+Query transaction data by from/to address, block number or hash.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+```sql
+select * from oasys.transactions
+where from_address = '0xd8da6bf26964af9d7eed9e03e53415d37aa96045'
+```
+
+</Tab>
+
+<Tab title="API">
+
+```bash
+curl 'https://api.allium.so/api/v1/developer/ethereum/raw/transactions/0xd8da6bf26964af9d7eed9e03e53415d37aa96045' \
+  -X GET \
+  -H 'X-API-KEY: <API KEY>'
+```
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+| Column Name                 | Type        | Description                                                                                                                                                                                                                                    | Example                                                                                                 |
+| --------------------------- | ----------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------- |
+| hash                        | varchar(66) | Unique identifier of a transaction.                                                                                                                                                                                                            | 0x9068357001dc45c59a0c0383860f25fd64daeef205f723c5cbd980f280baca38                                      |
+| nonce                       | bigint      | [The transaction nonce, unique to the wallet](https://ethereum.org/en/glossary/#nonce)                                                                                                                                                         | 203                                                                                                     |
+| transaction_index           | bigint      | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                                                                                           | 62                                                                                                      |
+| from_address                | varchar(44) | The address of the sending party of this transaction.                                                                                                                                                                                          | 0x7e63870ac9cb1491928e3c8922c19b2595331ac9                                                              |
+| to_address                  | varchar(44) | The address of the receiving party of this transaction (could be a contract address).                                                                                                                                                          | 0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45                                                              |
+| value                       | numeric(38) | The amount of ether sent in this transaction, in wei.                                                                                                                                                                                          | 3.42E+17                                                                                                |
+| gas                         | bigint      | The maximum amount of gas allocated for this transaction in wei.                                                                                                                                                                               | 209,392                                                                                                 |
+| gas_price                   | bigint      | Cost per unit of gas specified by the transaction in wei. The higher the gas price, the higher chance of getting included in a block.                                                                                                          | 6,545,492,045                                                                                           |
+| input                       | text        | The data send along with the transaction.                                                                                                                                                                                                      | <p>&#x3C;truncated><br/>0x5ae401dc00000000000000000000000000000000000000000000000000000000632409bf0</p> |
+| receipt_cumulative_gas_used | bigint      | The total amount of gas used when this transaction was executed in the block.                                                                                                                                                                  | 6,091,409                                                                                               |
+| receipt_gas_used            | bigint      | Gas consumed by the transaction in wei.                                                                                                                                                                                                        | 150,272                                                                                                 |
+| receipt_contract_address    | varchar(42) | The contract address created, if the transaction was a contract creation, otherwise null.                                                                                                                                                      |                                                                                                         |
+| receipt_root                | varchar(66) | Transaction stateroot (pre Byzantium)                                                                                                                                                                                                          |                                                                                                         |
+| receipt_status              | bigint      | Success status of the transaction. Either 1 (success) or 0 (failure).                                                                                                                                                                          | 1                                                                                                       |
+| block_timestamp             | timestamp   | The time when the block that contains this transaction was included on the blockchain.                                                                                                                                                         | 2022-09-16 04:59:59                                                                                     |
+| block_number                | bigint      | The length of the chain, in blocks.                                                                                                                                                                                                            | 15,543,975                                                                                              |
+| block_hash                  | varchar(66) | Unique identifier of the block that includes this transaction.                                                                                                                                                                                 | 0xe3eb6f24b34ab179646608ca100a3cd1d2fd1144f83544d029c0352429371b6d                                      |
+| max_fee_per_gas             | bigint      | The sum of the base fee and tip paid per unit of gas.                                                                                                                                                                                          | 10,293,849,223                                                                                          |
+| max_priority_fee_per_gas    | bigint      | [The maximum fee per gas the transaction sender is willing to give to validators (Proof of Stake) or miners (Proof of Work) to incentivize them to include their transaction (introduced in EIP1559)](https://eips.ethereum.org/EIPS/eip-1559) | 2,000,000,000                                                                                           |
+| transaction_type            | bigint      | Integer of the transaction type, 0x0 for legacy transactions, 0x1 for access list types, 0x2 for dynamic fees.                                                                                                                                 | 2                                                                                                       |
+| receipt_effective_gas_price | bigint      | The integer of the transaction type, 0x0 for legacy transactions, 0x1 for access list types, 0x2 for dynamic fees.                                                                                                                             | 6,545,492,045                                                                                           |
+| function_signature\*        | varchar     |                                                                                                                                                                                                                                                |                                                                                                         |
+| action\*                    | varchar     | A label indicating the primary intention of the transaction, from the perspective of the wallet that created the transaction. See [#supported-labels](#supported-labels)for the possible labels.                      | dex_swap                                                                                                |
+
+<Warning>
+  \*field is only available via the API, and are not in the underlying table.
+</Warning>
+
+### Indexes
+
+| Index                              | Type  |
+| ---------------------------------- | ----- |
+| block_number                       |       |
+| block_timestamp DESC               | btree |
+| from_address, block_timestamp DESC | btree |
+| to_address, block_timestamp DESC   | btree |

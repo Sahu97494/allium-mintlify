@@ -1,0 +1,126 @@
+---
+title: "Overview"
+description: "NFT trades of multiple blockchains aggregated into a single table."
+---
+
+### Blockchain Coverage
+
+Project and protocol coverage is available at each chain's respective NFT trades page.
+
+| **EVM Chains** | **Non-EVM Chains** |
+|----------------|--------------------|
+| • [apechain ↗](https://github.com/Allium-Science/allium-docs/blob/main/historical-chains/supported-blockchains/evm/apechain/nfts/README.md) <br/> • [arbitrum](/historical-chains/supported-blockchains/evm/arbitrum/nfts/trades) <br/> • [b3 ↗](https://github.com/Allium-Science/allium-docs/blob/main/historical-chains/supported-blockchains/evm/b3/nfts/README.md) <br/> • [base](/historical-chains/supported-blockchains/evm/base/nfts/trades) <br/> • [berachain ↗](https://github.com/Allium-Science/allium-docs/blob/main/historical-chains/supported-blockchains/evm/berachain/nfts/README.md) <br/> • [ethereum](/historical-chains/supported-blockchains/evm/ethereum/nfts/trades) <br/> • [polygon](/historical-chains/supported-blockchains/evm/polygon/nfts/trades) <br/> • [zora](/historical-chains/supported-blockchains/evm/zora/nfts) | • [solana](/historical-chains/supported-blockchains/solana/nfts/trades) <br/> • [bitcoin](/historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/nfts/trades) |
+
+
+### Sample Query
+
+NFT Volume Across Blockchains.
+
+```sql
+select
+    date(block_timestamp) as date,
+    chain,
+    sum(usd_amount) as usd_volume
+from crosschain.nfts.trades
+where block_timestamp >= current_timestamp - interval '90 days'
+group by all
+```
+<Frame caption="https://app.allium.so/s/RcBZ6MVm">
+<img src="/images/image-guides-historical-vertical-nfttrades.png" />
+</Frame>
+
+### Table Columns
+
+<Tabs>
+<Tab title="EVM / Common">
+| Column Name | Description |
+|-------------|-------------|
+| chain | The blockchain where the NFT trade was executed |
+| marketplace | Marketplace of the nft trade, e.g. opensea |
+| protocol | The protocol of the marketplace determined by the smart contract used, e.g. wyvern or seaport |
+| order_match_type | Type of sales. Registered as BUY for direct purchase and ACCEPT_BID for bids accepted. |
+| trade_type | Type of trade. SINGLE_TRADE for single token sales or BUNDLE_TRADE when more than 1 token is sold in a transaction. |
+| buyer_address | Address of the buyer. |
+| seller_address | Address of the seller. |
+| token_standard | Type of token traded in the transaction. `null` for BTC. |
+| token_address | Token contract of the NFT in the trade. `null` for BTC, `collection_mint` for SOL |
+| token_name | Name of the token traded. `collection_name` for SOL & BTC |
+| token_symbol | Symbol of the token traded. `collection_symbol` for SOL, `null` for BTC |
+| token_id | Token ID of the NFT traded. `token_mint` for SOL, `inscription_id` for BTC |
+| item_quantity | Quantity of the item traded. For ERC721 tokens, the value is null. While for ERC1155 tokens, the value can be more than 1. |
+| currency_address | Token address of the currency used for this trade. `currency_mint` for SOL |
+| currency_symbol | Token symbol of the currency used for the trade. |
+| raw_price | Raw price of the NFT trade (unnormalised) |
+| price | Price of the NFT (normalised) |
+| usd_price | USD value of the trade. The USD value of the trade is calculated by multiplying the hourly exchange rate of the currency (e.g. ETH) with the price oracle data source from exchanges |
+| agg_fees | Sum of the fees paid by the NFT buyer and the seller. |
+| buyer_fees | Fees paid by the NFT buyer. It might be "unimplemented" if we haven't parse the fees for that protocol yet. Otherwise, it will be a json with 9 columns. "creator" fees are the ones paid to the nft creator (royalties); "platform" fees are paid to the marketplace; "total" fees are the sum of both fees Use this syntax to access a specific fee:buyer_fees['usd_total']::double. And don't worry about the unimplemented ones, they will become null |
+| seller_fees | Fees paid by the NFT seller |
+| aggregator_name | Name of the aggregator use for the trade. Will be empty is the trade did not involve the use of aggregators. |
+| aggregator_address | Contract address of the aggregator used for the trade. |
+| extra_fields | Extra fields such as fee details |
+| transaction_hash | Transaction hash for this trade. `txn_id` for SOL |
+| block_timestamp | The timestamp of the block that the corresponding transaction of this trade. |
+| block_number | The block number that the corresponding transaction of this trade belongs to. `block_slot` for SOL |
+| block_hash | The block hash that the corresponding transaction of this trade belongs to. |
+| unique_id | Unique id generated for this trade. |
+</Tab>
+<Tab title="Solana Only">
+| Column Name | Description |
+|-------------|-------------|
+| token_metadata | Address of the token metadata account. Its main goal is to attach additional data to Fungible or Non-Fungible Tokens on Solana. |
+| is_cnft | Boolean indicator on whether the NFT is a cNFT (compressed NFT). |
+| merkle_tree | cNFT data: The account that contains the Merkle tree, initialized by create_tree. |
+| leaf_index | cNFT data: The index of the leaf node in the Merkle tree. Can be retrieved from off-chain data store. |
+| asset_id | Unified asset id compatible with Digital Assets Standards |
+| signer | Address of the 1st signer of the transaction |
+| block_height | Block height when the trade occurred. |
+| txn_index | The index of the transaction within the block |
+| instruction_index | The index of the instruction within the transaction |
+| inner_instruction_index | The index of the inner instruction within the instruction |
+| outer_program_id | The program ID that called to initiate the trade, e.g. NFT aggregators |
+</Tab>
+<Tab title="Bitcoin Only">
+| Column Name | Description |
+|-------------|-------------|
+| \_nft_recipient | Pubkey of the party receiving the NFT. May be different from buyer_address |
+| \_sales_proceeds_recipient | Pubkey of the party receiving the funds. May be different from seller_address |
+| raw_sales_proceeds | Sales proceeds of the trade in satoshis |
+| sales_proceeds | Sales proceeds of the trade normalized |
+| usd_sales_proceeds | USD value of the sales proceeds |
+| inscription_id | inscription id, composed of the genesis transaction hash with a i0 suffix to represent the first inscription in the tx |
+| inscription_name | The inscription name, if available. |
+| inscription_number | The inscription number, sometimes known as index, if available |
+| content_type | Content type of the inscription |
+| content_tag | Content tag, which is a reclassification of the raw `content_type` field to make it easy to analyze. |
+| content_length | Number of bytes of the inscription content |
+| content_protocol | (For json inscriptions with a `p` key) The protocol of the inscription, derived with `json_content['p']` |
+| content_parsed | (For textual inscriptions) The parsed content of the inscription, could be a utf-8 string or a json object |
+| is_brc20 | Derived with `content_protocol = 'brc-20'`. To be deprecated for `is_token` + `content_protocol` |
+| is_token | Used to identify token-like standards. Derived with `content_protocol = 'brc-20' or 'orc-20' or 'orc20'` |
+| token_tick | The tick of the token-like inscription. Derived with `content_parsed['tick']` |
+| token_amt | The amout specified in the token-like inscription. Derived with `content_parsed['amt']` |
+| sats_per_token_tick | Satoshis per token-like amount. Derived with `satoshi of the trade / token_amt` |
+| usd_per_token_tick | USD per token-like amount. Derived with `USD of the trade / token_amt` |
+| domain_protocol | Domain name protocol used to parse the content |
+| domain_name | the domain name (portion before the `.` ) |
+| domain_namespace | the domain namespace (portion after the `.` ) |
+| domain_valid | true/false - domains are invalid if they are not the first or are unstable inscriptions |
+| domain_meta | the metadata of the domain op, such as `about`, `rev`, `avatar` fields. |
+| is_domain | true/false - whether the domain name/namespace fit the requirements of sns/bitmap protocols. Malformed/illegal formats of inscriptions are removed here. There may be some edge cases because sns allows text inscriptions which have lots of noise. |
+| sat_types | An array of (tuple-of-rarities), with each tuple representing the rare sats traits of a traded sat |
+| sat_types_amounts | An array of (tuple-of-rarities), with each tuple representing the number of sats of the indicated rarity |
+| is_rune | Indicates whether the trade is for Runes |
+| rune_id | Unique identifier for the Rune |
+| rune_symbol | The symbol for the Rune |
+| spaced_rune | The name of the Rune |
+| raw_rune_amount | The raw amount of the Rune traded (unnormalised) |
+| sats_per_rune | The price per Rune in satoshis |
+| usd_per_rune | The USD price per Rune |
+| rune_number | The numeric unique identifier for the Rune |
+| etching_block_timestamp | The timestamp of the block when the Rune was first "etched", i.e. created or minted |
+| genesis_fee | Genesis fee of the inscription when it was inscribed |
+| satoshi_timestamp | The timestamp of the satoshi when it was mined. |
+</Tab>
+</Tabs>
+

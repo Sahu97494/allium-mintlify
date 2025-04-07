@@ -1,0 +1,11 @@
+---
+title: "ETH Transfers"
+---
+
+The table for ETH Token Transfers holds a record of all transactions conducted using the native Ether token on Base network.
+
+This includes the transfer type, such as value transfer and l2 execution fees, transaction call type, the transaction hash, block timestamp, and the sender and recipient wallet addresses along with the quantity of ETH transferred.
+
+### Table Columns
+
+<table><thead><tr><th width="331.5">Column Name</th><th>Description</th></tr></thead><tbody><tr><td>from_address</td><td>Address where the token is being transferred from.</td></tr><tr><td>to_address</td><td>Address where the token is being transferred to.</td></tr><tr><td>token_address</td><td>Token address of the asset transferred.</td></tr><tr><td>token_name</td><td>Name of the asset transferred.</td></tr><tr><td>token_symbol</td><td>Token symbol of the asset transferred.</td></tr><tr><td>raw_amount</td><td>Amount of tokens moved (unnormalized).</td></tr><tr><td>amount</td><td>Amount of token moved, normalized.</td></tr><tr><td>usd_amount</td><td>The amount of tokens moved, in $USD.</td></tr><tr><td>call_type</td><td>Call type of the transaction. Non-call type will be indicated by NULL.</td></tr><tr><td>transfer_type</td><td>Transfer type can include value_transfer, l1_fee, l2_base_fee, l2_priority_fee.</td></tr><tr><td>transaction_from_address</td><td>The address of the sending party of this transaction.</td></tr><tr><td>transaction_to_address</td><td>The address of the receiving party of this transaction (could be a contract address).</td></tr><tr><td>transaction_hash</td><td>Transaction hash that this transfer belongs to.</td></tr><tr><td>block_timestamp</td><td>The time when the block that contains this transaction was included on the blockchain.</td></tr><tr><td>block_number</td><td>The block number that the corresponding transaction of this transfer belongs to.</td></tr><tr><td>block_hash</td><td>The block hash that the corresponding transaction of this transfer belongs to.</td></tr><tr><td>unique_id</td><td>Unique id generated to each transfer.</td></tr></tbody></table>

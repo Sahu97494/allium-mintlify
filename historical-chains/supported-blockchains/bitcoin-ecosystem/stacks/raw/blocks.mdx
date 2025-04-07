@@ -1,0 +1,33 @@
+---
+title: "Blocks"
+---
+
+Stacks blocks contain transactions that are processed and added to the blockchain, linking to previous blocks to form a chain.
+
+### Table Columns
+
+| Column Name                    | Description                                                                                              |
+| ------------------------------ | -------------------------------------------------------------------------------------------------------- |
+| canonical                      | Indicates if the block corresponds to the canonical chain tip.                                           |
+| height                         | The height of the block in the blockchain.                                                               |
+| hash                           | The unique identifier or hash of the block.                                                              |
+| block\_time                    | Unix timestamp (in seconds) indicating when this block was mined.                                        |
+| index\_block\_hash             | The hash of the index block.                                                                             |
+| parent\_block\_hash            | The hash of the parent block.                                                                            |
+| burn\_block\_time              | Unix timestamp (in seconds) indicating when the corresponding burn block was mined.                      |
+| burn\_block\_hash              | Hash of the anchor chain block.                                                                          |
+| burn\_block\_height            | Height of the anchor chain block.                                                                        |
+| miner\_txid                    | Anchor chain transaction ID.                                                                             |
+| parent\_microblock\_hash       | The hash of the last streamed block that precedes this block to which this block is to be appended.      |
+| parent\_microblock\_sequence   | The sequence number of the last streamed block that precedes this block to which this block is appended. |
+| txs                            | List of transactions included in the block.                                                              |
+| microblocks\_accepted          | List of microblocks that were accepted in this anchor block. Does not include orphaned microblocks.      |
+| microblocks\_streamed          | List of microblocks streamed/produced by this anchor block's miner.                                      |
+| execution\_cost\_read\_count   | Execution cost read count.                                                                               |
+| execution\_cost\_read\_length  | Execution cost read length.                                                                              |
+| execution\_cost\_runtime       | Execution cost runtime.                                                                                  |
+| execution\_cost\_write\_count  | Execution cost write count.                                                                              |
+| execution\_cost\_write\_length | Execution cost write length.                                                                             |
+| microblock\_tx\_count          | The count of transactions in microblocks.                                                                |
+| \_created\_at                  | Timestamp of the entry creation.                                                                         |
+| \_updated\_at                  | Timestamp of the entry update.                                                                           |

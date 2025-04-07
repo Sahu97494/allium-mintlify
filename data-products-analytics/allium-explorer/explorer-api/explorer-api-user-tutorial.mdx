@@ -1,0 +1,33 @@
+---
+title: "Explorer API User Tutorial"
+---
+
+## 1. Introduction
+
+Go to [https://app.allium.so/explorer/api](https://app.allium.so/explorer/api)
+<Frame>
+<img src="/images/image-api-user-tutorial-1.avif" />
+</Frame>
+### 2. Generate API keys and run asynchronously
+
+Allium Explorer exposes the following endpoints through a REST API to fetch and poll your query run.
+
+1. POST <span style={{ color: 'green' }}>/api/v1/explorer/queries/\{query\_id}/run-async:</span> Execute the query asynchronously. This creates a query run ID for you to poll the status and results from
+
+2. GET <span style={{ color: 'green' }}>/api/v1/explorer/query-runs/\{run\_id}/status:</span> Get the status of a query run as an enumeration of created | queued | running | success | failed | canceled
+
+3. GET <span style={{ color: 'green' }}>/api/v1/explorer/query-runs/\{run\_id}/results:</span> Get the results of a query run with status success.
+
+The typical flow would be to
+
+1. Create a query run, and get the <span style={{ color: 'green' }}>run\_id</span>
+
+2. Poll the query run status using the <span style={{ color: 'green' }}>run\_id</span> in a while loop
+
+3. When the query run status is <span style={{ color: 'green' }}>success</span> , get the results
+<Frame>
+<img src="/images/image-api-user-tutorial-2.avif" />
+</Frame>
+If any questions remain after this guide on how to get started, connect to our APIs, or retrieve specific data you have in mind, feel free to reach out to [support@allium.so](mailto:support@allium.so) at any time.
+
+

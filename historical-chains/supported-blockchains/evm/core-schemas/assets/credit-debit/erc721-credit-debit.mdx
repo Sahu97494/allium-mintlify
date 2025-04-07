@@ -1,0 +1,29 @@
+---
+title: "ERC721 Credit Debit"
+---
+
+The ERC721 credit debit model combines ERC721 transfers, allowing you to easily track the inflows and outflows of every ERC721 token belonging to all addresses.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name          | Data Type        | Description                                                                                      |
+|----------------------|------------------|--------------------------------------------------------------------------------------------------|
+| address              | VARCHAR          | Address of the account that was credited or debited amount of ERC721 token                       |
+| counterparty_address | VARCHAR          | The address of counter party of this credit or debit transfer                                   |
+| token_address        | VARCHAR          | Token address of the ERC721 token                                                               |
+| token_name           | VARCHAR          | Name of the ERC721 token                                                                         |
+| token_symbol         | VARCHAR          | Token symbol of this token                                                                      |
+| token_id             | VARCHAR          | Unique ID of the ERC721 token                                                                   |
+| raw_amount           | FLOAT            | Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved.    |
+| raw_amount_str       | VARCHAR          | Balance of tokens (unnormalized) in string                                                      |
+| amount               | FLOAT            | Amount of tokens moved                                                                          |
+| amount_str           | VARCHAR          | Amount of tokens moved in string                                                                |
+| transaction_hash     | VARCHAR          | Transaction hash that this transfer belongs to                                                  |
+| transaction_index    | BIGINT           | The position of this transaction in the block. The first transaction has index 0                |
+| log_index            | BIGINT           | The position of this log within the block. The first log has index 0                            |
+| block_timestamp      | TIMESTAMP_NTZ(9) | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred |
+| block_number         | BIGINT           | The block number that the corresponding transaction of this transfer belongs to                 |
+| block_hash           | VARCHAR          | The block hash that the corresponding transaction of this transfer belongs to                   |
+| unique_id            | VARCHAR          | Unique id generated to each transfer. Includes transaction hash, log index and credit and debit transaction type |

@@ -1,0 +1,28 @@
+---
+title: "Logs"
+---
+
+Logs (or event logs), is a way for [smart contracts](https://ethereum.org/en/developers/docs/smart-contracts/#what-is-a-smart-contract) to communicate with the outside world by "documenting" small pieces of information. Event logs allow other people to know that something has happened without them having to query the contract directly.
+
+### Table Columns
+
+Unique Key: `transaction_hash`, `log_index`
+
+| Column Name        | Description                                                                                          |
+| ------------------ | ---------------------------------------------------------------------------------------------------- |
+| block\_number      | The length of the chain, in blocks.                                                                  |
+| block\_timestamp   | The time when the block that contains this log was included on the blockchain.                       |
+| block\_hash        | Unique identifier of the block that includes this log.                                               |
+| address            | The address of the contract that emitted this log.                                                   |
+| data               | Unindexed data containing further information of the event, encoded in hex.                          |
+| topic0             | The keccak256 hash of a flattened event signature string.                                            |
+| topic1             | First indexed topic of the event.                                                                    |
+| topic2             | Second indexed topic of the event                                                                    |
+| topic3             | Third indexed topic of the event.                                                                    |
+| log\_index         | The position of this log in the block that it belongs to. The first log has index 0.                 |
+| transaction\_hash  | Unique identifier of the transaction that this log belongs to.                                       |
+| transaction\_index | The position of this transaction in the block that it belongs to. The first transaction has index 0. |
+| from\_address      | The address of the sending party of this transaction.                                                |
+| to\_address        | The address of the receiving party of this transaction, typically a contract address for logs.       |
+| \_created\_at      | Timestamp of the entry creation.                                                                     |
+| \_updated\_at      | Timestamp of the entry update.                                                                       |

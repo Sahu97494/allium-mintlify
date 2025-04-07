@@ -1,0 +1,56 @@
+---
+title: "Overview"
+---
+
+The transfer tables contain the amount of every transfer event for all assets (ETH, ERC20, ERC721, and ERC1155) from one address to another.
+
+### Transfers vs Credit Debit
+
+The transfer address will **only contain one row** for each transfer event, [unlike credit debit,](/historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit) which has one row for credit and another for debit.
+
+* In the credit debit table, you can find the **net** inflow of an asset simply by summing the `amount` of USDC to find the change daily and make a cumulative sum.
+
+* In transfers, you will need to represent the inflows and outflows in two separate common expression tables (CTEs) and join them together.
+
+To get the **net** inflows of an asset, you will need to account for both inflows and outflows.
+
+```sql
+with inflows as (
+    select  
+    date(block_timestamp) as date, 
+    token_name, 
+    sum(amount) as daily_inflow,
+    sum(daily_inflow) over (order by date) as total_inflow
+from ethereum.assets.erc20_token_transfers
+where to_address = '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640' -- USDC-ETH Uniswap v3 5bp
+  and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC Token Address
+and current_date - date(block_timestamp) < 30
+group by date, token_name
+order by date desc
+),
+outflows as (
+    select  
+    date(block_timestamp) as date, 
+    token_name, 
+    sum(amount) as daily_outflow,
+    sum(daily_outflow) over (order by date) as total_outflow
+from ethereum.assets.erc20_token_transfers
+where from_address = '0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640' -- USDC-ETH Uniswap v3 5bp
+  and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC Token Address
+and current_date - date(block_timestamp) < 30
+group by date, token_name
+order by date desc
+)
+select 
+    inflows.date,
+    outflows.date,
+    inflows.token_name,
+    total_inflow,
+    total_outflow,
+    nvl(inflows.total_inflow,0) - nvl(outflows.total_outflow,0) as net_flow
+from inflows 
+left outer join outflows on inflows.date = outflows.date and inflows.token_name = outflows.token_name
+order by 1 desc 
+```
+
+

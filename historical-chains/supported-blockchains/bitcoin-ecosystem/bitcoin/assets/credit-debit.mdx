@@ -1,0 +1,26 @@
+---
+title: "Credit Debit"
+description: "The credit debit table is a double entry book of all utxo interactions in the bitcoin ecosystem. This allows you to easily query for any onchain activity affecting change in balance."
+---
+
+Sample query:
+
+```sql
+select * from bitcoin.assets.btc_credit_debit
+where block_timestamp >= current_timestamp - interval '5 hours';
+```
+
+Table Columns
+
+| Column Name        | Description                                                         | Example                                                          |
+| ------------------ | ------------------------------------------------------------------- | ---------------------------------------------------------------- |
+| address            | Address of the account.                                             | bc1q6kglpx6h6f5a5nljr0u3pfnpgwkp7q4340mcs9                       |
+| value              | Change of value to the address                                      | -91,224                                                          |
+| block\_timestamp   | The timestamp of the block that that resulted in change in balance. | 2023-10-24 09:34:58                                              |
+| block\_number      | The number of the block that resulted in change in balance.         | 813,624                                                          |
+| block\_hash        | The hash of block that resulted in change in balance.               | 00000000000000000003306de67b0a54e98ef716b46b012d4d0937286e38d577 |
+| transaction\_index | Index of the transaction that resulted in the change in balance.    | 3,703                                                            |
+| transaction\_hash  | Hash of the transaction that resulted in the change in balance.     | c7de8299741c7bec5e8bf5f602e6d3ae0970d5f56c65b09e10ab5937afd6762c |
+| input\_index       | Index of the inputs that resulted in the change in balance (debit)  | 12 or NULL                                                       |
+| output\_index      | Index of the output that resulted in the change in balance (credit) | 123 or NULL                                                      |
+| unique\_id         | Unique ID of the credit debit entry                                 | output-150                                                       |

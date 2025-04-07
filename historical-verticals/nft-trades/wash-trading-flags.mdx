@@ -1,0 +1,77 @@
+---
+title: "Wash Trading Flags"
+description: "Our Wash Trading Flags are designed to detect wash trading activities on NFT marketplaces."
+---
+
+## Approach
+
+Wash trading can be inferred through onchain movement of NFTs and funding patterns across different buyers and sellers.
+
+We use various heuristics to flag potential wash trades, assign a score to each heuristic, and then compute a wash trading score based on the sum of these factors.
+
+The output is then classified into different levels of wash trading ranging from `very low` to `very high`.
+
+## Sample Query
+
+Get a breakdown of NFT wash trading levels across all chains
+
+```sql
+select
+    date(block_timestamp) as date,
+    chain,
+    wash_trading_level,
+    sum(usd_amount) as usd_volume
+from crosschain.nfts.trades_with_wash_trading_flags
+where block_timestamp >= current_timestamp - interval '30 days'
+group by all
+```
+
+Get a granular, transaction-level breakdown of wash trading details incl. the funding wallets of traders, and the pattern of wash trading detected. These details can also be used to compute custom wash trading metrics.
+
+```sql
+select
+    chain,
+    block_timestamp,
+    transaction_hash,
+    wash_trading_score,
+    wash_trading_level,
+    extra_fields:wash_trading_details as wash_trading_details,
+    extra_fields:wash_trading_details:wash_trading_flags as wash_trading_flags,
+    extra_fields:wash_trading_details:buyer_birth_funding_wallets as buyer_birth_funding_wallets,
+    extra_fields:wash_trading_details:seller_birth_funding_wallets as seller_birth_funding_wallets
+from crosschain.nfts.trades_with_wash_trading_flags
+where block_timestamp >= current_timestamp - interval '1 days'
+```
+
+## Wash Trading Flags
+
+| Flag Name                         | Weight | Description                                                                                                                                                                                                                                                                                       | Scope                                |
+|----------------------------------|--------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|--------------------------------------|
+| buyer_is_seller                  | 4      | the buyer address is the same as the seller address                                                                                                                                                                                                                                               | `EVM` `Bitcoin` `Solana`                     |
+| instant_refund                   | 4      | the majority of the purchase price of an NFT is returned by the seller, in the same transaction, to the buyer, or to the wallet that funded the buyer in the same transaction. Commonly occurs with flash loans.                                          | `EVM`                                  |
+| traders_first_funded_each_other | 3      | one of the buyer’s first funders is the seller, and one of the seller’s first funders is the buyer                                                                                                                                                                                               | `EVM` `Bitcoin` `Solana`                     |
+| back_and_forth_token            | 2      | the same NFT is traded between the same seller and buyer, within a specified time window                                                                                                                                                                                                         | `EVM` `Bitcoin` `Solana`                     |
+| back_and_forth_collection       | 1      | NFTs from the same collection are sold back and forth between the same seller and buyer, within a specified time window                                                                                                                                                                           | `EVM` `Bitcoin` `Solana`                     |
+| buyer_funded_seller_recently    | 1      | buyer funded seller within a specified time window from the point of a transaction                                                                                                                                                                                                                | `EVM` `Bitcoin` `Solana`                     |
+| seller_funded_buyer_recently    | 1      | seller funded buyer within a specified time window from the point of a transaction                                                                                                                                                                                                                | `EVM` `Bitcoin` `Solana`                     |
+| same_nft_traded                 | 1      | an address buys or sells the same NFT within a specified time window, an excessive number of times                                                                                                                                                                                               | `EVM (ERC-721 only)` `Bitcoin` `Solana`      |
+| same_first_native_funder        | 0.5    | buyer and seller share at least one overlapping first funder address                                                                                                                                                                                                                              | `EVM` `Bitcoin` `Solana`                     |
+| same_most_frequent_native_funder| 0.25   | buyer and seller share at least one overlapping most frequent funder (based on funding transaction counts)                                                                                                                                                                                       | `EVM` `Solana`                            |
+| trade_transfer_trade_again      | 0.25   | NFTs are traded, transferred and traded again between the same seller and buyer, within a specified time window                                                                                                                                                                                   | `EVM (ERC-721 only)` `Bitcoin` `Solana`      |
+
+
+## Wash Trading Level
+
+`wash_trading_level` - The Wash Trading Level is derived from the Wash Trading Score, and is classified into different levels as follows:
+
+* `very low` if wash\_trading\_score = 0
+
+* `low` if wash\_trading\_score \<= 2
+
+* `medium` if wash\_trading\_score \< 3
+
+* `high` if wash\_trading\_score \<= 4
+
+* `very high` if wash\_trading\_score > 4
+
+

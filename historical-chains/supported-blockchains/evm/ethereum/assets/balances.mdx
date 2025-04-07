@@ -1,0 +1,101 @@
+---
+title: "Overview"
+---
+
+The balances table contains block-level changes in the balances of assets across all Ethereum wallets. **This table includes token balances of Native Ether, ERC20, ERC721, and ERC1155 tokens.** Includes USD value where applicable.
+
+### Generating Daily Balances
+
+How to generate daily balances from block-level balances table.
+
+<Accordion title="Generating Daily Balances from Block-level Balances">
+
+```sql
+-- Parameters to alter:
+-- [1] wallet_addresses: list of wallet addresses, comma-separated
+-- e.g: 0x915867061ea708869e34819216ae726041f48739, 0x0d37eb1528e7313a3954f25d4d4aead0dc7ff037
+-- [2] token_address: token contract of interest, comma-separated  
+-- e.g: 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48, 0xdac17f958d2ee523a2206206994597c13d831ec7
+-- [3] time_granularity: time granularity of address: e.g. hour / day / month
+-- [4] blockchain: blockchain of interest: e.g. ethereum 
+-- [5] balances_table: name of balances table: e.g. erc20_balances 
+
+WITH
+    wallets AS ( 
+        SELECT DISTINCT value::varchar AS wallet_address
+        FROM
+            (SELECT split(replace('{{wallet_addresses}}', ' ', ''), ',') AS addresses),
+            LATERAL FLATTEN(input => addresses)
+    ),
+    tokens AS ( 
+        SELECT DISTINCT value::varchar AS token_address
+        FROM
+            (SELECT split(replace('{{token_address}}', ' ', ''), ',') AS addresses),
+            LATERAL FLATTEN(input => addresses)
+    ),
+    balances AS ( 
+        SELECT
+            date_trunc('{{time_granularity}}', b.block_timestamp) AS date,
+            b.block_number,
+            b.address,
+            b.raw_balance,
+            b.usd_balance,
+            b.balance,
+            b.token_address,
+            b.token_name,
+            b.token_symbol
+        FROM {{blockchain}}.assets.{{balances_table}} b
+        INNER JOIN wallets ON b.address = wallets.wallet_address
+        INNER JOIN tokens ON b.token_address = tokens.token_address
+        QUALIFY
+            row_number() OVER (
+                PARTITION BY b.address, b.token_address, date ORDER BY b.block_number DESC
+            ) = 1
+    ),
+    distinct_address_tokens AS ( -- Generate a list of address x token
+        SELECT DISTINCT address, token_address FROM balances
+    ),
+    distinct_dates AS ( -- Generate a list of timestamps
+        SELECT date_trunc('{{time_granularity}}', timestamp) AS date, count(1) AS count_all
+        FROM {{blockchain}}.raw.blocks
+        WHERE timestamp >= (SELECT min(date) FROM balances)
+        GROUP BY date
+    ),
+    date_address_token_cte AS (  -- Generate timestamp x address x tokens 
+        SELECT t1.date, t2.address, t2.token_address
+        FROM distinct_dates t1, distinct_address_tokens t2
+    ),
+    final AS (
+        SELECT
+            t1.date,
+            t1.address,
+            lag(t2.token_address) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS token_address,
+            lag(t2.token_name) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS token_name,
+            lag(t2.token_symbol) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS token_symbol,
+            lag(t2.usd_balance) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS usd_balance,
+            lag(t2.raw_balance) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS raw_balance,
+            lag(t2.balance) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS balance
+        FROM date_address_token_cte t1
+        LEFT JOIN balances t2
+        ON t1.date = t2.date
+        AND t1.address = t2.address
+        AND t1.token_address = t2.token_address
+        WHERE 1 = 1
+    )
+SELECT 
+    date,
+    token_address,
+    token_name,
+    token_symbol,
+    usd_balance,
+    raw_balance,
+    balance
+FROM final
+WHERE raw_balance > 0
+ORDER BY date DESC
+```
+</Accordion>
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th width="249.33333333333331">Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>token_address</td><td><p>Token address of the asset.</p><p> <br />Note: Native ETH does not have a contract address, but for convention, it is labelled as: <code>0x0000000000000000000000000000000000000000</code></p></td><td><code>0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</code></td><td></td></tr><tr><td>token_name</td><td> Name of the token.</td><td><code>USD Coin</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of the token.</td><td><code>USDC</code></td><td></td></tr><tr><td>token_id</td><td>Unique token ID of the asset. <br /><br / >Only applicable for ERC721 and ERC1155 tokens.</td><td></td><td></td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized)</td><td><code>10000000</code></td><td></td></tr><tr><td>balance</td><td>Balance of this ERC20 token, normalized by the decimal points defined in the ERC20 token contract. For example, USDC has 6 decimals, so this value is the <code>raw_balance</code> divided by 10^6.</td><td><code>10</code></td><td></td></tr><tr><td>usd_balance</td><td>The amount of tokens, in $USD.</td><td><code>10</code></td><td></td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the <code>usd_value</code>.</td><td><code>1</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the <code>balance</code>.</td><td><code>2022-09-15 13:51:47</code></td><td></td></tr><tr><td>block_number</td><td>The number of the block that resulted in the <code>balance</code>.</td><td><code>15539508</code></td><td></td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the <code>balance</code>.</td><td><code>0x25680259dfb40b4ee724ae22fda01a34e6d598c5f2fc25b6d871cb56c488de70</code></td><td></td></tr><tr><td>token_type</td><td>Token type of asset. Includes ETH, ERC20, ERC721 and ERC1155. </td><td><code>ERC20</code></td><td></td></tr></tbody></table>

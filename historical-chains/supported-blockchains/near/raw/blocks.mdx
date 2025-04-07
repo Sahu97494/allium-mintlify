@@ -1,0 +1,45 @@
+---
+title: "Blocks"
+---
+
+Blocks are the fundamental units of data storage in the NEAR blockchain, containing a set of transactions and the state of the network at a specific point in time. Each block includes a hash, height, timestamp, and links to predecessor and successor blocks, ensuring the chain's integrity and chronological order.
+
+### Table Columns
+
+| Column Name               | Description                                                             |
+| ------------------------- | ----------------------------------------------------------------------- |
+| timestamp                 | The unix timestamp for when the block was collated                      |
+| height                    | The block height or index                                               |
+| hash                      | The block hash                                                          |
+| approvals                 | An array of signatures, encoded in the standard ed25519 signature type  |
+| block\_body\_hash         |                                                                         |
+| block\_merkle\_root       | The merkle root of the block                                            |
+| block\_ordinal            | The ordinal number of the block                                         |
+| challenges\_result        | An array of challenges outcome                                          |
+| challenges\_root          | The root challenges incurred                                            |
+| chunk\_headers\_root      | The root of the headers trie of the block                               |
+| chunk\_mask               | A boolean value                                                         |
+| chunk\_receipts\_root     | The root of the receipts trie of the block                              |
+| chunk\_tx\_root           | The root of the transaction trie of the block                           |
+| chunks\_included          | The chunks included in the queried block                                |
+| epoch\_id                 | The corresponding epoch id                                              |
+| epoch\_sync\_data\_hash   | The epoch sync data hash                                                |
+| gas\_price                | Integer of the gasPrice used for each paid gas encoded as a hexadecimal |
+| last\_ds\_final\_block    | The last ds final block                                                 |
+| last\_final\_block        | The address of the last final block                                     |
+| latest\_protocol\_version | The version of the latest protocol                                      |
+| next\_bp\_hash            | The hash of the next bp node                                            |
+| next\_epoch\_id           | The id next to the current epoch number                                 |
+| outcome\_root             | The root of the outcome trie of the block                               |
+| prev\_hash                | The hash of the previous block                                          |
+| prev\_height              | The height of the previous block                                        |
+| prev\_state\_root         | The previous root state of the corresponding block                      |
+| random\_value             | The random value generated to make the result deterministic             |
+| rent\_paid                | The number of tokens paid as rent                                       |
+| signature                 | The standard ed25519 signature type                                     |
+| total\_supply             | The total number of tokens supplied                                     |
+| validator\_proposals      | The validator proposals                                                 |
+| validator\_reward         | The reward sent to the validators                                       |
+| author                    | The author name                                                         |
+| \_created\_at             | Timestamp of the entry creation                                         |
+| \_updated\_at             | Timestamp of the entry update                                           |

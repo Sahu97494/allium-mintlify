@@ -1,0 +1,149 @@
+---
+title: "Overview"
+description: "Block-level balances of assets on EVM-compatible blockchains."
+---
+
+### Concept
+
+Balances tell the amount of assets held by each address at a specific block height. We track balances across all major token standards:
+
+* Native tokens (e.g., ETH, MATIC)
+
+* ERC20 tokens (e.g., USDC, WETH)
+
+* ERC721 tokens (NFTs)
+
+* ERC1155 tokens (Multi-tokens)
+
+### Balance Tracking Methodology
+
+**For Fungible Tokens (Native & ERC20)**:
+
+1. We detect balance-changing events (transfers, mints, burns)
+
+2. At each relevant block height, we read the actual on-chain balance
+
+3. This ensures accuracy by capturing any non-standard balance modifications
+
+**For Non-Fungible Tokens (ERC721 & ERC1155)**:
+
+1. We track transfers through standard events:
+
+   * ERC721: Transfer() events
+
+   * ERC1155: TransferSingle() and TransferBatch() events
+
+2. Build credit-debit tables to calculate cumulative ownership
+
+3. Account for minting, burning, and transfers between addresses
+
+### Precision Handling
+
+To maintain numerical precision, especially for tokens with large supplies or many decimal places:
+
+1. Raw balances are stored as VARCHAR to preserve exact values
+
+2. Normalized balances are calculated using high-precision arithmetic
+
+3. Custom UDFs (User-Defined Functions) handle mathematical operations
+
+4. Both raw and human-readable balances are provided
+
+This approach ensures:
+
+* No loss of precision from floating-point arithmetic
+
+* Accurate balance tracking over time
+
+* Reliable historical data for analysis
+
+## Sample Query
+
+How to generate daily balances from block-level balances table.
+
+<Accordion title="Generating Daily Balances from Block-level Balances">
+```sql
+-- Parameters to alter:
+-- [1] wallet_addresses: list of wallet addresses, comma-separated
+-- e.g: 0x915867061ea708869e34819216ae726041f48739, 0x0d37eb1528e7313a3954f25d4d4aead0dc7ff037
+-- [2] token_address: token contract of interest, comma-separated  
+-- e.g: 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48, 0xdac17f958d2ee523a2206206994597c13d831ec7
+-- [3] time_granularity: time granularity of address: e.g. hour / day / month
+-- [4] blockchain: blockchain of interest: e.g. ethereum 
+-- [5] balances_table: name of balances table: e.g. erc20_balances 
+
+WITH
+    wallets AS ( 
+        SELECT DISTINCT value::varchar AS wallet_address
+        FROM
+            (SELECT split(replace('{{wallet_addresses}}', ' ', ''), ',') AS addresses),
+            LATERAL FLATTEN(input => addresses)
+    ),
+    tokens AS ( 
+        SELECT DISTINCT value::varchar AS token_address
+        FROM
+            (SELECT split(replace('{{token_address}}', ' ', ''), ',') AS addresses),
+            LATERAL FLATTEN(input => addresses)
+    ),
+    balances AS ( 
+        SELECT
+            date_trunc('{{time_granularity}}', b.block_timestamp) AS date,
+            b.block_number,
+            b.address,
+            b.raw_balance,
+            b.usd_balance,
+            b.balance,
+            b.token_address,
+            b.token_name,
+            b.token_symbol
+        FROM {{blockchain}}.assets.{{balances_table}} b
+        INNER JOIN wallets ON b.address = wallets.wallet_address
+        INNER JOIN tokens ON b.token_address = tokens.token_address
+        QUALIFY
+            row_number() OVER (
+                PARTITION BY b.address, b.token_address, date ORDER BY b.block_number DESC
+            ) = 1
+    ),
+    distinct_address_tokens AS ( -- Generate a list of address x token
+        SELECT DISTINCT address, token_address FROM balances
+    ),
+    distinct_dates AS ( -- Generate a list of timestamps
+        SELECT date_trunc('{{time_granularity}}', timestamp) AS date, count(1) AS count_all
+        FROM {{blockchain}}.raw.blocks
+        WHERE timestamp >= (SELECT min(date) FROM balances)
+        GROUP BY date
+    ),
+    date_address_token_cte AS (  -- Generate timestamp x address x tokens 
+        SELECT t1.date, t2.address, t2.token_address
+        FROM distinct_dates t1, distinct_address_tokens t2
+    ),
+    final AS (
+        SELECT
+            t1.date,
+            t1.address,
+            lag(t2.token_address) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS token_address,
+            lag(t2.token_name) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS token_name,
+            lag(t2.token_symbol) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS token_symbol,
+            lag(t2.usd_balance) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS usd_balance,
+            lag(t2.raw_balance) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS raw_balance,
+            lag(t2.balance) ignore nulls over (partition by t1.address, t1.token_address order by t1.date) AS balance
+        FROM date_address_token_cte t1
+        LEFT JOIN balances t2
+        ON t1.date = t2.date
+        AND t1.address = t2.address
+        AND t1.token_address = t2.token_address
+        WHERE 1 = 1
+    )
+SELECT 
+    date,
+    token_address,
+    token_name,
+    token_symbol,
+    usd_balance,
+    raw_balance,
+    balance
+FROM final
+WHERE raw_balance > 0
+ORDER BY date DESC
+```
+</Accordion>

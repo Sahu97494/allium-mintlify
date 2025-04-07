@@ -1,0 +1,9 @@
+---
+title: "Messages"
+---
+
+Contracts on L2 can interact asynchronously with contracts on L1 via the L2→L1 messaging protocol.
+
+### Table Columns
+
+<table><thead><tr><th width="294">Column Name</th><th>Description</th></tr></thead><tbody><tr><td>block_hash</td><td>Block hash of the block that this message belongs to.</td></tr><tr><td>block_number</td><td>Block number of the block that this message belongs to.</td></tr><tr><td>block_timestamp</td><td>Block timestamp of the block that this message belongs to.</td></tr><tr><td>transaction_hash</td><td><p>The transaction hash of the transaction that this message belongs to, as assigned in </p><p>StarkNet.</p></td></tr><tr><td>message_index</td><td>The index of the message in the transaction's messages array.</td></tr><tr><td>from_address</td><td>The address of the L2 contract sending the message.</td></tr><tr><td>to_address</td><td>The target L1 address the message is sent to.</td></tr><tr><td>payload</td><td>The payload of the message.</td></tr></tbody></table>

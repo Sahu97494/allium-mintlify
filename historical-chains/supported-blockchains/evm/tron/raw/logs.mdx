@@ -1,0 +1,55 @@
+---
+title: "Logs"
+---
+
+<Info>
+* The transaction hash in this table contains a 0x prefix.
+</Info>
+
+Logs (or event logs), is a way for [smart contracts](https://ethereum.org/en/developers/docs/smart-contracts/#what-is-a-smart-contract) to communicate with the outside world by "documenting" small pieces of information. Event logs allow other people to know that something has happened without them having to query the contract directly.
+
+The most common form of event logs today are TRC20 token transfer events.
+
+To learn more, please refer to the following articles:
+
+* [Official TRON Documentation](https://developers.tron.network/docs/event)
+
+### Sample Query&
+
+Querying the event logs from the example given below.
+
+```sql
+select *
+  from tron.raw.logs
+where 1=1 
+and transaction_hash ='0x84e1db9240482a20090d5bc9b1a3a4a3fc503eb05d821b3e5c3cc8bd5d031938'
+```
+
+### Table Columns
+
+The example used [here](https://tronscan.org/#/transaction/84e1db9240482a20090d5bc9b1a3a4a3fc503eb05d821b3e5c3cc8bd5d031938) is an event log of USDC transfers in a swap between USDC and TRX on SunSwap.
+
+| Column Name                     | Description                                                                                          | Example                                                            |
+| ------------------------------- | ---------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| block\_timestamp                | The time when the block that contains this log was included on the blockchain.                       | 2021-07-21 16:35:03                                                |
+| address                         | The address of the contract that emitted this log.                                                   | TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8                                 |
+| address\_evm                    | The EVM address of the contract that emitted this log.                                               | 0x3487b63d30b5b2c87fb7ffa8bcfade38eaac1abe                         |
+| address\_hex                    | The HEX address of the contract that emitted this log.                                               | 413487b63d30b5b2c87fb7ffa8bcfade38eaac1abe                         |
+| data                            | Unindexed data containing further information of the event, encoded in hex.                          | 0x00000000000000000000000000000000000000000000000000000000eb30ad7b |
+| topic0                          | The keccak256 hash of a flattened event signature string.                                            | 0xddf252ad1be2c89b69c2b068fc378daa952ba7f163c4a11628f55a4df523b3ef |
+| topic1                          | First indexed topic of the event.                                                                    | 0x000000000000000000000000a2c2426d23bb43809e6eba1311afddde8d45f5d8 |
+| topic2                          | Second indexed topic of the event                                                                    | 0x000000000000000000000000ec5e8661f8855b1724d4f668f11ab722b4b3b74d |
+| topic3                          | Third indexed topic of the event.                                                                    |                                                                    |
+| log\_index                      | The position of this log in the block that it belongs to. The first log has index 0.                 | 72                                                                 |
+| transaction\_hash               | Unique identifier of the transaction that this log belongs to.                                       | 0x84e1db9240482a20090d5bc9b1a3a4a3fc503eb05d821b3e5c3cc8bd5d031938 |
+| transaction\_index              | The position of this transaction in the block that it belongs to. The first transaction has index 0. | 147                                                                |
+| transaction\_from\_address      | The address of the sending party of this transaction.                                                | TQooBX9o8iSSprLWW96YShBogx7Uwisuim                                 |
+| transaction\_from\_address\_evm | The address of the sending party of this transaction in EVM.                                         | 0xa2c2426d23bb43809e6eba1311afddde8d45f5d8                         |
+| transaction\_from\_address\_hex | The address of the sending party of this transaction in HEX.                                         | 41a2c2426d23bb43809e6eba1311afddde8d45f5d8                         |
+| transaction\_to\_address        | The address of the receiving party of this transaction (could be a contract address).                | TXX1i3BWKBuTxUmTERCztGyxSSpRagEcjX                                 |
+| transaction\_to\_address\_evm   | The address of the receiving party of this transaction in EVM.                                       | 0xec5e8661f8855b1724d4f668f11ab722b4b3b74d                         |
+| transaction\_to\_address\_hex   | The address of the receiving party of this transaction in HEX.                                       | 41ec5e8661f8855b1724d4f668f11ab722b4b3b74d                         |
+| block\_number                   | The length of the chain, in blocks.                                                                  | 32,136,671                                                         |
+| block\_hash                     | Unique identifier of the block that includes this log.                                               | 0x0000000001ea5ddf0658451b173368cc9e952c809f5cef9dcc926bde08377b41 |
+| \_created\_at                   | Timestamp of the row creation.                                                                       | 2023-05-19 02:36:24                                                |
+| \_updated\_at                   | Timestamp of the row update.                                                                         | 2023-05-19 02:36:24                                                |

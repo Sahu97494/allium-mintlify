@@ -1,0 +1,17 @@
+---
+title: "Decoded Events"
+---
+
+Decoded events can be found in `solana.decoded.events`.
+
+In solana there are 3 flavors of events.
+
+1\) Embedded base64 text in `log_messages`of raw transactions, usually prefixed with `Program Data` or `Program Log`. These are subjected to log\_message truncation if there are too many log messages in a transactions. e.g. log line 15 in this [tx](https://solana.fm/tx/xJzYgPLdz5mpAm4CpucsxtQLBFBCMfvSeWXrNK6x5sGsQpDHDpPLa6z3CwE9BqKwNuLkqTpQj7zJBkN2SmAHsWW?cluster=mainnet-alpha). In `solana.decoded.events`, these are marked with `event_type='log_message_base64'` .
+
+2\) Embedded json text in `log_messages`of raw transactions, usually prefixed with 'Program Data' or 'Program Log'. These are subjected to log\_message truncation if there are too many log messages in a transactions. e.g. log line 11 in this [tx](https://solana.fm/tx/3Vok6U8yYQG6LH9FvmXH958oNmErVon1z1vSPt1qDbrahQrsb9LnFxuaUV3vb5B8iJWm4RNhGjVPZ15YotXDqkvw?cluster=mainnet-alpha). In `solana.decoded.events`, these are marked with `event_type='log_message_json'` .
+
+3\) Event data embedded in `anchor_self_cpi_log` instructions, called by a program. e.g. Instruction 4.7 in this [tx](https://solana.fm/tx/5Bc7FoMsf79tj4VLsk8zLtUUfagLQzm6BPG62pJJw9w7RB7emsBoJm2nCh15jzJ8QVnvuLzv5QdXGSyzVPtUeUZY?cluster=mainnet-alpha). The selector of `e445a52e51cb9a1d`is stripped from the instruction data, and the remaining bytes decoded to an event. In `solana.decoded.events`, these are marked with `event_type='anchor_self_cpi_log'` .
+
+#### Coverage:
+
+<table><thead><tr><th width="158.47265625">project/protocol</th><th width="475.23046875">program_id</th><th>event_type</th></tr></thead><tbody><tr><td>meteora dlmm</td><td><code>LBUZKhRxPF3XUpBCjp4YzTKgLccjZhTSDM9YuVaPwxo</code></td><td><code>anchor_self_cpi_log</code></td></tr><tr><td>jupiter v6</td><td><code>JUP6LkbZbjS1jKKwapdHNy74zcZ3tLUZoi5QNyVTaV4</code></td><td><code>anchor_self_cpi_log</code></td></tr></tbody></table>

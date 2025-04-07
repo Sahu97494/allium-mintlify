@@ -1,0 +1,106 @@
+---
+title: "Wash Trading Flag"
+---
+
+Our Wash Trading Flag is designed to detect wash trading activities on NFT marketplaces.
+
+## Approach
+
+Wash trading can be inferred through on-chain movement of NFTs and funding patterns across different buyers and sellers of NFTs.
+
+In our mode, we considers multiple factors as input factors, assigns a score to each factor, and then computes a wash trading score based on the sum of these factors.
+
+The output is then classified into different levels of wash trading ranging from `very low` to `very high`. The Wash Trading Flag is customizable, and users can query extra columns to have a more granular view.
+
+### Sample Query
+
+Finding overall wash trading levels on Polygon NFT marketplace.
+
+```sql
+select 
+    date_trunc('week', block_timestamp) as date,
+    wash_trading_level, 
+    sum(usd_price) as usd_volume
+    from polygon.nfts.trades_with_wash_trading_flags
+where block_timestamp > '2023-01-01'
+group by 1,2 
+order by 1
+```
+
+<Frame>
+<img src="/images/image-historical-evm-polygon-nfts-wash-trading.png" />
+</Frame>
+
+Output of the query above.
+
+## Input Parameters
+
+The Wash Trading Filter takes the following input parameters:
+
+**Wallet Funding Patterns**
+
+* `buyer_birth_funding_wallet`: address that first sent an ERC20/ETH to the buyer
+
+* `seller_birth_funding_wallet`: address that first sent an ERC20/ETH to the seller
+
+* `wallets_first_funded_each_other`: true if the buyer funded the seller or vice-versa
+
+* `wallets_first_funded_by_same_wallet`: true if the same wallet funded both buyer and seller (excluding the top 500 CEX addresses)
+
+**NFT Trading Patterns**
+
+* `nft_traded_back_n_forth`: true if the same NFT was traded by the buyer and seller multiple times
+
+* `buyer_address_equals_seller_address`: true if the buyer and seller are the same
+
+* `buyer_traded_same_nft_multiple_times`: true if the buyer traded the same NFT more than once in a window of +-7 days since the given trade
+
+* `count_same_nft_trades_by_buyer`: number of times the buyer traded the NFT (except for the first time) in a window of +-7 days since the given trade
+
+* `seller_traded_same_nft_multiple_times`: true if the seller traded the same nft more than once in a window of +-7 days since the given trade
+
+* `count_same_nft_trades_by_seller`: number of times the buyer traded the nftNFT(except for the first time) in a window of +-7 days since the given trade
+
+* `seller_funded_buyer_recently`: true if the buyer sent ERC20s/ETH to the seller 24h before or after the trade
+
+* `buyer_bought_same_nft_from_seller`: true if the buyer bought the same NFT from the seller multiple times
+
+## Output Parameters:
+
+### Wash Trading Score
+
+The Wash Trading Filter outputs the following:
+
+`wash_trading_score` - The Wash Trading Score is computed by adding up the scores of each input parameter as follows:
+
+* `wallets_first_funded_each_other` \* 3
+
+* `wallets_first_funded_by_same_wallet` \* 0.5
+
+* `nft_traded_back_n_forth` \* 1.5
+
+* `buyer_address_equals_seller_address` \* 3
+
+* `iff(token_standard = 'ERC721', buyer_traded_same_nft_multiple_times, 0)`
+
+* `iff(token_standard = 'ERC721', seller_traded_same_nft_multiple_times, 0)`
+
+* `seller_funded_buyer_recently`
+
+* `iff(token_standard = 'ERC721', buyer_bought_same_nft_from_seller::int, 0.25)`
+
+### Wash Trading Level
+
+`wash_trading_level` - The Wash Trading Level is derived from the Wash Trading Score, and it is classified into different levels as follows:
+
+* 'very low' if wash\_trading\_score = 0
+
+* 'low' if wash\_trading\_score \<= 2
+
+* 'medium' if wash\_trading\_score \< 3
+
+* 'high' if wash\_trading\_score \<= 4
+
+* 'very high' if wash\_trading\_score > 4
+
+

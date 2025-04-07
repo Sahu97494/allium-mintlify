@@ -1,0 +1,22 @@
+---
+title: "Transaction Actions"
+---
+
+Transaction actions are the specific operations contained within a transaction. Examples include transferring tokens, calling a contract function, or staking. Each transaction can contain multiple actions, which are executed in sequence.
+
+### Table Columns
+
+| Column Name        | Description                                                |
+| ------------------ | ---------------------------------------------------------- |
+| action             | The specific action executed in the transaction            |
+| action\_contents   | Detailed contents of the action                            |
+| action\_index      | The index of the action within the transaction             |
+| block\_hash        | The hash of the block containing the transaction           |
+| block\_height      | The height of the block                                    |
+| block\_timestamp   | The time at which the block was created/added to the chain |
+| transaction\_hash  | The hash of the transaction                                |
+| transaction\_index | The index of the transaction within the block              |
+| signer\_id         | The account id of the transaction originator               |
+| receiver\_id       | The account id of the transaction receiver                 |
+| \_created\_at      | Timestamp of the entry creation                            |
+| \_updated\_at      | Timestamp of the entry update                              |

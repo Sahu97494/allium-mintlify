@@ -1,0 +1,28 @@
+---
+title: "Inputs"
+---
+
+### Table Columns
+
+| Column Name              | Description                                                                                                                                               | Example                                                              |
+| ------------------------ | --------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| transaction\_hash        | Unique hash of the transaction input.                                                                                                                     | cda25c1ccefcc07bdde18b3ceb372e46bead3c1e2dba2284e5e598f6ef770179     |
+| block\_hash              | Block hash of the transaction input.                                                                                                                      | 0000000000000000000373af917a0f20860073133a22a3bd3c4259d4349366d0     |
+| block\_number            | Block number or block height of the transaction input.                                                                                                    | 772,155                                                              |
+| block\_timestamp         | Block timestamp of the transaction input.                                                                                                                 | 2023-01-16 00:56:39                                                  |
+| index                    | The index of the input.                                                                                                                                   | 202                                                                  |
+| spent\_transaction\_hash | The transaction hash of the output.                                                                                                                       | b425e59215c510fdd6881660230046b640426ea60a3fb7eaeb3ddb7984f14c4e     |
+| spent\_output\_index     | The index of the output.                                                                                                                                  | 194                                                                  |
+| script\_asm              | The script public key in the form of string,                                                                                                              | 00145814cbfd2ed36fba9cde2b29fc577e2242dd83af                         |
+| script\_hex              | Hexadecimal representation of the bitcoin's script language op-codes.                                                                                     | 1600145814cbfd2ed36fba9cde2b29fc577e2242dd83af                       |
+| sequence                 | The sequence number of the script.                                                                                                                        | 4,294,967,295                                                        |
+| required\_signatures     | Required signatures.                                                                                                                                      | NULL                                                                 |
+| type                     | The addres type of intput                                                                                                                                 | scripthash                                                           |
+| addresses                | The address that owned/owns the output used as input.                                                                                                     | 35FUHzSWbYq1CP4jAfbagy5Zb4Tey98BPz                                   |
+| value                    | Value in BTC unnormalized.                                                                                                                                | 74,477                                                               |
+| input\_id                | Input ID generated from transaction hash and index.                                                                                                       | cda25c1ccefcc07bdde18b3ceb372e46bead3c1e2dba2284e5e598f6ef770179:202 |
+| spent\_utxo\_id          | Spent UTXO ID generated from transaction hash and index.                                                                                                  | b425e59215c510fdd6881660230046b640426ea60a3fb7eaeb3ddb7984f14c4e:194 |
+| address0                 | Index 0 of the addresses                                                                                                                                  | 35FUHzSWbYq1CP4jAfbagy5Zb4Tey98BPz                                   |
+| value\_max\_exclusive    | `sum(value of all inputs with index lesser than itself) + value - 1` within the same transaction. Used for ordinal tracking where FIFO principle is used. | 13,806,096                                                           |
+| value\_min\_inclusive    | `sum(value of all inputs with index lesser than itself)` within the same transaction. Used for ordinal tracking where FIFO principle is used.             | 13,731,619                                                           |
+

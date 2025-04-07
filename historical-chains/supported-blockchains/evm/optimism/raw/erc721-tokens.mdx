@@ -1,0 +1,23 @@
+---
+title: "ERC721 Tokens"
+description: ERC721 tokens indexed by Allium.
+---
+
+### Table Columns
+
+Unique key: `address`
+
+| Column Name      | Description                                                   |
+| ---------------- | ------------------------------------------------------------- |
+| address          | Contract address of the ERC721 token.                         |
+| name             | Name of the ERC721 token.                                     |
+| symbol           | The token symbol.                                             |
+| block\_timestamp | (Nullable\*) The timestamp of the block.                      |
+| block\_number    | (Nullable\*) The block number that this token was created in. |
+| block\_hash      | (Nullable\*) The hash of the block.                           |
+| \_created\_at    | Timestamp of entry creation.                                  |
+| \_updated\_at    | Timestamp of entry update.                                    |
+
+\* These fields are null for tokens that are indexed by our self-healing / patching pipelines in the event that our initial decoding attempt is unsuccessful.
+
+

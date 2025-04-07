@@ -1,0 +1,231 @@
+---
+title: "Token Transfers"
+icon: "money-bill-transfer"
+---
+
+`crosschain.assets.transfers` contains fungible token transfer data for chains indexed by Allium.
+
+This includes
+
+- native tokens and erc20 equivalent tokens (bep20, trc20) transfers across EVM chains
+
+- SOL & SPL token transfers on Solana
+
+- coin and fungible_asset transfers on Aptos
+
+- fungible asset transfers on Sui
+
+### Understanding Blockchain Transfers
+
+A short primer on understanding Allium's transfer schema.
+
+<Tabs>
+<Tab title="Introduction">
+Blockchain transactions are the fundamental building blocks of blockchain networks.
+
+- They involve the transfer of digital assets or information from one party to another.
+
+- When a transaction is performed and confirmed, the details of the transactions are appended to the blockchain, with a unique transaction hash accompanying the transaction.
+
+- By indexing the blockchain, we can identify all transactions and asset transfers.
+
+This guide aims to help users map Allium's transfer schema to the transaction data that they typically observe on blockchain explorers, such as Etherscan.
+
+</Tab>
+<Tab title="EVM Blockchains">
+#### **EVM transfers - Mapping Allium Schemas to EVM-Compatible Blockchains**
+
+EVM-compatible chains are blockchain networks compatible with the Ethereum Virtual Machine (EVM).
+
+In this example, we will use a USDT -> USDC transaction performed on the Ethereum network and illustrate how it maps to Allium's data schema.
+
+```sql
+select * from crosschain.assets.transfers
+where chain = 'ethereum'
+    and block_timestamp::date = '2024-05-02'
+    and lower(token_type) = 'erc20'
+    and transaction_hash = '0xfe0ae8b623268b552f40bbdb17f07ec9bff70d4fb3139eda8580a48ac299e996'
+```
+
+1. In this transaction, the transaction sender (transaction_from_address) interacted with the Exchange Proxy contract (transaction_to_address).
+
+2. The user (0x23b7) then sends **10,679 Tether USD** from its address (from_address) -> Uniswap V3 USDC-USDT contract address (to_address).
+
+3. In turn, the Uniswap V3 contract (from_address) sends **10,687.25 USDC** from itself to the user 0x23b7 (to_address).
+   <Frame>
+     <img src="/images/image-historical-vertical-tokentransfer-1.webp" />
+   </Frame>
+   A user performing a swap from USDT to USDC stablecoin on the Ethereum blockchain.
+   [https://etherscan.io/tx/0xfe0ae8b623268b552f40bbdb17f07ec9bff70d4fb3139eda8580a48ac299e996](https://etherscan.io/tx/0xfe0ae8b623268b552f40bbdb17f07ec9bff70d4fb3139eda8580a48ac299e996)
+
+**How does Allium identify these transfers?**
+
+For [ERC-20](https://eips.ethereum.org/EIPS/eip-20) (BEP-20, TRC-20) compatible tokens, transfers will emit a corresponding `Transfer` event log in their receipts.
+
+We index the entire blockchain and identify and decode these transfers. **Receipt event logs are only emitted for successful transfers.**
+
+<Frame>
+  <img src="/images/image-historical-vertical-tokentransfer-2.avif" />
+</Frame>
+Event log emitted by the Circle USDC token during this transaction.
+
+For Native Tokens, such as **Ethereum, Avalanche, BNB token**, we identify trace value transfers for successful trace calls.
+
+Gas consumption by the transaction sender (transaction_from_address) is also deducted from the transaction sender.
+
+<Frame>
+<img src="/images/image-historical-vertical-tokentransfer-3.avif" />
+</Frame>
+Native Ethereum (ETH) transferred [https://etherscan.io/tx/0x4d8bb55d561350a95b5518e71ea6026f45a385231ad0d01ce112203ff0adca86#internal](https://etherscan.io/tx/0x4d8bb55d561350a95b5518e71ea6026f45a385231ad0d01ce112203ff0adca86#internal)
+</Tab>
+<Tab title="Solana">
+### Solana transfers
+
+Token Transfers on Solana work differently from EVM chains. To begin, you need to familiarise yourself with the following account types.
+
+**Account Types**
+
+1. **Native Accounts**: Handle native programs like System, Vote, Stake.
+
+2. **SPL Accounts**: Store tokens other than SOL and NFTs.
+
+3. **Program Accounts**: Execute actions and run instructions.
+
+**Transfer Mechanisms**
+
+**SOL Transfer**:
+
+- **From User A to User B**: Direct and similar to transactions on other blockchains.
+
+**SPL Token/NFT Transfer**:
+
+- **Compartmentalized Storage**: Unlike Ethereum's single storage for all ERC-20 tokens, Solana uses multiple compartments within a user account, each dedicated to one type of SPL token.
+  <Frame>
+    <img src="/images/image-historical-vertical-tokentransfer-4.avif" />
+  </Frame>
+  [https://solscan.io/tx/4YWQv62igJbZaUX9ifybtZiK3vqjKim58kspoazp17wJxza4krvrSxFniuqWrojiZ2UJyXMEm1b8YaoenuovX3GM](https://solscan.io/tx/4YWQv62igJbZaUX9ifybtZiK3vqjKim58kspoazp17wJxza4krvrSxFniuqWrojiZ2UJyXMEm1b8YaoenuovX3GM)
+
+In this transfer shown, we see that `5hjTw3..` transferred 79.87 USDT to `AhhoxZ...` The account/address represented here is the **wallet account.**
+
+Under the hood, when we toggle the "View Token Account" option, the USDT is transferred across the underlying **token accounts,** which are represented by `token_acc_from` and `token_acc_to`
+
+<Frame>
+  <img src="/images/image-historical-vertical-tokentransfer-5.avif" />
+</Frame>
+### Summary of edge cases in Solana transfers
+
+#### **1. Transfer of token account ownership as a means to move tokens**
+
+Although less conventional (and perhaps not recommended), it is possible to transfer the ownership of a token account. This is done via the setAuthority method.
+
+✅ **Allium's coverage status:** These transfers can be found with the filter `transfer_type = 'token_account_transfer'`
+
+#### **2. Return of SOL balances from account closures**
+
+When closing a token account, a non-WSOL account is guaranteed to have 0 balance when closing, so only the rent is returned to the `destination` of the close instruction.
+
+When closing a WSOL account, it is possible to have non-zero balance of WSOL tokens. Upon closing, these WSOL tokens will be returned as SOL tokens to the `destination`.
+
+✅ **Alium's coverage status:** when a token account is closed, both the rent return + remaining WSOL balance is summed and indicated in the `amount` transferred. Such records can be found with `transfer_type='account_closure_sol_balance_transfer'`.
+
+#### **3. Transfers by PDA not holding balances**
+
+It is possible for an account to send SOL (i.e. is the `from` party of a SOL transfer) without actually holding any balance. In this [tx](https://solscan.io/tx/2oLdsD8LCYVpdsMa4uQFL5STPph5v19oq5xH3eDJaDPmhchSefQsayCEXbuD71v6neMyb7VMzKE9wt9AKD2fudkW), the account `B51Nfh3X6Dqu4BzsafwzeknU7n2CraNneLsdAfs3zaSU` shows total outgoing transfers of 0.115 SOL, but based on the SOL Balance Change tab, the account starts with 0 SOL balance. In addition, the account did not have rent deposited, and no funding activity prior to the outgoing transfers.
+
+✅ **Allium's coverage status:** The **transfers** themselves are indexed. However, when closing such accounts (as explained in #4), it would then seem as though it has a negative balance to return. In our data, we set `amount=0` for the such cases. In the current dataset this applies to 29/1.7b rows.
+
+#### **4. Invisible SOL transfers**
+
+It is possible to move SOL without calling the system `transfer` and `transferChecked` method. In this [tx](https://solana.fm/tx/4m52bBsCTqHMmMr9BjtsxDVc2mKTa49bQH1Ea1UjYoMLTdxQJGwyq15GY834wPFpPssf6mdCwBzjGuHFzn8c5gos?cluster=mainnet-qn1), there are no visible transfer instructions for the sale of the NFT (\~0.27 SOL), but looking at the SOL Balance Change tab, the buyer and seller of the NFT indeed have their SOL balance changed.
+
+**Allium's coverage status:** We currently use `pre_balances` and `post_balances` of the raw transaction data to infer amounts transferred, **but only in the context of tensorswap sells (specifically the** `SellNftTokenPool` method) to get NFT trades. We do not index such invisible SOL transfers in other contexts.
+
+#### **5. Collection of fees with TokenExtension program**
+
+In the TokenExtension program, in the fee extension, spl tokens can be collected by a fee authority using `withdrawWithheldTokensFromAccounts` and `harvestWithheldTokensToMint`. However, these 2 instructions do not generate transfer instructions, and the amount collected is not indicated. More info [here](https://www.quicknode.com/solana-development/spl-tokens/token-2022/transfer-fees#step-6---harvest-fees) and [here](https://x.com/andrewhong5297/status/1797461443857506475).
+
+**Allium's coverage status:** Transfers of spl tokens as a result of calling fee collection methods `withdrawWithheldTokensFromAccounts` and `harvestWithheldTokensToMint` are not indexed yet, we estimate that this results in \<0.01% transfers being missing.
+
+</Tab>
+<Tab title="Aptos">
+#### Aptos transfers
+
+Token Transfers on Aptos work differently from EVM chains.
+
+- Aptos adopts a debit/credit based system, where tokens are withdrawn and deposited into accounts.
+
+- Thus, users of Aptos token transfer data need to be aware that **transfer data is reconstructed from withdrawal + deposits events** recorded on the blockchain.
+
+- Token transfers provide additional info over a plain credit/debit dataset, thus Allium has painstakingly reconstructed a token transfers dataset to enable more use cases such as tracking fund movements across the blockchain(s).
+
+#### Details on withdrawal/deposit design
+
+The need to reconstruct transfers stem from the following traits of Aptos, specifically the `coin`and `fungible_asset`modules.
+
+1. There are no `transfer` events emitted
+
+While there is a `transfer`function in the `coin`and `fungible_asset`modules allowing for point-to-point transfers of assets, **only withdrawal and deposit events are emitted and \*no\* transfer events are emitted.** This creates a challenge where the parser has to 'reconstruct' point-to-point transfers using withdrawal and deposit events.
+
+2. Invisible withdrawals and deposits
+
+While point-to-point transfers have withdrawal and deposit events, there are a large number of coin movements that do not emit these events. Internally, it is due to the code design of having 'coin-objects' that are split and merged where needed so the withdraw/deposit function is not always called. Unfortunately, there are no split/merge events emitted as well, presumably to reduce clutter on the events emitted.
+
+Allium uses various sources of raw Aptos data and clues in the transaction to find and recreate these invisible events, termed 'virtual withdraw/deposits'. This is an extremely tedious task but required to form a complete token transfers dataset.
+
+3. N-withdrawals, M-deposits
+
+Since Aptos asset movements run on a credit/debit system, within a tx one can imagine that a coin A is withdrawn and consolidated from N different sources, and that lumpsum amount of coin A can be distributed into M different destinations. This allows for highly flexible and efficient movement of assets, but does not fit into the point-to-point paradigm of asset movement. Current coverage for such asset movements are as such:
+
+- N=1, M > 1 : parsed into M rows of asset transfer
+
+- N > 1, M = 1 : parsed into N rows of asset transfer
+
+- N > 1, M > 1: not yet
+
+Since transfers are reconstructed from deposits/withdrawals, the team is always working on improving the coverage, ensuring that all deposits are matched with a correct withdrawal. Please reach out to the team for assistance should gaps be discovered.
+
+</Tab>
+<Tab title="Sui">
+#### Sui transfers
+
+Token Transfers on Sui work differently from EVM chains.
+
+- Similar to Aptos, Sui adopts a debit/credit based system, where tokens are withdrawn and deposited into objects.
+
+- Thus, users of Sui token transfer data need to be aware that **transfer data is reconstructed from events, transactions and balance changes** recorded on the blockchain.
+
+- Token transfers provide additional info over a plain credit/debit dataset, thus Allium has painstakingly reconstructed a token transfers dataset to enable more use cases such as tracking fund movements across the blockchain(s).
+
+#### Details on design
+
+Sui Architecture: there are no `transfer` events emitted
+
+While there is a `TransferObject`function in the sui modules allowing for point-to-point transfers of assets, **only transactions and balance changes are emitted and \*no\* transfer events are emitted.** This creates a challenge where the parser has to 'reconstruct' point-to-point transfers using a mixture of transactions and balance changes.
+
+Since transfers are reconstructed from multiple data sources (events, transactions, and balance changes), our team continuously works to expand and improve coverage through case-by-case analysis. We strive to ensure comprehensive matching of all balance changes. If you discover any gaps in coverage, please don't hesitate to reach out to our team for support.
+
+</Tab>
+</Tabs>
+### Table Columns
+
+| Column Name                | Description                                                                                                                              |
+| -------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------- |
+| `chain`                    | Blockchain where the token transfer event occurred.                                                                                      |
+| `token_type`               | Type of token transferred. Includes `erc20`, `tr20`, native tokens (`eth`, `matic`, `avax`, `bnb`), and Solana tokens (`spl`, `system`). |
+| `from_address`             | Address where the token is being transferred from.                                                                                       |
+| `to_address`               | Address where the token is being transferred to.                                                                                         |
+| `token_acc_from`           | _(Solana-only)_ The token account that the asset is being transferred from.                                                              |
+| `token_acc_to`             | _(Solana-only)_ The token account that the asset is being transferred to.                                                                |
+| `token_address`            | Address (or Token Mint on Solana) of the token that is being transferred.                                                                |
+| `token_name`               | Name of the asset transferred.                                                                                                           |
+| `token_symbol`             | Token symbol of the asset transferred.                                                                                                   |
+| `raw_amount`               | Amount of tokens moved (unnormalized).                                                                                                   |
+| `amount`                   | Amount of token moved, normalized.                                                                                                       |
+| `usd_amount`               | The value of tokens moved, in USD. Not all tokens will have accompanying USD value attached.                                             |
+| `transaction_from_address` | The address of the sending party of this transaction. _(Solana: maps to transaction signer)_                                             |
+| `transaction_to_address`   | The address of the receiving party of this transaction (could be a contract address). _(Null for Solana)_                                |
+| `transaction_hash`         | Transaction hash of the transfers.                                                                                                       |
+| `block_timestamp`          | Block timestamp of the transfers.                                                                                                        |
+| `block_number`             | Block number of the transfers.                                                                                                           |
+| `block_hash`               | Block hash of the transfers.                                                                                                             |
+| `unique_id`                | Unique ID generated for each transfer.                                                                                                   |

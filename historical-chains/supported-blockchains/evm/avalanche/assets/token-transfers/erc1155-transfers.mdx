@@ -1,0 +1,31 @@
+---
+title: "ERC1155 Transfers"
+---
+
+The ERC1155 Token Transfers table records all transactions made with tokens that adhere to the ERC1155 standard.
+
+### Table Columns
+
+| Column Name                | Description                                                                               | Example                                                                                                |
+| -------------------------- | ----------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------ |
+| event\_type                | Type of transfer event for ERC1155 tokens. This can either be a single or batch transfer. | transfer\_batch                                                                                        |
+| operator                   | Address of the ERC1155 operator.                                                          | 0x0d6be9a3e2af3171b965c6df066a7e92d7abb534                                                             |
+| from\_address              | Address where the token is being transferred from.                                        | 0x0000000000000000000000000000000000000000                                                             |
+| to\_address                | Address where the token is being transferred to.                                          | 0xc324479e3aec1c551271b5ff1fd37dcf7b822674                                                             |
+| token\_address             | Token address of the asset transferred.                                                   | 0xd9f9bdbb39d2a60c01d1a91c4884833e1c7cd2b8                                                             |
+| token\_name                | Token name.                                                                               | The Musical - Welcome to the night of your lives: Uniter Pass                                          |
+| token\_symbol              | Token symbol.                                                                             | UNITERPASS                                                                                             |
+| token\_id                  | Unique ID of the ERC token.                                                               | 575                                                                                                    |
+| raw\_amount\_str           | Amount of token moved, unnormalized, in string (to retain precision).                     | 575                                                                                                    |
+| raw\_amount                | Amount of tokens moved, unnormalized.                                                     | 575                                                                                                    |
+| amount\_str                | Amount of token moved, normalized, in string (to retain precision).                       | 575                                                                                                    |
+| amount                     | Amount of token moved, normalized.                                                        | 575                                                                                                    |
+| transaction\_from\_address | The address of the sending party of this transaction.                                     | 0x0d6be9a3e2af3171b965c6df066a7e92d7abb534                                                             |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).     | 0xd9f9bdbb39d2a60c01d1a91c4884833e1c7cd2b8                                                             |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                           | 0x93db11a5bf8f67447ae4049d1e26626f11de203e208ae63b718b696f1c7f07c5                                     |
+| log\_index                 | The log index that corresponds to this transfer.                                          | 29                                                                                                     |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain.    | 2023-04-15 11:47:09                                                                                    |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.          | 28,776,777                                                                                             |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.            | 0x77176aa2ece541b3ac40657de78abb24c2808840a457f20b7961c625c74f5019                                     |
+| unique\_id                 | Unique id generated to each transfer.                                                     |  txn-0x93db11a5bf8f67447ae4049d1e26626f11de203e208ae63b718b696f1c7f07c5\_log\_index-29\_array\_index-0 |
+

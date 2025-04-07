@@ -1,0 +1,23 @@
+---
+title: "TRX Credit Debit"
+---
+
+<Info>
+For TRX credit debit, transaction and block hashes are **not appended with 0x** as they are from the Tron JSON RPC.
+</Info>
+
+The `tron.assets.trx_credit_debit` table allows you to easily track the inflows and outflows of ether belonging to all addresses.
+
+### Table Columns
+
+| Column Name           | Description                                     | Example                                                                      |
+| --------------------- | ----------------------------------------------- | ---------------------------------------------------------------------------- |
+| address               | Address                                         | T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb                                           |
+| counterparty\_address | Counterparty Address                            | TPe8F7umsULLhpdx587dhu1ZaXeJgGMhVH                                           |
+| raw\_amount           | Amount of token credit/debit.                   | 17844760                                                                     |
+| amount                | Amount of token credit/debit, normalized.       | 17.84476                                                                     |
+| transaction\_hash     | Transaction hash resulting in the credit/debit. | 0f0c68517ae1f212e7cde531494bd1340989e5fd377759b26cfeb54a64f809d1             |
+| block\_timestamp      | Timestamp of the transaction.                   | 2021-02-05 11:03:00                                                          |
+| block\_number         | Block number.                                   | 27380261                                                                     |
+| block\_hash           | Block hash.                                     | 0000000001a1ca25bf2c19ae6777cf7fd521eeeace7250edfd4ef7e5bb8439a7             |
+| unique\_id            | Unique id of the transaction.                   | fees-0f0c68517ae1f212e7cde531494bd1340989e5fd377759b26cfeb54a64f809d1\_debit |

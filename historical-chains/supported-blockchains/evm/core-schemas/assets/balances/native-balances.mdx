@@ -1,0 +1,31 @@
+---
+title: "Native Balances"
+description: "Historical balance of native asset of addresses at every block height."
+---
+
+The `assets.native_balances` table contains the balance of native assets, otherwise known as gas token, of all addresses at every block height.
+
+Each entry in the model corresponds to a specific event/transaction that causes a balance change in a particular asset at the block level. This means **a new data entry is only created when a transaction alters an asset's balance at the block level.**
+
+* For example, if a wallet receives 1 ETH in 2015 and experiences no further changes until yesterday, the model will have two entries: one for the initial receipt in 2015 and another for the recent change
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name          | Data Type        | Description                                                                                     |
+|----------------------|------------------|-------------------------------------------------------------------------------------------------|
+| address              | VARCHAR          | The wallet address holding the tokens                                                          |
+| token_address        | VARCHAR          | Contract address of the token (zero address for native tokens)                                 |
+| token_name           | VARCHAR          | Name of the token                                                                              |
+| token_symbol         | VARCHAR          | Symbol of the token                                                                            |
+| raw_balance_str      | VARCHAR          | Token balances in smallest unit (wei), unnormalized, as string to retain precision             |
+| raw_balance          | FLOAT            | Token balances in smallest unit (wei), unnormalized                                            |
+| balance_str          | VARCHAR          | Token balances, normalized, as string to retain precision                                      |
+| balance              | FLOAT            | Token balances, normalized                                                                     |
+| usd_balance          | FLOAT            | Token balances in USD                                                                          |
+| usd_exchange_rate    | FLOAT            | Exchange rate used for USD conversion                                                          |
+| block_timestamp      | TIMESTAMP_NTZ(9) | Timestamp of the block                                                                         |
+| block_number         | BIGINT           | Number of the block                                                                            |
+| block_hash           | VARCHAR          | Hash of the block                                                                              |
+| unique_id            | VARCHAR          | Unique identifier combining block, address, and token                                          |

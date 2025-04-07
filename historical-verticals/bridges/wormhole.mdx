@@ -1,0 +1,79 @@
+---
+title: "Wormhole"
+---
+
+## Token Transfers
+
+`crosschain.bridges.wormhole_transfers` provides bridge transfer activity from Wormhole protocol.
+
+The underlying data indexed from Wormhole VAAs and Mayan-emitted messages.
+<Info>
+Backfills and verification are still ongoing for the wormhole bridge transfers schema
+</Info>
+### Sample Query
+
+Bridges transfer on Wormhole in the last 72 hours
+
+```sql
+select 
+    date_trunc('hour', block_timestamp) as date,
+    destination_chain,
+    sum(usd_amount) as usd,
+    count(1) as c
+from crosschain.bridges.wormhole_transfers
+where block_timestamp >= current_timestamp - interval '3 days' 
+and status in ('completed', 'confirmed')
+group by all 
+order by 1 desc;
+```
+
+### Table Columns
+
+Unique key: `block\_timestamp`, `unique\_id`, `transaction\_hash`
+
+| Column Name                          | Type               | Description                                                |
+|-------------------------------------|--------------------|------------------------------------------------------------|
+| bridge                              | VARCHAR            | name of bridge (wormhole)                                 |
+| application_protocol_ids            | list[VARCHAR]      | applications used in bridge transfer i.e. "MAYAN", "PORTAL_TOKEN_BRIDGE", etc. |
+| block_timestamp                     | VARCHAR            | timestamp VAA was emitted                                  |
+| transaction_hash                    | VARCHAR            | hash of source or destination transaction                 |
+| token_amount                        | VARCHAR            | amount of token transferred                                |
+| token_decimals                      | BIGINT             | decimals of token                                          |
+| token_address                       | VARCHAR            | address of token transferred                               |
+| token_chain_name                    | VARCHAR            | chain of token transferred                                 |
+| token_transfer_from_address         | VARCHAR            | token transfer from address                                |
+| token_transfer_to_address           | VARCHAR            | token transfer to address                                  |
+| unique_id                           | VARCHAR            | unique id (chain id + transaction hash)                   |
+| token_symbol                        | VARCHAR            | symbol of token transferred                                |
+| token_usd_amount                    | VARCHAR            | usd amount of token transferred                            |
+| status                              | VARCHAR            | status of token transfer (e.g. completed, refunded, cancelled, etc.) |
+| token_transfer_fee                  | VARCHAR            | bridge fee of token transfer                               |
+| token_transfer_gas_token_notional  | VARCHAR            | fee gas notional                                           |
+| token_transfer_fee_usd              | VARCHAR            | fee usd amount                                             |
+| token_transfer_fee_address          | VARCHAR            | fee address recipient                                      |
+| token_transfer_fee_chain            | BIGINT             | fee process chain                                          |
+| source_chain_number                 | BIGINT             | source transaction chain number                            |
+| source_chain                        | VARCHAR            | source transaction chain                                   |
+| source_token_address                | VARCHAR            | source token address                                       |
+| source_token_amount                 | VARCHAR            | source token amount                                        |
+| source_fee                          | VARCHAR            | fee of source transaction                                  |
+| source_gas_token_notional          | VARCHAR            | fee gas usd price                                          |
+| source_transaction_hash             | VARCHAR            | source transaction hash                                    |
+| source_transaction_from             | VARCHAR            | source transaction from address                            |
+| source_transaction_to               | VARCHAR            | source transaction to address                              |
+| destination_chain_number            | BIGINT             | destination transaction chain number                       |
+| destination_chain                   | VARCHAR            | destination chain name                                     |
+| destination_token_address           | VARCHAR            | destination transaction token address                      |
+| destination_token_amount            | VARCHAR            | destination transaction token amount                       |
+| destination_fee                     | VARCHAR            | destination fee                                             |
+| destination_gas_token_notional     | VARCHAR            | destination gas token usd price                            |
+| destination_transaction_hash        | VARCHAR            | destination transaction hash                               |
+| destination_transaction_from        | VARCHAR            | destination transaction from address                       |
+| destination_transaction_to          | VARCHAR            | destination transaction to address                         |
+| emitter_address                     | VARCHAR            | wormhole emitter address                                   |
+| emitter_chain                       | VARCHAR            | wormhole emitter chain                                     |
+| sequence                            | VARCHAR            | wormhole sequence id                                       |
+| number_of_retries                   | BIGINT             | refetches for incomplete statuses                          |
+| last_fetched_at                     | TIMESTAMP_NTZ(9)   | last fetched at for incomplete statuses                   |
+| created_at                          | TIMESTAMP_NTZ(9)   | created at timestamp                                       |
+| updated_at                          | TIMESTAMP_NTZ(9)   | updated at timestamp                                       |

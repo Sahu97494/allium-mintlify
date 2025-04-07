@@ -1,0 +1,30 @@
+---
+title: "ERC721 Transfers"
+---
+
+The ERC721 Token Transfers table records all transactions made with unique, non-fungible tokens that adhere to the ERC721 standard.
+
+This table provides details on the type of transfer, the sending and receiving wallet addresses, the specific ERC721 token ID involved in the transfer, and the amount (if applicable) of the transfer.
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                               |
+| -------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | 0x0000000000000000000000000000000000000000                                            |
+| to\_address                | Address where the token is being transferred to.                                       | 0x52be399c66bc45d4042481364a8d1866d5944e43                                            |
+| token\_address             | Token address of the asset transferred.                                                | 0x24be1210b374bbb364455d2c2d22985af7368ea9                                            |
+| token\_name                | Token name.                                                                            | LYNKNFT                                                                               |
+| token\_symbol              | Token symbol.                                                                          | LYNKNFT                                                                               |
+| token\_id                  | Unique ID of the ERC token.                                                            | 310224                                                                                |
+| raw\_amount\_str           | Amount of tokens moved unnormalized, in string (to retain precision).                  | 1                                                                                     |
+| raw\_amount                | Amount of tokens moved, unnormalized.                                                  | 1                                                                                     |
+| amount\_str                | Amount of token moved, normalized, in string (to retain precision).                    | 1                                                                                     |
+| amount                     | Amount of token moved, normalized.                                                     | 1                                                                                     |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0x52be399c66bc45d4042481364a8d1866d5944e43                                            |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0x24be1210b374bbb364455d2c2d22985af7368ea9                                            |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0xba8c1838b89d5206a123518d4fe81dc5982517261b077496129d3bc6b7f15b22                    |
+| log\_index                 | The log index that corresponds to this transfer.                                       | 11                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2023-04-19 09:00:36                                                                   |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 82,037,338                                                                            |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x44d86dc9fe6ff2a2358b5ed74a28b9fa6e4516edd6a23cf6e174e1ec52666ae4                    |
+| unique\_id                 | Unique id generated to each transfer.                                                  | txn-0xba8c1838b89d5206a123518d4fe81dc5982517261b077496129d3bc6b7f15b22\_log\_index-11 |

@@ -1,0 +1,42 @@
+---
+title: "Blocks"
+---
+
+Blocks are the building blocks of blockchains and rollups.
+
+A block contains transactions which will alter the state of an EVM system incrementally. Transaction within a block can only be executed one after the other, not in parallel.
+
+<Info>
+Several columns may only be applicable for specific EVM-compatible blockchains. The list of columns present in the table is not exhaustive.
+</Info>
+
+### Table Columns
+
+Unique Key: `number`
+
+| Column Name          | Data Type          | Description                                                                                   |
+|----------------------|--------------------|-----------------------------------------------------------------------------------------------|
+| timestamp            | TIMESTAMP_NTZ(9)   | The unix timestamp for when the block was collated.                                           |
+| number               | BIGINT             | The length of the chain, in blocks.                                                           |
+| hash                 | VARCHAR            | Unique identifier of a block.                                                                 |
+| parent_hash          | VARCHAR            | Unique identifier of the block preceding this block, also known as the parent block.          |
+| nonce                | VARCHAR            | The hash of the generated proof-of-work. null if pending.                                     |
+| sha3_uncles          | VARCHAR            | An array of uncle hashes.                                                                     |
+| logs_bloom           | VARCHAR            | The bloom filter for the logs of the block.                                                   |
+| transactions_root    | VARCHAR            | The root of the transaction trie of the block.                                                |
+| state_root           | VARCHAR            | The root of the final state trie of the block.                                                |
+| receipts_root        | VARCHAR            | The root of the receipts trie of the block.                                                   |
+| miner                | VARCHAR            | The address of the beneficiary to whom the mining rewards were given.                         |
+| difficulty           | BIGINT             | The integer of the difficulty for this block.                                                 |
+| total_difficulty     | VARCHAR            | The integer of the total difficulty of the chain until this block.                            |
+| size                 | BIGINT             | The size of the block, in bytes, as determined by the gas_limit.                              |
+| extra_data           | VARCHAR            | The "extra data" field of this block.                                                         |
+| gas_limit            | BIGINT             | Gas limit of the current block.                                                               |
+| gas_used             | BIGINT             | Total gas used in the block.                                                                  |
+| transaction_count    | BIGINT             | Number of transactions included in this block.                                                |
+| base_fee_per_gas     | BIGINT             | Post London Upgrade (EIP1559), this represents the minimum gas_used required for a transaction to be included in a block. Represented in wei. |
+| send_root            | VARCHAR            | The root hash of send operations.                                                             |
+| created_at           | TIMESTAMP_NTZ(9)   | Timestamp when the record was created.                                                        |
+| updated_at           | TIMESTAMP_NTZ(9)   | Timestamp when the record was last updated.                                                   |
+
+

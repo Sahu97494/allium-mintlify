@@ -1,0 +1,12 @@
+---
+title: "Validator Duties"
+description: Provides all scheduled validators a block to propose for in the given epoch.
+---
+
+`beacon.raw.validator_duties` provides a list of validators scheduled to propose a block for a given epoch.
+
+### Table Columns
+
+Unique key: `slot_number`
+
+<table><thead><tr><th width="275">Column</th><th>Description</th></tr></thead><tbody><tr><td>slot</td><td>The slot at which the validator must propose a block.</td></tr><tr><td>slot_timestamp</td><td>The timestamp corresponding to the slot.</td></tr><tr><td>epoch</td><td>The epoch in which the slot occurs.</td></tr><tr><td>epoch_timestamp</td><td>The timestamp corresponding to the start of the epoch.</td></tr><tr><td>dependent_root</td><td>The block root that this response is dependent on.</td></tr><tr><td>validator_index</td><td>The index of the validator in the validator registry.</td></tr><tr><td>pubkey</td><td>The validator's BLS public key, uniquely identifying them. This is a 48-byte hex encoded string with a 0x prefix, case insensitive.</td></tr><tr><td>execution_optimistic</td><td>Indicates whether the response references an unverified execution payload. If true, the information may be invalidated later. If not present, assume the value is false.</td></tr><tr><td>_created_at</td><td>The timestamp when the record was created.</td></tr><tr><td>_updated_at</td><td>The timestamp when the record was last updated.</td></tr></tbody></table>

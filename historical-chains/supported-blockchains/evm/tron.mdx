@@ -1,0 +1,53 @@
+---
+title: "Overview"
+---
+
+TRON is a public blockchain platform with open-source architecture that enables the execution of smart contracts. It relies on a unique consensus mechanism to achieve the high TPS.
+
+<Card href="https://developers.tron.network/docs/getting-start">
+More about Tron Blockchain.
+</Card>
+
+<Info>
+**Note:**
+
+* Our Tron data schema uses base58 address by default, which are case-sensitive.
+
+* There are 2 types of transaction hashes across our schemas:
+
+  * EVM compatible: 0x prefix: trc20\_transfers, balances , logs, transactions, blocks
+
+  * Tron native: no 0x prefix: trx\_transfers, traces\_native, internal\_transactions
+</Info>
+
+### Tron Tables
+
+Our Tron data includes raw, assets schemas and identity labels to enrich your analysis.
+
+| Schema   | Description                                      | Tables                                                                                   |
+| -------- | ------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| Raw      | Raw blockchain data.                             | blocks, transactions, logs                                                               |
+| DEX      | DEX swaps                                        | trades                                                                                   |
+| Assets   | Latest balances, balances, trc20 transfers       | trc20\_token\_transfers, trx\_token\_transfers, trc20\_balances, trc20\_balances\_latest |
+| Identity | Curated address labels to enriched your analyses | labels, entities                                                                         |
+
+### **Our Tron data has powered industry wide institutional reports, as well as major keynote addresses**
+
+<Frame>
+<iframe
+  width="560"
+  height="315"
+  src="https://cdn.iframe.ly/outDT6R?app=1"
+  allowfullscreen
+></iframe>
+</Frame>
+
+<Frame>
+<iframe
+  width="560"
+  height="315"
+  src="https://cdn.iframe.ly/6ounF55?app=1"
+  allowfullscreen
+></iframe>
+</Frame>
+

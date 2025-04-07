@@ -1,0 +1,56 @@
+---
+title: "ERC20 Transfers"
+---
+
+The ERC20 tokens transfers table contains the details of all transfer events of ERC20 tokens on the Arbitrum network.
+
+It includes information such as the sender and receiver addresses, the amount of tokens transferred, the transaction hash, and the block timestamp.
+
+### Sample Query
+
+Finding stablecoin movement volumes on Arbitrum.
+
+```sql
+select
+    date_trunc('month', block_timestamp) as date,
+    token_symbol,
+    sum(amount) as volume
+from
+    arbitrum.assets.erc20_token_transfers
+where
+    1 = 1
+    and block_timestamp >= '2022-01-01'
+    and token_address IN (
+        '0xff970a61a04b1ca14834a43f5de4533ebddb5cc8', -- Bridged USDC.e
+        '0xfd086bc7cd5c481dcc9c85ebe478a1c0b69fcbb9', -- Bridged USDT
+        '0xda10009cbd5d07dd0cecc66161fc93d7c9000da1', -- DAI
+        '0x4d15a3a2286d883af0aa1b3f21367843fac63e07' -- TUSD
+    )
+group by
+    1,
+    2
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                              |
+| -------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| from\_address              | Address where the token is being transferred from.                                     | 0xd1a276c0f72734d34ae2c3c6c37a82c5f26f5655                                           |
+| to\_address                | Address where the token is being transferred to.                                       | 0x62383739d68dd0f844103db8dfb05a7eded5bbe6                                           |
+| token\_address             | Token address of the asset transferred.                                                | 0xff970a61a04b1ca14834a43f5de4533ebddb5cc8                                           |
+| token\_name                | Name of the asset transferred.                                                         | USD Coin (Arb1)                                                                      |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | USDC                                                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 226,528,583                                                                          |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string                                        | 226528583                                                                            |
+| amount                     | Amount of token moved, normalized.                                                     | 226.528583                                                                           |
+| amount\_str                | Amount of token moved, normalized in string.                                           | 226.528583                                                                           |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | 226.5059301                                                                          |
+| usd\_exchange\_rate        | The exchange rate used to calculate the usd\_value.                                    | 0.9999                                                                               |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0xd1a276c0f72734d34ae2c3c6c37a82c5f26f5655                                           |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0xff970a61a04b1ca14834a43f5de4533ebddb5cc8                                           |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0xf9df1b43f6c27f9df04cf26edbaef07df2e11e240f06bfcb5eb6d2daf685a151                   |
+| log\_index                 | The log index that corresponds to this transfer.                                       | 2                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2023-06-07 04:52:23                                                                  |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 98,603,175                                                                           |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x308cf678ff198191e7b0a18b737cacc431f2bb756f1ea5de609cfc246526d4d3                   |
+| unique\_id                 | Unique id generated to each transfer. Includes transaction hash and log index.         | txn-0xf9df1b43f6c27f9df04cf26edbaef07df2e11e240f06bfcb5eb6d2daf685a151\_log\_index-2 |

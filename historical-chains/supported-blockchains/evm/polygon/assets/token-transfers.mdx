@@ -1,0 +1,19 @@
+---
+title: "Overview"
+---
+
+The transfer tables contain the amount of every transfer event for all assets (ETH, ERC20, ERC721, and ERC1155) across all Ethereum wallets.
+
+<Info>
+There's only asset-specific transfers and no aggregated asset transfers currently. ERC1155 transfers are currently not available.
+</Info>
+
+### Transfers vs Credit Debit
+
+The transfer address will **only contain one row** for each transfer event, [unlike credit debit,](/historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit) which has one row for credit and another for debit.
+
+* In the credit debit table, you can find the **net** inflow of an asset simply by summing the `amount` of USDC to find the change daily and make a cumulative sum.
+
+* In transfers, you will need to represent the inflows and outflows in two separate common expression tables (CTEs) and join them together.
+
+

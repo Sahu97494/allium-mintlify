@@ -1,0 +1,48 @@
+---
+title: "ERC20 Credit Debit"
+---
+
+The ERC20 credit debit model combines erc20 transfers, allowing you to easily track the inflows and outflows of every ERC20 token belonging to all addresses.
+
+**Credit Debit vs Transfers** Credit Debit tables contain the amount and direction (credit/debit) of every transfer event of all assets (ETH, ERC20, ERC721 and ERC1155).
+
+This table will include two rows for every event, with one row representing credit and one row representing debit. Asset-specific tables are also available for query.
+
+**Example** Using an ERC20 token as an example, a **token transfer** will be represented as follows:
+
+| from_address | to_address | amount | event                     |
+|--------------|------------|--------|---------------------------|
+| X            | Y          | 1250   | X transfers 1250 tokens to Y |
+
+In credit debit, it will be represented **two rows**.
+
+| address | counterparty_address | amount  | event                          |
+|---------|----------------------|---------|--------------------------------|
+| X       | Y                    | -1250   | X decrease 1250 tokens to Y    |
+| Y       | X                    | 1250    | Y increase 1250 tokens from X  |
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name          | Data Type        | Description                                                                                      |
+|----------------------|------------------|--------------------------------------------------------------------------------------------------|
+| address              | VARCHAR          | Address of the account that was credited or debited amount of ERC20 token                       |
+| counterparty_address | VARCHAR          | The address of counter party of this credit or debit transfer                                   |
+| token_address        | VARCHAR          | Token address of the ERC20 token                                                                |
+| token_name           | VARCHAR          | Name of the ERC20 token                                                                         |
+| token_symbol         | VARCHAR          | Token symbol of this token                                                                      |
+| raw_amount           | FLOAT            | Amount of tokens moved (unnormalized)                                                           |
+| raw_amount_str       | VARCHAR          | Amount of tokens moved (unnormalized) in string                                                 |
+| amount               | FLOAT            | Amount of tokens moved, normalized by the decimal points defined in the ERC20 token contract. For example, USDC has 6 decimals, so this value is the `raw_value` divided by 10^6. |
+| amount_str           | VARCHAR          | Amount of tokens moved, normalized in string                                                    |
+| usd_value            | FLOAT            | The amount of tokens moved, in $USD                                                             |
+| usd_exchange_rate    | FLOAT            | This is the price of a single token, in USD                                                     |
+| transaction_hash     | VARCHAR          | Transaction hash that this transfer belongs to                                                  |
+| transaction_index    | BIGINT           | The position of this transaction in the block. The first transaction has index 0                |
+| log_index            | BIGINT           | The position of this log within the block. The first log has index 0                            |
+| block_timestamp      | TIMESTAMP_NTZ(9) | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred. |
+| block_number         | BIGINT           | The block number that the corresponding transaction of this transfer belongs to                 |
+| block_hash           | VARCHAR          | The block hash that the corresponding transaction of this transfer belongs to                   |
+| unique_id            | VARCHAR          | Unique id generated to each transfer. Includes transaction hash, log index and credit and debit transaction type. |
+

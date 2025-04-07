@@ -1,0 +1,27 @@
+---
+title: "Validator Stake Latest"
+---
+
+The `sui.staking.validator_state_latest` model provides a current view of the current amount of Sui staked with each validator(s) for each staker.
+
+### Schema
+
+Unique Key: `staker_address, validator_address`
+
+| Column                    | Description                                         |
+| ------------------------- | --------------------------------------------------- |
+| staker\_address           | Address of the staker                               |
+| validator\_address        | Address of the validator                            |
+| pool\_id                  | ID of the staking pool                              |
+| current\_stake            | Current stake of the staker in the validator's pool |
+| all\_time\_staked         | Total amount staked over all time                   |
+| all\_time\_stake\_count   | Total number of stake transactions                  |
+| all\_time\_unstaked       | Total amount unstaked over all time                 |
+| all\_time\_unstake\_count | Total number of unstake transactions                |
+| rewards\_collected        | Total rewards collected by the staker               |
+| first\_stake\_timestamp   | Timestamp of the first stake                        |
+| last\_stake\_timestamp    | Timestamp of the most recent stake                  |
+| first\_unstake\_timestamp | Timestamp of the first unstake                      |
+| last\_unstake\_timestamp  | <p></p><p>Timestamp of the most recent unstake</p>  |
+
+

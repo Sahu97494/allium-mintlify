@@ -1,0 +1,20 @@
+---
+title: "TRC20 Balances"
+---
+
+TRC20 balances table contains the TRC20 balances of all addresses, at every block height. Use this table to easily plot the change in the balance of TRC20 tokens for an address or a group of addresses over time.
+
+### Sample Query
+
+Getting the TRC20 Balances of USDC Token from an address over time.
+
+```sql
+select * from tron.assets.trc20_balances
+where address = 'TXFBqBbqJommqZf7BV8NNYzePh97UmJodJ' -- Bitfinex
+and token_address = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t' -- USDT Token Address
+order by block_number desc 
+```
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th>Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td><code>TYE218dMfzo2TH348AbKyHD2G8PjGo7ESS</code></td><td></td></tr><tr><td>token_address</td><td>Token address of the TRC20 token.</td><td><code>TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8</code></td><td></td></tr><tr><td>token_name</td><td> Name of the TRC20 token.</td><td><code>USD Coin</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td><code>USDC</code></td><td></td></tr><tr><td>balance</td><td>Balance of this TRC20 token, normalized by the decimal points defined in the TRC20 token contract. For example, USDC has 6 decimals, so this value is the <code>raw_balance</code> divided by 10^6.</td><td>1,101.95</td><td></td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized)</td><td>1101950000</td><td></td></tr><tr><td>usd_value</td><td>The amount of tokens, in $USD.</td><td>1,101.95</td><td></td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the <code>usd_value</code>.</td><td><code>1</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the <code>balance</code>.</td><td>2021-07-04 11:29:30</td><td></td></tr><tr><td>block_number</td><td>The number of the block that resulted in the <code>balance</code>.</td><td>31,641,759</td><td></td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the <code>balance</code>.</td><td><code>0x0000000001e2d09ff8d7322804797a046afb97433cfedc15f46b057df5c47dee</code></td><td></td></tr></tbody></table>

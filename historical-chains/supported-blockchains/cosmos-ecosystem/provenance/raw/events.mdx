@@ -1,0 +1,24 @@
+---
+title: "Events"
+---
+
+Events are objects that provide information about an application's execution. They are primarily used by service providers such as block explorers and wallets to monitor message execution and index transactions.
+
+### Table Columns
+
+### Table Columns
+
+Unique key: block\_number, transaction\_hash, event\_index
+
+| Column Name              | Description                                             |
+| ------------------------ | ------------------------------------------------------- |
+| block\_hash              | The hash of the block containing the transaction.       |
+| block\_number            | The number of the block in the blockchain.              |
+| block\_timestamp         | The timestamp when the block was created.               |
+| transaction\_hash        | The hash of the transaction.                            |
+| transaction\_index       | The index of the transaction within the block.          |
+| event\_index             | The index of the event within the transaction.          |
+| type                     | The type of event (e.g., coin\_received).               |
+| event\_attributes\_count | The number of attributes associated with the event.     |
+| \_created\_at            | The timestamp when the event was recorded in the table. |
+| \_updated\_at            | The timestamp when the event data was last updated.     |

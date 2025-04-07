@@ -1,0 +1,49 @@
+---
+title: "MATIC Credit Debit"
+description: Credit and debit entries of all addresses for all ether transfers.
+---
+
+The ETH credit debit table allows you to easily track the inflows and outflows of ether belonging to all addresses.
+
+ETH can be transferred across wallets in different ways:
+
+* Direct transfers like in [this transaction](https://etherscan.io/tx/0x3bac741f12fe4f99c62df3ca2fb566d6b72480e698928126eab64f5e3946d934)
+
+* Indirect transfers through a router, like the routing of ETH from Tornado.Cash pool [in this transaction](https://etherscan.io/tx/0xf74991ca22457a054af65fef2112df568dcabb0400db4e312ad02cf13a8bdbb3)
+
+### How is `polygon.assets.credit_debit` different from `polygon.raw.transactions` ?
+
+* While `transactions` table includes the `value` of MATIC in direct transfers, MATIC transferred via the smart contract router will not be reflected in the `value` field
+
+* In contrast, `credit_debit` table will show all MATIC transferred.
+
+  * `value_transfer` from sender pool to the recipient
+
+  * `gas_payment_to_miner` from the transaction initiator to the miners and;
+
+  * `gas_burn` from the transaction
+
+### Table Columns
+
+Using USDC Transfers as an example.
+
+| Column Name           | Description                                                                                                                                        | Example                                                                                       |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------- |
+| address               | Address of the account that was credited or debited value amount of MATIC                                                                          | 0x1c59c0e754494e509d666e90e6719171e6ff187b                                                    |
+| counterparty\_address | The address of counter party of this credit or debit transfer.                                                                                     | 0x1e9dc0785011df9004aa928a60eb7334c298b9fc                                                    |
+| token\_address        | Token address of the ERC1155 token.                                                                                                                | 0x2791bca1f2de4661ed88a30c99a7a9449aa84174                                                    |
+| token\_name           | Name of the ERC1155 token.                                                                                                                         | USD Coin (PoS)                                                                                |
+| token\_symbol         | Token symbol of this token.                                                                                                                        | USDC                                                                                          |
+| token\_id             | Unique token ID of the ERC1155 token.                                                                                                              |                                                                                               |
+| raw\_amount           | Amount of ETH in wei                                                                                                                               | -52,465                                                                                       |
+| raw\_amount\_str      | Amount of ETH in wei in string.                                                                                                                    | -52465                                                                                        |
+| amount                | Amount of ether.                                                                                                                                   | -0.052465                                                                                     |
+| amount\_str           | Amount of ether in string.                                                                                                                         | -0.052465                                                                                     |
+| usd\_amount           | The amount of ether moved, in $USD.                                                                                                                | -0.052454507                                                                                  |
+| usd\_exchange\_rate   | The exchange rate used to calculate the usd\_value.                                                                                                | 0.9998                                                                                        |
+| transaction\_hash     | Transaction hash that this transfer belongs to.                                                                                                    | 0x12e266fbb3512452c4d2aeef148dc2686376f8930c4d5b3b022cee83c3416fc8                            |
+| block\_timestamp      | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred. | 2021-10-08 04:36:11                                                                           |
+| block\_number         | The block number that the corresponding transaction of this transfer belongs to.                                                                   | 19,970,494                                                                                    |
+| block\_hash           | The block hash that the corresponding transaction of this transfer belongs to.                                                                     | 0x6db8796783dca30f0f5069235355b80958f10f7e1745f068ca8e9443a38656e0                            |
+| token\_type           | Token type of asset. Includes ETH, ERC20, ERC721 and ERC1155.                                                                                      | ERC20                                                                                         |
+| unique\_id            | Unique id generated to each transfer. Includes trace call, transaction\_hash, credit and debit transaction type.                                   | txn-0x12e266fbb3512452c4d2aeef148dc2686376f8930c4d5b3b022cee83c3416fc8\_log\_index-80\_credit |

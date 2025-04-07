@@ -1,0 +1,2860 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "theme": "mint",
+  "name": "Allium Documentation Hub",
+  "colors": {
+    "primary": "#be59c0",
+    "light": "#ffffff",
+    "dark": "#0a0a0a"
+  },
+  "background": {
+    "color": {
+      "dark": "#1D1D1D",
+      "light": "#ffffff"
+    }
+  },
+  "favicon": "/favicon.png",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "Welcome",
+        "pages": [
+          "overview"
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
+          {
+            "group": "Welcome to Allium",
+            "pages": [
+              "home"
+            ]
+          },
+          {
+            "group": "Data Products – Real-Time",
+            "pages": [
+              {
+                "group": "Allium Developer",
+                "icon": "square-code",
+                "pages": [
+                  "data-products-real-time/allium-developer",
+                  "data-products-real-time/allium-developer/wallet-apis",
+                  "data-products-real-time/allium-developer/nft-apis",
+                  "data-products-real-time/allium-developer/token-prices-apis"
+                ]
+              },
+              {
+                "group": "Allium Datastreams",
+                "icon": "arrow-progress",
+                "pages": [
+                  "data-products-real-time/allium-datastreams",
+                  {
+                    "group": "Kafka & Pub/Sub",
+                    "icon": "share-nodes",
+                    "pages": [
+                      "data-products-real-time/allium-datastreams/kafka-pubsub",
+                      "data-products-real-time/allium-datastreams/kafka-pubsub/getting-started-with-google-pub-sub"
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Data Products – Analytics",
+            "pages": [
+              {
+                "group": "Allium Explorer",
+                "icon": "crosshairs-simple",
+                "pages": [
+                  "data-products-analytics/allium-explorer",
+                  {
+                    "group": "Explorer API",
+                    "icon": "code",
+                    "pages": [
+                      "data-products-analytics/allium-explorer/explorer-api",
+                      "data-products-analytics/allium-explorer/explorer-api/explorer-api-user-tutorial",
+                      {
+                        "group": "Explorer API Reference",
+                        "icon": "code",
+                        "pages": [
+                          "data-products-analytics/allium-explorer/explorer-api/post-get-requests",
+                          "data-products-analytics/allium-explorer/explorer-api/execute-query-async",
+                          "data-products-analytics/allium-explorer/explorer-api/get-latest-query-run-handler",
+                          "data-products-analytics/allium-explorer/explorer-api/get-query-run-status",
+                          "data-products-analytics/allium-explorer/explorer-api/get-query-run-results",
+                          "data-products-analytics/allium-explorer/explorer-api/cancel-query-run"
+                        ]
+                      }
+                    ]
+                  },
+                  "data-products-analytics/allium-explorer/query-runner",
+                  "data-products-analytics/allium-explorer/data-upload",
+                  "data-products-analytics/allium-explorer/visualisations",
+                  "data-products-analytics/allium-explorer/allium-ai-assistant",
+                  "data-products-analytics/allium-explorer/metrics"
+                ]
+              },
+              {
+                "group": "Allium Datashares",
+                "icon": "server",
+                "pages": [
+                  "data-products-analytics/allium-datashares",
+                  "data-products-analytics/allium-datashares/databricks",
+                  "data-products-analytics/allium-datashares/snowflake",
+                  "data-products-analytics/allium-datashares/bigquery",
+                  "data-products-analytics/allium-datashares/s3-gcs",
+                  "data-products-analytics/allium-datashares/bi-visualization-tools"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Featured Solutions",
+            "pages": [
+              "featured-solutions/wallets",
+              "featured-solutions/dexs",
+              "featured-solutions/stablecoins"
+            ]
+          },
+          {
+            "group": "Real-time Data (Chains)",
+            "pages": [
+              {
+                "group": "Overview",
+                "icon": "circle-o",
+                "pages": [
+                  "realtime/overview",
+                  "realtime/overview/data-tips"
+                ]
+              },
+              {
+                "group": "[Developer] Supported Chains (13+ chains)",
+                "icon": "database",
+                "pages": [
+                  "realtime/supported-blockchains",
+                  {
+                    "group": "Bitcoin",
+                    "icon": "bitcoin",
+                    "pages": [
+                      "realtime/supported-blockchains/bitcoin",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/bitcoin/raw",
+                          "realtime/supported-blockchains/bitcoin/raw/blocks",
+                          "realtime/supported-blockchains/bitcoin/raw/transactions",
+                          "realtime/supported-blockchains/bitcoin/raw/inputs",
+                          "realtime/supported-blockchains/bitcoin/raw/enriched-inputs",
+                          "realtime/supported-blockchains/bitcoin/raw/outputs"
+                        ]
+                      },
+                      {
+                        "group": "Inscriptions and Rare Sats",
+                        "pages": [
+                          "realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats",
+                          "realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats/ordinals-inscription-mints",
+                          "realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats/ordinals-inscription-transfers",
+                          "realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats/ordinals-token-transfers",
+                          "realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats/utxos-with-rare-sats"
+                        ]
+                      },
+                      {
+                        "group": "Mempool",
+                        "pages": [
+                          "realtime/supported-blockchains/bitcoin/mempool",
+                          "realtime/supported-blockchains/bitcoin/mempool/transactions",
+                          "realtime/supported-blockchains/bitcoin/mempool/inputs",
+                          "realtime/supported-blockchains/bitcoin/mempool/outputs"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Ethereum",
+                    "icon": "ethereum",
+                    "pages": [
+                      "realtime/supported-blockchains/ethereum",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/ethereum/raw",
+                          "realtime/supported-blockchains/ethereum/raw/blocks",
+                          "realtime/supported-blockchains/ethereum/raw/transactions",
+                          "realtime/supported-blockchains/ethereum/raw/logs",
+                          "realtime/supported-blockchains/ethereum/raw/traces",
+                          "realtime/supported-blockchains/ethereum/raw/tokens-data"
+                        ]
+                      },
+                      {
+                        "group": "Decoded",
+                        "pages": [
+                          "realtime/supported-blockchains/ethereum/decoded",
+                          "realtime/supported-blockchains/ethereum/decoded/decoded-logs",
+                          "realtime/supported-blockchains/ethereum/decoded/decoded-traces"
+                        ]
+                      },
+                      {
+                        "group": "Transfers",
+                        "pages": [
+                          "realtime/supported-blockchains/ethereum/transfers",
+                          "realtime/supported-blockchains/ethereum/transfers/erc20-token-transfer",
+                          "realtime/supported-blockchains/ethereum/transfers/erc721-token-transfers",
+                          "realtime/supported-blockchains/ethereum/transfers/erc1155-token-transfers"
+                        ]
+                      },
+                      {
+                        "group": "DEX",
+                        "pages": [
+                          "realtime/supported-blockchains/ethereum/dex",
+                          "realtime/supported-blockchains/ethereum/dex/dex-trades"
+                        ]
+                      },
+                      {
+                        "group": "NFTs",
+                        "pages": [
+                          "realtime/supported-blockchains/ethereum/nfts",
+                          "realtime/supported-blockchains/ethereum/nfts/nft-trades"
+                        ]
+                      },
+                      {
+                        "group": "Balances",
+                        "pages": [
+                          "realtime/supported-blockchains/ethereum/balances",
+                          "realtime/supported-blockchains/ethereum/balances/fungible-balances",
+                          "realtime/supported-blockchains/ethereum/balances/nft-balances"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Polygon",
+                    "icon": "link",
+                    "pages": [
+                      "realtime/supported-blockchains/polygon",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/polygon/raw",
+                          "realtime/supported-blockchains/polygon/raw/blocks",
+                          "realtime/supported-blockchains/polygon/raw/transactions",
+                          "realtime/supported-blockchains/polygon/raw/logs",
+                          "realtime/supported-blockchains/polygon/raw/traces",
+                          "realtime/supported-blockchains/polygon/raw/tokens-data"
+                        ]
+                      },
+                      {
+                        "group": "Decoded",
+                        "pages": [
+                          "realtime/supported-blockchains/polygon/decoded",
+                          "realtime/supported-blockchains/polygon/decoded/decoded-logs",
+                          "realtime/supported-blockchains/polygon/decoded/decoded-traces"
+                        ]
+                      },
+                      {
+                        "group": "Transfers",
+                        "pages": [
+                          "realtime/supported-blockchains/polygon/transfers",
+                          "realtime/supported-blockchains/polygon/transfers/erc20-token-transfer",
+                          "realtime/supported-blockchains/polygon/transfers/erc721-token-transfers",
+                          "realtime/supported-blockchains/polygon/transfers/erc1155-token-transfers"
+                        ]
+                      },
+                      {
+                        "group": "Balances",
+                        "pages": [
+                          "realtime/supported-blockchains/polygon/balances",
+                          "realtime/supported-blockchains/polygon/balances/fungible-balances",
+                          "realtime/supported-blockchains/polygon/balances/nft-balances"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Arbitrum",
+                    "icon": "circle-a",
+                    "pages": [
+                      "realtime/supported-blockchains/arbitrum",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/arbitrum/raw",
+                          "realtime/supported-blockchains/arbitrum/raw/blocks",
+                          "realtime/supported-blockchains/arbitrum/raw/transactions",
+                          "realtime/supported-blockchains/arbitrum/raw/logs",
+                          "realtime/supported-blockchains/arbitrum/raw/traces",
+                          "realtime/supported-blockchains/arbitrum/raw/tokens-data"
+                        ]
+                      },
+                      {
+                        "group": "Transfers",
+                        "pages": [
+                          "realtime/supported-blockchains/arbitrum/transfers",
+                          "realtime/supported-blockchains/arbitrum/transfers/erc20-token-transfer",
+                          "realtime/supported-blockchains/arbitrum/transfers/erc721-token-transfers",
+                          "realtime/supported-blockchains/arbitrum/transfers/erc1155-token-transfers"
+                        ]
+                      },
+                      {
+                        "group": "Balances (beta)",
+                        "pages": [
+                          "realtime/supported-blockchains/arbitrum/balances-beta",
+                          "realtime/supported-blockchains/arbitrum/balances-beta/fungible-balances",
+                          "realtime/supported-blockchains/arbitrum/balances-beta/nft-balances"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Base",
+                    "icon": "circle-b",
+                    "pages": [
+                      "realtime/supported-blockchains/base",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/base/raw",
+                          "realtime/supported-blockchains/base/raw/blocks",
+                          "realtime/supported-blockchains/base/raw/transactions",
+                          "realtime/supported-blockchains/base/raw/logs",
+                          "realtime/supported-blockchains/base/raw/traces",
+                          "realtime/supported-blockchains/base/raw/tokens-data"
+                        ]
+                      },
+                      {
+                        "group": "Balances (beta)",
+                        "pages": [
+                          "realtime/supported-blockchains/base/balances-beta",
+                          "realtime/supported-blockchains/base/balances-beta/fungible-balances",
+                          "realtime/supported-blockchains/base/balances-beta/nft-balances"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Optimism",
+                    "icon": "circle",
+                    "pages": [
+                      "realtime/supported-blockchains/optimism",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/optimism/raw",
+                          "realtime/supported-blockchains/optimism/raw/blocks",
+                          "realtime/supported-blockchains/optimism/raw/transactions",
+                          "realtime/supported-blockchains/optimism/raw/logs",
+                          "realtime/supported-blockchains/optimism/raw/traces",
+                          "realtime/supported-blockchains/optimism/raw/tokens-data"
+                        ]
+                      },
+                      {
+                        "group": "Balances (beta)",
+                        "pages": [
+                          "realtime/supported-blockchains/optimism/balances-beta",
+                          "realtime/supported-blockchains/optimism/balances-beta/fungible-balances",
+                          "realtime/supported-blockchains/optimism/balances-beta/nft-balances"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Oasys",
+                    "icon": "circle",
+                    "pages": [
+                      "realtime/supported-blockchains/oasys",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/oasys/raw",
+                          "realtime/supported-blockchains/oasys/raw/blocks",
+                          "realtime/supported-blockchains/oasys/raw/transactions",
+                          "realtime/supported-blockchains/oasys/raw/logs"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Solana",
+                    "icon": "circle-s",
+                    "pages": [
+                      "realtime/supported-blockchains/solana",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "realtime/supported-blockchains/solana/raw",
+                          "realtime/supported-blockchains/solana/raw/blocks",
+                          "realtime/supported-blockchains/solana/raw/transactions",
+                          "realtime/supported-blockchains/solana/raw/instructions",
+                          "realtime/supported-blockchains/solana/raw/inner-instructions",
+                          "realtime/supported-blockchains/solana/raw/pubkey-maps"
+                        ]
+                      },
+                      {
+                        "group": "Enriched",
+                        "pages": [
+                          "realtime/supported-blockchains/solana/enriched",
+                          "realtime/supported-blockchains/solana/enriched/assets-fungible-balances-latest",
+                          "realtime/supported-blockchains/solana/enriched/token-transfers"
+                        ]
+                      },
+                      "realtime/supported-blockchains/solana/on-demand-datasets"
+                    ]
+                  }
+                ]
+              },
+              "realtime/kafka-blockchains-70",
+              "realtime/data-delivery-options",
+              {
+                "group": "Use Cases",
+                "icon": "crosshairs-simple",
+                "pages": [
+                  "realtime/common-queries",
+                  "realtime/common-queries/user-based-common-bitcoin-queries"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Historical Data (Chains)",
+            "pages": [
+              {
+                "group": "Overview",
+                "icon": "circle-o",
+                "pages": [
+                  "historical-chains/overview",
+                  "historical-chains/overview/data-quality-verification",
+                  "historical-chains/overview/data-caveats",
+                  "historical-chains/overview/data-freshness",
+                  {
+                    "group": "Data FAQ",
+                    "icon": "message-question",
+                    "pages": [
+                      "historical-chains/overview/data-faq",
+                      "historical-chains/overview/data-faq/prices",
+                      {
+                        "group": "Decoding",
+                        "pages": [
+                          "historical-chains/overview/data-faq/decoding",
+                          "historical-chains/overview/data-faq/decoding/generic-decoded-schema-vs-project-specific-decoding",
+                          "historical-chains/overview/data-faq/decoding/identifying-erc404-tokens",
+                          "historical-chains/overview/data-faq/decoding/erc20-erc721-and-erc1155-tokens-coverage",
+                          "historical-chains/overview/data-faq/decoding/converting-hexadecimal-strings-to-integers"
+                        ]
+                      },
+                      "historical-chains/overview/data-faq/traces-id-and-address"
+                    ]
+                  },
+                  "historical-chains/overview/query-optimizations"
+                ]
+              },
+              {
+                "group": "[Explorer / Datashares] Blockchains (80+)",
+                "icon": "database",
+                "pages": [
+                  "historical-chains/supported-blockchains",
+                  {
+                    "group": "EVM",
+                    "icon": "ethereum",
+                    "pages": [
+                      "historical-chains/supported-blockchains/evm",
+                      {
+                        "group": "🔹Core Schemas",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/core-schemas",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/logs",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/traces",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/traces-evm-transfers",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/erc721-tokens",
+                              "historical-chains/supported-blockchains/evm/core-schemas/raw/erc1155-tokens"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/core-schemas/metrics",
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/decoded",
+                              "historical-chains/supported-blockchains/evm/core-schemas/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/core-schemas/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/assets",
+                              {
+                                "group": "Balances Latest",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances-latest",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances-latest/native-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances-latest/erc20-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances-latest/erc721-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances-latest/erc1155-balances-latest"
+                                ]
+                              },
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances/native-balances",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances/erc20-balances",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances/erc721-balances",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/balances/erc1155-balances"
+                                ]
+                              },
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/transfers",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/transfers/native-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/transfers/erc20-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/transfers/erc721-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/transfers/erc1155-token-transfers"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/credit-debit/native-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/credit-debit/erc20-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/credit-debit/erc721-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/assets/credit-debit/erc1155-credit-debit"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "Bridges",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/bridges",
+                              "historical-chains/supported-blockchains/evm/core-schemas/bridges/transfers"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/dex",
+                              "historical-chains/supported-blockchains/evm/core-schemas/dex/trades",
+                              "historical-chains/supported-blockchains/evm/core-schemas/dex/pools",
+                              "historical-chains/supported-blockchains/evm/core-schemas/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/core-schemas/dex/events",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/core-schemas/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/core-schemas/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/core-schemas/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "Lending",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/tvl_daily",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/interest-rates",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/deposits",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/withdrawals",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/loans",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/repayments",
+                              "historical-chains/supported-blockchains/evm/core-schemas/lending/liquidations"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/core-schemas/nfts",
+                              "historical-chains/supported-blockchains/evm/core-schemas/nfts/mints",
+                              "historical-chains/supported-blockchains/evm/core-schemas/nfts/trades",
+                              "historical-chains/supported-blockchains/evm/core-schemas/nfts/wash-trading-flag",
+                              "historical-chains/supported-blockchains/evm/core-schemas/nfts/transfers"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Ethereum",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/ethereum",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ethereum/raw",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/block-reward",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/logs",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/traces",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/erc721-tokens",
+                              "historical-chains/supported-blockchains/evm/ethereum/raw/erc1155-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ethereum/assets",
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances/eth-balances",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances/erc20-balances",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances/erc721-balances",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances/erc1155-balances"
+                                ]
+                              },
+                              {
+                                "group": "Balances Latest",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances-latest",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances-latest/eth-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances-latest/erc20-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances-latest/erc721-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/balances-latest/erc1155-balances-latest"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit/eth-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit/erc20-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit/erc721-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/credit-debit/erc1155-credit-debit"
+                                ]
+                              },
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/token-transfers/eth-transfers",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/ethereum/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ethereum/decoded",
+                              "historical-chains/supported-blockchains/evm/ethereum/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/ethereum/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ethereum/dex",
+                              "historical-chains/supported-blockchains/evm/ethereum/dex/trades",
+                              "historical-chains/supported-blockchains/evm/ethereum/dex/aggregator-trades",
+                              "historical-chains/supported-blockchains/evm/ethereum/dex/order-flow",
+                              "historical-chains/supported-blockchains/evm/ethereum/dex/uniswap-x-trades",
+                              {
+                                "group": "DEX Pool Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/dex-pool-events",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/dex-pool-events/uniswap-v2",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/dex-pool-events/uniswap-v3",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/dex-pool-events/uniswap-v3/uniswap-v3-virtual-liquidity",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/dex-pool-events/uniswap-v4"
+                                ]
+                              },
+                              {
+                                "group": "Liquidity Pools",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/liquidity-pools",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/liquidity-pools/uniswap-v2",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/liquidity-pools/uniswap-v3",
+                                  "historical-chains/supported-blockchains/evm/ethereum/dex/liquidity-pools/uniswap-v4"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/ethereum/dex/sandwich-trades",
+                              "historical-chains/supported-blockchains/evm/ethereum/dex/just-in-time-jit-liquidity-events"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/ethereum/ens",
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ethereum/nfts",
+                              "historical-chains/supported-blockchains/evm/ethereum/nfts/mints",
+                              {
+                                "group": "Trades",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ethereum/nfts/trades",
+                                  "historical-chains/supported-blockchains/evm/ethereum/nfts/trades/multi-currency-trades"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/ethereum/nfts/wash-trading-flag",
+                              "historical-chains/supported-blockchains/evm/ethereum/nfts/nft-flags"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/ethereum/wallet-360"
+                        ]
+                      },
+                      {
+                        "group": "🔹Beacon Chain",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/beacon-chain",
+                          "historical-chains/supported-blockchains/evm/beacon-chain/metrics",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/block-rewards",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/attestation-rewards",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/attestations",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/deposits",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/sync-committee-rewards",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/validator-duties",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/raw/withdrawals"
+                            ]
+                          },
+                          {
+                            "group": "Validator",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/queue",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/queue-latest",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/balances",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/balances-latest",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/consensus-income",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/income",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/index",
+                              "historical-chains/supported-blockchains/evm/beacon-chain/validator/entities"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Holesky 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/holesky",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/holesky/raw",
+                              "historical-chains/supported-blockchains/evm/holesky/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/holesky/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/holesky/raw/logs",
+                              "historical-chains/supported-blockchains/evm/holesky/raw/traces",
+                              "historical-chains/supported-blockchains/evm/holesky/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Abstract",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/abstract",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/abstract/raw",
+                              "historical-chains/supported-blockchains/evm/abstract/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/abstract/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/abstract/raw/logs",
+                              "historical-chains/supported-blockchains/evm/abstract/raw/traces",
+                              "historical-chains/supported-blockchains/evm/abstract/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹ALIENX",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/alienx",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/alienx/raw",
+                              "historical-chains/supported-blockchains/evm/alienx/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/alienx/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/alienx/raw/logs",
+                              "historical-chains/supported-blockchains/evm/alienx/raw/traces",
+                              "historical-chains/supported-blockchains/evm/alienx/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Aleph Zero",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/aleph-zero",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/aleph-zero/raw",
+                              "historical-chains/supported-blockchains/evm/aleph-zero/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/aleph-zero/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/aleph-zero/raw/logs",
+                              "historical-chains/supported-blockchains/evm/aleph-zero/raw/traces",
+                              "historical-chains/supported-blockchains/evm/aleph-zero/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Apechain",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/apechain",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/apechain/raw",
+                              "historical-chains/supported-blockchains/evm/apechain/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/apechain/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/apechain/raw/logs",
+                              "historical-chains/supported-blockchains/evm/apechain/raw/traces",
+                              "historical-chains/supported-blockchains/evm/apechain/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/apechain/nfts",
+                              "historical-chains/supported-blockchains/evm/apechain/nfts/trades"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Arbitrum",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/arbitrum",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/logs",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/traces",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/erc721-tokens",
+                              "historical-chains/supported-blockchains/evm/arbitrum/raw/erc1155-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum/decoded",
+                              "historical-chains/supported-blockchains/evm/arbitrum/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/arbitrum/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/arbitrum/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/assets/token-transfers/eth-transfers",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum/dex",
+                              "historical-chains/supported-blockchains/evm/arbitrum/dex/trades",
+                              "historical-chains/supported-blockchains/evm/arbitrum/dex/pools",
+                              "historical-chains/supported-blockchains/evm/arbitrum/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/arbitrum/dex/events",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/arbitrum/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/arbitrum/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/arbitrum/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum/nfts",
+                              "historical-chains/supported-blockchains/evm/arbitrum/nfts/trades"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/core-schemas/lending"
+                        ]
+                      },
+                      {
+                        "group": "🔹Arbitrum Nova",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/arbitrum-nova",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum-nova/raw",
+                              "historical-chains/supported-blockchains/evm/arbitrum-nova/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/arbitrum-nova/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/arbitrum-nova/raw/logs",
+                              "historical-chains/supported-blockchains/evm/arbitrum-nova/raw/traces",
+                              "historical-chains/supported-blockchains/evm/arbitrum-nova/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Arbitrum Sepolia",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/arbitrum-sepolia",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/arbitrum-sepolia/raw",
+                              "historical-chains/supported-blockchains/evm/arbitrum-sepolia/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/arbitrum-sepolia/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/arbitrum-sepolia/raw/logs",
+                              "historical-chains/supported-blockchains/evm/arbitrum-sepolia/raw/traces",
+                              "historical-chains/supported-blockchains/evm/arbitrum-sepolia/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Astar 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/astar",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/astar/raw",
+                              "historical-chains/supported-blockchains/evm/astar/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/astar/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/astar/raw/logs",
+                              "historical-chains/supported-blockchains/evm/astar/raw/traces",
+                              "historical-chains/supported-blockchains/evm/astar/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Avalanche",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/avalanche",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/avalanche/raw",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/subnet-transactions",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/logs",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/traces",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/erc721-tokens",
+                              "historical-chains/supported-blockchains/evm/avalanche/raw/erc1155-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/avalanche/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/token-transfers/avax-transfers",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/token-transfers/erc1155-transfers"
+                                ]
+                              },
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/balances/erc721-balances",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/balances/erc1155-balances"
+                                ]
+                              },
+                              {
+                                "group": "Balances Latest",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/balances-latest",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/balances-latest/erc721-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/avalanche/assets/balances-latest/erc1155-balances-latest"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/avalanche/decoded",
+                              "historical-chains/supported-blockchains/evm/avalanche/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/avalanche/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/avalanche/dex",
+                              "historical-chains/supported-blockchains/evm/avalanche/dex/trades",
+                              "historical-chains/supported-blockchains/evm/avalanche/dex/pools",
+                              "historical-chains/supported-blockchains/evm/avalanche/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/avalanche/dex/events",
+                                  "historical-chains/supported-blockchains/evm/avalanche/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/avalanche/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/avalanche/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/avalanche/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/avalanche/dex/token-prices-hourly"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹B3",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/b3",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/b3/raw",
+                              "historical-chains/supported-blockchains/evm/b3/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/b3/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/b3/raw/logs",
+                              "historical-chains/supported-blockchains/evm/b3/raw/traces",
+                              "historical-chains/supported-blockchains/evm/b3/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/b3/assets",
+                              "historical-chains/supported-blockchains/evm/b3/assets/token-transfers",
+                              "historical-chains/supported-blockchains/evm/b3/assets/balances",
+                              "historical-chains/supported-blockchains/evm/b3/assets/credit-debit"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/b3/nfts",
+                              "historical-chains/supported-blockchains/evm/b3/nfts/trades",
+                              "historical-chains/supported-blockchains/evm/b3/nfts/mints"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Base",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/base",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/base/raw",
+                              "historical-chains/supported-blockchains/evm/base/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/base/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/base/raw/logs",
+                              "historical-chains/supported-blockchains/evm/base/raw/traces",
+                              "historical-chains/supported-blockchains/evm/base/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/base/decoded",
+                              "historical-chains/supported-blockchains/evm/base/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/base/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/base/assets",
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/base/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/base/assets/balances/balances-latest",
+                                  "historical-chains/supported-blockchains/evm/base/assets/balances/balances"
+                                ]
+                              },
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/base/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/base/assets/token-transfers/eth-transfers",
+                                  "historical-chains/supported-blockchains/evm/base/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/base/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/base/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/base/dex",
+                              "historical-chains/supported-blockchains/evm/base/dex/trades",
+                              "historical-chains/supported-blockchains/evm/base/dex/pools",
+                              "historical-chains/supported-blockchains/evm/base/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/base/dex/events",
+                                  "historical-chains/supported-blockchains/evm/base/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/base/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/base/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/base/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/base/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/base/nfts",
+                              "historical-chains/supported-blockchains/evm/base/nfts/mints",
+                              "historical-chains/supported-blockchains/evm/base/nfts/trades"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/core-schemas/lending",
+                          "historical-chains/supported-blockchains/evm/base/wallet-360"
+                        ]
+                      },
+                      {
+                        "group": "🔹Berachain",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/berachain",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/berachain/raw",
+                              "historical-chains/supported-blockchains/evm/berachain/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/berachain/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/berachain/raw/logs",
+                              "historical-chains/supported-blockchains/evm/berachain/raw/traces",
+                              "historical-chains/supported-blockchains/evm/berachain/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/berachain/assets",
+                              "historical-chains/supported-blockchains/evm/berachain/assets/token-transfers"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/berachain/nfts",
+                              "historical-chains/supported-blockchains/evm/berachain/nfts/trades"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Blast",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/blast",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/blast/raw",
+                              "historical-chains/supported-blockchains/evm/blast/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/blast/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/blast/raw/logs",
+                              "historical-chains/supported-blockchains/evm/blast/raw/traces",
+                              "historical-chains/supported-blockchains/evm/blast/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/blast/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/blast/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/blast/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/blast/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/blast/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/blast/dex",
+                              "historical-chains/supported-blockchains/evm/blast/dex/trades",
+                              "historical-chains/supported-blockchains/evm/blast/dex/pools",
+                              "historical-chains/supported-blockchains/evm/blast/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/blast/dex/events",
+                                  "historical-chains/supported-blockchains/evm/blast/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/blast/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/blast/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/blast/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/blast/dex/token-prices-hourly"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹BNB Smart Chain (BSC)",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/logs",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/traces",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/erc721-token",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/raw/erc1155-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/decoded",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/assets/token-transfers/bnb-transfers",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/trades",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/pools",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/events",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/bnb-smart-chain-bsc/dex/token-prices-hourly"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Celo",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/celo",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/celo/raw",
+                              "historical-chains/supported-blockchains/evm/celo/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/celo/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/celo/raw/logs",
+                              "historical-chains/supported-blockchains/evm/celo/raw/traces",
+                              "historical-chains/supported-blockchains/evm/celo/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/celo/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/celo/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/celo/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/celo/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/celo/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/celo/dex",
+                              "historical-chains/supported-blockchains/evm/celo/dex/trades",
+                              "historical-chains/supported-blockchains/evm/celo/dex/pools"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Degen",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/degen",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/degen/raw",
+                              "historical-chains/supported-blockchains/evm/degen/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/degen/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/degen/raw/logs",
+                              "historical-chains/supported-blockchains/evm/degen/raw/traces",
+                              "historical-chains/supported-blockchains/evm/degen/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Fantom",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/fantom",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/fantom/raw",
+                              "historical-chains/supported-blockchains/evm/fantom/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/fantom/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/fantom/raw/logs",
+                              "historical-chains/supported-blockchains/evm/fantom/raw/traces",
+                              "historical-chains/supported-blockchains/evm/fantom/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/fantom/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/fantom/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/fantom/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/fantom/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/fantom/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/fantom/dex",
+                              "historical-chains/supported-blockchains/evm/fantom/dex/trades",
+                              "historical-chains/supported-blockchains/evm/fantom/dex/pools"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Fraxtal",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/fraxtal",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/fraxtal/raw",
+                              "historical-chains/supported-blockchains/evm/fraxtal/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/fraxtal/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/fraxtal/raw/logs",
+                              "historical-chains/supported-blockchains/evm/fraxtal/raw/traces",
+                              "historical-chains/supported-blockchains/evm/fraxtal/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/fraxtal/dex",
+                              "historical-chains/supported-blockchains/evm/fraxtal/dex/trades",
+                              "historical-chains/supported-blockchains/evm/fraxtal/dex/pools"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Gnosis",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/gnosis",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/gnosis/raw",
+                              "historical-chains/supported-blockchains/evm/gnosis/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/gnosis/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/gnosis/raw/logs",
+                              "historical-chains/supported-blockchains/evm/gnosis/raw/traces",
+                              "historical-chains/supported-blockchains/evm/gnosis/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/gnosis/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/gnosis/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/gnosis/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/gnosis/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/gnosis/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹HyperEVM 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/hyperevm",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/hyperevm/raw",
+                              "historical-chains/supported-blockchains/evm/hyperevm/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/hyperevm/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/hyperevm/raw/logs"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹IMX zkEVM",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/imx-zkevm",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/raw",
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/raw/logs",
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/raw/traces",
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/imx-zkevm/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/imx-zkevm/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/imx-zkevm/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/imx-zkevm/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/imx-zkevm/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Ink",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/ink",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ink/raw",
+                              "historical-chains/supported-blockchains/evm/ink/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/ink/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/ink/raw/logs",
+                              "historical-chains/supported-blockchains/evm/ink/raw/traces",
+                              "historical-chains/supported-blockchains/evm/ink/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ink/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ink/assets/transfers",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/transfers/native-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/transfers/erc20-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/transfers/erc721-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/transfers/erc1155-token-transfers"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ink/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/credit-debit/native-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/credit-debit/erc20-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/credit-debit/erc721-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/ink/assets/credit-debit/erc1155-credit-debit"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ink/dex",
+                              "historical-chains/supported-blockchains/evm/ink/dex/trades",
+                              "historical-chains/supported-blockchains/evm/ink/dex/pools",
+                              "historical-chains/supported-blockchains/evm/ink/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ink/dex/events",
+                                  "historical-chains/supported-blockchains/evm/ink/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/ink/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/ink/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/ink/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/ink/dex/token-prices-hourly"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/core-schemas/lending"
+                        ]
+                      },
+                      {
+                        "group": "🔹Manta Pacific",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/manta-pacific",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/manta-pacific/raw",
+                              "historical-chains/supported-blockchains/evm/manta-pacific/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/manta-pacific/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/manta-pacific/raw/logs",
+                              "historical-chains/supported-blockchains/evm/manta-pacific/raw/traces",
+                              "historical-chains/supported-blockchains/evm/manta-pacific/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Mantle 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/mantle",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/mantle/raw",
+                              "historical-chains/supported-blockchains/evm/mantle/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/mantle/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/mantle/raw/logs",
+                              "historical-chains/supported-blockchains/evm/mantle/raw/traces",
+                              "historical-chains/supported-blockchains/evm/mantle/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Metis",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/metis",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/metis/raw",
+                              "historical-chains/supported-blockchains/evm/metis/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/metis/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/metis/raw/logs",
+                              "historical-chains/supported-blockchains/evm/metis/raw/traces",
+                              "historical-chains/supported-blockchains/evm/metis/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Mode",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/mode",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/mode/raw",
+                              "historical-chains/supported-blockchains/evm/mode/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/mode/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/mode/raw/logs",
+                              "historical-chains/supported-blockchains/evm/mode/raw/traces",
+                              "historical-chains/supported-blockchains/evm/mode/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Polygon",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/polygon",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon/raw",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/logs",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/traces",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/erc721-tokens",
+                              "historical-chains/supported-blockchains/evm/polygon/raw/erc1155-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon/decoded",
+                              "historical-chains/supported-blockchains/evm/polygon/decoded/decoded-logs",
+                              "historical-chains/supported-blockchains/evm/polygon/decoded/decoded-traces"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/polygon/wallet-360",
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon/assets",
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances/matic-balances",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances/erc20-balances",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances/erc721-balances",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances/erc1155-balances"
+                                ]
+                              },
+                              {
+                                "group": "Balances Latest",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances-latest",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances-latest/eth-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances-latest/erc20-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances-latest/erc721-balances-latest",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/balances-latest/erc1155-balances-latest"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/credit-debit/matic-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/credit-debit/erc20-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/credit-debit/erc721-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/credit-debit/erc1155-credit-debit"
+                                ]
+                              },
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/token-transfers/matic-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/token-transfers/erc721-transfer",
+                                  "historical-chains/supported-blockchains/evm/polygon/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon/dex",
+                              "historical-chains/supported-blockchains/evm/polygon/dex/trades",
+                              "historical-chains/supported-blockchains/evm/polygon/dex/pools",
+                              "historical-chains/supported-blockchains/evm/polygon/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/polygon/dex/events",
+                                  "historical-chains/supported-blockchains/evm/polygon/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/polygon/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/polygon/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/polygon/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/polygon/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon/nfts",
+                              "historical-chains/supported-blockchains/evm/polygon/nfts/mints",
+                              "historical-chains/supported-blockchains/evm/polygon/nfts/trades",
+                              "historical-chains/supported-blockchains/evm/polygon/nfts/wash-trading-flag",
+                              "historical-chains/supported-blockchains/evm/polygon/nfts/nft-flags"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Polygon zkEVM",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/polygon-zkevm",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/raw",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/raw/logs",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/raw/traces",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/polygon-zkevm/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon-zkevm/assets/token-transfers/eth-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon-zkevm/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon-zkevm/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/polygon-zkevm/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/dex",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/dex/trades",
+                              "historical-chains/supported-blockchains/evm/polygon-zkevm/dex/pools"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Proof of Play Apex 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/proof-of-play-apex",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/proof-of-play-apex/raw",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-apex/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-apex/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-apex/raw/logs",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-apex/raw/traces",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-apex/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Proof of Play Boss 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/proof-of-play-boss",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/proof-of-play-boss/raw",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-boss/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-boss/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-boss/raw/logs",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-boss/raw/traces",
+                              "historical-chains/supported-blockchains/evm/proof-of-play-boss/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Real",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/real",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/real/raw",
+                              "historical-chains/supported-blockchains/evm/real/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/real/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/real/raw/logs",
+                              "historical-chains/supported-blockchains/evm/real/raw/traces",
+                              "historical-chains/supported-blockchains/evm/real/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Reya",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/reya",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/reya/raw",
+                              "historical-chains/supported-blockchains/evm/reya/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/reya/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/reya/raw/logs",
+                              "historical-chains/supported-blockchains/evm/reya/raw/traces",
+                              "historical-chains/supported-blockchains/evm/reya/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Ronin 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/ronin",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ronin/raw",
+                              "historical-chains/supported-blockchains/evm/ronin/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/ronin/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/ronin/raw/logs",
+                              "historical-chains/supported-blockchains/evm/ronin/raw/traces",
+                              "historical-chains/supported-blockchains/evm/ronin/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/ronin/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/ronin/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/ronin/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/ronin/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/ronin/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Sanko",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/sanko",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/sanko/raw",
+                              "historical-chains/supported-blockchains/evm/sanko/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/sanko/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/sanko/raw/logs",
+                              "historical-chains/supported-blockchains/evm/sanko/raw/traces",
+                              "historical-chains/supported-blockchains/evm/sanko/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Scroll",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/scroll",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/scroll/raw",
+                              "historical-chains/supported-blockchains/evm/scroll/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/scroll/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/scroll/raw/logs",
+                              "historical-chains/supported-blockchains/evm/scroll/raw/traces",
+                              "historical-chains/supported-blockchains/evm/scroll/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/scroll/decoded",
+                              "historical-chains/supported-blockchains/evm/scroll/decoded/decoded-traces"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/scroll/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/scroll/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/scroll/assets/token-transfers/eth-transfers",
+                                  "historical-chains/supported-blockchains/evm/scroll/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/scroll/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/scroll/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/scroll/dex",
+                              "historical-chains/supported-blockchains/evm/scroll/dex/trades",
+                              "historical-chains/supported-blockchains/evm/scroll/dex/pools"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Scroll Sepolia",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/scroll-sepolia",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/scroll-sepolia/raw",
+                              "historical-chains/supported-blockchains/evm/scroll-sepolia/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/scroll-sepolia/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/scroll-sepolia/raw/logs",
+                              "historical-chains/supported-blockchains/evm/scroll-sepolia/raw/traces",
+                              "historical-chains/supported-blockchains/evm/scroll-sepolia/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Sei 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/sei",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/sei/raw",
+                              "historical-chains/supported-blockchains/evm/sei/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/sei/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/sei/raw/logs",
+                              "historical-chains/supported-blockchains/evm/sei/raw/traces",
+                              "historical-chains/supported-blockchains/evm/sei/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Soneium",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/soneium",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/soneium/raw",
+                              "historical-chains/supported-blockchains/evm/soneium/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/soneium/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/soneium/raw/logs",
+                              "historical-chains/supported-blockchains/evm/soneium/raw/traces",
+                              "historical-chains/supported-blockchains/evm/soneium/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/soneium/dex",
+                              "historical-chains/supported-blockchains/evm/soneium/dex/trades",
+                              "historical-chains/supported-blockchains/evm/soneium/dex/token-prices-hourly"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Sonic",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/sonic",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/sonic/raw",
+                              "historical-chains/supported-blockchains/evm/sonic/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/sonic/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/sonic/raw/logs",
+                              "historical-chains/supported-blockchains/evm/sonic/raw/traces",
+                              "historical-chains/supported-blockchains/evm/sonic/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Superposition",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/superposition",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/superposition/raw",
+                              "historical-chains/supported-blockchains/evm/superposition/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/superposition/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/superposition/raw/logs",
+                              "historical-chains/supported-blockchains/evm/superposition/raw/traces",
+                              "historical-chains/supported-blockchains/evm/superposition/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Starknet 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/starknet",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/starknet/raw",
+                              "historical-chains/supported-blockchains/evm/starknet/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/starknet/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/starknet/raw/messages",
+                              "historical-chains/supported-blockchains/evm/starknet/raw/events"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Tron",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/tron",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/tron/raw",
+                              "historical-chains/supported-blockchains/evm/tron/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/tron/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/tron/raw/logs",
+                              "historical-chains/supported-blockchains/evm/tron/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/tron/raw/traces-native",
+                              "historical-chains/supported-blockchains/evm/tron/raw/transactions-native"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/tron/assets",
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/tron/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/balances/trx-balances",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/balances/trc20-balances"
+                                ]
+                              },
+                              {
+                                "group": "Balances Latest",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/tron/assets/balances-latest",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/balances-latest/trc20-balances-latest"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/tron/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/credit-debit/trx-credit-debit"
+                                ]
+                              },
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/tron/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/token-transfers/trx-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/token-transfers/trc10-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/tron/assets/token-transfers/trc20-token-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/tron/staking",
+                          "historical-chains/supported-blockchains/evm/tron/identity",
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/tron/dex",
+                              "historical-chains/supported-blockchains/evm/tron/dex/trades"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Unichain",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/unichain",
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/unichain/assets",
+                              {
+                                "group": "Balances",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/balances",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/balances/native-balances",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/balances/erc20-balances"
+                                ]
+                              },
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/transfers",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/transfers/native-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/transfers/erc20-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/transfers/erc721-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/transfers/erc1155-token-transfers"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/credit-debit/native-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/credit-debit/erc20-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/credit-debit/erc721-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/unichain/assets/credit-debit/erc1155-credit-debit"
+                                ]
+                              }
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/unichain/metrics",
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/unichain/dex",
+                              "historical-chains/supported-blockchains/evm/unichain/dex/trades",
+                              "historical-chains/supported-blockchains/evm/unichain/dex/pools",
+                              "historical-chains/supported-blockchains/evm/unichain/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/unichain/dex/events",
+                                  "historical-chains/supported-blockchains/evm/unichain/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/unichain/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/unichain/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/unichain/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/unichain/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "Bridges",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/unichain/bridges",
+                              "historical-chains/supported-blockchains/evm/unichain/bridges/transfers"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹WeMix 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/wemix",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/wemix/raw",
+                              "historical-chains/supported-blockchains/evm/wemix/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/wemix/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/wemix/raw/logs"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Worldchain",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/worldchain",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/worldchain/raw",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/logs",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/traces",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/contracts",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/erc20-tokens",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/erc721-tokens",
+                              "historical-chains/supported-blockchains/evm/worldchain/raw/erc1155-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/worldchain/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/transfers",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/transfers/native-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/transfers/erc20-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/transfers/erc721-token-transfers",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/transfers/erc1155-token-transfers"
+                                ]
+                              },
+                              {
+                                "group": "Credit Debit",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/credit-debit",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/credit-debit/native-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/credit-debit/erc20-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/credit-debit/erc721-credit-debit",
+                                  "historical-chains/supported-blockchains/evm/worldchain/assets/credit-debit/erc1155-credit-debit"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "Bridges",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/worldchain/bridges",
+                              "historical-chains/supported-blockchains/evm/worldchain/bridges/transfers"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/worldchain/dex",
+                              "historical-chains/supported-blockchains/evm/worldchain/dex/trades",
+                              "historical-chains/supported-blockchains/evm/worldchain/dex/pools",
+                              "historical-chains/supported-blockchains/evm/worldchain/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/worldchain/dex/events",
+                                  "historical-chains/supported-blockchains/evm/worldchain/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/worldchain/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/worldchain/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/worldchain/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/worldchain/dex/token-prices-hourly"
+                            ]
+                          },
+                          "historical-chains/supported-blockchains/evm/worldchain/metrics"
+                        ]
+                      },
+                      {
+                        "group": "🔹zkSync",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/zksync",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/zksync/raw",
+                              "historical-chains/supported-blockchains/evm/zksync/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/zksync/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/zksync/raw/logs",
+                              "historical-chains/supported-blockchains/evm/zksync/raw/traces",
+                              "historical-chains/supported-blockchains/evm/zksync/raw/contracts"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Zora",
+                        "pages": [
+                          "historical-chains/supported-blockchains/evm/zora",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/zora/raw",
+                              "historical-chains/supported-blockchains/evm/zora/raw/blocks",
+                              "historical-chains/supported-blockchains/evm/zora/raw/transactions",
+                              "historical-chains/supported-blockchains/evm/zora/raw/logs",
+                              "historical-chains/supported-blockchains/evm/zora/raw/traces",
+                              "historical-chains/supported-blockchains/evm/zora/raw/contracts"
+                            ]
+                          },
+                          {
+                            "group": "Decoded",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/zora/decoded",
+                              "historical-chains/supported-blockchains/evm/zora/decoded/decoded-logs"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/zora/assets",
+                              {
+                                "group": "Token Transfers",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/zora/assets/token-transfers",
+                                  "historical-chains/supported-blockchains/evm/zora/assets/token-transfers/erc20-transfers",
+                                  "historical-chains/supported-blockchains/evm/zora/assets/token-transfers/erc721-transfers",
+                                  "historical-chains/supported-blockchains/evm/zora/assets/token-transfers/erc1155-transfers"
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/zora/dex",
+                              "historical-chains/supported-blockchains/evm/zora/dex/trades",
+                              "historical-chains/supported-blockchains/evm/zora/dex/pools",
+                              "historical-chains/supported-blockchains/evm/zora/dex/aggregator-trades",
+                              {
+                                "group": "Events",
+                                "pages": [
+                                  "historical-chains/supported-blockchains/evm/zora/dex/events",
+                                  "historical-chains/supported-blockchains/evm/zora/dex/events/uniswap-v2-events",
+                                  "historical-chains/supported-blockchains/evm/zora/dex/events/uniswap-v3-events",
+                                  "historical-chains/supported-blockchains/evm/zora/dex/events/uniswap-v4-events"
+                                ]
+                              },
+                              "historical-chains/supported-blockchains/evm/zora/dex/orderflow",
+                              "historical-chains/supported-blockchains/evm/zora/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/evm/zora/nfts",
+                              "historical-chains/supported-blockchains/evm/zora/nfts/mints",
+                              "historical-chains/supported-blockchains/evm/zora/nfts/transfers",
+                              "historical-chains/supported-blockchains/evm/zora/nfts/transfers"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Cosmos Ecosystem",
+                    "icon": "atom",
+                    "pages": [
+                      "historical-chains/supported-blockchains/cosmos-ecosystem",
+                      {
+                        "group": "🔸Cosmos",
+                        "pages": [
+                          "historical-chains/supported-blockchains/cosmos-ecosystem/cosmos",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/cosmos/raw",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/cosmos/raw/blocks",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/cosmos/raw/transactions",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/cosmos/raw/events",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/cosmos/raw/event-attributes"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔸Provenance",
+                        "pages": [
+                          "historical-chains/supported-blockchains/cosmos-ecosystem/provenance",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/provenance/raw",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/provenance/raw/blocks",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/provenance/raw/transactions",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/provenance/raw/events",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/provenance/raw/event-attributes"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔸Osmosis 🌱",
+                        "pages": [
+                          "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw/blocks",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw/transactions",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw/events",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw/event-attributes",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw/block-events",
+                              "historical-chains/supported-blockchains/cosmos-ecosystem/osmosis/raw/block-event-attributes"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Bitcoin Ecosystem",
+                    "icon": "bitcoin",
+                    "pages": [
+                      "historical-chains/supported-blockchains/bitcoin-ecosystem",
+                      {
+                        "group": "🔸Bitcoin",
+                        "pages": [
+                          "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/raw",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/raw/blocks",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/raw/transactions",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/raw/inputs",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/raw/outputs"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/assets",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/assets/inscription-transfers",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/assets/balances",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/assets/credit-debit",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/assets/latest-balances"
+                            ]
+                          },
+                          {
+                            "group": "NFTs",
+                            "pages": [
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/nfts",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/nfts/trades",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/nfts/mints",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/nfts/ordinals-inscriptions",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/bitcoin/nfts/ordinals-collections"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔸Stacks",
+                        "pages": [
+                          "historical-chains/supported-blockchains/bitcoin-ecosystem/stacks",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/stacks/raw",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/stacks/raw/blocks",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/stacks/raw/transactions",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/stacks/raw/events"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔹Rootstock",
+                        "pages": [
+                          "historical-chains/supported-blockchains/bitcoin-ecosystem/rootstock",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/rootstock/raw",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/rootstock/raw/blocks",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/rootstock/raw/transactions",
+                              "historical-chains/supported-blockchains/bitcoin-ecosystem/rootstock/raw/logs"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Move Ecosystem",
+                    "icon": "arrow-turn-down-right",
+                    "pages": [
+                      "historical-chains/supported-blockchains/move-ecosystem",
+                      {
+                        "group": "🔸Aptos",
+                        "pages": [
+                          "historical-chains/supported-blockchains/move-ecosystem/aptos",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/move-ecosystem/aptos/raw",
+                              "historical-chains/supported-blockchains/move-ecosystem/aptos/raw/blocks",
+                              "historical-chains/supported-blockchains/move-ecosystem/aptos/raw/transactions",
+                              "historical-chains/supported-blockchains/move-ecosystem/aptos/raw/events",
+                              "historical-chains/supported-blockchains/move-ecosystem/aptos/raw/changes"
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "group": "🔸Sui",
+                        "pages": [
+                          "historical-chains/supported-blockchains/move-ecosystem/sui",
+                          {
+                            "group": "Raw",
+                            "pages": [
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/checkpoints",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/transaction-blocks",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/transactions",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/events",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/object-changes",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/balance-changes",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/raw/fungible-tokens"
+                            ]
+                          },
+                          {
+                            "group": "Assets",
+                            "pages": [
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/assets",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/assets/fungible-transfers"
+                            ]
+                          },
+                          {
+                            "group": "DEX",
+                            "pages": [
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/dex",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/dex/trades",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/dex/token-prices-hourly"
+                            ]
+                          },
+                          {
+                            "group": "Staking",
+                            "pages": [
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/staking",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/staking/overview",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/staking/validator-rewards",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/staking/validator-stake-latest",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/staking/deposits",
+                              "historical-chains/supported-blockchains/move-ecosystem/sui/staking/withdrawals"
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Solana",
+                    "icon": "circle-s",
+                    "pages": [
+                      "historical-chains/supported-blockchains/solana",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/raw",
+                          "historical-chains/supported-blockchains/solana/raw/blocks",
+                          "historical-chains/supported-blockchains/solana/raw/transactions",
+                          "historical-chains/supported-blockchains/solana/raw/instructions",
+                          "historical-chains/supported-blockchains/solana/raw/inner-instructions",
+                          "historical-chains/supported-blockchains/solana/raw/rewards",
+                          "historical-chains/supported-blockchains/solana/raw/fees"
+                        ]
+                      },
+                      {
+                        "group": "Decoded",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/decoded",
+                          "historical-chains/supported-blockchains/solana/decoded/decoded-instructions",
+                          "historical-chains/supported-blockchains/solana/decoded/decoded-events"
+                        ]
+                      },
+                      {
+                        "group": "Assets",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/assets",
+                          "historical-chains/supported-blockchains/solana/assets/balances",
+                          "historical-chains/supported-blockchains/solana/assets/transfers",
+                          "historical-chains/supported-blockchains/solana/assets/credit-debit",
+                          "historical-chains/supported-blockchains/solana/assets/balance-changes"
+                        ]
+                      },
+                      {
+                        "group": "NFTs",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/nfts",
+                          "historical-chains/supported-blockchains/solana/nfts/mints",
+                          "historical-chains/supported-blockchains/solana/nfts/trades"
+                        ]
+                      },
+                      {
+                        "group": "Prices",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/prices",
+                          "historical-chains/supported-blockchains/solana/prices/dex-token-prices-hourly"
+                        ]
+                      },
+                      {
+                        "group": "Dex",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/dex",
+                          "historical-chains/supported-blockchains/solana/dex/trades",
+                          "historical-chains/supported-blockchains/solana/dex/aggregator-trades",
+                          "historical-chains/supported-blockchains/solana/dex/pools",
+                          "historical-chains/supported-blockchains/solana/dex/tvl-total-value-locked"
+                        ]
+                      },
+                      {
+                        "group": "Defi",
+                        "pages": [
+                          "historical-chains/supported-blockchains/solana/defi",
+                          "historical-chains/supported-blockchains/solana/defi/farms",
+                          "historical-chains/supported-blockchains/solana/defi/rewards-claimed",
+                          "historical-chains/supported-blockchains/solana/defi/fees-claimed"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "Near",
+                    "icon": "circle-n",
+                    "pages": [
+                      "historical-chains/supported-blockchains/near",
+                      {
+                        "group": "Assets",
+                        "pages": [
+                          "historical-chains/supported-blockchains/near/assets",
+                          "historical-chains/supported-blockchains/near/assets/near-token-transfers",
+                          "historical-chains/supported-blockchains/near/assets/ft-token-transfers"
+                        ]
+                      },
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "historical-chains/supported-blockchains/near/raw",
+                          "historical-chains/supported-blockchains/near/raw/blocks",
+                          "historical-chains/supported-blockchains/near/raw/chunks",
+                          "historical-chains/supported-blockchains/near/raw/transactions",
+                          "historical-chains/supported-blockchains/near/raw/receipts",
+                          "historical-chains/supported-blockchains/near/raw/transaction-actions",
+                          "historical-chains/supported-blockchains/near/raw/receipt-outcomes"
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "group": "TON",
+                    "icon": "circle-caret-down",
+                    "pages": [
+                      "historical-chains/supported-blockchains/ton",
+                      {
+                        "group": "Raw",
+                        "pages": [
+                          "historical-chains/supported-blockchains/ton/raw",
+                          "historical-chains/supported-blockchains/ton/raw/blocks",
+                          "historical-chains/supported-blockchains/ton/raw/transactions",
+                          "historical-chains/supported-blockchains/ton/raw/messages"
+                        ]
+                      },
+                      {
+                        "group": "Assets",
+                        "pages": [
+                          "historical-chains/supported-blockchains/ton/assets",
+                          "historical-chains/supported-blockchains/ton/assets/ton-transfers",
+                          "historical-chains/supported-blockchains/ton/assets/jetton-transfers"
+                        ]
+                      }
+                    ]
+                  },
+                  "historical-chains/supported-blockchains/hedera",
+                  "historical-chains/supported-blockchains/hyperliquid"
+                ]
+              },
+              "historical-chains/data-delivery-interfaces"
+            ]
+          },
+          {
+            "group": "Historical Data (Verticals)",
+            "pages": [
+              {
+                "group": "Wallet 360",
+                "icon": "trademark",
+                "pages": [
+                  "historical-verticals/wallet-360",
+                  "historical-verticals/wallet-360/table-columns"
+                ]
+              },
+              "historical-verticals/chain-metrics",
+              "historical-verticals/stablecoins",
+              {
+                "group": "Bridges",
+                "icon": "bridge",
+                "pages": [
+                  "historical-verticals/bridges",
+                  "historical-verticals/bridges/wormhole"
+                ]
+              },
+              "historical-verticals/lending",
+              "historical-verticals/dex-trades",
+              {
+                "group": "NFT Trades",
+                "icon": "hexagon-vertical-nft",
+                "pages": [
+                  "historical-verticals/nft-trades",
+                  "historical-verticals/nft-trades/wash-trading-flags"
+                ]
+              },
+              "historical-verticals/token-transfers",
+              "historical-verticals/balances",
+              {
+                "group": "Prices",
+                "icon": "square-dollar",
+                "pages": [
+                  "historical-verticals/prices",
+                  "historical-verticals/prices/token-prices-hourly",
+                  "historical-verticals/prices/dex-token-prices-hourly"
+                ]
+              },
+              "historical-verticals/identity",
+              "historical-verticals/decoded",
+              {
+                "group": "DefiLlama",
+                "icon": "deer",
+                "pages": [
+                  "historical-verticals/defillama",
+                  {
+                    "group": "TVL",
+                    "pages": [
+                      "historical-verticals/defillama/tvl",
+                      "historical-verticals/defillama/tvl/historical-token-amounts-per-protocol",
+                      "historical-verticals/defillama/tvl/historical-token-values-per-protocol",
+                      "historical-verticals/defillama/tvl/historical-tvl-per-protocol",
+                      "historical-verticals/defillama/tvl/historical-token-amounts-per-chain",
+                      "historical-verticals/defillama/tvl/historical-token-values-per-chain",
+                      "historical-verticals/defillama/tvl/historical-tvl-per-chain"
+                    ]
+                  }
+                ]
+              },
+              "historical-verticals/utility"
+            ]
+          }
+        ]
+      },
+      {
+        "tab": "API Reference",
+        "groups": [
+          {
+            "group": "Getting Started",
+            "pages": [
+              "api-reference/overview",
+              "api-reference/authentication"
+            ]
+          },
+          {
+            "group": "Allium API",
+            "pages": [
+              {
+                "group": "Prices",
+                "pages": [
+                  "api-reference/pricesapi-overview",
+                  "api-reference/prices-endpoint/token-latest-price",
+                  "api-reference/prices-endpoint/token-price-history"
+                ]
+              },
+              {
+                "group": "NFTs",
+                "pages": [
+                  "api-reference/nftapi-overview",
+                  "api-reference/nft-endpoint/get-nft-by-contract",
+                  "api-reference/nft-endpoint/nft-token-by-contract",
+                  "api-reference/nft-endpoint/nft-contract",
+                  "api-reference/nft-endpoint/nft-collections",
+                  "api-reference/nft-endpoint/nft-listings",
+                  "api-reference/nft-endpoint/nft-listings-by-token",
+                  "api-reference/nft-endpoint/nft-transfer-by-token",
+                  "api-reference/nft-endpoint/nft-transfer-by-contract",
+                  "api-reference/nft-endpoint/nft-activities-token",
+                  "api-reference/nft-endpoint/nft-activities-contract"
+                ]
+              },
+              {
+                "group": "Wallets",
+                "pages": [
+                  "api-reference/walletapi-overview",
+                  "api-reference/wallet-endpoint/activities",
+                  "api-reference/wallet-endpoint/latest-token-balances",
+                  "api-reference/wallet-endpoint/latest-nft-balances",
+                  "api-reference/wallet-endpoint/latest-sol-balances",
+                  "api-reference/wallet-endpoint/historical-token-balances",
+                  "api-reference/wallet-endpoint/pnl",
+                  "api-reference/wallet-endpoint/cost-basis"
+                ]
+              },
+              {
+                "group": "Stream Filters",
+                "pages": [
+                  "api-reference/streamapi-overview",
+                  "api-reference/stream-endpoint/all-filters",
+                  "api-reference/stream-endpoint/create-filters",
+                  "api-reference/stream-endpoint/add-value-filters"
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "global": {
+      "anchors": [
+        {
+          "anchor": "Use Cases",
+          "href": "https://www.allium.so/use-cases",
+          "icon": "books"
+        },
+        {
+          "anchor": "Blog",
+          "href": "https://labelbox.com/blog/",
+          "icon": "newspaper"
+        }
+      ]
+    }
+  },
+  "logo": {
+    "light": "/logo/light.svg",
+    "dark": "/logo/dark.svg"
+  },
+  "navbar": {
+    "links": [
+      {
+        "label": "Login",
+        "href": "https://app.allium.so/"
+      }
+    ],
+    "primary": {
+      "type": "button",
+      "label": "Book a Demo",
+      "href": "https://www.allium.so/contact"
+    }
+  },
+  "footer": {
+    "socials": {
+      "x": "https://x.com/alliumlabs",
+      "linkedin": "https://www.linkedin.com/company/alliumlabs/"
+    }
+  }
+}

@@ -1,0 +1,38 @@
+---
+title: "Overview"
+---
+
+Our BSC assets schema currently includes BNB and ERC20 Token Transfers.
+
+<Info>
+Note that native BNB on BSC uses the null address `0x0000000000000000000000000000000000000000` as token\_address.
+</Info>
+
+`bsc.assets.bnb_erc20_token_transfers` combines both BNB and ERC20 transfers on BSC.
+
+### Table Columns
+
+| Column Name                | Description                                                                            |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| transfer\_type             | Transfer Type (ERC20 or ETH).                                                          |
+| from\_address              | Address where the token is being transferred from.                                     |
+| to\_address                | Address where the token is being transferred to.                                       |
+| token\_address             | Token address of the asset transferred.                                                |
+| token\_name                | Name of the asset transferred.                                                         |
+| token\_symbol              | Token symbol of the asset transferred.                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string                                        |
+| amount                     | Amount of token moved, normalized.                                                     |
+| amount\_str                | Amount of token moved, normalized in string.                                           |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        |
+| transaction\_index         | Transaction index.                                                                     |
+| erc20\_log\_index          | ERC20 Transfer Log Index.                                                              |
+| eth\_call\_type            | ETH Traces Call Type.                                                                  |
+| eth\_transfer\_type        | ETH Transfer Type for Transfers.                                                       |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         |
+| unique\_id                 | Unique id generated for each transfer. Includes transaction hash and log index.        |

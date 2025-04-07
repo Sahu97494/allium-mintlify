@@ -1,0 +1,22 @@
+---
+title: "Query Optimizations"
+icon: "rocket"
+---
+
+This page describes some frequently used tips and tricks to improve query performance when querying historical data.
+
+## General tips and tricks
+
+Most time-based tables are clustered by `block_timestamp::date`, so it’s useful to have `block_timestamp` in join conditions
+
+Use CTEs to filter source data before the joins in the SQL.
+
+## Ecosystem specific tips
+
+Solana
+
+1. When querying `raw.transactions`, if you do not need failed/voting txns, you can use `raw.success_nonvoting_transactions`
+
+    a. if so, for (inner)instructions, use filters of `parent_tx_success=true` and `is_voting=false`
+
+    b. for tx meta columns, the rpc returns pre/post token/native balances. we have reformatted these cols to be more user-friendly in the columns `sol_amounts`, `mint_to_decimals`, `token_accounts` for your convenience. (only available for `success_nonvoting_transactions`). For more info, refer to [transaction-level columns](/historical-chains/supported-blockchains/solana#transaction-level-columns).

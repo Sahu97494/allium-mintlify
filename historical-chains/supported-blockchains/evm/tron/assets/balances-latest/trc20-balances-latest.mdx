@@ -1,0 +1,20 @@
+---
+title: "TRC20 Balances Latest"
+description: The current TRC20 balance of all addresses.
+---
+
+TRC20 balances latest contains the current TRC20 balances of all addresses. It is otherwise identical to TRC20 Balances
+
+### Sample Query
+
+Getting the latest ERC20 Balances of USDC Token from an address.
+
+```sql
+select * from tron.assets.trc20_balances_latest
+where address = 'TXFBqBbqJommqZf7BV8NNYzePh97UmJodJ' -- Bitfinex
+and token_address = 'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t' -- USDT Token Address
+```
+
+### Table Columns
+
+<table><thead><tr><th width="253.33333333333331">Column Name</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td><code>TYE218dMfzo2TH348AbKyHD2G8PjGo7ESS</code></td></tr><tr><td>token_address</td><td>Addres of the token.</td><td><code>TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8</code></td></tr><tr><td>token_name</td><td>Name of the token.</td><td>USD Coin</td></tr><tr><td>token_symbol</td><td>Symbol of the token.</td><td>USDC</td></tr><tr><td>raw_balance</td><td>Balance of ERC20 token unnormalized.</td><td>84,005</td></tr><tr><td>raw_balance_str</td><td>Balance of ERC20 token unnormalized in string.</td><td>84005</td></tr><tr><td>balance_str</td><td>Balance of ERC20 token in string.</td><td>0.084005</td></tr><tr><td>balance</td><td>Balance of ERC20 token.</td><td>0.084005</td></tr><tr><td>usd_balance_current</td><td>USD balance of ERC20 token at the <strong>current timestamp.</strong></td><td>0.0839797985</td></tr><tr><td>usd_balance_at_block_timestamp</td><td>USD balance of ERC20 token at the <strong>timestamp of the last activity that</strong> resulted in balance change.</td><td>0.083920995</td></tr><tr><td>usd_exchange_rate_current</td><td>USD exchange rate of ERC20 token at the current timestamp.</td><td>0.9997</td></tr><tr><td>usd_exchange_rate_at_block_timestamp</td><td>USD exchange rate of ERC20 token at the timestamp of the last activity that resulted in balance update.</td><td>0.999</td></tr><tr><td>transaction_hash</td><td>The transaction hash that resulted in the balance update.</td><td>0x8f1b88cc42fd0923bcb6460c631ac319eb18793e45feb3fa3bd2087dafe273f1</td></tr><tr><td>last_activity_block_timestamp</td><td>The last timestamp of the block that that resulted in the balance update.</td><td>2021-07-04 11:29:30</td></tr><tr><td>last_activity_block_number</td><td>The last block number that resulted in the balance update.</td><td>31,641,759</td></tr><tr><td>last_activity_block_hash</td><td>The last hash of the block that resulted in the balance update.</td><td><code>0x0000000001e2d09ff8d7322804797a046afb97433cfedc15f46b057df5c47dee</code></td></tr><tr><td>_updated_at__usd_exchange_rate_current</td><td>Timestamp of the current USD exchange.</td><td>2023-03-10 22:00:00</td></tr><tr><td>unique_id</td><td>Unique ID of the balance</td><td>block-31641759_address-<code>TYE218dMfzo2TH348AbKyHD2G8PjGo7ESS</code>_token_address-<code>TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8</code>_erc20</td></tr><tr><td>_updated_at</td><td>Timestamp of the balance update. </td><td>2023-03-10 10:18:08</td></tr></tbody></table>

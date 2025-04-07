@@ -1,0 +1,31 @@
+---
+title: 'Token Price History'
+openapi: '/api-reference/prices-api.json POST /api/v1/developer/prices/historical'
+description: "Get the price history for the given token and the given time granularity ('minute', 'hour', 'day')."
+---
+
+This endpoint returns the price and OHCLV for a token in a given time window. Prices are calculated as a volume weighted average and OHCLV values are aggregated over DEX trades within some window depending on the value provided for `time_window`. The following are the supported windows and their associated retentions periods:
+
+| **Window** | **Retention** |
+|------------|---------------|
+| minute     | 7 days        |
+| hour       | 1 month       |
+| day        | Historical    |
+
+**Supported Protocols**
+
+- **AMM & Liquidity Pool DEXs**: Orca, Raydium, Saber, Lifinity, Mercurial, Cropper, Fluxbeam, Crema, Invariant, GooseFX, Meteora
+- **Order Book DEXs**: OpenBook, Phoenix
+- **Aggregators & Trading Focused DEXs**: Jupiter, Marinade, Symmetry, Pumpfun
+
+| **Performance Metrics** | **Value**                          |
+|-------------------------|------------------------------------|
+| Query Latency           | p50 1s                             |
+| Pagination              | Up to 50 tokens per request        |
+| Metadata Support        | Token decimals, token symbol       |
+| Data Freshness          | p50 4s                             |
+| Chain Coverage          | Solana                             |
+
+**Edge Cases**
+
+This endpoint returns price data for the current time window, even if it’s incomplete. For example, if the API is called at 10:30, the latest hourly datapoint for 10:00 is based on trades from 10:00 to 10:30. If called at 10:45, the 10:00 datapoint will be finalized, reflecting a full hour of trades. Users should account for this when handling near-real-time data.

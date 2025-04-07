@@ -1,0 +1,31 @@
+---
+title: "Queue Latest"
+description: Find the current entry and exit queue duration on Beacon Chain.
+---
+
+### Overview
+
+The `beacon.validator.queue_latest` provides the current status of activation and exit duration data with \~1-hour data freshness.
+
+This model uses the same methodology as `beacon.validator.queue` in deriving queue duration.
+
+### Table Columns
+
+| Column Name                  | Description                                                         |
+| ---------------------------- | ------------------------------------------------------------------- |
+| validators\_entry\_queued    | Number of validators waiting in the entry queue on this date        |
+| entry\_churn\_per\_epoch     | Median number of validators that can enter the active set per epoch |
+| total\_entry\_queue\_epochs  | Estimated number of epochs required to clear the entry queue        |
+| total\_entry\_queue\_minutes | Estimated time in minutes to clear the entry queue                  |
+| total\_entry\_queue\_hours   | Estimated time in hours to clear the entry queue                    |
+| total\_entry\_queue\_days    | Estimated time in days to clear the entry queue                     |
+| validators\_exit\_queued     | Number of validators waiting in the exit queue on this date         |
+| exit\_churn\_per\_epoch      | Median number of validators that can exit the active set per epoch  |
+| total\_exit\_queue\_epochs   | Estimated number of epochs required to clear the exit queue         |
+| total\_exit\_queue\_minutes  | Estimated time in minutes to clear the exit queue                   |
+| total\_exit\_queue\_hours    | Estimated time in hours to clear the exit queue                     |
+| total\_exit\_queue\_days     | Estimated time in days to clear the exit queue                      |
+| \_created\_at                | Timestamp when this record was created                              |
+
+
+

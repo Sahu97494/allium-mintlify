@@ -1,0 +1,56 @@
+---
+title: "Traces Transfers"
+description: "An object containing detailed information about the traced transaction"
+---
+
+## EVM Traces Transfers
+
+<Info>
+Not all EVM-compatible blockchains support this table. EVM-Transfers table only applies for Arbitrum-Orbit blockchains, e.g. Degen, Re.al, Gravity.
+</Info>
+
+## EVM Traces Transfers
+
+Table tracking detailed EVM transfers that occur before and after transaction execution, including fee payments, refunds, and other transfers.
+
+#### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name            | Data Type        | Description                                                                                                   |
+|------------------------|------------------|---------------------------------------------------------------------------------------------------------------|
+| bet_index              | BIGINT           | Array index of the before-execution transfer                                                                  |
+| bet_from_address       | VARCHAR          | Address initiating the transfer before execution                                                             |
+| bet_purpose            | VARCHAR          | Purpose of the before-execution transfer (e.g., 'feePayment')                                                |
+| bet_value_hex           | VARCHAR          | Hexadecimal value of the before-execution transfer in Wei                                                    |
+| bet_value               | NUMERIC          | Decimal value of the before-execution transfer in Wei                                                        |
+| aet_index              | BIGINT           | Array index of the after-execution transfer                                                                  |
+| aet_to_address         | VARCHAR          | Address receiving the transfer after execution                                                               |
+| aet_purpose            | VARCHAR          | Purpose of the after-execution transfer (e.g., 'gasRefund')                                                  |
+| aet_value_hex           | VARCHAR          | Hexadecimal value of the after-execution transfer in Wei                                                     |
+| aet_value               | NUMERIC          | Decimal value of the after-execution transfer in Wei                                                         |
+| transaction_hash        | VARCHAR          | Hash of the transaction                                                                                      |
+| transaction_index       | BIGINT           | Position of the transaction in the block                                                                     |
+| from_address           | VARCHAR          | Transaction sender address                                                                                   |
+| to_address             | VARCHAR          | Transaction recipient address                                                                                |
+| value                  | VARCHAR          | Transaction value                                                                                            |
+| input                  | VARCHAR          | Transaction input data                                                                                       |
+| output                 | VARCHAR          | Transaction output data                                                                                      |
+| trace_type             | VARCHAR          | Type of trace (e.g., 'call')                                                                                 |
+| call_type              | VARCHAR          | Type of call if applicable                                                                                   |
+| reward_type            | VARCHAR          | Type of reward if applicable                                                                                 |
+| gas                    | NUMERIC          | Gas limit of the trace call                                                                                  |
+| gas_used               | NUMERIC          | Amount of gas used                                                                                           |
+| subtraces              | BIGINT           | Number of sub-traces                                                                                         |
+| trace_address          | VARCHAR          | Address path of the trace                                                                                    |
+| error                  | VARCHAR          | Error message if any                                                                                         |
+| status                 | BIGINT           | Status of the transaction                                                                                    |
+| block_timestamp        | TIMESTAMP_NTZ(9) | Block timestamp                                                                                              |
+| block_number           | BIGINT           | Block number                                                                                                 |
+| block_hash             | VARCHAR          | Hash of the block                                                                                            |
+| trace_id               | VARCHAR          | Unique identifier for the trace                                                                              |
+| selector               | VARCHAR          | Function selector                                                                                            |
+| before_evm_transfers   | VARIANT          | JSON array of transfers before execution                                                                     |
+| after_evm_transfers    | VARIANT          | JSON array of transfers after execution                                                                      |
+| unique_id              | VARCHAR          | Unique identifier for the transfer record                                                                    |
+

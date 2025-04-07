@@ -1,0 +1,89 @@
+---
+title: Overview
+description: "Core Ethereum Virtual Machine (EVM) Compatible Schemas on Allium."
+---
+
+Ethereum Virtual Machine (EVM) schemas share similar data structures across all EVM-compatible blockchains indexed by Allium. 
+
+We support the following data verticals 
+
+## Verticals
+
+### Raw Data
+
+Raw blockchain data in its most fundamental form, providing the foundation for all derived analytics.
+
+| Schema | Description                                      | Tables                                                      |
+|--------|--------------------------------------------------|-------------------------------------------------------------|
+| Raw    | Primary blockchain data directly from nodes      | blocks, transactions, logs, traces, traces_evm_transfers*   |
+| Raw+   | Enhanced data about deployed smart contracts and tokens | contracts, erc20_tokens, erc721_tokens, erc1155_tokens     |
+
+\*only applicable for Arbitrum Orbit blockchains
+
+### Decoded Data
+
+Human-readable versions of blockchain interactions, with parameters decoded into structured formats.
+
+| Models         | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| Decoded logs   | Event logs with parameters decoded into JSON format for easy querying      |
+| Decoded traces | Contract interactions with input/output parameters decoded into JSON format |
+
+### Metrics
+
+Pre-computed blockchain analytics that enable efficient cross-chain comparison and time-series analysis.
+
+| Models         | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| Metrics Overview | Daily metrics grouped by chain, covering transactions, users, fees, token transfers, DEX activity, NFTs, stablecoins, and more. Not all metrics are available for every chain. |
+
+### Assets
+
+Comprehensive tracking of digital asset movements and holdings across the blockchain.
+
+| Models         | Description                                                                 |
+|----------------|-----------------------------------------------------------------------------|
+| Balances       | Real-time tracking of asset balance changes at the block level             |
+| Balances Latest| Current snapshot of all asset holdings per address                         |
+| Transfers      | Detailed record of asset movements between addresses                       |
+| Credit Debit   | Aggregated inflow/outflow analysis of assets per address                   |
+
+### Decentralized Exchanges (DEX)
+
+Complete coverage of on-chain trading activity and liquidity provision.
+
+| Models               | Description                                                   |
+|----------------------|---------------------------------------------------------------|
+| DEX Trades           | Individual swap transactions across all DEX protocols        |
+| DEX Pools            | Comprehensive registry of active liquidity pools             |
+| DEX Aggregator Trades| Trades routed through DEX aggregator services                |
+| DEX Events           | Protocol-specific events (Uniswap V2-V4) for detailed analysis|
+| DEX OrderFlow        | Aggregated trading flow data for frontend analysis           |
+| DEX Token Prices Hourly | Historical token pricing derived from on-chain trades      |
+
+### Lending
+
+Complete coverage of on-chain lending activity, total locked value and interest rates.
+
+| Models        | Description                                                                                                                                                                                                 |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| TVL Daily     | Delivers daily snapshots of Total Value Locked in lending markets with token-level breakdowns for market size and utilization analysis                                                                     |
+| Interest Rates| Provides detailed interest rate data including supply APY, borrow rates, and market conditions from Aave, Compound, and Morpho Blue for yield analysis                                                   |
+| Deposits      | Tracks deposit events across major lending protocols including Aave and Compound, capturing deposit amounts, token details, and participant addresses                                                     |
+| Withdrawals   | Monitors withdrawal events from lending protocols with complete data on withdrawn amounts, tokens, and user addresses for liquidity analysis                                                              |
+| Loans         | Records borrowing activity from leading lending platforms, with comprehensive data on loan amounts, terms, borrower addresses, and collateralization                                                       |
+| Repayments    | Documents loan repayment transactions with detailed information on repaid amounts, outstanding balances, and borrower activity                                                                             |
+| Liquidations  | Captures liquidation events with data on liquidated collateral, repaid debt, liquidators, and borrowers across all major lending protocols                                                                 |
+
+### Non-Fungible Tokens (NFTs)
+
+Detailed tracking of NFT activity and ownership changes.
+
+| Models        | Description                                      |
+|---------------|--------------------------------------------------|
+| NFT Mints     | Detailed records of new NFT creation events      |
+| NFT Trades    | Comprehensive marketplace and peer-to-peer trading activity |
+| NFT With Flags| Enhanced trading data with wash trading detection |
+| NFT Transfers | Complete history of NFT ownership changes        |
+
+

@@ -1,0 +1,32 @@
+---
+title: "🚩NFT+ Flags"
+description: Identify organic and meaningful NFT transactions volumes.
+---
+
+## Overview
+
+`polygon.nfts.mints_w_flags & polygon.nfts.trades_w_flags`
+
+Not all NFT trade and mints contribute to meaningful transaction volumes (wash trades, delisted collections, defi-tainted transactions.
+
+The `w_flags` tables help analysts identify these transactions to filter out based on their business needs.
+
+###  "w\_flags" vs standard NFT tables
+
+The "`mints_w_flags`" and "`trades_w_flags`" tables are extended versions of the "trades" and "mints" tables that help identify wash trades and delisted collections.
+
+These tables include additional columns such as our wash trading scores and flags that tag collections delisted by Opensea.
+
+###  The "is\_sanitized" Flag
+
+The `is_sanitized` column to unify all of our suspicious activity flags. You’ll find it on the "w\_flags" tables.
+
+Here are the conditions we use to define `is_sanitized`:
+
+* for wash trades -> `when wash_trade_score>= 4 or opensea_delisted = true then false else true`
+
+* for mints -> `when defi_mint=true or opensea_delisted=true then false else true`
+
+**Caveat:** keep in mind that we currently remove all mints identified as defi mints from your tables during the data delivery. This is why you won’t see that big of a difference in mint volume if you test mints queries with and without `where is_sanitized=true`
+
+

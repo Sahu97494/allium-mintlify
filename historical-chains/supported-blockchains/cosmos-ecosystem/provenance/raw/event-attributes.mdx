@@ -1,0 +1,33 @@
+---
+title: "Event Attributes"
+---
+
+Cosmos event attributes are key-value pairs that provide more detailed information about a categorized event. These attributes help filter and identify specific aspects of an event. Based on the provided example, the Cosmos event attributes include the following key-value pairs:
+
+1. **msg\_index**: Identifies which messages relate to the same transaction. This is reflected in the `transaction_index` field.
+
+2. **event\_type**: Categorizes the event at a high-level, such as "message". This helps filter events by message type within the Cosmos SDK.
+
+3. **key**: A specific attribute key related to the event, for example, "module".
+
+4. **value**: The value associated with the attribute key, for example, "staking".
+
+### Table Columns
+
+Unique key: block\_number, transaction\_hash, event\_index, event\_attribute\_index
+
+| Column Name             | Description                                       |
+| ----------------------- | ------------------------------------------------- |
+| block\_hash             | The hash of the block containing the transaction. |
+| block\_number           | The number of the block in the blockchain.        |
+| block\_timestamp        | The timestamp when the block was created.         |
+| transaction\_hash       | The hash of the transaction.                      |
+| transaction\_index      | The index of the transaction within the block.    |
+| event\_type             | The type of event (e.g., message).                |
+| event\_index            | The index of the event within the transaction.    |
+| event\_attribute\_index | The index of the attribute within the event.      |
+| key                     | The key of the event attribute (e.g., module).    |
+| value                   | The value of the event attribute (e.g., staking). |
+| index                   | The index of the attribute.                       |
+| \_created\_at           | The timestamp when the entry was created.         |
+| \_updated\_at           | The timestamp when the entry was updated.         |

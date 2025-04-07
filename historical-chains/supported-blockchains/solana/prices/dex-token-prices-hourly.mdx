@@ -1,0 +1,11 @@
+---
+title: "DEX Token Prices Hourly"
+---
+
+### DEX Token Prices
+
+The`dex_token_prices_hourly` contains hourly price data of tokens derived from swaps performed on decentralized exchanges.
+
+### Table Columns
+
+<table><thead><tr><th width="250">Column Name</th><th>Description</th><th>Type</th></tr></thead><tbody><tr><td>timestamp</td><td>Hourly timestamp of the token price.</td><td>timestamp_ntz</td></tr><tr><td>token_mint</td><td>The contract address of the token</td><td>varchar</td></tr><tr><td>price</td><td>USD Price of the token calculated.</td><td>float</td></tr><tr><td>median_price</td><td>Median price of the token.</td><td>float</td></tr><tr><td>is_imputed</td><td>Whether the price data is imputed: true or false. </td><td>boolean</td></tr><tr><td>usd_trading_volume</td><td>USD volume of the trade to calculate the price data.</td><td>float</td></tr><tr><td>unique_id</td><td>Unique ID attached to the derived price data.</td><td>varchar</td></tr><tr><td>_created_at</td><td>Timestamp of entry creation.</td><td>timestamp_ntz</td></tr><tr><td>_updated_at</td><td>Timestamp of entry update.</td><td>timestamp_ntz</td></tr></tbody></table>

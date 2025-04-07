@@ -1,0 +1,26 @@
+---
+title: "Pools"
+description: This table contains information for various dex pools.
+---
+
+`solana.dex.pools` currently includes the following dex/protocols
+
+| Project   | Protocol                                   |
+| --------- | ------------------------------------------ |
+| invariant | invariant                                  |
+| lifinity  | lifinity-v2                                |
+| meteora   | meteora-dlmm                               |
+| orca      | orca-v2, orca-whirlpool, orca-whirlpool-v2 |
+| phoenix   | phoenix                                    |
+| pumpswap  | pumpswap                                   |
+| raydium   | raydium-v4, raydium-cp, raydium-clmm       |
+| saber     | sable-stableswap                           |
+
+### Pools Fees
+
+For now, information on pools fees are only available for raydium-v4, raydium-cp, raydium-clmm, pumpswap, orca-whirlpool, orca-whirlpool-v2.
+
+### Table Columns
+
+<table><thead><tr><th width="172">Column Name</th><th>Description</th><th>Type</th><th>Example</th></tr></thead><tbody><tr><td>project</td><td>The dex project</td><td>varchar</td><td>meteora</td></tr><tr><td>protocol</td><td>The protocol used by the dex project</td><td>varchar</td><td>meteora-dlmm</td></tr><tr><td>liquidity_pool_address</td><td>The liquidity pool address</td><td>varchar</td><td>3WHNf55iBawfL7U1cC4Htj11KKmC8hvrrbdM31yPUr4C</td></tr><tr><td>token0_address</td><td>Token0's mint address</td><td>varchar</td><td>So11111111111111111111111111111111111111112</td></tr><tr><td>token0_symbol</td><td>Token0's symbol, if available</td><td>varchar</td><td>SOL</td></tr><tr><td>token0_decimals</td><td>Token0's decimal, if available</td><td>number</td><td>9</td></tr><tr><td>token0_vault</td><td>Token account that holds token0</td><td>varchar</td><td>Dp7VdsZ2N6sxsrezjt1EMHkELBfaAYSVJXVR753zdYJV</td></tr><tr><td>token1_address</td><td>Token1's mint address</td><td>varchar</td><td>EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v</td></tr><tr><td>token1_symbol</td><td>Token1's symbol, if available</td><td>varchar</td><td>USDC</td></tr><tr><td>token1_decimals</td><td>Token1's decimal, if available</td><td>number</td><td>6</td></tr><tr><td>token1_vault</td><td>Token account that holds token1</td><td>varchar</td><td>CZULKXqq1fPYs8xwQGMamZm1pHH5nVnRZzmm5RLnQ33r</td></tr><tr><td>trade_fee_bps</td><td>fees (in bps) that the a swapper pays for the swap, excluding transaction gas fees</td><td>number</td><td>250</td></tr><tr><td>lp_share_bps</td><td>out of the fees paid, the share (in bps) paid to the liquidity pool providers</td><td>number</td><td>8400</td></tr><tr><td>protocol_share_bps</td><td>out of the fees paid, the share (in bps) paid to the protocol</td><td>number</td><td>1400</td></tr><tr><td>treasury_share_bps</td><td>out of the fees paid, the share (in bps) paid to the treasury</td><td>number</td><td>200</td></tr><tr><td>pool_creation_fee_lamport</td><td>fee (in lamports) charged when creating the pool</td><td>varchar</td><td>150000000</td></tr><tr><td>block_slot</td><td>Block slot of the txn</td><td>number</td><td>228499898</td></tr><tr><td>block_height</td><td>Block height of the txn</td><td>number</td><td>210416091</td></tr><tr><td>block_timestamp</td><td>Block timestamp of the txn</td><td>timestamp_ntz</td><td>2023-11-07 05:11:45+00:00</td></tr><tr><td>block_hash</td><td>Block hash of the txn</td><td>varchar</td><td>BNCv6p7EYHwGUNop1kACfTgA9Km6mc8LbSHJq5B9HEA2</td></tr><tr><td>txn_id</td><td>Txn id of the txn</td><td>varchar</td><td>4GCpQa7BVefNiwhrB9QhSha4ZLMmQBdYgWTVXwspreBQhx7zdm1a1cTsgW6zjGdqdJH64fxXEiBZY1j5jD5aGgjb</td></tr><tr><td>txn_index</td><td>Txn index of the txn</td><td>number</td><td>51</td></tr><tr><td>instruction_index</td><td>Instruction index of the instruction</td><td>number</td><td>0</td></tr><tr><td>inner_instruction_index</td><td>Inner instruction index of the instruction, within its parent instruction</td><td>number</td><td>0</td></tr><tr><td>unique_id</td><td>unique id of the pool creation record</td><td>varchar</td><td>txn_id-3GheDiq6XMPPgp5ALXhuk134scV15GUtMiMagERyJCkJKUj72MLiaAYSTnfd178VMK9Kgq67CV4Vcem4AfKGnhPs_i_index-4_ii_index-null</td></tr></tbody></table>
+

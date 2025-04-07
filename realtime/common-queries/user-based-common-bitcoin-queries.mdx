@@ -1,0 +1,178 @@
+---
+title: "Deep Dive: Building A Bitcoin Wallet"
+icon: comments-question-check
+---
+
+The following are some common queries that can be used to fetch data for bitcoin holdings and activity on a per user basis.
+
+- [Fetch latest UTXO Balance](/realtime/common-queries/user-based-common-bitcoin-queries#fetch-latest-utxo-balance)
+
+- [Fetch all inputs and outputs from transactions that a user participated in](/realtime/common-queries/user-based-common-bitcoin-queries#fetch-all-inputs-and-outputs-from-transactions-that-a-user-participated-in)
+
+- [Fetch all BRC-20 Token Transfers](/realtime/common-queries/user-based-common-bitcoin-queries#fetch-all-brc-20-token-transfers)
+
+- [Fetch all Inscription Transfers](/realtime/common-queries/user-based-common-bitcoin-queries#fetch-all-inscription-transfers)
+
+- [Fetch Rare Sats](/realtime/common-queries/user-based-common-bitcoin-queries#fetch-rare-sats)
+
+- [Fetch latest BRC-20 Balance](/realtime/common-queries/user-based-common-bitcoin-queries#fetch-latest-brc-20-balance)
+
+### Fetch latest UTXO Balance
+
+```sql
+WITH address AS (
+    SELECT
+      '1DGBdRopW2mqcB75QvSFRsyRbTL4KhJBrY' AS address
+  ),
+  outputs_by_address AS (
+    SELECT
+      address0,
+      VALUE,
+      utxo_id
+    FROM
+      bitcoin.unspent_outputs outputs
+    WHERE address0 = (select address from address)
+  ),
+  valid_utxos AS (
+    SELECT
+      outputs_by_address.*
+    FROM
+      outputs_by_address
+      LEFT JOIN bitcoin.inputs ON inputs.spent_utxo_id = outputs_by_address.utxo_id
+    WHERE
+      inputs.spent_utxo_id IS NULL
+  )
+  SELECT
+    address0 AS address,
+    SUM(VALUE:: DOUBLE PRECISION) AS total_value
+  FROM
+    valid_utxos
+  GROUP BY
+    address
+```
+
+### Fetch all inputs and outputs from transactions that a user participated in
+
+```sql
+WITH address AS (
+    SELECT
+      '12F4pRSkiJdU9NdXcdb8LuFn7akoNM8SW4' AS address
+  ), inputs as (
+    select
+      spent_utxo_id,
+      'input' as type,
+      transaction_hash,
+      block_timestamp,
+      address0,
+      value
+    from bitcoin.enriched_inputs
+    where address0 = (select address from address)
+  ), outputs as (
+    select
+      utxo_id,
+      'output' as type,
+      transaction_hash,
+      block_timestamp,
+      address0,
+      value
+    from bitcoin.outputs
+    where address0 = (select address from address)
+  )
+  select * from inputs
+  union
+  select * from outputs
+```
+
+### Fetch Inscription Balances
+
+```sql
+WITH address AS (
+    SELECT
+      '12F4pRSkiJdU9NdXcdb8LuFn7akoNM8SW4' AS address
+  )
+  select
+    to_address AS address,
+    SUM(VALUE:: DOUBLE PRECISION) AS total_value
+    from bitcoin.ordinals_inscription_transfers
+  where to_address = (select address from address)
+  group by address
+```
+
+### Fetch all Inscription Transfers
+
+```sql
+WITH address AS (
+    SELECT
+      '12F4pRSkiJdU9NdXcdb8LuFn7akoNM8SW4' AS address
+  )
+  select
+    from_utxo_id,
+    to_utxo_id,
+    from_address,
+    to_address,
+    transaction_hash,
+    block_timestamp
+    cleaned_token_tick,
+    inscription_id
+    from bitcoin.ordinals_inscription_transfers
+  where from_address = (select address from address)
+  or to_address = (select address from address)
+```
+
+### Fetch all BRC-20 Token Transfers
+
+```sql
+WITH address AS (
+    SELECT
+      '12F4pRSkiJdU9NdXcdb8LuFn7akoNM8SW4' AS address
+  ),
+  token_transfers_by_token_tick AS (
+    SELECT
+      ordinals_token_transfers.transaction_hash,
+      ordinals_token_transfers.block_timestamp,
+      ordinals_token_transfers.token_tick,
+      ordinals_token_transfers.block_number,
+      ordinals_token_transfers.transaction_index,
+      ordinals_token_transfers.sat_tx_offset
+    FROM
+      bitcoin.ordinals_token_transfers
+    WHERE from_address = (select address from address)
+    OR to_address = (select address from address)
+  )
+  SELECT * FROM token_transfers_by_token_tick;
+```
+
+### Fetch latest BRC-20 Balance
+
+```sql
+WITH address AS (
+    SELECT
+      '12F4pRSkiJdU9NdXcdb8LuFn7akoNM8SW4' AS address
+  ),
+  token_transfers_by_token_tick AS (
+    SELECT
+      ordinals_token_transfers.token_tick,
+      ordinals_token_transfers.block_number,
+      ordinals_token_transfers.transaction_index,
+      ordinals_token_transfers.sat_tx_offset,
+      ROW_NUMBER() OVER (PARTITION BY token_tick ORDER BY block_number DESC,
+        transaction_index DESC,
+        sat_tx_offset DESC) AS rn
+    FROM
+      bitcoin.ordinals_token_transfers
+    WHERE from_address = (select address from address)
+    OR to_address = (select address from address)
+  )
+  SELECT * FROM token_transfers_by_token_tick WHERE rn = 1;
+```
+
+### Fetch Rare Sats
+
+```sql
+WITH address AS (
+    SELECT
+      '112uTnRahwBKPvTmj9uwXP5qqNo8g2rdig' AS address
+  )
+  select * from bitcoin.utxos_with_rare_sats
+  where address0 = (select address from address)
+```

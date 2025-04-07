@@ -1,0 +1,62 @@
+---
+title: "Decoded Logs"
+---
+
+<Info>
+**Using Decoded Logs**
+
+In general, we recommend using this combination of `params` and `params_keys_mapping` on all of your production pipelines, since it guarantees that your query won’t break if the field names ever change
+
+Logs are decoded via topic0, but they do not specify the name of the params. As a result, there **may be inconsistencies in the decoded params field** while the underlying values is correct.
+
+Field name changes over time are influenced by contract ABIs used during log decoding. We prioritize contract-specific ABIs but may fallback to generic ABIs. Historical records aren't retroactively updated to maintain query consistency.
+</Info>
+
+### Using Params Key Mapping
+
+Using Uniswap v3 Swap() event params as an example, we first reference the params field:
+
+```
+{   "amount0": "-718884554",   "amount1": "600000000000000000",   "liquidity": "11511633818000282989",   "recipient": "0xd034d7e8b27b99b5674f2d412584a2897fc87eae",   "sender": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45",   "sqrtPriceX96": "2285459885189609648572828648093816",   "tick": "205405" }
+```
+
+Then look at the `params_keys_mapping`:
+
+```
+[   "sender",   "recipient",   "amount0",   "amount1",   "sqrtPriceX96",   "liquidity",   "tick" ]
+```
+
+From there, rewrite the query using `params[params_keys_mapping[index]]` syntax:
+
+```sql
+select 
+    params[params_keys_mapping[0]] as sender,
+    params[params_keys_mapping[1]] as recipient,
+...
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| block\_number              | The length of the chain, in blocks.                                                                  |
+| block\_timestamp           | The time when the block that contains this log was included on the blockchain.                       |
+| block\_hash                | Unique identifier of the block that includes this log.                                               |
+| address                    | The address of the contract that emitted this log.                                                   |
+| name                       | Log event name.                                                                                      |
+| params                     | Decoded parameters in JSON format.                                                                   |
+| data                       | Unindexed data containing further information of the event, encoded in hex.                          |
+| topic0                     | The keccak256 hash of a flattened event signature string.                                            |
+| topic1                     | First indexed topic of the event.                                                                    |
+| topic2                     | Second indexed topic of the event                                                                    |
+| topic3                     | Third indexed topic of the event.                                                                    |
+| transaction\_from\_address | The address of the sending party of this transaction.                                                |
+| transaction\_to\_address   | The address of the receiving party of this transaction.                                              |
+| transaction\_hash          | Unique identifier of the transaction that this log belongs to.                                       |
+| transaction\_index         | The position of this transaction in the block that it belongs to. The first transaction has index 0. |
+| log\_index                 | The position of this log in the block that it belongs to. The first log has index 0.                 |
+| signature                  | Event log signature.                                                                                 |
+| params\_keys\_mapping      | Mapping of parameter keys in decoding.                                                               |
+| interface\_id              | Interface ID.                                                                                        |
+| \_created\_at              | Timestamp of the entry creation.                                                                     |
+| \_updated\_at              | Timestamp of the entry update.                                                                       |

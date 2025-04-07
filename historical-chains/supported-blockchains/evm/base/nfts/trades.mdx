@@ -1,0 +1,52 @@
+---
+title: "Trades"
+---
+
+The NFT Trades table aggregates ERC721 and ERC1155 token sales from popular NFT marketplaces and protocols.
+
+Our current NFT trades model supports **single-currency trades** (trades involving either one ERC20 token or ETH alone), which constitute most of the current NFT trades.
+
+## Coverage:
+
+| Protocol               | Marketplace                                   |
+| ---------------------- | --------------------------------------------- |
+| payment\_processor\_v2 | unlabeled, magiceden                          |
+| sudoswap\_v2           | sudoswap                                      |
+| zonic                  | zonic                                         |
+| element                | element                                       |
+| seaport                | magiceden, alienswap, unlabeled, okx, opensea |
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name         | Data Type         | Description                                                                                    |
+| ------------------- | ----------------- | ---------------------------------------------------------------------------------------------- |
+| marketplace         | varchar           | Marketplace where the trade occurred (e.g., opensea, aavegotchi, magiceden, oneplanet, nftkey) |
+| protocol            | varchar           | Protocol used for the trade (e.g., x2y2, seaport)                                              |
+| order\_match\_type  | varchar           | Type of order match: 'ACCEPT\_BID' or 'BUY'                                                    |
+| trade\_type         | varchar           | Type of trade: 'SINGLE\_TRADE' or 'BUNDLE\_TRADE'                                              |
+| buyer\_address      | varchar           | Address of the buyer                                                                           |
+| seller\_address     | varchar           | Address of the seller                                                                          |
+| token\_standard     | varchar           | Token standard of the NFT (e.g., ERC721, ERC1155)                                              |
+| token\_address      | varchar           | Contract address of the NFT collection                                                         |
+| token\_id           | varchar           | ID of the NFT traded                                                                           |
+| token\_name         | varchar           | Name of the NFT collection                                                                     |
+| token\_symbol       | varchar           | Symbol of the NFT collection                                                                   |
+| item\_quantity      | bigint            | Number of NFTs bought                                                                          |
+| currency\_address   | varchar           | Address of the currency used in the trade (zero address for native tokens)                     |
+| currency\_symbol    | varchar           | Symbol of the currency used in the trade                                                       |
+| raw\_price          | float             | Price of the NFT in the original currency (not divided by decimals)                            |
+| price               | float             | 'raw\_price' divided by the number of decimals of the currency                                 |
+| usd\_price          | float             | USD price of the NFTs in this trade                                                            |
+| agg\_fees           | variant           | Aggregated fees information including creator, platform, and total fees                        |
+| buyer\_fees         | variant           | Fees paid by the buyer                                                                         |
+| seller\_fees        | variant           | Fees paid by the seller                                                                        |
+| aggregator\_name    | varchar           | Name of the aggregator used for the trade (if applicable)                                      |
+| aggregator\_address | varchar           | Contract address of the aggregator used for the trade (if applicable)                          |
+| extra\_fields       | variant           | Additional information specific to the trade or protocol                                       |
+| transaction\_hash   | varchar           | Transaction hash of this trade                                                                 |
+| block\_timestamp    | timestamp\_ntz(9) | Timestamp of the block when the trade occurred                                                 |
+| block\_number       | bigint            | Number of the block when the trade occurred                                                    |
+| block\_hash         | varchar           | Hash of the block when the trade occurred                                                      |
+| unique\_id          | varchar           | Unique identifier for each trade                                                               |

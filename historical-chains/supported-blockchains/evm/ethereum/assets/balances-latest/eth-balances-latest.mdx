@@ -1,0 +1,41 @@
+---
+title: "ETH Balances Latest"
+description: The current ETH balance of all addresses.
+---
+
+<Info>
+Note that the USD prices of any given latest balance might lag more than you expect them to. Check the \_updated\_at\_\_usd\_exchange\_rate\_current column to ensure the price is fresh enough for your use case.
+</Info>
+
+The `assets.eth_balances_latest` table contains the **latest** balance of ETH of all addresses. It is otherwise identical to [ETH Balances](/historical-chains/supported-blockchains/evm/ethereum/assets/balances/eth-balances).
+
+### Sample Query
+
+```sql
+-- Get the latest ETH balance of a particular user address
+select * from ethereum.assets.eth_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+```
+
+### Table Columns
+
+| Column Name                                   | Description                                                                                     | Example                                                                 |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| address                                       | Address of the account.                                                                         | 0x66a84d487780c088d862971045d84b02d9b25aab                              |
+| token\_address                                | Address of the Ether, which is represented as nulll address.                                    | 0x0000000000000000000000000000000000000000                              |
+| token\_name                                   | Name of the token.                                                                              | ETH                                                                     |
+| token\_symbol                                 | Symbol of the token.                                                                            | ETH                                                                     |
+| raw\_balance                                  | Raw balance of ether in [wei](https://www.investopedia.com/terms/w/wei.asp).                    | 216,765,847,229,634                                                     |
+| raw\_balance\_str                             | Raw balance of ether in wei and in string format.                                               | 216765847229634                                                         |
+| balance                                       | Balance of ether normalized.                                                                    | 0.0002167658472                                                         |
+| balance\_str                                  | Balance of ether normalized and in string format.                                               | 0.0002167658472                                                         |
+| usd\_balance\_current                         | USD balance of ETH at the current timestamp.                                                    | 0.308804626                                                             |
+| usd\_balance\_at\_block\_timestamp            | USD balance of ETH at the timestamp of the **last activity that resulted in balance change.**   | 0.2800939895                                                            |
+| usd\_exchange\_rate\_current                  | USD exchange rate of ETH at the **current timestamp.**                                          | 1,424.60                                                                |
+| usd\_exchange\_rate\_at\_block\_timestamp     | USD exchange rate of ETH at the timestamp of the last activity that resulted in balance update. | 1,292.15                                                                |
+| last\_activity\_block\_timestamp              | The last timestamp of the block that that resulted in the balance update.                       | 2022-12-05 03:58:11                                                     |
+| last\_activity\_block\_number                 | The last block number that resulted in the balance update.                                      | 16,116,061                                                              |
+| last\_activity\_block\_hash                   | The last hash of the block that resulted in the balance update.                                 | 0x49ae37a2a5feb07d3f237dbfe4af59abb3b9ef19e3cd47ef083f1d7e45a2e616      |
+| \_updated\_at\_\_usd\_exchange\_rate\_current | Timestamp of the current USD exchange.                                                          | 2023-03-10 22:00:00                                                     |
+| unique\_id                                    | Unique ID of the balance.                                                                       | block-16116061\_address-0x66a84d487780c088d862971045d84b02d9b25aab\_eth |
+| \_updated\_at                                 | Timestamp of the balance update.                                                                | 2023-03-10 10:18:07                                                     |

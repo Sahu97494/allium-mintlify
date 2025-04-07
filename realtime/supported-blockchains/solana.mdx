@@ -1,0 +1,38 @@
+---
+title: "Solana"
+sidebarTitle: Overview
+---
+
+Our Solana schema includes raw and enriched entities. Additional schemas and retention is available upon request.
+
+<table>
+  <thead>
+    <tr>
+      <th width="332">Description</th>
+      <th>Tables</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Raw blockchain data.</td>
+      <td>
+        blocks, transactions, instructions, inner_instructions, pubkey_maps
+      </td>
+    </tr>
+    <tr>
+      <td>Enriched Data.</td>
+      <td>
+        token_transfers, assets_fungible_balances_latest,
+        assets_enriched_transfers
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Solana Data
+
+Solana data consists of information stored on the Solana blockchain, including account states, token balances, and transaction history. The blockchain uses a combination of accounts and programs to manage on-chain data efficiently. Data is stored in an account-based model, where each account can hold various types of information and is updated via on-chain programs.
+
+### Solana Token Transfers
+
+Solana token transfers involve moving tokens from one account to another on the network. Each transfer updates the state of token accounts, adjusting balances accordingly. Solana uses an account model with distinct token accounts for each token type and leverages the Solana Program Library (SPL) for standard token operations. Token transfers are fast and low-cost, benefiting from Solana's high throughput and low-latency consensus.

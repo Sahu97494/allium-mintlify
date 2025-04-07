@@ -1,0 +1,55 @@
+---
+title: "Uniswap V3 Virtual Liquidity"
+---
+
+Get the latest distribution of virtual liquidity on any Uniswap v3 pool.
+
+<Info>
+This view computes the current distribution of liquidity based on the cumulative sum of LP added and removed from the pool.
+
+The predicate for `liquidity_pool_address` must be added when querying this view.
+</Info>
+
+### Uniswap WETH-USDC 0.3% Pool
+
+```sql
+ select * from ethereum.dex.uniswap_v3_protocol_liquidity 
+ where liquidity_pool_address = '0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8' -- LP Address
+```
+
+<Frame>
+<img src="/images/image-historical-evm-ethereum-dex-dexpoolevents-uniswap-v3-liquid-1.avif" />
+</Frame>
+
+Uniswap v3 USDC-WETH 0.3% Virtual Liquidity (output from query above)
+
+Uniswap Equivalent
+
+<Frame>
+<img src="/images/image-historical-evm-ethereum-dex-dexpoolevents-uniswap-v3-liquid-2.avif" />
+</Frame>
+
+Uniswap v3 Liquidity [https://info.uniswap.org/#/pools/0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8](https://info.uniswap.org/#/pools/0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8)
+
+### Column Names
+
+| Column Name              | Description                                             | Example                                    |
+| ------------------------ | ------------------------------------------------------- | ------------------------------------------ |
+| liquidity\_pool\_address | Liquidity Pool Address                                  | 0x8ad599c3a0ff1de082011efddc58f1908eb6e6d8 |
+| pool\_name               | Name of LP pool                                         | USDC-WETH 3000                             |
+| fee                      | Fee amount.                                             | 3,000                                      |
+| tick                     | Price tick.                                             | 143,280                                    |
+| tick\_price\_1\_0        | Price tick of token1 per token0.                        | 0.000001668246525                          |
+| tick\_price\_0\_1        | Price tick of token0 per token1 (inverse of the above). | 599,431.79                                 |
+| token0\_decimals         | Token0 decimals                                         | 6                                          |
+| token0\_symbol           | Token0 symbol.                                          | USDC                                       |
+| token0\_amount\_raw      | Token0 raw amount, not normalized.                      | 426,960,531.90                             |
+| token0\_adjusted         | Token0 amount normalized.                               | 426.9605319                                |
+| token1\_decimals         | Token1 decimals                                         | 18                                         |
+| token1\_symbol           | Token1 symbol.                                          | WETH                                       |
+| token1\_amount\_raw      | Token1 raw amount, not normalized.                      | 257,370,042,465,219,000                    |
+| token1\_adjusted         | Token1 amount normalized.                               | 0.2573700425                               |
+| tick\_spacing            | Tick spacing                                            | 60                                         |
+| current\_tick            | Current tick based on last swap.                        | 202,181                                    |
+| current\_price\_1\_0     | Current tick price (token1/token0) based on last swap.  | 0.0006027958634                            |
+| current\_price\_0\_1     | Current tick price (token0/token1) based on last swap.  | 1,658.94                                   |

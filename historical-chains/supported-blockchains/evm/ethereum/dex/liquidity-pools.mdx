@@ -1,0 +1,20 @@
+---
+title: "Overview"
+---
+
+<Info>
+**Liquidity Pool Events tables are organised at the protocol level.**
+
+This is due to the variations in pool design across protocols.
+
+* For example, Uniswap v3 LPs introduced concentrated liquidity and price [ticks](https://docs.uniswap.org/concepts/protocol/concentrated-liquidity) which is absent in v2
+
+* Balancer can allow users to [create pools with more than 2 tokens](https://docs.balancer.fi/products/balancer-pools), meaning users can simultaneously provide LP for > 2 tokens.
+
+Protocol-specific tables will retain these metrics that will otherwise be dropped if this was aggregated into a single table.
+</Info>
+
+The liquidity pool table contains **pool creation** events across various indexed protocols. Currently, the following protocols and projects are supported.
+
+<table><thead><tr><th width="142">Protocol</th><th>Projects</th></tr></thead><tbody><tr><td>uniswap_v2</td><td>uniswap, bitberryswap, cityswap, convergence, defiswap, dooar, equalizerfinance, fraxswap, gemswap, integralsize, linkswap, luaswap, mintyswap, nomiswap, orionprotocol, pancakeswap, plasmafinance, radioshackswap, safeswap, saitaswap, sakeswap, sashimiswap, shibaswap, sumswap, sushiswap, swapr, swipeswap, unicly, verse, vulcandex, wallstreetbetsdex, whiteswap</td></tr><tr><td>uniswap_v3</td><td>kyberswap, uniswap</td></tr><tr><td>uniswap_v4</td><td>uniswap (coming soon)</td></tr></tbody></table>
+

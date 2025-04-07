@@ -1,0 +1,31 @@
+---
+title: "TRX Token Transfers"
+---
+
+<Info>
+For TRX transfers, transaction and block hashes are **not appended with 0x** as they are from the Tron JSON RPC.
+</Info>
+
+The `tron.assets.trx_token_transfers` table contains the details of TRX movement on the Tron blockchain.
+
+Transfers type included:
+
+* `fees` - TRX burnt from transactions / Tron-specific contract transactions such as creating a TRC10 tokens
+
+* `value_transfer` - movement of TRX tokens in most TRX transfers, excluding TRC10 tokens
+
+* `internal_txn` - TRX transferred via internal transactions (aka Traces)
+
+* `contract_transfer` - movement of TRX transferred to contracts
+
+* `staking-related` - movement of TRX to and from Tron staking
+
+  * `claim_rewards` - rewards claimed from staking
+
+* `exchange-related` - movement of TRX to and from Tron TRC10-TRX pools
+
+* `participate_asset_issue` - TRX transfers for participation in asset issuance
+
+### Table Columns
+
+<table><thead><tr><th width="197.33333333333334">Column</th><th width="317">Description</th><th>Example</th></tr></thead><tbody><tr><td>from_address</td><td>The address of the sending party of this transaction. (Tron Base58)</td><td>TMyrXwULKhhwhmrU4fQ5NezfeMafCMEvdm</td></tr><tr><td>to_address</td><td>The address of the receiving party of this transaction (could be a contract address).  (Tron Base58)</td><td>TJMC6J1r9Kgb1x53zKuArFhn7U1auvpzSq</td></tr><tr><td>token_address</td><td>The default addres for TRX token is <code>T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb</code></td><td>T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb</td></tr><tr><td>token_name</td><td>Name of the asset transferred.</td><td>Tron</td></tr><tr><td>token_symbol</td><td>Token symbol of the asset transferred.</td><td>TRX</td></tr><tr><td>raw_amount</td><td>Amount of tokens moved (unnormalized).</td><td>48,050.00</td></tr><tr><td>raw_amount_str</td><td>Amount of tokens moved (unnormalized) in string</td><td>48,050.00</td></tr><tr><td>amount</td><td>Amount of token moved, normalized.</td><td>0.04805</td></tr><tr><td>amount_str</td><td>Amount of token moved, normalized in string.</td><td>0.04805</td></tr><tr><td>usd_amount</td><td>The amount of tokens moved, in $USD.</td><td>0.0015438465</td></tr><tr><td>usd_exchange_rate</td><td>This is the price of a single token, in $USD. Refer to Hourly Token Prices for more information.</td><td>0.03</td></tr><tr><td>transaction_from_address</td><td>The address of the sending party of this transaction.</td><td>TMyrXwULKhhwhmrU4fQ5NezfeMafCMEvdm</td></tr><tr><td>transaction_to_address</td><td>The address of the receiving party of this transaction (could be a contract address).</td><td>TJMC6J1r9Kgb1x53zKuArFhn7U1auvpzSq</td></tr><tr><td>transaction_hash</td><td>Unique identifier of the transaction that this log belongs to.</td><td>95a56fc50a675e8a190ca1982e8a54c1eba3b82740b93b1bab821f80a2e4486d</td></tr><tr><td>transfer_type</td><td>Transfer type includes the type of transfer. </td><td>value_transfer</td></tr><tr><td>block_timestamp</td><td>The time when the block that contains this transaction was included on the blockchain.</td><td>2021-01-07 06:24:30</td></tr><tr><td>block_number</td><td>The length of the chain, in blocks.</td><td>26,540,810</td></tr><tr><td>block_hash</td><td>Unique identifier of the block that includes this transaction.</td><td>000000000194fb0aca8333b08872a9a445ed70474ecaec780f22d98ec0f23444</td></tr><tr><td>unique_id</td><td>Unique id generated to each transfer. Includes transaction hash and log index.</td><td>value_transfer-95a56fc50a675e8a190ca1982e8a54c1eba3b82740b93b1bab821f80a2e4486d</td></tr></tbody></table>

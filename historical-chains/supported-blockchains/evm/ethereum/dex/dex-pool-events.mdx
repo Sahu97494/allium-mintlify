@@ -1,0 +1,43 @@
+---
+title: "DEX Pool Events"
+---
+
+The chain DEX schema tables contain key events emitted by a protocol's liquidity pool.
+
+The events table are hydrated with token decimals, prices and transaction-level details for ease of analysis.
+
+Currently we support the following protocols and events.
+
+### Protocol Coverage
+
+<table><thead><tr><th width="135">Protocol</th><th width="265">Table</th><th>Events</th><th>Projects</th></tr></thead><tbody><tr><td>uniswap_v2</td><td>dex.uniswap_v2_events</td><td>mint, swap, burn, sync</td><td>uniswap &#x26; uniswap forks (e.g. sushiswap)</td></tr><tr><td>uniswap_v3</td><td>dex.uniswap_v3_events</td><td>flash_paid, swap, flash, burn, mint, initialize, collect</td><td>uniswap &#x26; uniswap forks</td></tr><tr><td>uniswap_v4</td><td>dex.uniswap_v4_events</td><td>Swap, Initialize, OwnershipTransferred, Transfer, ModifyLiquidity, OperatorSet</td><td>uniswap &#x26; uniswap forks</td></tr></tbody></table>
+
+### Coming Soon
+
+We're actively working on expanding our DEX pool event coverage to include other major protocols such as:
+
+* Curve Finance
+
+* Algebra
+
+* PancakeSwap
+
+* And more!
+
+If you'd like to request support for a specific DEX protocol, please reach out to our team.
+
+### Query Example
+
+How to calculate quarterly liquidity pool deltas in USD for all uniswap v2 pools?
+
+Steps:
+
+1. calculate the liquidity changes in token amounts first
+
+2. convert token amount to USD amount based on the end of quarter usd exchange rate
+
+3. filter out noisy data (set limit of 5 billion for token liquidity change in a quarter)
+
+see public query [here](https://app.allium.so/s/ESwyo8AP) for table, graph and sql query.
+
+

@@ -1,0 +1,30 @@
+---
+title: "ERC1155 Transfers"
+---
+
+The ERC1155 Token Transfers table records all transactions made with tokens that adhere to the ERC1155 standard.
+
+### Table Columns
+
+| Column Name                | Description                                                                               | Example                                                                                |
+| -------------------------- | ----------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| event\_type                | Type of transfer event for ERC1155 tokens. This can either be a single or batch transfer. | transfer\_single                                                                       |
+| operator                   | Address of the ERC1155 operator.                                                          | 0xb1dfa773dcd6580396e81407f3fa1a8a6f913336                                             |
+| from\_address              | Address where the token is being transferred from.                                        | 0xb1dfa773dcd6580396e81407f3fa1a8a6f913336                                             |
+| to\_address                | Address where the token is being transferred to.                                          | 0x575711fb3cb34d5e157b5840f26ffb853a42d0ef                                             |
+| token\_address             | Token address of the asset transferred.                                                   | 0x2953399124f0cbb46d2cbacd8a89cf0599974963                                             |
+| token\_name                | Token name.                                                                               | OpenSea Collections                                                                    |
+| token\_symbol              | Token symbol.                                                                             | OPENSTORE                                                                              |
+| token\_id                  | Unique ID of the ERC token.                                                               | 8.05E+76                                                                               |
+| raw\_amount\_str           | Amount of token moved, unnormalized, in string (to retain precision).                     | 2                                                                                      |
+| raw\_amount                | Amount of tokens moved, unnormalized.                                                     | 2                                                                                      |
+| amount\_str                | Amount of token moved, normalized, in string (to retain precision).                       | 2                                                                                      |
+| amount                     | Amount of token moved, normalized.                                                        | 2                                                                                      |
+| transaction\_from\_address | The address of the sending party of this transaction.                                     | 0xb1dfa773dcd6580396e81407f3fa1a8a6f913336                                             |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).     | 0x2953399124f0cbb46d2cbacd8a89cf0599974963                                             |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                           | 0xbc37213f23b3d506bc986bbf6221f2d2426c5fe7189621b8e372d8bb06fbb757                     |
+| log\_index                 | The log index that corresponds to this transfer.                                          | 178                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain.    | 2022-02-06 00:04:51                                                                    |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.          | 24,597,232                                                                             |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.            | 0x71728c5eaf181e4634cad4285dd731bb45082110fa013545d68d96737ccd8dd6                     |
+| unique\_id                 | Unique id generated to each transfer.                                                     | txn-0xbc37213f23b3d506bc986bbf6221f2d2426c5fe7189621b8e372d8bb06fbb757\_log\_index-178 |

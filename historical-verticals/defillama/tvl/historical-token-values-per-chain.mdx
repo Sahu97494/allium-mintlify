@@ -1,0 +1,45 @@
+---
+title: "Historical Token Values Per Protocol Per Chain"
+---
+
+The `defillama.tvl.historical_token_values_per_chain` shows daily historical token values per (protocol, chain) pair. This is useful if a protocol operates on many chains and you only wish to look into that protocol's metrics in a particular chain.
+
+## Columns
+
+| Column Name             | Description                                                                 |
+|-------------------------|-----------------------------------------------------------------------------|
+| chain                   | The chain corresponding to the record                                       |
+| protocol_name           | The full name of the DeFi protocol                                          |
+| protocol_id             | Unique identifier for the protocol in DefiLlama's system                    |
+| protocol_slug           | URL-friendly version of the protocol name used in DefiLlama's URLs          |
+| total_value_usd         | The quantity of tokens held by the protocol on this date                    |
+| coingecko_token_id      | The unique identifier of the token on CoinGecko                             |
+| date                    | Deprecated column; see section below for more details                       |
+| actual_timestamp        | The record timestamp from DefiLlama                                         |
+| nearest_date            | The nearest date of `actual_timestamp` above                                |
+| token_symbol            | The abbreviated symbol of the token (e.g. 'ETH', 'USDT')                    |
+| token_name              | The full name of the token                                                  |
+| token_ethereum_address  | The contract address of the token on Ethereum network (if applicable)       |
+| token_polygon_address   | The contract address of the token on Polygon network (if applicable)        |
+| token_solana_address    | The token address on Solana network (if applicable)                         |
+
+
+## Caveat on Time Columns
+
+For most cases, you should use the *nearest\_date* column. Here is why:
+
+The data returned from DefiLlama has daily timestamps with time 00:00:00, except for the latest record which corresponds to the latest data available in DefiLlama. For example, if we scrape the data corresponding to the protocol at 4 Mar 03:00, we may get records with the timestamps:
+
+* 1 Mar 00:00
+
+* 2 Mar 00:00
+
+* 3 Mar 00:00
+
+* 3 Mar 23:00 (assuming data in DefiLlama corresponding to this protocol has freshness of 4 hours) The timestamps above are stored in the `actual_timestamp` column.
+
+The deprecated `date` column truncates the times from the timestamp column above. In this case, it will store dates 1 Mar, 2 Mar, 3 Mar, and another 3 Mar. This is likely undesirable for you.
+
+The `nearest_date` column instead rounds the time to the nearest date. In this case, it will store dates 1 Mar, 2 Mar, 3 Mar, and 4 Mar, ensuring that each date contains a data even when we fetch a slightly late data.
+
+

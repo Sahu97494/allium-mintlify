@@ -1,0 +1,118 @@
+---
+title: "ENS"
+---
+
+The [Ethereum Name Service (ENS)](https://docs.ens.domains/)is a distributed, open, and extensible naming system based on the Ethereum blockchain.
+
+Users are able to register an ENS domain and replace their address with human-readable names that are easier to type and remember.
+
+### ENS Tables
+
+The following ENS tables are available for users to query and enrich their analysis.
+
+<table><thead><tr><th width="245.33333333333331">Table Name</th><th>Description</th></tr></thead><tbody><tr><td><a href="#names">names</a></td><td>Contains all ENS names and their corresponding numeric token ID.</td></tr><tr><td><a href="#registrations">registrations</a></td><td>Contains all ENS registration events. Registration events happen when a new ENS name is registered (almost like minted) for the first time, or when a registration expires and someone else registers it again.</td></tr><tr><td><a href="#renewals">renewals</a></td><td>Contains all ENS renewal events</td></tr><tr><td><a href="#net-transfers">net_transfers</a></td><td>Contains all ENS transfer events with ENS token ID as, sender and recipient address as well as transaction-level data. </td></tr><tr><td><a href="#primary-record-latest">primary_records_latest</a></td><td>Contains the current ENS primary record of any address.</td></tr></tbody></table>
+### Sample Queries
+
+Below are some examples of how you can use the ENS table to enrich your analysis.
+
+#### Example 1 - Labelling of Wallets.
+
+Using `ens.primary_records_latest` to identify ENS names of BoredApeYachtClub minters
+
+```sql
+ select 
+  block_timestamp,
+  name, 
+  token_to_address, 
+  token_address,
+  token_name,
+  token_symbol,
+  token_id,
+  raw_price,
+  price,
+  usd_price,
+  transaction_hash
+from ethereum.nfts.mints 
+   left join (select name, address from ethereum.ens.primary_records_latest) on address = token_to_address 
+   where token_address = '0xbc4ca0eda7647a8ab7c2061c2e118a18a936f13d' -- BAYC contract 
+limit 100
+```
+
+#### Example 2 - Identify ENS sold by name
+
+Using the `ens.names` to find sales of ENS by name with `nfts.trades.`
+
+```sql
+select
+  a.token_id as ens_id,
+  ens.name as ens_name,
+  marketplace,
+  buyer_address,
+  seller_address,
+  usd_price,
+  transaction_hash,
+  block_timestamp
+from ethereum.nfts.trades a
+  left join ethereum.ens.names ens on a.token_id = ens.token_id 
+  where token_address = '0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85' -- ENS Contract 
+limit 100
+```
+
+### Table Column Name
+
+### Names
+
+`ethereum.ens.names`
+
+| Column Name | Description                                                                                                   |
+| ----------- | ------------------------------------------------------------------------------------------------------------- |
+| token\_id   | Numeric token ID corresponding to the ENS name.                                                               |
+| name        | An ENS identifier such as 'alice.eth'. Names may consist of multiple parts, called labels, separated by dots. |
+
+### Registrations
+
+`ethereum.ens.registrations`
+
+<table><thead><tr><th width="337">Column</th><th>Description</th></tr></thead><tbody><tr><td>name</td><td>An individual component of a name, such as 'alice'.</td></tr><tr><td>owner_address</td><td>Address of the ENS owner.</td></tr><tr><td>eth_cost</td><td>ETH cost of the ENS registration.</td></tr><tr><td>usd_cost</td><td>USD cost of the ENS registration at the time of transaction.</td></tr><tr><td>registration_timestamp</td><td>Timestamp of the ENS registration.</td></tr><tr><td>expiry_timestamp</td><td>Expiry timestamp of the ENS name registered.</td></tr><tr><td>token_id</td><td>Numeric token ID corresponding to the ENS name.</td></tr><tr><td>log_index</td><td>Log index of the ENS registration.</td></tr><tr><td>transaction_hash</td><td>Transaction hash of the ENS registration.</td></tr><tr><td>block_number</td><td>Block number of the record.</td></tr><tr><td>block_hash</td><td>Block hash of the record.</td></tr></tbody></table>
+
+### Renewals
+
+`ethereum.ens.renewals`
+
+| Column Name       | Description                             |
+| ----------------- | --------------------------------------- |
+| block\_hash       | Block hash of the renewal.              |
+| block\_number     | Block number of the renewal.            |
+| block\_timestamp  | Block timestamp of the renewal.         |
+| cost              | Renewal cost in ETH.                    |
+| expiry\_date      | Date of expiry of the renewal.          |
+| log\_index        | Log index of the ENS registration.      |
+| name              | Name of the ENS domain that was renewed |
+| transaction\_hash | Transaction hash of the renewal.        |
+
+### Net Transfers
+
+`ethereum.ens.net_transfers`
+
+| Column Name                      | Description                               |
+| -------------------------------- | ----------------------------------------- |
+| block\_hash                      | Block hash of the transfer.               |
+| block\_number                    | Block number of the transfer.             |
+| block\_timestamp                 | Block timestamp of the transfer.          |
+| prev\_transfer\_block\_timestamp | Block timestamp of the previous transfer. |
+| from\_address                    | Address of the sender.                    |
+| to\_address                      | Address of the receiver                   |
+| token\_id                        | Token ID of the ENS being transferred.    |
+| transaction\_hash                | Transaction hash of the transfer.         |
+
+### Primary Record Latest
+
+`ethereum.ens.primary_records_latest`
+
+| Column Name      | Description                                                                                                   |
+| ---------------- | ------------------------------------------------------------------------------------------------------------- |
+| address          | Address that registered the ENS name.                                                                         |
+| block\_hash      | Block hash of the record.                                                                                     |
+| block\_number    | Block number of the record.                                                                                   |
+| block\_timestamp | Block timestamp of the record.                                                                                |
+| name             | An ENS identifier such as 'alice.eth'. Names may consist of multiple parts, called labels, separated by dots. |

@@ -1,0 +1,32 @@
+---
+title: "Overview"
+description: Decoded Logs and Traces
+---
+
+Our Polygon decoded schema contains the following tables:
+
+<table><thead><tr><th width="272">Table</th><th width="582">Description</th></tr></thead><tbody><tr><td><code>polygon.decoded.logs</code></td><td>Decoded event logs with params in JSON format.</td></tr><tr><td><code>polygon.decoded.traces</code></td><td>Decoded traces with params in JSON format.</td></tr></tbody></table>
+
+In addition to the columns present in the raw tables, these tables include additional columns, with decoded data represented in JSON format.
+
+### Methodology
+
+Polygon event logs and traces are decoded in a similar format as Ethereum.
+
+1. To decode Ethereum Call data and Event log data, the structure, type, and order of these data types must be first understood. This is defined in the [ABI (Application Binary Interface)](https://docs.soliditylang.org/en/develop/abi-spec.html) of the contract.
+
+2. For decoded events and traces, the ABIs of contracts are primarily sourced from publicly available sources.
+
+3. We utilize Python to translate the compacted bytes into a specified interface defined by the ABI.
+
+4. The coverage will not be 100% as ABIs of existing and newly created contracts may not be uploaded by contract creators immediately.
+
+   1. We continually monitor external sources for ABIs of unresolved contracts, prioritizing those with high transaction activity.
+
+   2. Additionally, users can submit their contract ABI to decode. Upon submission and verification, the corresponding events and traces will be decoded within 24 hours.
+
+**Additional Resources:**
+
+* [Contract ABI Specification](<https://docs.soliditylang.org/en/develop/abi-spec.html >)
+
+

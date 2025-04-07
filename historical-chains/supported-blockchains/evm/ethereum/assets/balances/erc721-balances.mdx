@@ -1,0 +1,25 @@
+---
+title: "ERC721 Balances"
+description: Historical ERC721 balances of all addresses at every block height.
+---
+
+<Info>
+USD prices for NFT token balances are not supported currently.
+</Info>
+
+ERC721 balances table contains the ERC721 balances of all addresses, at every block height. Use this table to easily plot the change in the balance of ERC721 tokens for an address or a group of addresses over time.
+
+### Sample Query
+
+Getting the ERC721 Balances of Beanz NFT from an address.
+
+```sql
+select * from ethereum.assets.erc721_balances
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0x306b1ea3ecdf94ab739f1910bbda052ed4a9f949' -- Beanz NFT 
+order by block_number desc 
+```
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th>Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>token_address</td><td>Token address of the ERC721 token.</td><td><code>0x306b1ea3ecdf94ab739f1910bbda052ed4a9f949</code></td><td></td></tr><tr><td>token_name</td><td> Name of the ERC721 token.</td><td><code>Beanz</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td><code>BEANZ</code></td><td></td></tr><tr><td>token_id</td><td>Unique token ID of the ERC721 token.</td><td><code>5688</code></td><td></td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved. </td><td><code>1</code></td><td></td></tr><tr><td>balance</td><td>Balance of tokens. For ERC721 tokens, the max balance is 1. </td><td><code>1</code></td><td></td></tr><tr><td>usd_value</td><td>The amount of tokens, in $USD.</td><td></td><td></td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the <code>usd_value</code>.</td><td></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the <code>balance</code>.</td><td><code>2022-04-24T06:03:02</code></td><td></td></tr><tr><td>block_number</td><td>The number of the block that resulted in the <code>balance</code>.</td><td><code>14645764</code></td><td></td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the <code>balance</code>.</td><td><code>0x7ec027adfb36e4e1bfe77c787e91df77a239f914c5760ce19ca32cfb270ab7ef</code></td><td></td></tr></tbody></table>

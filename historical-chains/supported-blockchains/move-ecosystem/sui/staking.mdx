@@ -1,0 +1,28 @@
+---
+title: "Overview"
+description: Fetch staking and validator activity on Sui network.
+---
+
+Staking involves delegating SUI tokens to validators to participate in network consensus. Stakers earn rewards for helping secure the network, while validators earn commission for operating nodes.
+
+### Key Concepts
+
+* **Epoch**: A time period in Sui (approximately 24 hours) after which rewards are distributed
+
+* **Staker/Delegator**: Users who delegate their SUI to validators
+
+* **Validator**: Node operators who validate transactions and produce blocks
+
+* **APR**: Annual Percentage Rate, the annualized return on staked SUI
+
+### Staking Model
+
+Our Sui staking data is organized into the following models:
+
+| Model                                |                                                                                               |
+| ------------------------------------ | --------------------------------------------------------------------------------------------- |
+| sui.staking.overview                 | Network-wide staking metrics per epoch. This includes the total SUI staked, rewards, and APR. |
+| sui.staking.validator\_stake\_latest | The current amount of Sui staked for each staker under each validator.                        |
+| sui.staking.validator\_rewards       | Detailed rewards and performance metrics for each validator per epoch.                        |
+| sui.staking.deposits                 | Records of all staking deposits made by stakers                                               |
+| sui.staking.withdrawals              | Records of all unstaking events made by stakers                                               |

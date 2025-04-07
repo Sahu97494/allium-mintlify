@@ -1,0 +1,43 @@
+---
+title: "Overview"
+---
+
+These schemas capture enriched DEX events from Uniswap V2, V3, and V4 liquidity pools.
+
+Each event table includes comprehensive token metadata, USD price data, and normalized fields to simplify querying and analysis. This enriched format eliminates the need for additional joins when exploring the data.
+
+## Available Event Tables
+
+* [Uniswap V2 Events](/historical-chains/supported-blockchains/evm/core-schemas/dex/events/uniswap-v2-events): Contains swap, Sync, Mint, Burn events from Uniswap V2 Liquidity Pools
+
+* [Uniswap V3 Events](/historical-chains/supported-blockchains/evm/core-schemas/dex/events/uniswap-v3-events): Contains swap, Sync, Mint, Collect, Burn, Initialize, Flash events from Uniswap V3 Liquidity Pools
+
+* [Uniswap V4 Events](/historical-chains/supported-blockchains/evm/core-schemas/dex/events/uniswap-v4-events): Contains OperatorSet, OwnershipTransferred, ProtocolFeeControllerUpdated, Transfer, ProtocolFeeUpdated, Initialize, Swap, ModifyLiquidity, and Donate events from Uniswap V4 PoolManager
+
+For pool creation events, please use the dex.pools table.
+
+## Coming Soon
+
+We're actively working on expanding our DEX pool event coverage to include other major protocols such as:
+
+* Curve Finance
+
+* Algebra
+
+* PancakeSwap
+
+* And more!
+
+If you'd like to request support for a specific DEX protocol, please reach out to our team.
+
+## Key Features
+
+* All tables include enriched token information (name, symbol, decimals)
+
+* USD prices are included where applicable
+
+* High-precision values are available with _str suffix columns
+
+* Each event has a unique identifier for easy querying
+
+For specific details about each protocol's events and schema, please refer to their respective documentation files.

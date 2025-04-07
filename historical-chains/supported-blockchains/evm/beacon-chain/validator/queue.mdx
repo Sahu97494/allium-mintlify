@@ -1,0 +1,64 @@
+---
+title: "Queue"
+description: Find the historical entry and exit queue duration on Beacon Chain.
+---
+
+### Overview
+
+The `beacon.validator.queue` provides daily historical Ethereum Beacon Chain validator queue data, the total time it takes to clear the entry and exit queue based on the state of the network, with the network churn rates.
+
+### Sample Query
+
+Fetch historical stats of the estimated time taken to clear the entry and exit queues by days.
+
+```sql
+select date, total_entry_queue_days, total_exit_queue_days
+from beacon.validator.queue
+```
+
+#### Validator Queues
+
+The validator queue system is a critical component of Ethereum's proof-of-stake mechanism. When validators want to join the network, they must wait in an entry queue until activated. Similarly, validators wanting to exit must wait in an exit queue.
+
+#### Churn Rate
+
+The speed at which validators move through these queues is governed by the "churn rate" - the number of validators that can enter or exit per epoch.
+
+The churn rate is dynamic and depends on the total number of active validators in the network, as specified by the Ethereum protocol.
+
+The total time of the exit/entry queue is derived based on this methodology:
+
+* **We index the balances of all validators on the Beacon chain daily,** which informs us of the status of all the validators (entering, exiting, slashed, active, etc)
+
+* From the historical balances model, we identify validators in the "pending\_queued" status (entry queue) and "active\_exiting" status (exit queue)
+
+* For each day, we determine the effective churn rate by counting the validators that can enter or exit from each eligible `activation_epoch`and `exit_epoch`
+
+* We then count the total validators entering and exiting and estimate the estimated wait times based on queue size and churn rate
+
+* Since each epoch has 32 slots and there are 12 slots per second, we can estimate the queue duration practical time units (minutes, hours, days)
+
+### Table Columns
+
+Unique Key: date
+
+| Column Name                  | Description                                                         |
+| ---------------------------- | ------------------------------------------------------------------- |
+| date                         | The date for which queue metrics are calculated                     |
+| validators\_entry\_queued    | Number of validators waiting in the entry queue on this date        |
+| entry\_churn\_per\_epoch     | Median number of validators that can enter the active set per epoch |
+| total\_entry\_queue\_epochs  | Estimated number of epochs required to clear the entry queue        |
+| total\_entry\_queue\_minutes | Estimated time in minutes to clear the entry queue                  |
+| total\_entry\_queue\_hours   | Estimated time in hours to clear the entry queue                    |
+| total\_entry\_queue\_days    | Estimated time in days to clear the entry queue                     |
+| validators\_exit\_queued     | Number of validators waiting in the exit queue on this date         |
+| exit\_churn\_per\_epoch      | Median number of validators that can exit the active set per epoch  |
+| total\_exit\_queue\_epochs   | Estimated number of epochs required to clear the exit queue         |
+| total\_exit\_queue\_minutes  | Estimated time in minutes to clear the exit queue                   |
+| total\_exit\_queue\_hours    | Estimated time in hours to clear the exit queue                     |
+| total\_exit\_queue\_days     | Estimated time in days to clear the exit queue                      |
+| \_created\_at                | Timestamp when this record was created                              |
+| \_updated\_at                | Timestamp when this record was last updated                         |
+
+
+

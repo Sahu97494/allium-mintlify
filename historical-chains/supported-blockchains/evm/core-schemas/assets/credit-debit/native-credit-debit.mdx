@@ -1,0 +1,27 @@
+---
+title: "Native Credit Debit"
+---
+
+The native credit debit model combines native transfers, allowing you to easily track the inflows and outflows of every native token belonging to all addresses.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name          | Data Type        | Description                                                                                      |
+|----------------------|------------------|--------------------------------------------------------------------------------------------------|
+| address              | VARCHAR          | Address of the account that was credited or debited value amount of ETH                         |
+| counterparty_address | VARCHAR          | The address of counter party of this credit or debit transfer                                   |
+| raw_amount           | NUMERIC          | Amount of ETH in wei                                                                             |
+| raw_amount_str       | VARCHAR          | Amount of ETH in wei in string format                                                            |
+| amount               | FLOAT            | Amount of ether                                                                                  |
+| amount_str           | VARCHAR          | Amount of ether in string format                                                                 |
+| usd_amount           | FLOAT            | The amount of ether moved, in $USD                                                              |
+| usd_exchange_rate    | FLOAT            | The exchange rate used to calculate the usd_value                                               |
+| transfer_type        | VARCHAR          | Type of transfers. Includes `value_transfer, gas_payment_to_mine, gas_burn`                     |
+| transaction_hash     | VARCHAR          | Transaction hash that this transfer belongs to                                                  |
+| transaction_index    | BIGINT           | The position of this transaction in the block. The first transaction has index 0                |
+| block_timestamp      | TIMESTAMP_NTZ(9) | The timestamp of the block that the corresponding transaction of this transfer belongs to       |
+| block_number         | BIGINT           | The block number that the corresponding transaction of this transfer belongs to                 |
+| block_hash           | VARCHAR          | The block hash that the corresponding transaction of this transfer belongs to                   |
+| unique_id            | VARCHAR          | Unique id generated to each transfer                                                            |

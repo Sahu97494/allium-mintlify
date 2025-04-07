@@ -1,0 +1,39 @@
+---
+title: "NEAR Token Transfers"
+---
+
+This model captures all native NEAR token transfers, including gas fees and other native token movements.
+
+### Column Description
+
+Unique Key: `unique_id`
+
+| Column Name                | Description                                            |
+| -------------------------- | ------------------------------------------------------ |
+| from\_address              | The sender address of the NEAR transfer                |
+| to\_address                | The recipient address of the NEAR transfer             |
+| token\_address             | The address of the native NEAR token (fixed as 'near') |
+| token\_name                | The name of the token (fixed as 'Near')                |
+| token\_symbol              | The symbol of the token (fixed as 'NEAR')              |
+| raw\_amount\_str           | The raw amount in yoctoNEAR as a string                |
+| raw\_amount                | The raw amount in yoctoNEAR                            |
+| amount\_str                | The normalized amount in NEAR as a string              |
+| amount                     | The normalized amount in NEAR                          |
+| usd\_amount                | The USD value of the transfer                          |
+| usd\_exchange\_rate        | The exchange rate used to calculate the USD value      |
+| signer\_id                 | The ID of the signer of the transaction                |
+| method\_name               | The method name invoked in the transaction             |
+| success                    | Boolean indicating if the transaction was successful   |
+| transaction\_hash          | Unique identifier for the transaction                  |
+| transaction\_index         | The index of the transaction within the block          |
+| transaction\_block\_height | The block height of the transaction                    |
+| receipt\_id                | The ID of the receipt for the transaction              |
+| receipt\_index             | The index of the receipt within the block              |
+| receipt\_action\_index     | The index of the action within the receipt             |
+| block\_height              | The height of the block containing this transfer       |
+| block\_timestamp           | Timestamp of the block containing this transfer        |
+| block\_hash                | The hash of the block containing this transfer         |
+| chunk\_hash                | The hash of the chunk containing this transfer         |
+| unique\_id                 | A unique identifier for the transfer                   |
+| \_created\_at              | The timestamp when the record was created              |
+| \_updated\_at              | The timestamp when the record was last updated         |

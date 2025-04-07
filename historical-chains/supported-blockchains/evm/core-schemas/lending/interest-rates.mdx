@@ -1,0 +1,42 @@
+---
+title: Interest Rates
+---
+
+The `<chain>.lending.interest_rates` table contains supply and borrowing interest rate as well as outstanding loans from Aave and Morpho Blue.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column                     | Data Type        | Description                                                                                                                                            |
+| -------------------------- | ---------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| project                    | VARCHAR          | Name of the lending project (e.g., 'aave', 'morpho').                                                                                                  |
+| protocol                   | VARCHAR          | Specific protocol version or variant (e.g., 'aave_v3', 'morpho_blue').                                                                                 |
+| contract_address           | VARCHAR          | Address of the main protocol contract.                                                                                                                 |
+| market_address             | VARCHAR          | Address of the specific lending market. This field is the ID of the market for Morpho Blue protocol.                                                   |
+| token_address              | VARCHAR          | Address of the loan token in the market.                                                                                                               |
+| token_name                 | VARCHAR          | Name of the loan token.                                                                                                                                |
+| token_symbol               | VARCHAR          | Symbol of the loan token.                                                                                                                              |
+| token_decimals             | INTEGER          | Number of decimals of the loan token.                                                                                                                  |
+| usd_exchange_rate          | FLOAT            | USD exchange rate of the loan token at the time of the rate update.                                                                                    |
+| supply_apy                 | FLOAT            | Annual Percentage Yield for suppliers/lenders, expressed as a percentage.                                                                              |
+| stable_borrow_apy          | FLOAT            | Annual Percentage Yield for stable-rate borrowers, expressed as a percentage. Only applicable for protocols with stable rates like Aave.               |
+| variable_borrow_apy        | FLOAT            | Annual Percentage Yield for variable-rate borrowers, expressed as a percentage.                                                                        |
+| cumulative_supply_interest | FLOAT            | Cumulative index tracking interest earned by suppliers over time (liquidityIndex in Aave). Only applicable for certain protocols like Aave.            |
+| cumulative_borrow_interest | FLOAT            | Cumulative index tracking interest accumulated for borrowers over time (variableBorrowIndex in Aave). Only applicable for certain protocols like Aave. |
+| outstanding_loans          | FLOAT            | Total amount of tokens borrowed from the market, normalized by token decimals.                                                                         |
+| outstanding_loans_usd      | FLOAT            | USD value of the total borrowed tokens.                                                                                                                |
+| supplied_amount            | FLOAT            | Total amount of tokens supplied to the market, normalized by token decimals.                                                                           |
+| supplied_amount_usd        | FLOAT            | USD value of the total supplied tokens.                                                                                                                |
+| available_liquidity        | FLOAT            | Amount of tokens available for borrowing, normalized by token decimals.                                                                                |
+| available_liquidity_usd    | FLOAT            | USD value of the tokens available for borrowing.                                                                                                       |
+| trace_params               | VARIANT          | Raw parameters from the trace call that provided the interest rate data.                                                                               |
+| logs_params                | VARIANT          | Raw parameters from the event logs that provided the interest rate data.                                                                               |
+| transaction_hash           | VARCHAR          | Transaction hash where the interest rate update occurred.                                                                                              |
+| transaction_index          | INTEGER          | Index of the transaction in the block.                                                                                                                 |
+| block_timestamp            | TIMESTAMP        | Timestamp of the block when the interest rate was updated.                                                                                             |
+| block_number               | INTEGER          | Block number when the interest rate was updated.                                                                                                       |
+| block_hash                 | VARCHAR          | Hash of the block when the interest rate was updated.                                                                                                  |
+| unique_id                  | VARCHAR          | Unique identifier for the interest rate update event.                                                                                                  |
+| _created_at                | TIMESTAMP_NTZ(9) | Timestamp of when the record was created.                                                                                                              |
+| _updated_at                | TIMESTAMP_NTZ(9) | Timestamp of when the record was last updated.                                                                                                         |

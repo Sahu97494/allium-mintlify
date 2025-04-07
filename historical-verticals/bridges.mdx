@@ -1,0 +1,136 @@
+---
+title: "Overview"
+description: "Track movement of assets across major blockchain networks."
+---
+
+The `crosschain.bridges.transfers` contains bridge transfers data at transaction-level granularity across multiple blockchains indexed by Allium.
+<Info>
+We are actively improving bridge protocol & blockchain coverage and data completeness for the bridges vertical.
+</Info>
+
+### Bridge Types
+
+We broadly classify bridges into the following types:
+
+* **Applications bridges:** bridges that have their underlying liquidity/mechanism to transfer assets across blockchains.
+
+* **Canonical bridges** are bridges from Ethereum to a Rollup and serve as the "official" bridge for the roll-up/blockchain, serving only one destination blockchain.
+
+  * For Canonical Bridges protocols, OP (Optimism Stack) bridges and Arbitrum Bridges will include blockchains under the same ecosystem:
+
+    * **Optimism Stack Bridges**: includes Optimism, Base, Worldchain, Mode, Mint, Redstone, RSS3, Mantle, Manta, Blast, Fraxtal, Zora bridge and more
+
+    * **Arbitrum Orbit Bridges**: Arbitrum, Arbitrum Nova, Alienx
+
+### Blockchain Coverage
+
+The `crosschain.bridges.transfers` includes bridge transfers indexed from the following blockchains.
+
+| **Blockchains**                                                                                                                                      | **Total Blockchains Supported** |
+|------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------|
+| arbitrum, avalanche, base, berachain, blast, bsc, ethereum, fantom, ink, linea, mode, optimism, polygon, scroll, soneium, unichain, worldchain | 17                               |
+
+
+### **Protocol Coverage**
+
+The bridge transfer schema supports both protocols across canonical and application bridge types.
+
+| **Bridge Type** | **Bridge Protocol**                                                                                                  |
+|-----------------|------------------------------------------------------------------------------------------------------------------------|
+| Application     | across, axelar, celer, circle_cctp, debridge, eywa, hop, stargate, symbiosis, synapse, synapse_rfq, ybridge, zkbridge |
+| Canonical       | arbitrum, hyperliquid, immutable_x, near, op, polygon, polygon_zkevm, ronin_v1, ronin_v2, starknet, sui, zk_shared_bridge, zksync |
+
+### Directional Coverage
+
+Bridge transfer events include both inbound and outbound transfers. We include inbound and outbound bridge transfers for canonical bridges only.
+
+* **Canonical Bridges (Optimism Stack, Arbitrum Orbit Bridges, etc)**
+
+  * **Bridging direction**
+
+    * **Inbound:** bridging from the Ethereum to the destination chain
+
+    * **Outbound**: bridging back to Ethereum. E.g. for Base Bridge, this will be from Base -> Ethereum
+
+* **Application and Asset Bridges on EVM-Blockchains (including Ethereum)**
+
+  * **Bridging direction**
+
+    * **Outbound only:** bridging from the source chain (if the transaction originated from Ethereum, this will be the source chain) to the destination
+
+<Info>
+**FAQ**
+
+**Q: Why include both inbound and outbound transfers for Canonical bridges and outbound transfers only for Application bridges?**
+
+* This combination of coverage **prevents double-counting bridge volume during simple aggregations**, while including broad coverage of source-destination bridge transfers for canonical bridges from Ethereum to various Layer 2s.
+
+**Q: Why do we exclude events from bridge aggregators in this model?**
+
+* We define bridge aggregators as bridges that tap into the underlying mechanism/functionality of other application and canonical bridges.
+
+* Typically, an interaction with such aggregators will result in 2 events, one from the bridge aggregator and another from the underlying bridge.
+
+* We currently do not include these events in the bridges schema, as it would **double count transfer volumes.**
+</Info>
+### Sample Query
+
+Finding the most popular bridge flows in the last month.
+
+```sql
+select 
+    concat(source_chain, ' > ', destination_chain) as flow, 
+    count(distinct transaction_from_address) as unique_users,
+    count(1) as transfers,
+    round(median(usd_amount)) as median_volume_usd,
+    sum(nvl(usd_amount,0)) as usd_volume,
+    round(usd_volume/pow(10,6),2) as usd_mil
+from crosschain.bridges.transfers
+where block_timestamp >= current_timestamp - interval '1 months'
+group by all 
+order by usd_volume desc
+```
+
+### Columns
+
+Unique key: `unique_id`
+
+| Column Name               | Data Type           | Description                                                                                   |
+|--------------------------|---------------------|-----------------------------------------------------------------------------------------------|
+| chain                    | VARCHAR             | The blockchain where this bridge transaction occurred, i.e. the transaction hash where the bridge transfers occurred. |
+| bridge                   | VARCHAR             | The slug or name of the bridge. For canonical bridges, the bridge name corresponds to the destination chain name. |
+| protocol                 | VARCHAR             | The protocol associated with the bridge transfer. Optimism stack bridge events will share the same bridge protocol, op. |
+| contract_address         | VARCHAR             | The contract address of the bridge.                                                           |
+| event_name               | VARCHAR             | The name of the event that triggered the transfer.                                            |
+| sender_address           | VARCHAR             | The address that initiated the transfer.                                                      |
+| recipient_address        | VARCHAR             | The address that received the transfer on the destination chain, if applicable.               |
+| direction                | VARCHAR             | The direction of the transfer (e.g., inbound or outbound), based on the chain.                |
+| source_chain_id          | VARCHAR             | The ID of the source chain. Note that for non-EVM chains, there is typically no chainID.      |
+| source_chain             | VARCHAR             | The name of the source chain, i.e. the chain on which a token was originally deployed and minted. |
+| destination_chain_id     | VARCHAR             | The ID of the destination chain. Note that for non-EVM chains, there is typically no chainID. |
+| destination_chain        | VARCHAR             | The name of the destination chain, i.e. the chain on which a bridge user wants to have their tokens. |
+| token_in_address         | VARCHAR             | The address of the token being transferred.                                                   |
+| token_in_name            | VARCHAR             | The name of the token being transferred.                                                      |
+| token_in_symbol          | VARCHAR             | The symbol of the token being transferred.                                                    |
+| token_in_amount_raw      | VARCHAR             | The raw amount of the token being transferred.                                                |
+| token_in_amount          | FLOAT               | The normalized amount of the token being transferred.                                         |
+| usd_in_amount            | FLOAT               | The USD equivalent of the token being transferred.                                            |
+| token_out_address        | VARCHAR             | (Nullable) The address of the token being transferred out.                                    |
+| token_out_name           | VARCHAR             | (Nullable) The name of the token being transferred out.                                       |
+| token_out_symbol         | VARCHAR             | (Nullable) The symbol of the token being transferred out.                                     |
+| token_out_amount_raw     | VARCHAR             | (Nullable) The raw amount of the token being transferred out.                                 |
+| token_out_amount         | FLOAT               | (Nullable) The normalized amount of the token being transferred out.                          |
+| usd_out_amount           | FLOAT               | (Nullable) The USD equivalent of the token being transferred out.                             |
+| usd_amount               | FLOAT               | The USD equivalent of the transfer, capped at a maximum value.                                |
+| extra_fields             | VARIANT             | Additional fields related to the transfer.                                                    |
+| transaction_from_address | VARCHAR             | The address from which the transaction was sent.                                              |
+| transaction_to_address   | VARCHAR             | The address to which the transaction was sent.                                                |
+| transaction_hash         | VARCHAR             | The hash of the transaction.                                                                  |
+| transaction_index        | BIGINT              | The index of the transaction within the block.                                                |
+| log_index                | BIGINT              | The index of the log within the transaction.                                                  |
+| block_number             | BIGINT              | The number of the block containing the transaction.                                           |
+| block_timestamp          | TIMESTAMP_NTZ(9)    | The timestamp of the block containing the transaction.                                        |
+| block_hash               | VARCHAR             | The hash of the block containing the transaction.                                             |
+| unique_id                | VARCHAR             | A unique identifier for the transfer.                                                         |
+| created_at               | TIMESTAMP_NTZ(9)    | The timestamp when the record was created.                                                    |
+| updated_at               | TIMESTAMP_NTZ(9)    | The timestamp when the record was last updated.                                               |

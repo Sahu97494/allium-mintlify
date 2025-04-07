@@ -1,0 +1,110 @@
+---
+title: "Wallet 360 Attributes"
+---
+
+## Table Columns
+
+### **Wallet Transactions**
+
+Core information about the transaction activity of a wallet.
+
+| Column Name               | Description                                                                                                                                                                                                                       |
+|---------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `app_list`                | An array of applications that the wallets have interacted with. Each app tag is linked to an on-chain interaction in the interaction list. <br/><br/>**Current apps include:**<br/>robinhood_cex<br/>moonpay_ramp<br/><br/>rainbow_wallet<br/>krystal_wallet<br/>coinbase_wallet<br/>metamask_wallet<br/>bitkeep_wallet<br/><br/>rarible_nft_marketplace<br/>opensea_nft_marketplace<br/>magiceden_nft_marketplace<br/>looksrare_nft_marketplace<br/>larvalabs_nft_marketplace<br/>blurio_nft_marketplace<br/>x2y2_nft_marketplace<br/><br/>The app list will be updated over time. |
+| `entity_list`             | An array of entities that the wallet has interacted with, derived from the `app_list`. <br/>e.g. `coinbase, metamask, robinhood, moonpay, krystal`                                                                                 |
+| `interaction_list`        | The array of on-chain interactions that associate a wallet address with the use of a specific application. <br/>e.g. `metamask_wallet_swap, moonpay_ramp_funded, rainbow_wallet_swap`                                              |
+| `wallet_address`          | Wallet address.                                                                                                                                                                                                                    |
+| `latest_ens_name`         | Latest ENS name registered by the user.                                                                                                                                                                                           |
+| `total_days_active`       | Total number of distinct days where the wallet was active (i.e., initiated a transaction).                                                                                                                                        |
+| `total_txn_count`         | Total number of distinct transactions made by the wallet at the time of analysis.                                                                                                                                                 |
+| `total_to_address`        | Total number of distinct addresses the wallet has interacted with through transactions.                                                                                                                                           |
+| `first_txn_date`          | Block timestamp of the wallet’s first transaction.                                                                                                                                                                                |
+| `first_txn_hash`          | Transaction hash of the wallet’s first transaction.                                                                                                                                                                                |
+| `first_funding_address`   | The address that funded the wallet’s first gas token.                                                                                                                                                                              |
+| `first_funding_txn_hash`  | Transaction hash that funded the wallet’s first gas token.                                                                                                                                                                         |
+
+
+### Assets Held
+
+Balances held by the wallet at the time of analysis.
+
+| Column Name                   | Description                                                                                                                                                                 |
+|-------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| `tokens_held_symbols`         | Array of ERC20 token symbols held by the wallet at the time of update.                                                                                                     |
+| `tokens_held_addresses`       | Array of ERC20 token addresses held by the wallet at the time of update.                                                                                                   |
+| `total_usd_balance`           | Total USD balance held by the wallet at the time of update.                                                                                                                |
+| `stablecoin_usd_balance`      | Total stablecoin USD balance held by the wallet at the time of update. <br/>Currently includes USDC, USDT, BUSD, TUSD, and USDP.                                           |
+| `native_token_usd_balance`    | Total ETH USD balance held by the wallet at the time of update.                                                                                                             |
+| `native_token_balance`        | Total ETH balance held by the wallet at the time of update.                                                                                                                 |
+
+
+### DEX Interactions
+
+DEXs interacted that the user has interacted with at the time of analysis.
+
+| Column Name                    | Description                                                                                      |
+|--------------------------------|--------------------------------------------------------------------------------------------------|
+| `list_dex_trade_project_used`  | List of DEX projects the wallet has traded on.                                                   |
+| `total_dex_trade_volume_usd`   | Total USD volume traded by the wallet.                                                           |
+| `avg_dex_trade_volume_usd`     | Average USD volume per trade performed.                                                          |
+| `first_dex_trade_block_timestamp` | Block timestamp of the first DEX trade performed.                                           |
+| `first_dex_trade_txn_hash`     | Transaction hash of the first DEX trade performed.                                               |
+| `first_dex_trade_project`      | First DEX project interacted by the wallet.                                                      |
+
+
+### NFT Marketplace Interactions
+
+Aggregated metrics on NFT transactions performed by the wallet address. Currently supports NFT marketplaces indexed by Allium.
+
+| Column Name                                     | Description                                                                                                         |
+|-------------------------------------------------|---------------------------------------------------------------------------------------------------------------------|
+| `total_nft_trade_txn_count`                    | Total number of NFT trades performed.                                                                              |
+| `total_nft_trade_volume_usd`                   | Total USD volume of NFT trades performed.                                                                          |
+| `avg_nft_trade_volume_usd`                     | Average USD volume of NFT per trade.                                                                               |
+| `list_nft_trade_marketplace_used`              | List of NFT marketplaces that the wallet has bought NFT from.                                                      |
+| `list_nft_trade_aggregator_used`               | List of NFT aggregators that the wallet has bought NFT from.                                                       |
+| `total_nft_trade_marketplace_count`            | Total number of NFT marketplaces that the wallet has bought NFT from.                                              |
+| `total_nft_trade_aggregator_count`             | Total number of NFT aggregators that the wallet has bought NFT from.                                               |
+| `total_nft_trade_collection_count`             | Total number of NFT collections that the wallet has traded (distinct collection address).                          |
+| `<marketplace>_nft_trade_user`                 | Flag on whether the wallet is a user of the NFT marketplace. 1 = User, 0 = Not a user.                             |
+| `<marketplace>_nft_trade_first_txn_block_timestamp` | Block timestamp of first NFT trade on the marketplace.                                                       |
+| `<marketplace>_nft_trade_last_txn_block_timestamp`  | Block timestamp of last NFT trade on the marketplace.                                                        |
+| `<marketplace>_nft_trade_total_txn_count`      | Total NFT trade transactions performed on the marketplace.                                                         |
+| `<marketplace>_nft_trade_total_volume_usd`     | Total USD volume traded on the marketplace.                                                                        |
+| `<marketplace>_nft_trade_avg_volume_usd`       | Average USD volume per trade on the marketplace.                                                                   |
+
+
+### NFT Acquired and Bluechip Held
+
+NFT first acquired by wallet, first NFT bought and minted as well as bluechip NFTs held by the wallet currently.
+
+| Column Name                           | Description                                                                                                           |
+|--------------------------------------|-----------------------------------------------------------------------------------------------------------------------|
+| `first_nft_trade_token_address`      | Token address of first NFT traded.                                                                                   |
+| `first_nft_trade_token_id`           | Token ID of first NFT traded.                                                                                        |
+| `first_nft_trade_token_name`         | Token name of first NFT traded.                                                                                      |
+| `first_nft_trade_block_timestamp`    | Block timestamp of first NFT traded.                                                                                 |
+| `first_nft_trade_txn_hash`           | Transaction hash of first NFT traded.                                                                                |
+| `total_collections_minted`           | Total number of unique NFT collections minted.                                                                       |
+| `total_nft_mint_txn`                 | Total number of NFT minting transactions.                                                                            |
+| `total_mint_volume_usd`              | Total USD volume spent on minting NFTs.                                                                              |
+| `avg_mint_price_usd`                 | Average USD spent per mint.                                                                                          |
+| `first_nft_mint_token_address`       | Token address of first NFT minted.                                                                                   |
+| `first_nft_mint_token_name`          | Token name of first NFT minted.                                                                                      |
+| `first_nft_mint_token_id`            | Token ID of first NFT minted.                                                                                        |
+| `first_nft_mint_block_timestamp`     | Block timestamp of first NFT minted.                                                                                 |
+| `first_nft_mint_txn_hash`            | Transaction hash of first NFT minted.                                                                                |
+| `first_nft_token_address`            | Token address of the first NFT acquired (mint or purchase).                                                          |
+| `first_nft_token_name`               | Token name of the first NFT acquired.                                                                                |
+| `first_nft_token_id`                 | Token ID of the first NFT acquired.                                                                                  |
+| `first_nft_block_timestamp`          | Block timestamp of first NFT acquired.                                                                               |
+| `first_nft_txn_hash`                 | Transaction hash of first NFT acquired.                                                                              |
+| `blue_chip_collections_held`         | List of Bluechip NFTs held by the wallet at the time of analysis.                                                   |
+| `blue_chip_collections_count`        | Number of Bluechip NFT collections held.                                                                             |
+| `blue_chip_nfts_count`               | Number of Bluechip NFTs held by the wallet.                                                                          |
+| `blue_chip_collection_address_list`  | List of Bluechip NFT contract addresses held.                                                                        |
+| `blue_chip_collection_name_list`     | List of Bluechip NFT collection names held.                                                                          |
+| `_updated_at`                        | Timestamp when the entry was updated.                                                                                |
+
+
+

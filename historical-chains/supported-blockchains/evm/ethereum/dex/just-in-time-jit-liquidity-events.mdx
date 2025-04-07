@@ -1,0 +1,114 @@
+---
+title: "Just In Time (JIT) Liquidity Events"
+description: Fetch Uniswap V3 JIT Liquidity events with 1 line of code.
+---
+
+The Just-in-Time (JIT) liquidity events table contains DEX events from Uniswap V3 protocol for each JIT event.
+
+JIT liquidity refers to the practice where liquidity is added and removed within the same block to capture trading fees and/or exploit arbitrage opportunities.
+
+Each JIT event includes the following sequence of event
+
+* User A Minting LP
+
+* User B Swapping
+
+* User A Burning LP
+
+More on JIT Liquidity on the Uniswap Protocol
+
+### Sample Query
+
+Finding the volume of swaps on Uniswap V3 that were caught in between JIT swaps by liquidity pools.
+
+```sql
+select 
+  date_trunc('week', block_timestamp) as date,
+  pool_name,
+  sum(jit_swap_volume_usd) as jit_swap_volume_usd
+from ethereum.dex.jit_liquidity_events
+where project = 'uniswap'
+group by all 
+```
+
+<Frame>
+<img src="/images/image-historical-evm-ethereum-dex-jit.png" />
+</Frame>
+
+### Methodology
+
+We use the `dex.uniswap_v3_events` table to construct this table. This table contains all log events emitted from UniswapV3 protocol liquidity pools.
+
+We first identify the JIT events within the same block must meet the following criteria:
+
+**Minting and Burning of LP within the same block.**
+
+* Occur within the same liquidity pool (`mint.liquidity_pool_address = burn.liquidity_pool_address`).
+
+* Are initiated by the same user (`mint.transaction_from_address = burn.transaction_from_address`).
+
+* Have the `burn` event occurring after the `mint` event (`mint.transaction_index < burn.transaction_index`).
+
+We then identify swaps that occur within the JIT mint + burn event with the following criteria:
+
+* The JIT swap event should be performed within the same block as the burn-mint event
+
+* Occur within the same liquidity pool
+
+  ```sql
+  swap.liquidity_pool_address = mint.liquidity_pool_address
+  swap.liquidity_pool_address = burnt.liquidity_pool_address
+  ```
+
+* Occur between the mint and burn JIT
+
+  ```sql
+  swap.transaction_index > mint_transaction_index
+  swap.transaction_index < burn_transaction_index
+  ```
+
+**Exclusion of Outliers**: This model excludes liquidity provision from rebalancing contracts by Popsicle Finance.
+
+### Table Columns
+
+| Column Name              | Description                                              | Example                                                                                                                                                                                                                                                                                                       |
+| ------------------------ | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| block\_number            | Block number in which the JIT event occurred.            | 16845762                                                                                                                                                                                                                                                                                                      |
+| block\_timestamp         | Timestamp of the block when the JIT event occurred.      | 2023-03-17 06:29:47.000                                                                                                                                                                                                                                                                                       |
+| project                  | UniswapV3 dex project                                    | uniswap                                                                                                                                                                                                                                                                                                       |
+| signer                   | Address of the user initiating the transaction.          | 0xdd8ef55055e01d39cb87571bd38c43ab9b5903a5                                                                                                                                                                                                                                                                    |
+| liquidity\_pool\_address | Address of the liquidity pool involved in the JIT event. | 0x88e6a0c2ddd26feeb64f039a2c41296fcb3f5640                                                                                                                                                                                                                                                                    |
+| pool\_name               | Name of the pool.                                        | Uniswap: USDC-WETH 500                                                                                                                                                                                                                                                                                        |
+| jit\_action              | Description of the JIT action.                           | mint -> burn                                                                                                                                                                                                                                                                                                  |
+| token0\_address          | Address of token0.                                       | 0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48                                                                                                                                                                                                                                                                    |
+| token0\_symbol           | Symbol of token0.                                        | USDC                                                                                                                                                                                                                                                                                                          |
+| token0\_amount\_mint     | Amount of token0 minted.                                 | 2345520.462846                                                                                                                                                                                                                                                                                                |
+| token0\_amount\_burn     | Amount of token0 burned.                                 | 2629536.315217                                                                                                                                                                                                                                                                                                |
+| token0\_delta            | Net change in token0 amount.                             | 284015.852371                                                                                                                                                                                                                                                                                                 |
+| token0\_delta\_usd       | Net change in token0 amount in USD.                      | 283192.206399124                                                                                                                                                                                                                                                                                              |
+| token1\_address          | Address of token1.                                       | 0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2                                                                                                                                                                                                                                                                    |
+| token1\_symbol           | Symbol of token1.                                        | WETH                                                                                                                                                                                                                                                                                                          |
+| token1\_amount\_mint     | Amount of token1 minted.                                 | 1234.538399303                                                                                                                                                                                                                                                                                                |
+| token1\_amount\_burn     | Amount of token1 burned.                                 | 1068.503695417                                                                                                                                                                                                                                                                                                |
+| token1\_delta            | Net change in token1 amount.                             | -166.034703886                                                                                                                                                                                                                                                                                                |
+| token1\_price\_usd       | Price of token1 in USD.                                  | 1703.27                                                                                                                                                                                                                                                                                                       |
+| token1\_delta\_usd       | Net change in token1 amount in USD.                      | -282801.930088262                                                                                                                                                                                                                                                                                             |
+| jit\_swaps               | Details of swaps occurring between mint and burn events. | `[{"event": "swap", "sqrt\_price\_x96": "1915582285665375426460731590612584", "swapper": "0x477ec82595da308c9d11a096766f391422c8a617", "tick": 201874, "transaction\_hash": "0xb3506dba6b6f6a28c6b5e0f9d641ac8e20ff2d14784cf29fcd23921209b02c0e", "transaction\_index": 1, "usd\_amount": 306517.6173650786}]` |
+| jit\_swap\_volume\_usd   | Total volume in USD of the swaps.                        | 306517.617365079                                                                                                                                                                                                                                                                                              |
+| jit\_swap\_count         | Number of swaps between mint and burn events.            | 1                                                                                                                                                                                                                                                                                                             |
+| liquidity\_mint          | Liquidity provided during the mint event.                | 215578968583683921381                                                                                                                                                                                                                                                                                         |
+| tick\_lower\_mint        | Lower tick boundary for the mint event.                  | 201870                                                                                                                                                                                                                                                                                                        |
+| tick\_upper\_mint        | Upper tick boundary for the mint event.                  | 201880                                                                                                                                                                                                                                                                                                        |
+| liquidity\_burn          | Liquidity removed during the burn event.                 | 215578968583683921381                                                                                                                                                                                                                                                                                         |
+| tick\_lower\_burn        | Lower tick boundary for the burn event.                  | 201870                                                                                                                                                                                                                                                                                                        |
+| tick\_upper\_burn        | Upper tick boundary for the burn event.                  | 201880                                                                                                                                                                                                                                                                                                        |
+| transaction\_hash\_mint  | Transaction hash for the mint event.                     | 0x7a4cd6098168f3ada3e93b67c3ccee07f38c2f564b385d6ef00e8fa7a86eae64                                                                                                                                                                                                                                            |
+| transaction\_index\_mint | Transaction index for the mint event.                    | 0                                                                                                                                                                                                                                                                                                             |
+| log\_index\_mint         | Log index for the mint event.                            | 4                                                                                                                                                                                                                                                                                                             |
+| txn\_fees\_mint          | Transaction fees for the mint event.                     | 0.007637103865                                                                                                                                                                                                                                                                                                |
+| txn\_fees\_usd\_mint     | Transaction fees in USD for the mint event.              | 13.0080499                                                                                                                                                                                                                                                                                                    |
+| transaction\_hash\_burn  | Transaction hash for the burn event.                     | 0x375394dc79f55b166041ccc0bb2560cfc58a1499a095bdce23470c21f7891de6                                                                                                                                                                                                                                            |
+| transaction\_index\_burn | Transaction index for the burn event.                    | 2                                                                                                                                                                                                                                                                                                             |
+| log\_index\_burn         | Log index for the burn event.                            | 24                                                                                                                                                                                                                                                                                                            |
+| txn\_fees\_burn          | Transaction fees for the burn event.                     | 0.003859862509                                                                                                                                                                                                                                                                                                |
+| txn\_fees\_usd\_burn     | Transaction fees in USD for the burn event.              | 6.574388015                                                                                                                                                                                                                                                                                                   |

@@ -1,0 +1,104 @@
+---
+title: "Fungible Balances"
+---
+
+The fungible balances table contains historical native token (e.g. ETH, MATIC, AVAX) and ERC20 tokens the balance of all addresses, at block height that has a balance change for the particularly address.
+
+### Sample Query
+
+Query wallet Balance of a wallet by token address.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+```sql
+select * from polygon.assets_fungible_balances
+where address = '0xa27cef8af2b6575903b676e5644657fae96f491f'
+and token_address = '0x0000000000000000000000000000000000000000' -- MATIC
+limit 10
+```
+
+</Tab>
+<Tab title="API (cURL)">
+
+```bash
+curl 'https://api.allium.so/api/v1/developer/polygon/address/0x52883b07aadb4a4df673f546d00065e2d923088f/balances/fungible?page=1&size=10&token_address=0x0000000000000000000000000000000000000000' \
+  -X GET \
+  -H 'X-API-KEY: <API KEY>'
+```
+
+</Tab>
+
+</Tabs>
+
+## Table Columns
+
+<table>
+  <thead>
+    <tr>
+      <th width="166.33333333333331">Column Name</th>
+      <th width="135">Type</th>
+      <th>Description</th>
+      <th>Example</th>
+
+    </tr>
+
+  </thead>
+  <tbody>
+    <tr>
+      <td>address</td>
+      <td>varchar</td>
+      <td>Address of the account.</td>
+      <td>0x52883b07aadb4a4df673f546d00065e2d923088f</td>
+      
+    </tr>
+    <tr>
+      <td>token_address</td>
+      <td>varchar</td>
+      <td>
+        Token address. Native MATIC is represented as{" "}
+        <code>0x0000000000000000000000000000000000000000</code>
+      </td>
+      <td>0x0000000000000000000000000000000000000000</td>
+      
+    </tr>
+    <tr>
+      <td>raw_balance</td>
+      <td>numeric(512)</td>
+      <td>Unormalized token balance. </td>
+      <td>216086875347586955</td>
+      
+    </tr>
+    <tr>
+      <td>block_timestamp</td>
+      <td>timestamp</td>
+      <td>
+        The timestamp of the block that that resulted in the{" "}
+        <code>balance</code>.
+      </td>
+      <td>2021-10-21T16:37:13</td>
+      
+    </tr>
+    <tr>
+      <td>block_number</td>
+      <td>bigint</td>
+      <td>
+        The number of the block that resulted in the <code>balance</code>.
+      </td>
+      <td>20457707</td>
+      
+    </tr>
+    <tr>
+      <td>block_hash</td>
+      <td>varchar</td>
+      <td>
+        The hash of the block that resulted in the <code>balance</code>.
+      </td>
+      <td>
+        0xe15e08e23e180eb0b659ff42b421742ada56a74d2e9088043ef451747ae34c5a
+      </td>
+      
+    </tr>
+  </tbody>
+</table>

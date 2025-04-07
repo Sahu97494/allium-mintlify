@@ -1,0 +1,38 @@
+---
+title: "Blocks"
+---
+
+A block number is an ordinal number that indicates the position of a block within the sequence of accepted blocks.
+
+A block hash is a unique identifier that helps query and reference the block.
+
+Blocks are units of information stored on a blockchain, containing grouped transactions that are verified and signed by validators. Each block has these components to ensure the integrity and order of transactions.
+
+### Table Columns
+
+Unique Key: Number
+
+| Column Name            | Description                                                    |
+| ---------------------- | -------------------------------------------------------------- |
+| number                 | The sequential number of the block in the blockchain.          |
+| timestamp              | The timestamp when the block was created.                      |
+| hash                   | The hash of the block.                                         |
+| parent\_hash           | The hash of the parent block.                                  |
+| proposer\_address      | The address of the proposer who created the block.             |
+| transaction\_count     | The number of transactions included in the block.              |
+| consensus\_hash        | The hash of the block's consensus state.                       |
+| app\_hash              | The hash of the application state.                             |
+| block\_id              | The unique identifier for the block.                           |
+| chain\_id              | The identifier of the blockchain (e.g., `cosmoshub-4`).        |
+| data\_hash             | The hash of the block's data.                                  |
+| evidence               | JSON object containing any evidence associated with the block. |
+| evidence\_hash         | The hash of the evidence associated with the block.            |
+| last\_block\_id        | The unique identifier of the previous block.                   |
+| last\_commit\_hash     | The hash of the last commit.                                   |
+| last\_results\_hash    | The hash of the last results.                                  |
+| next\_validators\_hash | The hash of the next set of validators.                        |
+| validators\_hash       | The hash of the current set of validators.                     |
+| version                | The version of the blockchain software.                        |
+| last\_commit           | Array of validator signature and address from the last commit. |
+| \_created\_at          | The timestamp when the entry was created.                      |
+| \_updated\_at          | The timestamp when the entry was updated.                      |

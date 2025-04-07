@@ -1,0 +1,43 @@
+---
+title: "ERC20, ERC721 And ERC1155 Tokens Coverage"
+description: "Coverage for ERC tokens decoding and we identify ERC tokens in our tokens decoding pipeline."
+---
+
+<Info>
+The ercX tokens tables only includes tokens decoded by the respective specifications. **The table does not include the universe of all ercX tokens deployed.**
+</Info>
+
+As part of our data pipeline, we decode contract deployments to identify ERC tokens. The decoded contracts generates the ercX tokens metadata (e.g. name, symbol, decimals).
+
+Tokens that do not meet these specifications will not be decoded. We rely on a separate pipeline (RPC calls) to fetch the metadata.
+
+| ERC Metadata Source | Caveats                                                                                     |
+|----------------------|---------------------------------------------------------------------------------------------|
+| Decoding Pipeline    | Only includes tokens that meet the specification listed below.                              |
+| RPC Contract Call    | These tokens will have null `block_timestamp`, `block_hash`, and `block_number`.            |
+
+## ERC-20 Token
+
+An ERC-20 token is either
+
+* a contract fulfilling the ERC-20 specifications ([https://eips.ethereum.org/EIPS/eip-20#methods](https://eips.ethereum.org/EIPS/eip-20#methods)), or
+
+* a proxy contract in which its implementation points to a ERC-20 token. We currently support these proxy contracts:
+
+  * `TransparentUpgradableProxy` [https://docs.openzeppelin.com/contracts/3.x/api/proxy#TransparentUpgradeableProxy](https://docs.openzeppelin.com/contracts/3.x/api/proxy#TransparentUpgradeableProxy)
+
+## ERC-721 Token
+
+Similarly, an ERC-721 token is either
+
+* a contract fulfilling the ERC-721 specifications ([https://eips.ethereum.org/EIPS/eip-721#specification](https://eips.ethereum.org/EIPS/eip-721#specification)), or
+
+* a proxy contract, defined as per above, in which its implementation points to a ERC-721 tokens.
+
+## ERC-1155 Token
+
+Similarly, an ERC-1155 token is either
+
+* a contract fulfilling the ERC-1155 specifications ([https://eips.ethereum.org/EIPS/eip-1155#specification](https://eips.ethereum.org/EIPS/eip-1155#specification)), or
+
+* a proxy contract, defined as per above, in which its implementation points to a ERC-1155 tokens.

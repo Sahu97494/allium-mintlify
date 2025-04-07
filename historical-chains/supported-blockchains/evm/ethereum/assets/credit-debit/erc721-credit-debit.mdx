@@ -1,0 +1,20 @@
+---
+title: "ERC721 Credit Debit"
+description: Credit and debit entries of all addresses for every ERC721 token transfer.
+---
+
+The ERC721 credit debit table allows you to easily track the inflows and outflows of every ERC721 token belonging to all addresses.
+
+### Sample Query
+
+Getting the ERC721 Credit Debit history of an address.
+
+```sql
+select * from ethereum.assets.erc721_credit_debit
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+order by block_number desc  
+```
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th width="243">Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account that was credited or debited <code>value</code> amount of ERC721 token</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>counterparty_address</td><td>The address of counter party of this credit or debit transfer.</td><td><code>0x3a3355805181ba5752cb52cebe8c95c0f3ed3d61</code></td><td></td></tr><tr><td>token_address</td><td>Token address of the ERC721 token.</td><td><code>0x453de6bb174148de579acf3c0ace98fc0671bccc</code></td><td></td></tr><tr><td>token_name</td><td>Name of the ERC721 token.</td><td><code>BruceTheGoose</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td><code>GOOS</code></td><td></td></tr><tr><td>token_id</td><td>Unique ID of the ERC721 token.</td><td><code>10059</code></td><td></td></tr><tr><td>raw_amount</td><td>Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved. </td><td><code>1</code></td><td></td></tr><tr><td>raw_amount_str</td><td>Balance of tokens (unnormalized) in string.</td><td><code>1</code></td><td></td></tr><tr><td>amount</td><td>Amount of tokens moved.</td><td><code>1</code></td><td></td></tr><tr><td>amount_str</td><td>Amount of tokens moved in string.</td><td><code>1</code></td><td></td></tr><tr><td>usd_value</td><td>The amount of tokens moved, in $USD.</td><td></td><td></td></tr><tr><td>usd_exchange_rate</td><td>This is the price of a single token, in $USD.<br /><br />Refer to <a href="../../../../../../historical-verticals/prices/">Hourly Token Prices</a> for more information.</td><td></td><td></td></tr><tr><td>transaction_hash</td><td>Transaction hash that this transfer belongs to.</td><td><code>0x6da35a18d348f9f3415ad596e2c92e5419b490a5ca37b07da765493207d147d8</code></td><td></td></tr><tr><td>log_index</td><td>The log index that corresponds to this transfer.</td><td><code>62</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred.</td><td><code>2020-09-24 11:09:46.000</code></td><td></td></tr><tr><td>block_number</td><td>The block number that the corresponding transaction of this transfer belongs to.</td><td><code>10,924,947</code></td><td></td></tr><tr><td>block_hash</td><td>The block hash that the corresponding transaction of this transfer belongs to.</td><td><code>0x8211192e00d12750ed46c5b63ba88a98172215f56324e3390f16aabce22d2a05</code></td><td></td></tr><tr><td>unique_id</td><td>Unique id generated to each  transfer. Includes transaction hash, log index and credit and debit transaction type. </td><td><code>txn-0x6da35a18d348f9f3415ad596e2c92e5419b490a5ca37b07da765493207d147d8_log_index-62_debit</code></td><td></td></tr></tbody></table>

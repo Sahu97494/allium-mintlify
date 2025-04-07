@@ -1,0 +1,50 @@
+---
+title: "Token Prices"
+description: "Fetch hourly token prices of tokens to power your analytic needs."
+---
+
+## Hourly Token Prices
+
+`common.prices.hourly` provides hourly price data by token address across various Blockchains combined with token prices computed from DEX trades.
+
+We preferentially select non-DEX data. That is, if for the same hour, there is a same chain + address that has DEX token prices and externally ingested prices, we will select the externally ingested price.
+
+This table is unique by timestamp (hour), chain and address.
+
+### Sample Query
+
+Using `common.prices.hourly` to investigate the USD volume of Flash loans performed on Balancer in the last 7 days
+
+```sql
+select
+    date(block_timestamp) as date,
+    params['token']::varchar as token,
+    hourly.symbol as token_symbol,
+    sum(params ['amount'] / pow(10, hourly.decimals) * hourly.price) as usd_volume
+from
+    ethereum.decoded.logs
+    left join common.prices.hourly on date_trunc('hour', block_timestamp) = hourly.timestamp
+    and hourly.address = token
+    and chain = 'ethereum'
+where logs.block_timestamp >= current_timestamp - interval '7 days'
+    and logs.address = '0xba12222222228d8ba445958a75a0704d566bf2c8'
+    and logs.topic0 = '0x0d7d75e01ab95780d3cd1c8ec0dd6c2ce19e3a20427eec8bf53283b6fb8e95f0'
+group by all 
+```
+
+### Table Columns
+
+Unique key: `timestamp`, `chain`, `address`
+
+| Column         | Description                                                                                          | Example                                   |
+|----------------|------------------------------------------------------------------------------------------------------|-------------------------------------------|
+| timestamp      | Hourly timestamp.                                                                                    | 2020-12-03 09:00:00                        |
+| chain          | Blockchain (in lowercase).                                                                           | ethereum                                  |
+| address        | Token contract address equivalent on the blockchain.<br/>For native tokens on EVM chains, they will be represented by the zero address. | 0x0000000000000000000000000000000000000000 |
+| symbol         | Token symbol in lower casing.                                                                        | eth                                       |
+| price          | USD Value of the token at the hour.                                                                  | 606.345                                   |
+| decimals       | Token decimals (if present).                                                                         | 18                                        |
+| is_native      | Boolean flag indicating whether the token is a native (gas) token.                                   | TRUE                                      |
+| is_dex_only    | Boolean flag indicating whether the price source was solely computed from DEX trades.                | FALSE                                     |
+| _created_at    | Timestamp of entry creation.                                                                         | 2024-07-02 04:12:42                        |
+| _updated_at    | Timestamp of entry update.                                                                           | 2024-07-02 04:12:42                        |

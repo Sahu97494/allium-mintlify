@@ -1,0 +1,19 @@
+---
+title: 'Activities'
+openapi: '/api-reference/wallet-api.json POST /api/v1/developer/wallet/activities'
+description: "Get a list of wallet activities."
+---
+Provides rich transaction activity data for a wallet(s).
+
+Each item in the response represents a transaction, and includes a list of zero or more transaction labels, asset transfers and activities.
+
+The following table lists the features we support by chain:
+
+| Feature                                     | EVM | Solana | Sui (alpha)                      |
+|---------------------------------------------|:---:|:------:|:--------------------------------:|
+| **Data amount**                              | To genesis | 7 days only | 2025 only                   |
+| **Support for token transfers**              | ✅  | ✅     | ❌                                |
+| **Activity type `approval`**<br/>User approved a spender for an asset | ✅ | ❌     | ❌                                |
+| **Activity type `swapped_tokens`**<br/>User swapped one asset for another | ✅ | ❌     | 🌱 (only Cetus DEX trades)       |
+| **Activity type `sign_tx`**<br/>User initiated the transaction | ✅ | ✅     | ❌                                |
+| **Activity type `dapp_interaction`**<br/>User interacted with a DApp | ✅ | ✅     | ❌                                |

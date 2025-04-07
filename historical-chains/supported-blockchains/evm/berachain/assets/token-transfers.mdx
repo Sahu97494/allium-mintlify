@@ -1,0 +1,17 @@
+---
+title: "Token Transfers"
+---
+
+Our Berachain token transfers schema currently includes:
+
+| Table           | Description                                | Assets Supported                   |
+|-----------------|--------------------------------------------|------------------------------------|
+| token_transfers | Transfers of tokens between addresses      | Native, ERC20, ERC721, ERC1155     |
+
+<Info>
+Note that the native token on Berachain uses the null address `0x0000000000000000000000000000000000000000` as token\_address.
+</Info>
+
+`berachain.assets.fungible_native_token_transfers` combines both Native and ERC20 transfers.
+
+

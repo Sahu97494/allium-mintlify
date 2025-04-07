@@ -1,0 +1,66 @@
+---
+title: "Transactions Native"
+---
+
+<Info>
+* The transaction hash in this table **does not** have a 0x prefix.
+</Info>
+
+## Table Columns
+
+Unique Key: `hash`
+
+| Column Name                     | Description                                                                    |
+| ------------------------------- | ------------------------------------------------------------------------------ |
+| hash                            | Unique identifier of the transaction                                           |
+| signature                       | Digital signature(s) of the transaction                                        |
+| contract\_ret                   | Contract return status (e.g., SUCCESS)                                         |
+| ret                             | Return value of the contract execution                                         |
+| raw\_data\_hex                  | Raw transaction data in hexadecimal format                                     |
+| type                            | Type of the transaction (e.g., TransferContract)                               |
+| type\_url                       | URL of the transaction type definition                                         |
+| owner\_address\_hex             | Hexadecimal representation of the transaction initiator's address              |
+| owner\_address                  | Base58 representation of the transaction initiator's address                   |
+| to\_address\_hex                | Hexadecimal representation of the recipient's address                          |
+| to\_address                     | Base58 representation of the recipient's address                               |
+| amount                          | Amount of TRX or tokens transferred                                            |
+| asset\_name\_hex                | Hexadecimal representation of the asset name (for token transfers)             |
+| asset\_name                     | Name of the asset being transferred (for token transfers)                      |
+| contract\_address\_hex          | Hexadecimal representation of the contract address (for contract interactions) |
+| contract\_address               | Base58 representation of the contract address (for contract interactions)      |
+| data                            | Additional data included in the transaction                                    |
+| parameter\_value                | JSON string containing transaction parameters                                  |
+| expiration                      | Expiration timestamp of the transaction                                        |
+| fee\_limit                      | Maximum fee the sender is willing to pay                                       |
+| ref\_block\_bytes               | Reference block bytes                                                          |
+| ref\_block\_hash                | Reference block hash                                                           |
+| timestamp                       | Timestamp when the transaction was created                                     |
+| block\_timestamp                | Timestamp of the block containing this transaction                             |
+| block\_number                   | Block number containing this transaction                                       |
+| block\_hash                     | Hash of the block containing this transaction                                  |
+| parent\_hash                    | Hash of the parent block                                                       |
+| version                         | Version of the transaction                                                     |
+| tx\_trie\_root                  | Merkle root of the transaction trie                                            |
+| witness\_address                | Address of the block producer (witness)                                        |
+| witness\_signature              | Signature of the block producer (witness)                                      |
+| has\_receipts                   | Boolean indicating if the transaction has receipts                             |
+| receipt\_json                   | JSON string containing receipt details                                         |
+| unfreeze\_amount                | Amount unfrozen in this transaction                                            |
+| withdraw\_amount                | Amount withdrawn in this transaction                                           |
+| withdraw\_expire\_amount        | Expired withdrawal amount                                                      |
+| receipt\_contract\_address\_hex | Hexadecimal representation of the contract address in the receipt              |
+| receipt\_contract\_address      | Base58 representation of the contract address in the receipt                   |
+| receipt\_contract\_result       | Result of the contract execution                                               |
+| receipt\_fee                    | Total fee charged for the transaction                                          |
+| receipt\_net\_fee               | Network fee charged for the transaction                                        |
+| receipt\_net\_usage             | Network resources used by the transaction                                      |
+| receipt\_energy\_fee            | Energy fee charged for the transaction                                         |
+| receipt\_energy\_usage\_total   | Total energy used by the transaction                                           |
+| receipt\_energy\_usage          | Energy used by the transaction execution                                       |
+| receipt\_origin\_energy\_usage  | Energy used by the contract owner                                              |
+| receipt\_res\_message           | Resource message in the receipt                                                |
+| receipt\_result                 | Result status in the receipt                                                   |
+| parameter\_json                 | JSON string containing parsed transaction parameters                           |
+| \_created\_at                   | Timestamp when this record was created                                         |
+| \_updated\_at                   | Timestamp when this record was last updated                                    |
+| \_extra\_fields                 | Additional fields not covered by the standard schema                           |

@@ -1,0 +1,24 @@
+---
+title: "ERC1155 Balances Latest"
+---
+
+<Info>
+Note that we don't have USD prices for NFT balances yet
+</Info>
+
+The ERC1155 balances latest table contains the current ERC1155 balances of all addresses.
+
+### Sample Query
+
+Getting the ERC1155 latest balance of a NFT from an address.
+
+```sql
+select * from avalanche.assets.erc1155_balances_latest
+where address = '0xfb9de654ec4d5ad14cacecb035b75a81340674ad' limit 10
+```
+
+Currently, the USD exchange rates of ERC1155 tokens are not available.
+
+### Table Columns
+
+<table><thead><tr><th width="239">Column Name</th><th width="268.3333333333333">Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td>0x44228c343e102d2860a800f05da2f09cd00f0c60</td></tr><tr><td>token_address</td><td>Address of the token.</td><td>0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258</td></tr><tr><td>token_name</td><td>Name of the token.</td><td>Otherdeed</td></tr><tr><td>token_symbol</td><td>Symbol of the token.</td><td>OTHR</td></tr><tr><td>token_id</td><td>Token ID of the ERC1155 token.</td><td>80383</td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized). </td><td>1</td></tr><tr><td>raw_balance_str</td><td>Balance of tokens (unnormalized) in string.</td><td>1</td></tr><tr><td>balance_str</td><td>Balance of tokens in string. </td><td>1</td></tr><tr><td>balance</td><td>Balance of tokens</td><td>1</td></tr><tr><td>last_activity_block_timestamp</td><td>Timestamp of the last activity that resulted in this balance.</td><td>2023-03-14 14:12:23</td></tr><tr><td>last_activity_block_number</td><td>Block number of the last activity that resulted in this balance.</td><td>16,826,706</td></tr><tr><td>last_activity_block_hash</td><td>Block hash of the last activity that resulted in this balance.</td><td>0x230f13eae18b694dae232baae4dc78e9b9ca09f937d242d13380f075eb888ead</td></tr><tr><td>unique_id</td><td>Unique ID of the balance.</td><td>block-16826706_address-0x44228c343e102d2860a800f05da2f09cd00f0c60_token_address-0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258_token_id-80383_erc721</td></tr><tr><td>_updated_at</td><td>Timestamp of the balance update.</td><td>2023-03-14 15:28:54</td></tr></tbody></table>

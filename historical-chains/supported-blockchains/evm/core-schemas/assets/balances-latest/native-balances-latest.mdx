@@ -1,0 +1,41 @@
+---
+title: "Native Balances Latest"
+---
+
+The `assets.native_balances_latest` table contains the **latest** balance of Native of all addresses. It is otherwise identical to [Native Balances](/historical-chains/supported-blockchains/evm/unichain/assets/balances/native-balances).
+
+### Sample Query
+
+Getting the latest Native balance of an address.
+
+```sql
+select * from ethereum.assets.native_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+```
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                              | Data Type        | Description                                                                                     |
+|------------------------------------------|------------------|-------------------------------------------------------------------------------------------------|
+| address                                  | VARCHAR          | Address of the account                                                                         |
+| token_address                            | VARCHAR          | Address of the native token, which is represented as null address (0x0000000000000000000000000000000000000000) |
+| token_name                               | VARCHAR          | Name of the native token                                                                       |
+| token_symbol                             | VARCHAR          | Symbol of the token                                                                            |
+| raw_balance                              | NUMERIC          | Raw balance of native token in wei                                                             |
+| raw_balance_str                          | VARCHAR          | Raw balance of native token in wei and in string format                                         |
+| balance                                  | FLOAT            | Balance of native token normalized                                                             |
+| balance_str                              | VARCHAR          | Balance of native token normalized and in string format                                         |
+| usd_balance_current                      | FLOAT            | USD balance of ETH at the current timestamp                                                    |
+| usd_balance_at_block_timestamp           | FLOAT            | USD balance of ETH at the timestamp of the last activity that resulted in balance change       |
+| usd_exchange_rate_current                | FLOAT            | USD exchange rate of ETH at the current timestamp                                              |
+| usd_exchange_rate_at_block_timestamp     | FLOAT            | USD exchange rate of ETH at the timestamp of the last activity that resulted in balance update |
+| last_activity_block_timestamp            | TIMESTAMP_NTZ(9) | The last timestamp of the block that resulted in the balance update                             |
+| last_activity_block_number               | INTEGER          | The last block number that resulted in the balance update                                      |
+| last_activity_block_hash                 | VARCHAR          | The last hash of the block that resulted in the balance update                                 |
+| _updated_at__usd_exchange_rate_current   | TIMESTAMP_NTZ(9) | Timestamp of the current USD exchange                                                          |
+| unique_id                                | VARCHAR          | Unique ID of the balance                                                                       |
+| _updated_at                              | TIMESTAMP_NTZ(9) | Timestamp of the balance update                                                                |
+
+

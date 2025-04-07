@@ -1,0 +1,56 @@
+---
+title: "Prices"
+description: "How do we enriched our batch data models with USD prices."
+---
+
+## Token Price Enrichment: Our Approach to Data Quality and Reliability
+
+### Overview
+
+We enrich blockchain data with token prices to provide actionable insights for our users.
+
+This document outlines our methodology and rationale for token price enrichment across our core schemas (dex.trades, erc20\_token\_transfers, transfers, balances, etc).
+
+### Our Approach to Price Enrichment
+
+All our batched models are enriched b&#x79;**&#x20;token prices by the hour** (the price closest to the start of the hour) unless otherwise stated.
+
+Our price data source is from a **basket of CEX prices and price vendor.**
+
+**We currently do not use derived DEX (decentralized exchange) token** **prices** to enrich our batch data models.
+
+### Why We Use Established Price Vendors
+
+Our price enrichment strategy is built on these principles:
+
+* **Data Reliability**: Established price vendors implement rigorous methodologies that account for liquidity, volume, and market manipulation, resulting in more stable and reliable price data. Hence, only tokens that meet certain credibility thresholds appear in our price vendor's market data, providing a natural filter against scam tokens and extreme volatility.
+
+* **Analysis Integrity:&#x20;**&#x42;y using vetted price sources, we prevent extreme outliers that could skew analyses and make data unusable for modelling and decision-making.
+
+* **Consistent User Experience:** Our approach ensures that USD-denominated metrics remain within reasonable ranges, avoiding situations where transactions appear to be worth trillions due to momentary DEX price spikes.
+
+### Why We Don't Use DEX Prices
+
+While DEX prices offer broader coverage, they come with significant drawbacks:
+
+* **Price Manipulation:** Low-liquidity tokens can experience extreme price volatility on DEXs, leading to misleading valuations.
+
+* **Analysis Distortion**: Incorporating highly volatile prices can result in unusable data, such as transfers appearing to be worth trillions of USD when they represent minimal actual value.
+
+* **Data Noise:&#x20;**&#x54;he signal-to-noise ratio decreases significantly when including every meme coin or short-lived token project.
+
+### Our Commitment
+
+We continuously evaluate our approach to ensure we're meeting user needs while maintaining data integrity.
+
+While we understand the desire for comprehensive token coverage, we believe our current methodology provides the optimal balance between coverage and reliability for most analytical use cases across most of our users.
+
+### For Advanced Users
+
+For users requiring pricing data for tokens not covered by our standard enrichment:
+
+* Consider joining our enriched data with additional price sources in your queries. You may use `common.prices.hourly`which contains DEX data as well, with additional metadata including swappers, swap count and volume used to compute the DEX token prices.
+
+  * Implement your safeguards when using volatile price sources
+
+

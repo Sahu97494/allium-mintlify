@@ -1,0 +1,31 @@
+---
+title: "AVAX Transfers"
+---
+
+The table for AVAX Token Transfers holds a record of all transactions conducted using the native AVAX token on Avalanche.
+
+This includes the transaction type (regular AVAX transfers (from traces) and transaction fees paid) timestamp, and the sender and recipient wallet addresses along with the quantity of AVAX transferred.
+
+Post-EIP-1559, transaction fee is split into base and priority fee in the transfer type field.
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | 0x41a5468305c0c2a9d78e09b8484769edc0a8eb74                                       |
+| to\_address                | Address where the token is being transferred to.                                       | 0x4e75e27e5aa74f0c7a9d4897dc10ef651f3a3995                                       |
+| token\_address             | Token address of the asset transferred.                                                | 0x0000000000000000000000000000000000000000                                       |
+| token\_name                | Name of the asset transferred.                                                         | AVAX                                                                             |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | AVAX                                                                             |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 4.26937E+18                                                                      |
+| amount                     | Amount of token moved, normalized.                                                     | 4.26937                                                                          |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | 62.1193335                                                                       |
+| call\_type                 | Call type of the transaction. Non-call type will be indicated by NULL.                 | call                                                                             |
+| transfer\_type             | Transfer type can be either value\_transfer, gas\_burn, gas\_payment\_to\_miner.       | value\_transfer                                                                  |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0x41a5468305c0c2a9d78e09b8484769edc0a8eb74                                       |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0x4e75e27e5aa74f0c7a9d4897dc10ef651f3a3995                                       |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0xffa7a8707194b6d3c257f2b0f4d1d8144bb58d8c23e58b542a104e2c535642ad               |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2023-06-07 03:36:30                                                              |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 31,008,820                                                                       |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x26a80bb495333e658ec25f81251fa177d5ae90a601fe41e2ec6d56cd24ea0ca8               |
+| unique\_id                 | Unique id generated to each transfer.                                                  | trace-call\_0xffa7a8707194b6d3c257f2b0f4d1d8144bb58d8c23e58b542a104e2c535642ad\_ |

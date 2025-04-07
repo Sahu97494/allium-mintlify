@@ -1,0 +1,148 @@
+---
+title: "Transactions"
+---
+
+Transactions in Bitcoin are cryptographically signed instructions to transfer ownership of bitcoin between accounts. They originate from a user's wallet and update the Bitcoin blockchain. Transactions are broadcast to the network and require verification by miners. Once verified, miners include them in a block, which is added to the blockchain, confirming the transfer. Bitcoin transactions must reference previous unspent outputs as inputs, and any unused portion can be returned as change or used to pay transaction fees.
+
+In Bitcoin, transaction inputs and outputs follow a First-In-First-Out (FIFO) model. Inputs reference unspent transaction outputs (UTXOs) from previous transactions, consuming them in the order they are added. Outputs are created as new UTXOs, which can be spent in future transactions. When a transaction is processed, the oldest unspent inputs are used first, and any leftover value can be sent as change to a new output or used for transaction fees. This FIFO approach helps maintain the consistency and traceability of funds on the blockchain.
+
+### Sample Query
+
+Select random transaction and get all inputs and outputs
+
+```sql
+with transaction_hash as (
+    select hash from bitcoin.mempool_transactions limit 1
+), inputs as (
+    select
+        spent_utxo_id,
+        address0,
+        value,
+        'input' as input_or_output,
+        transaction_hash
+    from bitcoin.mempool_inputs
+    where transaction_hash = (select hash from transaction_hash)
+), outputs as (
+    select
+        utxo_id,
+        address0,
+        value,
+        'input' as input_or_output,
+        transaction_hash
+    from bitcoin.mempool_outputs
+    where transaction_hash = (select hash from transaction_hash)
+)
+select * from inputs
+union
+select * from outputs;
+```
+
+### Table Columns
+
+This table is indexed by (hash, block_timestamp, block_hash) and has indicies on block_number and block_timestamp. Please use either index for faster queries.
+
+<table>
+  <thead>
+    <tr>
+      <th>Column Name</th>
+      <th width="336.3333333333333">Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>hash</td>
+      <td>Transaction hash.</td>
+      <td>af840d1abd0b6857c197ec0e1bdc5b852db03f0bc9aac2f9472b5513155d9330</td>
+    </tr>
+    <tr>
+      <td>size</td>
+      <td>The serialized transaction size.</td>
+      <td>223</td>
+    </tr>
+    <tr>
+      <td>virtual_size</td>
+      <td>
+        The virtual transaction size (differs from size for witness
+        transactions).
+        <br />
+        <br />
+        Virtual size is a way of measuring the size of a transaction that takes into
+        account the amount of data needed to create the transaction, as well as the
+        priority of the transaction.
+      </td>
+      <td>141</td>
+    </tr>
+    <tr>
+      <td>version</td>
+      <td>The transaction version number.</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>lock_time</td>
+      <td>The transaction lock time.</td>
+      <td>0</td>
+    </tr>
+    <tr>
+      <td>block_hash</td>
+      <td>Unique hash of the transaction.</td>
+      <td>00000000000000000001e89fb4c1b662debc5200b58e53295f509c98416818c2</td>
+    </tr>
+    <tr>
+      <td>block_number</td>
+      <td>Block hash of the transaction.</td>
+      <td>779,762</td>
+    </tr>
+    <tr>
+      <td>block_timestamp</td>
+      <td>Block number or block height of the transaction input.</td>
+      <td>2023-03-07 16:59:59</td>
+    </tr>
+    <tr>
+      <td>index</td>
+      <td>transaction index number</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>input_count</td>
+      <td>The total number of inputs in the transaction.</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>output_count</td>
+      <td>The total number of outputs in the transaction.</td>
+      <td>2</td>
+    </tr>
+    <tr>
+      <td>input_value</td>
+      <td>Total value of inputs in the transaction.</td>
+      <td>4,303,064</td>
+    </tr>
+    <tr>
+      <td>output_value</td>
+      <td>Total value of outputs in the transaction.</td>
+      <td>4,300,103</td>
+    </tr>
+    <tr>
+      <td>is_coinbase</td>
+      <td>
+        The transaction is a coinbase transaction, which is the first
+        transaction in a block
+      </td>
+      <td>FALSE</td>
+    </tr>
+    <tr>
+      <td>fee</td>
+      <td>
+        The transaction fee paid to the miner. Calculated by the substracting
+        the <code>input_value</code> with the <code>output_value.</code>
+      </td>
+      <td>2,961</td>
+    </tr>
+    <tr>
+      <td>weight</td>
+      <td>transaction weight</td>
+      <td>100</td>
+    </tr>
+  </tbody>
+</table>
