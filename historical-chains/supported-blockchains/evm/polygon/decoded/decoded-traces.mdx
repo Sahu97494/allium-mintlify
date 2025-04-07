@@ -1,0 +1,39 @@
+---
+title: "Decoded Traces"
+---
+
+The decoded traces table contains decoded trace inputs and outputs based the trace selector and contract ABIs.
+
+### Table Columns
+
+| Column Name                   | Description                                                                                                                                                                                    |
+| ----------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| name                          | Decoded trace call name.                                                                                                                                                                       |
+| input\_params                 | Decoded input data in JSON format.                                                                                                                                                             |
+| output\_params                | Decoded output data in JSON format.                                                                                                                                                            |
+| transaction\_hash             | Unique identifier of the transaction that contains this trace.                                                                                                                                 |
+| transaction\_index            | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                                           |
+| from\_address                 | The address of the sending party of this trace.                                                                                                                                                |
+| to\_address                   | The address of the receiving party of this trace (null for contract creation).                                                                                                                 |
+| value                         | The amount of ether moved from the from\_address to to\_address.                                                                                                                               |
+| input                         | The bytecode of the call that is made to another smart contract.                                                                                                                               |
+| output                        | The bytecode answer the smart contract that was called gives back.                                                                                                                             |
+| trace\_type                   | The value of the method such as call, create, create2, suicide.                                                                                                                                |
+| call\_type                    | The type of method such as call, delegatecall, staticcall. Learn more here.                                                                                                                    |
+| reward\_type                  | Populated when trace\_type =reward. Possible values: block, uncle                                                                                                                              |
+| gas                           | Gas provided with the trace call, in wei.                                                                                                                                                      |
+| gas\_used                     | The amount of gas consumed, in wei.                                                                                                                                                            |
+| subtraces                     | Number of children traces.                                                                                                                                                                     |
+| trace\_address                | The address of the trace within the call graph. More detail to come soon.                                                                                                                      |
+| error                         | Human readable developer error message. Examples: "Out of gas", "Reverted", "Bad instruction", "Bad jump destination".                                                                         |
+| status                        | Success status of the trace. Either 1 (success) or 0 (failure). Error messages take precedence over trace status. Note that debug\_trace methods may still return status = 1 for error traces. |
+| block\_timestamp              | The time when the block that contains this log was included on the blockchain.                                                                                                                 |
+| block\_number                 | The length of the chain, in blocks.                                                                                                                                                            |
+| block\_hash                   | Unique identifier of the block that includes this log.                                                                                                                                         |
+| trace\_id                     | Unique identifier for this trace. Generated by combining the trace\_type, transaction\_hash and trace\_address.                                                                                |
+| selector                      | Selector of the txn.                                                                                                                                                                           |
+| input\_params\_keys\_mapping  | Input parameters mapping.                                                                                                                                                                      |
+| output\_params\_keys\_mapping | Output parameters mapping                                                                                                                                                                      |
+| interface\_id                 | Interface ID.                                                                                                                                                                                  |
+| \_created\_at                 | Timestamp of the entry creation.                                                                                                                                                               |
+| \_updated\_at                 | Timestamp of the entry update.                                                                                                                                                                 |

@@ -1,0 +1,37 @@
+---
+title: "Pools"
+---
+
+The DEX pools table contains liquidity pool deployed by protocol indexed by Allium, consolidated into a single table.
+
+### Table Columns
+
+Unique Key: `liquidity_pool_address`
+
+| Column                   | Description                                                                         |
+| ------------------------ | ----------------------------------------------------------------------------------- |
+| project                  | The project or platform name                                                        |
+| protocol                 | The specific protocol or version used                                               |
+| liquidity\_pool\_address | The address of the liquidity pool                                                   |
+| token0\_address          | The address of the first token in the pair                                          |
+| token0\_name             | The name of the first token                                                         |
+| token0\_symbol           | The symbol of the first token                                                       |
+| token0\_decimals         | The number of decimal places for the first token                                    |
+| token1\_address          | The address of the second token in the pair                                         |
+| token1\_name             | The name of the second token                                                        |
+| token1\_symbol           | The symbol of the second token                                                      |
+| token1\_decimals         | The number of decimal places for the second token                                   |
+| tokens\_array            | An array containing the addresses of all tokens for pools with more than two tokens |
+| fee                      | The fee associated with the pool                                                    |
+| tick\_spacing            | The spacing between ticks in the pool                                               |
+| factory\_address         | The address of the factory contract that created the pool                           |
+| extra\_fields            | Additional fields emitted in pool creation in JSON format                           |
+| transaction\_hash        | The hash of the transaction (\*null for seed pools)                                 |
+| transaction\_index       | The index of the transaction within the block (\*null for seed pools)               |
+| log\_index               | The index of the log entry within the transaction (\*null for seed pools)           |
+| trace\_id                | The ID of the trace (if applicable)                                                 |
+| block\_timestamp         | The timestamp of the block                                                          |
+| block\_number            | The number of the block                                                             |
+| block\_hash              | The hash of the block                                                               |
+| \_created\_at            | Timestamp when the record was created                                               |
+| \_updated\_at            | Timestamp when the record was last updated                                          |

@@ -1,0 +1,40 @@
+---
+title: "Overview"
+description: Fetch the current balance of SUI staked, rewards,
+---
+
+## Staking Overview
+
+The `sui.staking.overview` model provides a comprehensive view of staking metrics at the epoch level across the entire Sui network.
+
+### Table Columns
+
+Unique Key: `epoch`
+
+| Column                                | Description                                               |
+| ------------------------------------- | --------------------------------------------------------- |
+| checkpoint\_date                      | Date and time of the checkpoint                           |
+| epoch                                 | The epoch number                                          |
+| protocol\_version                     | Version of the Sui protocol being used                    |
+| active\_validators                    | Number of active validators in the epoch                  |
+| avg\_validator\_commission\_rate      | Average commission rate across all validators             |
+| apr                                   | Annual Percentage Rate for staking (calculated)           |
+| stake                                 | Total amount of SUI staked in the network                 |
+| staking\_reward                       | Total staking rewards distributed in this epoch           |
+| cumulative\_staking\_reward           | Cumulative staking rewards distributed up to this epoch   |
+| stake\_subsidy\_amount                | Amount of new SUI distributed as staking subsidies        |
+| reference\_gas\_price                 | Network-wide reference gas price for the epoch            |
+| total\_gas\_fees                      | Total gas fees collected during the epoch                 |
+| storage\_charge                       | Total storage fees charged during the epoch               |
+| storage\_rebate                       | Total storage rebates returned during the epoch           |
+| storage\_fund\_reinvestment           | Amount reinvested into the storage fund                   |
+| storage\_fund\_balance                | Current balance of the storage fund                       |
+| total\_stake\_rewards\_distributed    | Total rewards distributed to stakers in this epoch        |
+| leftover\_storage\_fund\_inflow       | Remaining storage fund inflow after distributions         |
+| total\_storage\_fund\_staking\_reward | Sum of all storage fund staking rewards across validators |
+
+### APR Calculation
+
+The APR is calculated by dividing the total rewards distributed for the epoch by the total stake and multiplying by 365.25 (accounting for leap years) \* 100.
+
+

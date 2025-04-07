@@ -1,0 +1,13 @@
+---
+title: "Overview"
+---
+
+The balances table contains all changes in the balances of assets across all Polygon wallets.
+
+**This includes Native MATIC, ERC20, ERC721 and ERC1155 tokens.** Includes USD value where applicable. Token-specific balance tables are available for query.
+
+`balances` tables can be used to easily plot the change in the balance of an address or a group of addresses over time.
+
+### Table Columns
+
+<table><thead><tr><th width="203.33333333333331">Column Name</th><th width="334">Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td>0xe6c27255fbb9d3a9718fb5e2dc313cd6eba10b78</td></tr><tr><td>token_address</td><td>Token address of the asset.</td><td>0x0000000000000000000000000000000000000000</td></tr><tr><td>token_name</td><td>Name of the ERC20 token.</td><td>MATIC</td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td>MATIC</td></tr><tr><td>token_id</td><td>Unique token ID of the asset. Only applicable for ERC721 and ERC1155 tokens.</td><td></td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized)</td><td>7.33E+21</td></tr><tr><td>raw_balance_str</td><td>Balance of tokens (unnormalized) in string.</td><td>7.33E+21</td></tr><tr><td>balance_str</td><td>Balance of the token, normalized by the decimal points defined in the ERC20 token contract. For example, USDC has 6 decimals, so this value is the raw_balance divided by 10^6.</td><td>7,326.74</td></tr><tr><td>balance_str</td><td>Balance of this token, normalized by the decimal points defined in the token contract.</td><td>7326.738152</td></tr><tr><td>usd_balance</td><td>The amount of tokens, in $USD.</td><td>14,741.40</td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the usd_value.</td><td>2.012</td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the balance.</td><td>2021-10-29 21:49:19</td></tr><tr><td>block_number</td><td>The number of the block that resulted in the balance.</td><td>20,755,138</td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the balance.</td><td>0x217645cca87d00afbe22bc21734e7201cbf106e257ad38f1462bb7a42c7eeb0e</td></tr><tr><td>token_type</td><td>Token type of asset. Includes ETH, ERC20, ERC721 and ERC1155.</td><td>MATIC</td></tr><tr><td>unique_id</td><td>Unique ID of the balances entry</td><td>block-20755138_address-0xe6c27255fbb9d3a9718fb5e2dc313cd6eba10b78_eth</td></tr></tbody></table>

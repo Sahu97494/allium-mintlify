@@ -1,0 +1,31 @@
+---
+title: "ERC20 Transfers"
+---
+
+The ERC20 tokens transfers table contains the details of all transfer events of ERC20 tokens on the Base network.
+
+It includes information such as the sender and receiver addresses, the amount of tokens transferred, the transaction hash, and the block timestamp.
+
+### Table Columns
+
+| Column Name                | Description                                                                            |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     |
+| to\_address                | Address where the token is being transferred to.                                       |
+| token\_address             | Token address of the asset transferred.                                                |
+| token\_name                | Name of the asset transferred.                                                         |
+| token\_symbol              | Token symbol of the asset transferred.                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string                                        |
+| amount                     | Amount of token moved, normalized.                                                     |
+| amount\_str                | Amount of token moved, normalized in string.                                           |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   |
+| usd\_exchange\_rate        | The exchange rate used to calculate the usd\_value.                                    |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        |
+| log\_index                 | The log index that corresponds to this transfer.                                       |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         |
+| unique\_id                 | Unique id generated to each transfer. Includes transaction hash and log index.         |

@@ -1,0 +1,35 @@
+---
+title: "Ordinals Token Transfers"
+---
+
+Ordinals token transfers on Bitcoin can include BRC-20 balance changes by inscribing satoshis with metadata that represents token amounts. When these inscribed tokens are transferred, the BRC-20 balance is updated accordingly, reflecting changes in token ownership. Each transfer modifies the token's ledger state while maintaining a history of all transactions on-chain, enabling fungible token transfers alongside the unique ordinal inscriptions within Bitcoin ecosystem.
+
+### Sample Query
+
+```sql
+select * from bitcoin.ordinals_token_transfers
+where inscription_id = 'b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735i0'
+```
+
+### Table Columns
+
+| Column                      | Description                                   | Examples                                                           |
+| --------------------------- | --------------------------------------------- | ------------------------------------------------------------------ |
+| inscription_id              | inscription id                                | b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735i0 |
+| deployment_id               | deployment id of the brc-20 token             | b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735i0 |
+| from_address                | sender address of brc-20 token                |                                                                    |
+| from_overall_balance_pre    | balance of sender before transfer             | 0                                                                  |
+| from_overall_balance_post   | balance of sender after transfer              | 0                                                                  |
+| from_available_balance_pre  | available balance of sender before transfer   | 0                                                                  |
+| from_available_balance_post | available balance of sender after transfer    | 0                                                                  |
+| to_address                  | reciever address of brc-20 token              | bc1pxaneaf3w4d27hl2y93fuft2xk6m4u3wc4rafevc6slgd7f5tq2dqyfgy06     |
+| to_overall_balance_pre      | balance of receiver before transfer           | 0                                                                  |
+| to_overall_balance_post     | balance of receiver after transfer            | 0                                                                  |
+| to_available_balance_pre    | available balance of receiver before transfer | 0                                                                  |
+| to_available_balance_post   | availablce balance of receiver after transfer | 0                                                                  |
+| amount                      | amount transferred                            |                                                                    |
+| block_timestamp             | block timestamp of transfer                   | 2023-03-08 04:16:31                                                |
+| transaction_hash            | transaction hash of transfer                  | b61b0172d95e266c18aea0c624db987e971a5d6d4ebc2aaed85da4642d635735   |
+| transaction_index           | transaction index of transfer                 | 407                                                                |
+| block_number                | block number of transfer                      | 779832                                                             |
+| block_hash                  | block hash of transfer                        | 000000000000000000015712838394aeb93f5d45d0e5bec197382c08b375016e   |

@@ -1,0 +1,27 @@
+---
+title: "Overview"
+---
+
+The raw data schema includes blocks, transactions, transactions input, and transaction output of Bitcoin data.
+
+<Frame>
+<img src="/images/image-bitcoin-raw.png" />
+</Frame>
+
+Anatomy of Bitcoin UTXO. Image Source: [Liu, Y., Zhang, L. & Zhao, Y.](https://www.nature.com/articles/s41597-022-01254-0/figures/2)
+
+To select for all inputs and outputs a user is involved in, you can use the following query for inputs
+
+```sql
+select spent_utxo_id, transaction_hash from bitcoin.raw.inputs where address0 = 'bc1...'
+```
+
+and the following query for outputs:
+
+```sql
+select utxo_id, transaction_hash from bitcoin.raw.ouptuts where address0 = 'bc1...'
+```
+
+and union the two results if you want both
+
+<table><thead><tr><th width="212">Raw</th><th>Description</th></tr></thead><tbody><tr><td>blocks</td><td>Blocks data, including block size, difficulty and confirmations. </td></tr><tr><td>transactions</td><td>Transactions level data.</td></tr><tr><td>inputs</td><td>Input data of Bitcoin transactions.</td></tr><tr><td>outputs</td><td>Output data of Bitcoin transactions. </td></tr></tbody></table>

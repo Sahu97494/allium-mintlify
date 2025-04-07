@@ -1,0 +1,192 @@
+---
+title: "DEX Trades"
+icon: "arrows-retweet"
+description: "Query DEX swaps volume across multiple blockchain in a single query."
+---
+
+The`crosschain.dex.trades` table aggregates DEX trades indexed by Allium across multiple blockchains (EVM and non-EVM) into a single table.
+
+The `crosschain.dex.trades_evm` table aggregates DEX trades on EVM-compatible blockchain. This model includes EVM-specific fee details (e.g. priority fees) that are not found on non-EVM chains.
+
+### Blockchain Coverage
+
+<Tabs>
+<Tab title="Overview">
+<Info>
+This table currently **does not contain aggregator swaps** to avoid double-counting volume.
+
+The dex trades table only contains swap events/instructions from DEXs with liquidity pools/vaults.
+</Info>
+For example, suppose a DEX swap was executed by an aggregator (e.g. Openocean or 0x) and routed to liquidity pools on Uniswap and Balancer, **o**nly the volume on Uniswap and Balancer is included `dex.trades.`
+</Tab>
+<Tab title="EVM Coverage">
+Coverage of DEX Protocols Across various EVM Blockchains. Note that for a single protocol (e.g. uniswap\_v2) there can be multiple dex projects (e.g. uniswap, sushiswap).
+
+| Chain     | Protocols                                                                                                                                                                                                                                                                                    |
+|-----------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| arbitrum  | pancakeswap_v3, curve_v1, uniswap_v2, camelot_v3, trader_joe_v2, trader_joe_v2_1, kyberswap_elastic, uniswap_v3, balancer_v2, dodo_v2, curve_v2                                                                                                                                                |
+| avalanche | trader_joe_v2, curve_v1, dodo_v2, balancer_v2, uniswap_v2, trader_joe_v2_1, uniswap_v3, kyberswap_elastic, hashflow_v3, dexalot_v1, curve_v2                                                                                                                                                  |
+| base      | kyberswap_elastic, curve_v1, balancer_v2, curve_v2, dodo_v2, uniswap_v2, aerodrome_v2, uniswap_v3, maverick                                                                                                                                                                                  |
+| blast     | uniswap_v3, uniswap_v2                                                                                                                                                                                                                                                                       |
+| bsc       | thena_v1, maverick, uniswap_v2, kyberswap_elastic, pancakeswap_v3, uniswap_v3, dodo_v2, trader_joe_v2_1, trader_joe_v2, pancakeswap_stableswap, thena_fusion                                                                                                                                |
+| celo      | uniswap_v2, uniswap_v3                                                                                                                                                                                                                                                                       |
+| ethereum  | airswap_light, uniswap_v2, hashflow_v3, bancor_v1, balancer_v1, dodo_v2, airswap_v2, clipper_fmm_v1, airswap_v4, maverick, bancor_v3, pancakeswap_v3, airswap_v3, trader_joe_v2_1, curve_v1, native_v1, airswap_light_v0, kyberswap_elastic, clipper_fmm_v3, uniswap_v3, balancer_v2, curve_v2, clipper_fmm_v2, dodo_v1 |
+| optimism  | velodrome_v1, uniswap_v2, dodo_v2, curve_v2, curve_v1, balancer_v2, kyberswap_elastic, velodrome_v2, uniswap_v3                                                                                                                                                                               |
+| polygon   | curve_v1, quickswap_v3, uniswap_v3, balancer_v2, uniswap_v2, hashflow_v3, curve_v2, kyberswap_elastic, dodo_v2, dodo_v1                                                                                                                                                                      |
+| scroll    | uniswap_v3, iziswap_v1, uniswap_v2                                                                                                                                                                                                                                                           |
+| fantom    | kyberswap_elastic, algebra, uniswap_v2, uniswap_v3, balancer_v2, curve_v2, curve_v1                                                                                                                                                                                                         |
+
+
+**Other EVM-Compatible Chains**
+
+Tron's TVM (Tron Virtual Machine) is EVM-compatible, but there are specific differences, particularly in its network fee structure. Unlike the EVM, TVM uses energy instead of gas, with TRX as the ecosystem gas token. This is why we don't consider it completely EVM-compatible. Additionally, addresses are in Base58.
+
+| Chain | Protocols                 | Projects                                       |
+|-------|---------------------------|------------------------------------------------|
+| tron  | uniswap_v3, uniswap_v2    | tofuswap, uswap, intercroneswap, justmoney, sunswap |
+
+</Tab>
+<Tab title="Solana Coverage">
+Projects and Protocol Indexed on Solana.
+
+| Project    | Protcols                                      |
+|------------|-----------------------------------------------|
+| crema      | clmm-v2                                       |
+| cropper    | cropper-whirlpool                             |
+| invariant  | invariant                                     |
+| lifinity   | lifinity-v1, lifinity-v2                      |
+| mercurial  | mercurial                                     |
+| meteora    | meteora-dlmm, meteora                         |
+| orca       | orca-v1, orca-v2, orca-whirlpool              |
+| phoenix    | phoenix                                       |
+| pumpfun    | pumpfun                                       |
+| raydium    | raydium-clmm, raydium-stable, raydium-v4      |
+| saber      | saber-stableswap                              |
+| stepn      | stepn                                         |
+| symmetry   | symmetry                                      |
+</Tab>
+</Tabs>
+### Sample Query
+
+<Tabs>
+<Tab title="DEX Volume">
+Query DEX Volume and Users Across Blockchains indexed by Allium in the last 90 days.
+
+```sql
+select
+    date(block_timestamp) as date,
+    chain,
+    sum(usd_amount) as usd_volume,
+    count(distinct transaction_from_address) as traders
+from crosschain.dex.trades
+where block_timestamp >= current_timestamp - interval '90 days'
+group by all
+```
+</Tab>
+<Tab title="DEX Transaction Fees">
+ℹ️ This is only applicable for EVM DEXs in the `crosschain.dex.trades_evm` model.
+
+Dividing the transaction fees by swap count is required as fees are computed at the transaction level and there are dex trades within a same transaction with multiple hops.
+
+```sql
+select
+    date(block_timestamp) as date,
+    chain,
+    count(distinct transaction_from_address) as distinct_users,  -- Number of unique users
+    avg(usd_amount) as avg_usd_volume,  -- Average swap volume in USD
+    sum(usd_amount) as total_usd_volume,  -- Total trade volume in USD by chain
+    sum(transaction_fees_usd / swap_count) as total_fees_usd  -- Total fees USD 
+from crosschain.dex.trades_evm
+where block_timestamp > current_timestamp - interval '6 months'
+group by all
+order by 1 desc
+```
+</Tab>
+</Tabs>
+### Table Columns
+
+<Tabs>
+<Tab title="crosschain.dex.trades">
+For blockchains (e.g. Solana) that are not EVM-compatible, the additional fields only relevant to these chains (e.g. Signer for Solana) are added and appended at the end of this table.
+
+| Column Name              | Description                                                                                   |
+|--------------------------|-----------------------------------------------------------------------------------------------|
+| chain                    | Blockchain where the dex trade was executed.                                                  |
+| project                  | Name of the project e.g. uniswap, balancer, curve, sushiswap, pancakeswap, fraxswap.         |
+| protocol                 | Version of the protocol used e.g. uniswap_v2, uniswap_v3, balancer_v1, balancer_v2, curve_v1, curve_v2 |
+| liquidity_pool_address   | Contract address of the liquidity pool holding the asset.                                     |
+| sender_address           | Address of the sender of the swap event log, which can be the Router.                         |
+| to_address               | Address of the recipient of the swap event.                                                   |
+| token_bought_address     | Token address of the token bought, i.e. the asset acquired from the trade.                   |
+| token_bought_name        | Name of the token bought.                                                                     |
+| token_bought_symbol      | Symbol of the token bought.                                                                   |
+| token_sold_address       | Address of the token sold.                                                                    |
+| token_sold_name          | Name of the token sold.                                                                       |
+| token_sold_symbol        | Symbol of the token sold.                                                                     |
+| token_bought_amount_raw  | Amount of token bought (not divided by the number of decimals).                               |
+| token_bought_amount      | token_bought_amount_raw divided by the number of decimals of the token.                      |
+| token_sold_amount_raw    | Amount of token sold (not divided by the number of decimals).                                 |
+| token_sold_amount        | token_sold_amount_raw divided by the number of decimals of the token.                        |
+| usd_amount               | USD value of the swap.                                                                        |
+| transaction_from_address | The address of the sending party of this transaction (Signer on Solana).                      |
+| transaction_to_address   | The address of the receiving party of this transaction, which could be a contract address. (Null for Solana) |
+| transaction_hash         | Transaction hash of this trade. (txn_id For Solana)                                           |
+| transaction_index        | Transaction index of this trade in the block.                                                 |
+| log_index                | Log index of this trade. (Null for Solana)                                                    |
+| block_timestamp          | Block timestamp of this trade.                                                                |
+| block_number             | Block number of this trade. (block_slot for Solana)                                           |
+| block_hash               | Block hash of this trade.                                                                     |
+| unique_id                | Unique ID of each trade.                                                                      |
+| aggregator               | (Solana) Aggregator used for the trade. (Only applicable for Solana trades currently).        |
+| block_height             | (Solana) Block height of the trade.                                                           |
+| instruction_index        | (Solana) Instruction index of the trade.                                                      |
+| signer                   | (Solana) Signer of the trade.                                                                 |
+| program_id               | (Solana) program_id of the trade.                                                             |
+</Tab>
+<Tab title="crosschain.dex.trades_evm">
+The `crosschain.dex.trades_evm` table columns additional fields that are only applicable for EVM-compatible blockchains.
+
+| Column                       | Description                                                                                                                                                         |
+|-----------------------------|---------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| project                     | The project (decentralized exchange) of the liquidity pool that the swap occurred from.                                                                             |
+| protocol                    | DEX protocol (& version, if applicable) of the contract address facilitating the swap.                                                                             |
+| liquidity_pool_address      | Contract address of the liquidity pool holding the asset. For protocol without the concept of LP such as airswap, this will be null.                              |
+| sender_address              | The address of the sender emitted on the swap event logs. This can be a router or pool address, which is different from the transaction initiator transaction_from_address that initiated the swap. |
+| to_address                  | Address of the recipient emitted on the swap event logs. For example, we use the to_address from the uniswap v2 swap event log and the recipient_address from the uniswap v3 swap event log. |
+| token_sold_address          | Token address of the token sold.                                                                                                                                    |
+| token_sold_name             | Name of the token sold.                                                                                                                                             |
+| token_sold_symbol           | Symbol of the token sold.                                                                                                                                           |
+| token_sold_decimals         | Token decimals of the token sold.                                                                                                                                   |
+| token_sold_amount_raw_str   | Raw amount of tokens sold (unnormalized) in string.                                                                                                                 |
+| token_sold_amount_raw       | Raw amount of tokens sold (unnormalized).                                                                                                                           |
+| token_sold_amount_str       | Amount of tokens sold in string.                                                                                                                                    |
+| token_sold_amount           | Amount of tokens sold.                                                                                                                                              |
+| usd_sold_amount             | Amount of token sold in USD value.                                                                                                                                  |
+| token_bought_address        | Token address of the token bought, i.e. the asset acquired from the trade.                                                                                          |
+| token_bought_name           | Name of the token bought.                                                                                                                                           |
+| token_bought_symbol         | Symbol of the token bought.                                                                                                                                         |
+| token_bought_decimals       | Token decimals of the token bought.                                                                                                                                 |
+| token_bought_amount_raw_str | Raw amount of tokens bought (unnormalized) in string.                                                                                                               |
+| token_bought_amount_raw     | Raw amount of tokens bought (unnormalized).                                                                                                                         |
+| token_bought_amount_str     | Amount of tokens bought in string.                                                                                                                                  |
+| token_bought_amount         | Amount of tokens bought.                                                                                                                                            |
+| usd_bought_amount           | Amount of token bought in USD value.                                                                                                                                |
+| usd_amount                  | USD value of the swap. This field preferentially selects the USD value of Native Assets and Stablecoin (USDT/USDC) tokens, as spam/meme token prices may conflate the true swap value. |
+| extra_fields                | This field contains all the extra columns emitted from the event/function call that were not part of the conventional DEX trades columns.                          |
+| swap_count                  | Swap count within the transaction.                                                                                                                                  |
+| transaction_fees            | Fees paid at the transaction level.                                                                                                                                 |
+| transaction_fees_usd        | Fees paid in USD at the time of the transaction.                                                                                                                    |
+| fee_details                 | Additional fee details of the transaction, including max priority fee, gas price and gas used for the transaction.                                                 |
+| transaction_from_address    | Transaction sender address. I.e. the address of the transaction initiator. (from_address in the raw.transactions field for the transaction_hash of this swap).     |
+| transaction_to_address      | Transaction receiver. (to_address in the raw.transactions field for the transaction_hash of this swap).                                                             |
+| transaction_hash            | Transaction hash that this swap belongs to.                                                                                                                         |
+| transaction_index           | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                               |
+| selector                    | 4-byte selector of the transaction.                                                                                                                                 |
+| log_index                   | The position of the swap event log in the transaction.                                                                                                              |
+| block_timestamp             | Block timestamp of the swap event.                                                                                                                                  |
+| block_number                | Block number of the swap event.                                                                                                                                     |
+| block_hash                  | Block hash of the swap event.                                                                                                                                       |
+| unique_id                   | Unique ID of each trade.                                                                                                                                            |
+
+</Tab>
+</Tabs>

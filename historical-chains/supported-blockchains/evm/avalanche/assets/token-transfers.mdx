@@ -1,0 +1,37 @@
+---
+title: "Overview"
+---
+
+Our Avalanche assets schema currently includes AVAX and ERC20 Token Transfers.
+
+`avalanche.assets.avax_erc20_token_transfers` contains transfers for both assets type.
+
+<Info>
+Note that native AVAX uses null address `0x0000000000000000000000000000000000000000` as token\_address.
+</Info>
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                               |
+| -------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------- |
+| transfer\_type             | Transfer Type (ERC20 or AVAX).                                                         | ERC20                                                                                 |
+| from\_address              | Address where the token is being transferred from.                                     | 0xfc21d3a2465a220c5a5a35e99e423c612f76ae83                                            |
+| to\_address                | Address where the token is being transferred to.                                       | 0x1205f31718499dbf1fca446663b532ef87481fe1                                            |
+| token\_address             | Token address of the asset transferred.                                                | 0xb97ef9ef8734c71904d8002f8b6bc66dd9c48a6e                                            |
+| token\_name                | Name of the asset transferred.                                                         | USD Coin                                                                              |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | USDC                                                                                  |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 261,294,144                                                                           |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string                                        | 261294144                                                                             |
+| amount                     | Amount of token moved, normalized.                                                     | 261.294144                                                                            |
+| amount\_str                | Amount of token moved, normalized in string.                                           | 261.294144                                                                            |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | 261.2680146                                                                           |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0xfc21d3a2465a220c5a5a35e99e423c612f76ae83                                            |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0x45a01e4e04f14f7a4a6702c74187c5f6222033cd                                            |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0xce700b2d6a237aff56d2f75d06da7a40dcc31558f516976bb3feeecab0c72985                    |
+| erc20\_log\_index          | ERC20 Transfer Log Index.                                                              | 16                                                                                    |
+| avax\_call\_type           | AVAX Traces Call Type.                                                                 |                                                                                       |
+| avax\_transfer\_type       | AVAX Transfer Type for Transfers.                                                      |                                                                                       |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2023-06-07 05:19:43                                                                   |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 31,011,871                                                                            |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0xb583320cc68ffaa7245352dc31afb596667ee69213622ce2567490741acedb92                    |
+| unique\_id                 | Unique id generated to each transfer. Includes transaction hash and log index.         | txn-0xce700b2d6a237aff56d2f75d06da7a40dcc31558f516976bb3feeecab0c72985\_log\_index-16 |

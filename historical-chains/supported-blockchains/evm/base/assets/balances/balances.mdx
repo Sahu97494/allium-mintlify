@@ -1,0 +1,13 @@
+---
+title: "Balances"
+---
+
+The `base.assets.balances` table contains all changes in the balances of assets across all Base wallets. I**ncludes Native Ether and ERC20.**
+
+Asset-specific balances table are also available:
+
+<table><thead><tr><th width="386">Table Name</th><th> Description</th></tr></thead><tbody><tr><td><code>base.assets.eth_balances</code></td><td>Block-level ETH balances</td></tr><tr><td><code>base.assets.erc20_balances</code></td><td>Block-level ERC20 balances</td></tr></tbody></table>
+
+### Table Columns
+
+<table><thead><tr><th width="210">Column Name</th><th>Description</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td></td></tr><tr><td>token_address</td><td><p>Token address of the asset.</p><p> <br />Note: Native ETH does not have a contract address, but for convention, it is labelled as: <code>0x0000000000000000000000000000000000000000</code></p></td><td></td></tr><tr><td>token_name</td><td> Name of the token.</td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of the token.</td><td></td></tr><tr><td>token_id</td><td>Unique token ID of the asset. <br /><br />Only applicable for ERC721 and ERC1155 tokens.</td><td></td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized)</td><td></td></tr><tr><td>balance</td><td>Normalized token balance. </td><td></td></tr><tr><td>usd_balance</td><td>The amount of tokens, in $USD.</td><td></td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the <code>usd_value</code>.</td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the <code>balance</code>.</td><td></td></tr><tr><td>block_number</td><td>The number of the block that resulted in the <code>balance</code>.</td><td></td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the <code>balance</code>.</td><td></td></tr><tr><td>token_type</td><td>Token type of asset. Includes ETH, ERC20, ERC721 and ERC1155. </td><td></td></tr></tbody></table>

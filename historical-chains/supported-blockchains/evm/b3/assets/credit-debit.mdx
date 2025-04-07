@@ -1,0 +1,26 @@
+---
+title: "Credit Debit"
+---
+
+Our B3 Credit Debit schema includes Credit and Debit entries for tokens.
+
+| Table        | Description                          | Assets Supported         |
+|--------------|--------------------------------------|--------------------------|
+| credit_debit | Credit and debit entries for assets  | ERC20, ERC721, ERC1155   |
+
+### Difference with transfers
+
+Unlike token transfers, data here is organized into **credit** and **debit** rows (similar to the accounting concept called "double entry book"). The table contains the amount and direction (credit/debit) of every transfer event of supported assets.
+
+Using an ERC20 token as an example, a **token transfer** will be represented as follows:
+
+| from_address | to_address | amount | event                         |
+|--------------|------------|--------|-------------------------------|
+| X            | Y          | 1250   | X transfers 1250 tokens to Y  |
+
+In credit debit, it will be represented **two rows**.
+
+| address | counterparty_address | amount | event                         |
+|---------|---------------------|--------|--------------------------------|
+| X       | Y                   | -1250  | X decrease 1250 tokens to Y    |
+| Y       | X                   | 1250   | Y increase 1250 tokens from    |

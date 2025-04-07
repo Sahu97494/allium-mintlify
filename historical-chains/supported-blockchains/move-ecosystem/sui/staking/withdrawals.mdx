@@ -1,0 +1,41 @@
+---
+title: "Withdrawals"
+---
+
+### Understanding Unstaking
+
+When users unstake their SUI, they return their pool tokens and receive both their original principal and accumulated rewards. The unstaking process in Sui has a waiting period before funds are released.
+
+### Unstaking Process
+
+1\. User initiates an unstaking request
+
+* The request is processed at the end of the current epoch
+
+* The user receives their principal amount plus rewards
+
+* The rewards are calculated based on the pool token exchange rate at the time of unstaking
+
+### Principal vs. Rewards
+
+The withdrawal data separates the original staked amount (principal) from the earned rewards, allowing for clear tracking of staking returns.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column                     | Description                                             |
+| -------------------------- | ------------------------------------------------------- |
+| checkpoint\_timestamp      | Timestamp of when the checkpoint was created            |
+| unstaking\_epoch           | The epoch when the SUI unstake request will be released |
+| sender                     | Address of the sender                                   |
+| staker\_address            | Address of the staker                                   |
+| validator\_address         | Address of the validator                                |
+| pool\_id                   | ID of the staking pool                                  |
+| principal\_amount\_str     | Amount of SUI unstaked (string format)                  |
+| principal\_amount          | Amount of SUI unstaked (float format)                   |
+| reward\_amount\_str        | Amount of rewards received (string format)              |
+| reward\_amount             | Amount of rewards received (float format)               |
+| transaction\_block\_digest | Digest of the transaction block                         |
+| unique\_id                 | Unique ID of the withdrawal                             |
+

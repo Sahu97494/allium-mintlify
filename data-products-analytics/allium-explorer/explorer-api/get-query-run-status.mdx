@@ -1,0 +1,15 @@
+---
+title: "Retrieve the status of a query run"
+openapi: get /api/v1/explorer/query-runs/{run_id}/status
+---
+## Get Query Run Status
+
+### Possible query run statuses
+| Status    | Description                                      |
+|-----------|--------------------------------------------------|
+| `created` | Query has been created.                          |
+| `queued`  | Query has been queued for execution.             |
+| `running` | Query is currently executing.                    |
+| `success` | Query has successfully executed.                 |
+| `failed`  | Query execution failed.                          |
+| `canceled`| Query was canceled, likely due to user action.   |

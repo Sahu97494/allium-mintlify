@@ -1,0 +1,33 @@
+---
+title: Transfers
+---
+
+The `nfts.transfers` table contains transfers of both ERC721 and ERC1155 tokens. For ERC1155, batch transfers are flattened into individual entries.&#x20;
+
+This model can be used identify the transfer patterns of NFTs across users.&#x20;
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                          | Data Type         | Description                                                           |
+| ------------------------------------ | ----------------- | --------------------------------------------------------------------- |
+| token\_standard                      | VARCHAR           | The standard of the token, e.g., ERC721 or ERC1155.                   |
+| from\_address                        | VARCHAR           | The address of the sender.                                            |
+| to\_address                          | VARCHAR           | The address of the recipient.                                         |
+| token\_address                       | VARCHAR           | The contract address of the token.                                    |
+| token\_name                          | VARCHAR           | The name of the token.                                                |
+| token\_symbol                        | VARCHAR           | The symbol of the token.                                              |
+| token\_id                            | VARCHAR           | The unique identifier of the token.                                   |
+| amount                               | FLOAT             | The amount of tokens transferred.                                     |
+| transaction\_from\_address           | VARCHAR           | The address of the sender in the transaction.                         |
+| transaction\_to\_address             | VARCHAR           | The address of the recipient in the transaction.                      |
+| transaction\_hash                    | VARCHAR           | The unique identifier of the transaction.                             |
+| transaction\_index                   | BIGINT            | The position of the transaction within the block.                     |
+| log\_index                           | BIGINT            | The position of the log within the block.                             |
+| block\_timestamp                     | TIMESTAMP\_NTZ(9) | The timestamp of the block containing the transaction.                |
+| block\_number                        | BIGINT            | The number of the block containing the transaction.                   |
+| block\_hash                          | VARCHAR           | The unique identifier of the block containing the transaction.        |
+| event\_type                          | VARCHAR           | The type of event, e.g., erc1155\_transfer\_single, erc721\_transfer. |
+| unique\_id                           | VARCHAR           | A unique identifier for the transfer event.                           |
+| \_helper\_nft\_tokens\_\_updated\_at | TIMESTAMP\_NTZ(9) | The timestamp of the last update to the token information.            |

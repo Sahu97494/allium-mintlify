@@ -1,0 +1,16 @@
+---
+title: "Retrieve the results of a query run"
+openapi: get /api/v1/explorer/query-runs/{run_id}/results
+---
+## Get Query Run Results
+
+### Possible query run results
+The query run result will have the following fields:
+
+| Field name     | Description                                                   |
+|----------------|---------------------------------------------------------------|
+| `sql`          | The SQL query executed in the request                         |
+| `data`         | The results of the query encoded as a list of JSON objects    |
+| `meta`         | Metadata about the results.                                   |
+| `meta.columns` | List of the data's column names and types.                    |
+| `queried_at`   | The timestamp at which the query was executed                 |

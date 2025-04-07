@@ -1,0 +1,59 @@
+---
+title: "ERC20 Transfers"
+---
+
+<Info>
+We only use CEX USD prices to estimate the usd\_amount. This has the benefit of excluding scam tokens, but some defi tokens might not be covered.
+</Info>
+
+The ERC20 tokens transfers table contains the details of all transfer events of ERC20 tokens on the Ethereum blockchain.
+
+It includes information such as the sender and receiver addresses, the amount of tokens transferred, the transaction hash, and the block timestamp.
+
+### Sample Query
+
+Stablecoins transfer stats on Ethereum.
+
+```sql
+select
+    date_trunc('week', block_timestamp) as date,
+    token_symbol,
+    count(distinct from_address) as senders,
+    count(distinct to_address) as recipients,
+    sum(amount) as transfer_volume
+from ethereum.assets.erc20_token_transfers
+where
+    1 = 1
+    and block_timestamp > '2022-01-01'
+    and token_address in (
+        '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48',  -- circle
+        '0x6b175474e89094c44da98b954eedeac495271d0f',  -- dai
+        '0xdac17f958d2ee523a2206206994597c13d831ec7'  -- tether
+    )
+group by 1, 2
+order by 1 desc 
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | `0x3d6fa1331e142504ba0b7965cd801c7f3b21b6c0`                                           |
+| to\_address                | Address where the token is being transferred to.                                       | `0x3dfd23a6c5e8bbcfc9581d2e864a68feb6a076d3`                                           |
+| token\_address             | Token address of the asset transferred.                                                | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48`                                           |
+| token\_name                | Name of the asset transferred.                                                         | `USD Coin`                                                                             |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | `USDC`                                                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | `100000000`                                                                            |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string                                        | `100000000`                                                                            |
+| amount                     | Amount of token moved, normalized.                                                     | `100`                                                                                  |
+| amount\_str                | Amount of token moved, normalized in string.                                           | `100`                                                                                  |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | `100.02`                                                                               |
+| usd\_exchange\_rate        | The exchange rate used to calculate the usd\_value.                                    | `1.0002`                                                                               |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | `0xd9fd8ae74d33dfc6883c01d2f5fb0dcb82384854`                                           |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | `0x6ef7cc3891e4881bf6106f41e4732e4807868633`                                           |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | `0x4d13ffc367a8d92a37ba210a49834e2e58f1135a44ff7c11d0dc7e19d5174156`                   |
+| log\_index                 | The log index that corresponds to this transfer.                                       | `130`                                                                                  |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | `2020-06-06 18:12:59.000`                                                              |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | `10213689`                                                                             |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | `0x65c8c3bea7f3a45e8c1d84d454884d29afcf44967a6799d8044ea63487be92b1`                   |
+| unique\_id                 | Unique id generated to each transfer. Includes transaction hash and log index.         | `txn-0x4d13ffc367a8d92a37ba210a49834e2e58f1135a44ff7c11d0dc7e19d5174156_log_index-130` |

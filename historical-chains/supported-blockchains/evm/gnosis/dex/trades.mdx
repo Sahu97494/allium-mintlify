@@ -1,0 +1,66 @@
+---
+title: "Trades"
+---
+
+The DEX trades table contains swaps made on decentralized exchanges, consolidated into a single table.
+
+### Project Coverage:
+
+Currently, we support the following projects.
+
+| Protocol             | Projects                                                                                                                                                                                                                                                                                                                                                                |
+| -------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| algebra              | skullswap, spiritswap                                                                                                                                                                                                                                                                                                                                                   |
+| balancer\_v2         | beethoven\_x                                                                                                                                                                                                                                                                                                                                                            |
+| curve\_v1, curve\_v2 | curve                                                                                                                                                                                                                                                                                                                                                                   |
+| kyberswap\_elastic   | kyberswap                                                                                                                                                                                                                                                                                                                                                               |
+| uniswap\_v2          | jetswap, wigoswap, makiswap, spookyswap, runic, defyswap, hyperjump, knightswap, excalibur, skullswap, morpheusswap, magik\_finance, liquidbolt, mageswap, tombswap, radioshackswap, degenhaus, alium\_finance, spiritswap, pyreswap, elkfinance, sushiswap, paintswap, zoodex, soulswap, wingswap, bombfinance, protofi, shibaswap, yoshiexchange, farmtom, redemption |
+| uniswap\_v3          | solidly, thick, sushiswap, wagmi, lif3, spookyswap                                                                                                                                                                                                                                                                                                                      |
+
+### Table Columns
+
+`_str` columns are numeric fields cast `varchar` to retain precision when summing.
+
+Unique Key: `unique_id`
+
+| Column                          | Description                                                                                                                                                             |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| project                         | The project (decentralized exchange) of the liquidity pool that the swap occurred from.                                                                                 |
+| protocol                        | DEX protocol (& version, if applicable) of the contract address facilitating the swap.                                                                                  |
+| liquidity\_pool\_address        | Contract address of the liquidity pool holding the asset. For protocol without the concept of LP such as airswap, this will be null.                                    |
+| sender\_address                 | The address of the sender emitted on the swap event logs. This can be a router or pool address.                                                                         |
+| to\_address                     | Address of the recipient emitted on the swap event logs. For example, recipient\_address from the uniswap v3 swap event log.                                            |
+| token\_sold\_address            | Token address of the token sold.                                                                                                                                        |
+| token\_sold\_name               | Name of the token sold.                                                                                                                                                 |
+| token\_sold\_symbol             | Symbol of the token sold.                                                                                                                                               |
+| token\_sold\_decimals           | Token decimals of the token sold.                                                                                                                                       |
+| token\_sold\_amount\_raw\_str   | Raw amount of tokens sold (unnormalized) in string.                                                                                                                     |
+| token\_sold\_amount\_raw        | Raw amount of tokens sold (unnormalized).                                                                                                                               |
+| token\_sold\_amount\_str        | Amount of tokens sold in string.                                                                                                                                        |
+| token\_sold\_amount             | Amount of tokens sold.                                                                                                                                                  |
+| usd\_sold\_amount               | Amount of token sold in USD value.                                                                                                                                      |
+| token\_bought\_address          | Token address of the token bought, i.e. the asset acquired from the trade.                                                                                              |
+| token\_bought\_name             | Name of the token bought.                                                                                                                                               |
+| token\_bought\_symbol           | Symbol of the token bought.                                                                                                                                             |
+| token\_bought\_decimals         | Token decimals of the token bought.                                                                                                                                     |
+| token\_bought\_amount\_raw\_str | Raw amount of tokens bought (unnormalized) in string.                                                                                                                   |
+| token\_bought\_amount\_raw      | Raw amount of tokens bought (unnormalized).                                                                                                                             |
+| token\_bought\_amount\_str      | Amount of tokens bought in string.                                                                                                                                      |
+| token\_bought\_amount           | Amount of tokens bought.                                                                                                                                                |
+| usd\_bought\_amount             | Amount of token bought in USD value.                                                                                                                                    |
+| usd\_amount                     | USD value of the swap. This field preferentially selects the USD value of ETH and Stablecoin (USDT/USDC) tokens, as spam token prices may conflate the true swap value. |
+| extra\_fields                   | This field contains all the extra columns emitted from the event/function call that were not part of the convetional DEX trades columns.                                |
+| swap\_count                     | Swap count within the transaction.                                                                                                                                      |
+| transaction\_fees               | Fees paid at the transaction level.                                                                                                                                     |
+| transaction\_fees\_usd          | Fees paid in USD.                                                                                                                                                       |
+| fee\_details                    | Additional fee details of the transaction, including max priority fee, gas price and gas used for the transaction.                                                      |
+| transaction\_from\_address      | Transaction sender address. I.e. the address of the transaction initiator. (from\_address in the raw.transactions field for the transaction\_hash of this swap).        |
+| transaction\_to\_address        | Transaction receiver. (to\_address in the raw.transactions field for the transaction\_hash of this swap).                                                               |
+| transaction\_hash               | Transaction hash that this swap belongs to.                                                                                                                             |
+| transaction\_index              | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                    |
+| selector                        | 4byte selector of the transaction.                                                                                                                                      |
+| log\_index                      | The position of the swap event log in the transaction.                                                                                                                  |
+| block\_timestamp                | Block timestamp of the swap event.                                                                                                                                      |
+| block\_number                   | Block number of the swap event.                                                                                                                                         |
+| block\_hash                     | Block hash of the swap event.                                                                                                                                           |
+| unique\_id                      | Unique ID of each trade.                                                                                                                                                |

@@ -1,0 +1,53 @@
+---
+title: "Ordinals Inscription Mints"
+---
+
+Ordinals inscription mints on Bitcoin enable the creation of unique digital artifacts by embedding data directly onto individual satoshis. Each inscription is stored on-chain, making it immutable and distinct. The process involves inscribing data, such as images or text, to specific satoshis, creating a form of digital ownership and provenance. These inscribed satoshis can then be transferred or traded, similar to NFTs on other blockchains, but are native to the Bitcoin network.
+
+You can learn more about this here: [https://docs.ordinals.com/](https://docs.ordinals.com/)
+
+### Sample Query
+
+Fetch inscription mint for given inscription id
+
+```sql
+select * from bitcoin.ordinals_inscription_mints where inscription_id = 'b1e70cd284689d6079ba391b5fbbb877a8b7362491e71ebb8a4c560d5f4fc53ci0';
+```
+
+### Table Columns
+
+This table is indexed on `block_timestamp, transaction_hash, inscription_id, cleaned_token_tick`.
+
+| Column                 | Description                                                     | Example                                                             |
+| ---------------------- | --------------------------------------------------------------- | ------------------------------------------------------------------- |
+| inscription_id         | unique id of inscription                                        | b1e70cd284689d6079ba391b5fbbb877a8b7362491e71ebb8a4c560d5f4fc53ci0  |
+| genesis_fee            | fee for inscription mint                                        | 1085                                                                |
+| is_token               | if inscription is brc-20 token                                  | t                                                                   |
+| is_unstable            | if inscription is cursed or unstable according to ordinals docs | f                                                                   |
+| is_unstable_remarks    | type of unstable according to ordinals docs                     |                                                                     |
+| content_protocol       | token protocol                                                  | brc-20                                                              |
+| token_tick             | token tick                                                      | pepe                                                                |
+| token_amt              | token amount                                                    | 1000                                                                |
+| token_op               | token operation                                                 | mint                                                                |
+| cleaned_token_tick     | cleaned token tick                                              | pepe                                                                |
+| cleaned_token_type     | cleaned token type                                              | brc-20                                                              |
+| content_type           | content type                                                    | text/plain;charset=utf-8                                            |
+| parsed_content         | parsed inscription content                                      | `{"amt":"1000","op":"mint","p":"brc-20","tick":"pepe"}`             |
+| sent_as_fee            | if the utxo was sent as part of fee                             | f                                                                   |
+| output_address         | address receiving the inscription                               | bc1p9tr85rcavpq22v92j5x3c0k74jpqnm2a00xjm8creysh2204nz3scw3zd0      |
+| output_utxo_id         | output utxo id                                                  | b1e70cd284689d6079ba391b5fbbb877a8b7362491e71ebb8a4c560d5f4fc53c:0  |
+| output_offset          | output offset                                                   | 0                                                                   |
+| output_index           | output index                                                    | 0                                                                   |
+| spent_transaction_hash | spent transaction hash of input utxo                            | 8dffd2e90f42e9ff5b3893a8bff01cc62852e253fcf8f1ec281004f22a6232c0    |
+| spent_output_index     | spent output index of input utxo                                | 60                                                                  |
+| input_address0         | input address                                                   | bc1pjctpfln4g5swx5ffu27zjj96n4t02r4m7ugvhzjpxzvv607agyfqw2qghz      |
+| input_index            | input index                                                     | 0                                                                   |
+| spent_utxo_id          | spent utxo id of input                                          | 8dffd2e90f42e9ff5b3893a8bff01cc62852e253fcf8f1ec281004f22a6232c0:60 |
+| value                  | value of utxo containing inscription                            | 1631                                                                |
+| sat_tx_offset          | sat offset of inscription mint in output utxo                   | 0                                                                   |
+| transaction_hash       | transaction hash of incsription mint                            | b1e70cd284689d6079ba391b5fbbb877a8b7362491e71ebb8a4c560d5f4fc53c    |
+| transaction_index      | transaction index of inscription mint                           | 849                                                                 |
+| block_timestamp        | block timestamp of inscription mint                             | 2023-03-21 04:34:59                                                 |
+| block_number           | block number of inscription mint                                | 781761                                                              |
+| block_hash             | block hash of inscription mint                                  | 000000000000000000039578eb6aaaccf0e33392a64512a70a28bc2af6b99710    |
+| is_vindicated          | whether inscription is vindicated according to ordinals docs    |                                                                     |

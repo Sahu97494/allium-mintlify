@@ -1,0 +1,285 @@
+---
+title: "DEX Trades"
+---
+
+The `dex_trades` table contains swaps made on decentralized exchanges for the chain, consolidated into a single table. All DEX trades table follows the schema presented below.
+
+### Project Coverage
+
+Currently, we support over 20 DEX projects on Ethereum.
+
+<table>
+  <thead>
+    <tr>
+      <th width="267">Protocol</th>
+      <th>Projects</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>uniswap_v3</td>
+      <td>uniswap, kyberswap, pancakeswap</td>
+    </tr>
+    <tr>
+      <td>uniswap_v2</td>
+      <td>
+        <p>original: uniswap</p>
+        <p>
+          forks: sushiswap, bitberryswap, cityswap, convergence, defiswap,
+          dooar, equalizerfinance, fraxswap, gemswap, integralsize, linkswap,
+          luaswap, mintyswap, nomiswap, orionprotocol, pancakeswap,
+          plasmafinance, radioshackswap, safeswap, saitaswap, sakeswap,
+          sashimiswap, shibaswap, sumswap, swapr, swipeswap, unicly, verse,
+          vulcandex, wallstreetbetsdex, whiteswap{" "}
+        </p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+### Sample Query
+
+Query DEX trades by block number.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+```sql
+select * from ethereum.dex_trades
+where block_number = 18443152
+```
+
+</Tab>
+<Tab title="API (cURL)">
+```
+curl 'https://api.allium.so/api/v1/developer/ethereum/dex/trades/?block_number=18443152' \
+  -X GET \
+  -H 'X-API-KEY: <API KEY>'
+```
+
+</Tab>
+
+</Tabs>
+
+Query DEX trades by transaction hash.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+```sql
+select * from ethereum.dex_trades
+where transaction_hash = '0x973652a33e1662c4f559b447eb267024e758ade68845a7b582ca8c8d3c2981f3'
+```
+
+</Tab>
+
+<Tab title="API (cURL)">
+
+```bash
+curl 'https://api.allium.so/api/v1/developer/ethereum/dex/trades/?transaction_hash=0x973652a33e1662c4f559b447eb267024e758ade68845a7b582ca8c8d3c2981f3' \
+  -X GET \
+  -H 'X-API-KEY: <API KEY>'
+```
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+<table data-full-width="true">
+  <thead>
+    <tr>
+      <th width="254">Column Name</th>
+      <th width="142">Type</th>
+      <th width="363">Description</th>
+      <th>Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>project</td>
+      <td>varchar</td>
+      <td>
+        The project (decentralized exchange) of the liquidity pool that the swap
+        occurred from.
+      </td>
+      <td>uniswap</td>
+    </tr>
+    <tr>
+      <td>protocol</td>
+      <td>varchar</td>
+      <td>Version of the protocol.</td>
+      <td>uniswap_v2</td>
+    </tr>
+    <tr>
+      <td>liquidity_pool_address</td>
+      <td>varchar(42)</td>
+      <td>Contract address of the liquidity pool holding the asset.</td>
+      <td>0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc</td>
+    </tr>
+    <tr>
+      <td>sender_address</td>
+      <td>varchar(42)</td>
+      <td>
+        The address of the sender emitted on the swap event logs. <br />
+        <br />
+        This can be a router or pool address, which is different from the
+        transaction initiator <code>transaction_from_address</code> that
+        initiated the swap.{" "}
+      </td>
+      <td>0x7a250d5630b4cf539739df2c5dacb4c659f2488d</td>
+    </tr>
+    <tr>
+      <td>to_address</td>
+      <td>varchar(42)</td>
+      <td>
+        <p>
+          Address of the recipient emitted on the swap event logs.
+          <br />
+        </p>
+        <p>
+          For example, we use the to_address from the uniswap v2 swap event log
+          and the recipient_address from the uniswap v3 swap event log.{" "}
+        </p>
+      </td>
+      <td>0xcbb2534c6898655d50fdac79d6e4b23b18a25b97</td>
+    </tr>
+    <tr>
+      <td>token_bought_address*</td>
+      <td>varchar(42)</td>
+      <td>
+        Token address of the token bought, i.e. the asset acquired from the
+        trade.
+      </td>
+      <td>0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</td>
+    </tr>
+    <tr>
+      <td>token_bought_name*</td>
+      <td>varchar</td>
+      <td>Name of the token bought.</td>
+      <td>USD Coin</td>
+    </tr>
+    <tr>
+      <td>token_bought_symbol*</td>
+      <td>varchar</td>
+      <td>Symbol of the token bought.</td>
+      <td>USDC</td>
+    </tr>
+    <tr>
+      <td>token_bought_decimals*</td>
+      <td>bigint</td>
+      <td>Decimals of the token bought.</td>
+      <td>1</td>
+    </tr>
+    <tr>
+      <td>token_bought_amount_raw</td>
+      <td>numeric(512)</td>
+      <td>Raw amount of tokens bought (unnormalized).</td>
+      <td>3,000,000,000</td>
+    </tr>
+    <tr>
+      <td>token_bought_amount*</td>
+      <td>float</td>
+      <td>Amount of tokens bought.</td>
+      <td>3000000000</td>
+    </tr>
+    <tr>
+      <td>token_sold_address*</td>
+      <td>varchar(42)</td>
+      <td>Token address of the token sold.</td>
+      <td>0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2</td>
+    </tr>
+    <tr>
+      <td>token_sold_name*</td>
+      <td>varchar</td>
+      <td>Name of the token sold.</td>
+      <td>Wrapped Ether</td>
+    </tr>
+    <tr>
+      <td>token_sold_symbol*</td>
+      <td>varchar</td>
+      <td>Symbol of the token sold.</td>
+      <td>WETH</td>
+    </tr>
+    <tr>
+      <td>token_sold_decimals*</td>
+      <td>bigint</td>
+      <td>Decimals of the token sold.</td>
+      <td>18</td>
+    </tr>
+    <tr>
+      <td>token_sold_amount_raw</td>
+      <td>numeric(512)</td>
+      <td>Raw amount of tokens sold (unnormalized).</td>
+      <td>2,288,149,153,584,170,000</td>
+    </tr>
+    <tr>
+      <td>token_sold_amount*</td>
+      <td>float</td>
+      <td>Amount of tokens sold.</td>
+      <td>2.28814915358417</td>
+    </tr>
+    <tr>
+      <td>transaction_from_address</td>
+      <td>varchar(42)</td>
+      <td>
+        Transaction sender address. I.e. the address of the transaction
+        initiator.
+        <br />(<code>from_address</code> in the raw.transactions field for the <code>
+          transaction_hash
+        </code> of this swap).
+      </td>
+      <td>0xcbb2534c6898655d50fdac79d6e4b23b18a25b97</td>
+    </tr>
+    <tr>
+      <td>transaction_to_address</td>
+      <td>varchar(42)</td>
+      <td>
+        Transaction receiver. (<code>to_address</code> in the raw.transactions
+        field for the <code>transaction_hash</code> of this swap).
+      </td>
+      <td>0x7a250d5630b4cf539739df2c5dacb4c659f2488d</td>
+    </tr>
+    <tr>
+      <td>transaction_hash</td>
+      <td>varchar(66)</td>
+      <td>Transaction hash that this swap belongs to.</td>
+      <td>
+        0x5e2efbb5a7cd468a2bf89b732e42c9c48bd311e0bec50a5de0beead059d1d220
+      </td>
+    </tr>
+    <tr>
+      <td>log_index</td>
+      <td>bigint</td>
+      <td>The position of the swap event log in the transaction.</td>
+      <td>191</td>
+    </tr>
+    <tr>
+      <td>block_timestamp</td>
+      <td>timestamp</td>
+      <td>Block timestamp of the swap event.</td>
+      <td>2021-01-25 22:28:07</td>
+    </tr>
+    <tr>
+      <td>block_number</td>
+      <td>bigint</td>
+      <td>Block number of the swap event.</td>
+      <td>11,727,610</td>
+    </tr>
+    <tr>
+      <td>block_hash</td>
+      <td>varchar(66)</td>
+      <td>Block hash of the swap event.</td>
+      <td>
+        0xff32ce4497bfad832878d069ce956f4eac5a6518c89fe8c4268af5f27c2cc1a5
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<Warning>
+  \*field is only available via the API, and are not in the underlying table.
+</Warning>

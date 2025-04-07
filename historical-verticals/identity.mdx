@@ -1,0 +1,81 @@
+---
+title: "Identity"
+icon: "address-card"
+---
+
+The identity schema is nested under the `common` database.
+
+The identity tables contain wallet labels and names which can be used to enhance the depth of your analysis.
+<Info>
+Wallet addresses from some blockchains are **case-sensitive**. That is, you should not lowercase the wallet addresses when doing joins / analysis.
+</Info>
+| Chain Type / Example                        | Case Sensitivity                        |
+|---------------------------------------------|------------------------------------------|
+| Tron, Solana                                | **Case-sensitive**                       |
+| EVM (e.g., Ethereum, Polygon, etc.)         | **Not case-sensitive**                   |
+| Cosmos                                      | **Depends**                              |
+| Bitcoin (Base58 addresses)                  | **Case-sensitive**                       |
+| Bitcoin (Bech32 addresses)                  | **Not case-sensitive**                   |
+
+
+## Entities
+
+`common.identity.entities` provides a list of wallet addresses based on the entities.
+
+### Table Columns
+
+| Column Name | Description                         | Notes                                      | Example                                      |
+|-------------|-------------------------------------|--------------------------------------------|----------------------------------------------|
+| chain       | Chain associated with the address.  | One address can be shared across chains.   | ethereum                                     |
+| category    | Category associated with the entity.| Refer to table above for categories.       | cex                                          |
+| project     | Project associated with the entity. | In lower casing.                           | binance                                      |
+| name        | Name of the address.                | –                                          | Binance 9                                    |
+| address     | Address.                            | Case-sensitivity of address.               | 0x001866ae5b3de6caa5a51543fd9fb64f524f5478   |
+
+
+### Entities Categories
+
+A short description of the categories present.
+
+| Category        | Description                                                                                                                                       | Project Examples                              |
+|----------------|---------------------------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------|
+| cex            | Centralized exchange wallet addresses. Includes all types of wallets (cold/hot wallets) from CEX. Deposit wallets are currently not included.    | binance, okx, kucoin                          |
+| fund           | Address of major crypto funds - broadly encompass market makers, venture capitals, hedge funds.                                                  | alamedaresearch, a16z, wintermute             |
+| ramp           | Address related to entities involved in on and off-ramp solutions.                                                                                | moonpay                                       |
+| bridge         | Address related to bridges, layer2 bridges etc.                                                                                                   | optimism, arbitrum, arbitrumone, celernetwork |
+| nft            | Address related to NFT entities, specifically marketplace protocols, platform fee collection.                                                    | opensea, blur.io                              |
+| mev            | Address labeled as MEV bot.                                                                                                                       | mev                                           |
+| mixer          | Address associated with money mixers that are used to obfuscate fund movement.                                                                   | tornado.cash                                  |
+| dex            | Decentralized exchange protocols and router addresses that enable trading through their own liquidity pools and routing logic.                   | uniswap, sushiswap, curve, balancer, pancakeswap |
+| dex_aggregator | Decentralized exchange protocol addresses that source and route liquidity from multiple DEXs to optimize trading routes and rates.               | 1inch, paraswap, 0x, kyberswap, odos          |
+| web3_wallet    | Address primarily associated with web3 wallet entities.                                                                                           | rainbow, zerion, metamask                     |
+| stablecoin     | List of stablecoin addresses by their chain of origin.                                                                                            | tether, frax, binance, circle                 |
+
+
+### Address Names and Labels
+
+The `address_name` and `address_labels` table contains unique address name and labels associated with an address across various chain. Currently, this table includes lables from the following chains:
+
+* Ethereum, Polygon, Arbitrum, Optimism, Avalanche, Binance
+
+### Address Names
+
+Address names are unique to each address.
+
+| Column Name | Description                                                                                           |
+|-------------|-------------------------------------------------------------------------------------------------------|
+| chain       | Blockchain of the address, in lower case. Includes: ethereum, polygon, arbitrum, avalanche, binance, optimism |
+| address     | Account/wallet address.                                                                               |
+| name        | Name of the address. Each address only has one name e.g. Uniswap V2 Router in each chain.            |
+
+
+### Address Labels
+
+An address can have multiple labels associated with it.
+
+| Column Name | Description                                                                                           |
+|-------------|-------------------------------------------------------------------------------------------------------|
+| chain       | Blockchain of the address, in lower case. Includes: ethereum, polygon, arbitrum, avalanche, binance, optimism |
+| address     | Account/wallet address.                                                                               |
+| label       | Labels associated with the address. Note: one address can have multiple labels e.g. bridge, polygon. |
+

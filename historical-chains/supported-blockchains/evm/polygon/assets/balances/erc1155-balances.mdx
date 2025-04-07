@@ -1,0 +1,34 @@
+---
+title: "ERC1155 Balances"
+description: Historical ERC1155 balances of all addresses at every block height.
+---
+
+<Info>
+USD prices for NFT token balances are not supported currently.
+</Info>
+
+ERC1155 balances table contains the ERC1155 balances of all addresses, at every block height. Use this table to easily plot the change in the balance of ERC1155 tokens for an address or a group of addresses over time.
+
+Note that ERC1155 permits the creation of both semi-fungible tokens and non-fungible tokens. In other words, there can be more than one quantity for a particular ERC1155 contract and token ID.
+
+### Table Columns
+
+| Column Name         | Description                                                                                    | Example                                                                                                                                             |
+| ------------------- | ---------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------- |
+| address             | Address of the account.                                                                        | 0x8d370e8529afbbdfcd184f749d30cba98754a785                                                                                                          |
+| token\_address      | Token address of the ERC1155 token.                                                            | 0xeee850476f643e23bc2f3a84de2c42f7203b3615                                                                                                          |
+| token\_name         | Name of the ERC1155 token.                                                                     | Memorial Flower                                                                                                                                     |
+| token\_symbol       | Token symbol of this token.                                                                    | MFLR                                                                                                                                                |
+| token\_id           | Unique token ID of the ERC1155 token.                                                          | 1                                                                                                                                                   |
+| raw\_balance        | Balance of tokens (unnormalized). For ERC1155 tokens, there are no decimals division involved. | 2                                                                                                                                                   |
+| raw\_balance\_str   | Balance of tokens (unnormalized) in string.                                                    | 2                                                                                                                                                   |
+| balance             | Balance of tokens. For ERC1155 tokens, unlike ERC721, the max balance can be more than 1.      | 2                                                                                                                                                   |
+| balance\_str        | Balance of tokens (unnormalized) in string.                                                    | 2                                                                                                                                                   |
+| usd\_balance        | The amount of tokens, in $USD.                                                                 |                                                                                                                                                     |
+| usd\_exchange\_rate | The exchange rate used to calculate the usd\_value.                                            |                                                                                                                                                     |
+| transaction\_hash   | Transaction hash that resulted in the balance change.                                          | 0x6a53de1211feec68eeb94610027b5998ccb96f48c79c6c35af69733932a447a3                                                                                  |
+| block\_timestamp    | The timestamp of the block that that resulted in the balance.                                  | 2021-11-25 04:47:51                                                                                                                                 |
+| block\_number       | The number of the block that resulted in the balance.                                          | 21,771,492                                                                                                                                          |
+| block\_hash         | The hash of the block that resulted in the balance.                                            | 0x4b84bec8faa4ba4f6b9a7d6c855546906320809fadae06c98602be78e36282ae                                                                                  |
+| unique\_id          | Unique ID of the balances entry                                                                | block-21771492\_address-0x8d370e8529afbbdfcd184f749d30cba98754a785\_token\_address-0xeee850476f643e23bc2f3a84de2c42f7203b3615\_token\_id-1\_erc1155 |
+

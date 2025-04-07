@@ -1,0 +1,29 @@
+---
+title: "Token Transfers"
+---
+
+The `solana.token_transfers` table records details of token transfers on the Solana blockchain, including information such as the `mint_address` (token address), `from_account` and `to_account` (sender and receiver addresses), and transfer value. It also includes metadata like transaction identifiers (`txn_id`, `txn_index`), block information (`block_timestamp`, `block_slot`, `block_height`, `block_hash`), and transfer details (e.g., program name, transfer type). This schema supports analyzing token movement, transaction patterns, and program activity on the network.
+
+### Table Columns
+
+| Column                  | Description                                | Example                                                                                  |
+| ----------------------- | ------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| mint_address            | address of the token                       | So11111111111111111111111111111111111111112                                              |
+| from_account            | token transfer sender address              | EKH42BrbPjWXKz1PmpVxEP42WMjR9mdBLksKH5dC9C3S                                             |
+| from_token_account      | token transfer sender token account        |                                                                                          |
+| to_account              | token transfer receiver address            | VLgFg159e7gD8hHB6k8PRAAPoX9nTRTaysuXQ5CUJjg                                              |
+| to_token_account        | token transfer receiver token account      |                                                                                          |
+| value                   | token transfer value                       | 19936298                                                                                 |
+| decimals                | token decimals                             | 9                                                                                        |
+| txn_id                  | transaction id of token transfer           | 26kKBcEQCgeuDJoCVzxurmtCAcp27JXr8RYN4aKDhqXLEWCasaN4azWzECZQqmqfb7T4qjp2zsBFi9gzCBMJHeHk |
+| txn_index               | transaction index of token transfer        | 1036                                                                                     |
+| instruction_index       | instruction index of token transfer        | 1                                                                                        |
+| inner_instruction_index | inner instruction index of token transfer  |                                                                                          |
+| block_timestamp         | block timestamp of token transfer          | 2024-10-16 00:00:00                                                                      |
+| block_slot              | block slot of token transfer               | 295848236                                                                                |
+| block_height            | block height of token transfer             | 274572501                                                                                |
+| block_hash              | block hash of token transfer               | 7B8udoAZ6Au16fNuA86PWLpU9oXvnwGfE9pt88bp4EVr                                             |
+| signer                  | transaction signer                         | VLgFg159e7gD8hHB6k8PRAAPoX9nTRTaysuXQ5CUJjg                                              |
+| program_name            | program name (system or spl)               | system                                                                                   |
+| type                    | transfer type (transfer, burn, mint, etc.) | transfer                                                                                 |
+| transfer_type           | transfer type (sol or spl)                 | sol_transfer                                                                             |

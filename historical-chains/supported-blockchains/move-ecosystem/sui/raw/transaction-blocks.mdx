@@ -1,0 +1,40 @@
+---
+title: "Transaction Blocks"
+---
+
+Transaction blocks are sequences of transactions executed together atomically, allowing complex operations to be performed in a single block.
+
+### Table Columns
+
+| Column Name                   | Description                                               |
+| ----------------------------- | --------------------------------------------------------- |
+| balance\_changes\_count       | The number of balance changes in the transaction block.   |
+| checkpoint                    | The checkpoint associated with the transaction block.     |
+| checkpoint\_digest            | The digest of the checkpoint.                             |
+| digest                        | The unique identifier or hash of the transaction block.   |
+| dependencies                  | The dependencies of the transaction block.                |
+| events\_digest                | The digest of the events in the transaction block.        |
+| executed\_epoch               | The epoch during which the transaction was executed.      |
+| gas\_object                   | The gas object used for the transaction.                  |
+| gas\_used                     | The amount of gas used by the transaction.                |
+| message\_version              | The version of the transaction message.                   |
+| modified\_at\_versions        | The versions at which modifications occurred.             |
+| mutated                       | The mutated objects in the transaction block.             |
+| shared\_objects               | The shared objects involved in the transaction block.     |
+| status                        | The status of the transaction block.                      |
+| inner\_status                 | The inner status of the transaction.                      |
+| transaction\_digest           | The digest of the transaction.                            |
+| events\_count                 | The count of events in the transaction block.             |
+| object\_changes\_count        | The count of object changes in the transaction block.     |
+| raw\_transaction              | The raw transaction data.                                 |
+| timestamp\_ms                 | The timestamp of the transaction in milliseconds.         |
+| gas\_data                     | The data related to gas usage.                            |
+| transaction\_message\_version | The version of the transaction message.                   |
+| sender                        | The sender of the transaction.                            |
+| inputs                        | The inputs to the transaction.                            |
+| kind                          | The kind of transaction.                                  |
+| tx\_signatures                | The signatures of the transaction.                        |
+| transaction\_block\_index     | The index of the transaction block within the checkpoint. |
+| transactions\_count           | The count of transactions in the transaction block.       |
+| \_created\_at                 | Timestamp of the entry creation.                          |
+| \_updated\_at                 | Timestamp of the entry update.                            |

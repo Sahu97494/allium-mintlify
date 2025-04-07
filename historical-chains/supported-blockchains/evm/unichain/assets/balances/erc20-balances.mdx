@@ -1,0 +1,32 @@
+---
+title: "ERC20 Balances"
+description: Historical ERC20 balances of all addresses at every block height.
+---
+
+The `assets.erc20_balances` contains block-level balances of ERC20 tokens.
+
+Each entry in the model corresponds to a specific event/transaction that causes a balance change in a particular asset at the block level. This means **a new data entry is only created when a transaction alters an asset's balance at the block level.**
+
+* For example, if a wallet receives 1 USDC in 2020 and experiences no further changes until yesterday, the model will have two entries: one for the initial receipt in 2015 and another for the recent change
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name         | Data Type         | Description                                                                   |
+| ------------------- | ----------------- | ----------------------------------------------------------------------------- |
+| address             | VARCHAR           | The wallet address holding the tokens                                         |
+| token\_address      | VARCHAR           | Contract address of the token                                                 |
+| token\_name         | VARCHAR           | Name of the token                                                             |
+| token\_symbol       | VARCHAR           | Symbol of the token                                                           |
+| raw\_balance        | FLOAT             | Token balance, unnormalized                                                   |
+| raw\_balance\_str   | VARCHAR           | Token balance as string to retain precision                                   |
+| balance             | FLOAT             | Token balance, normalized                                                     |
+| balance\_str        | VARCHAR           | Token balance as string to retain precision                                   |
+| balance             | FLOAT             | Token balances, normalized.                                                   |
+| usd\_balance        | FLOAT             | Toke balances in USD                                                          |
+| usd\_exchange\_rate | FLOAT             | Exchange rate used for USD conversion                                         |
+| block\_timestamp    | timestamp\_ntz(9) | Timestamp of the block                                                        |
+| block\_number       | BIGINT            | Number of the block                                                           |
+| block\_hash         | VARCHAR           | Hash of the block                                                             |
+| unique\_id          | VARCHAR           | Unique identifier combining block, address, token address, token\_id and type |

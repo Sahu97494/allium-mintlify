@@ -1,0 +1,44 @@
+---
+title: "Balances Latest"
+description: Fetch the balances of validators on Beacon chain.
+---
+
+The `beacon.validator.balances_latest` table provides the latest snapshot of ETH balances for **active&#x20;**&#x76;alidators o&#x6E;**&#x20;the Beacon Chain.**
+
+### Sample Queries
+
+Fetching Distribution of Eth Balances Staked on Beacon Chain.
+
+```sql
+select
+    status,
+    count(distinct validator_index) as validators,
+    sum(balance) as eth_balances,
+    sum(effective_balance) as effectively_staked_eth,
+from beacon.validator.balances_latest
+group by all
+order by validators desc
+```
+
+### Table Columns
+
+| Column Name                    | Description                                                                                                                                                                                                                                                      |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| slot\_number                   | Slot number of the balance snapshot.                                                                                                                                                                                                                             |
+| slot\_timestamp                | Slot timestamp of balance snapshot.                                                                                                                                                                                                                              |
+| validator\_index               | Unique index of the validator.                                                                                                                                                                                                                                   |
+| balance                        | Balance of the validator.                                                                                                                                                                                                                                        |
+| raw\_balance                   | Raw balance of the validator.                                                                                                                                                                                                                                    |
+| effective\_balance             | The balance at stake. Effective balance is a value for each validator that is derived from the validator's balance and prior effective balance. It is used to calculate the size of rewards and penalties given to that validator.                               |
+| raw\_effective\_balance        | The balance at stake in string to retain precision. Effective balance is a value for each validator that is derived from the validator's balance and prior effective balance. It is used to calculate the size of rewards and penalties given to that validator. |
+| status                         | Current status of the validator.                                                                                                                                                                                                                                 |
+| pubkey                         | The validator's BLS public key, uniquely identifying them. 48-bytes, hex encoded with 0x prefix, case insensitive.                                                                                                                                               |
+| withdrawal\_credentials        | ETH1 Withdrawal address specified in withdrawal credentials, applicable for validators with 0x01 withdrawal credentials only.                                                                                                                                    |
+| slashed                        | Was validator slashed (not longer active).                                                                                                                                                                                                                       |
+| activation\_eligibility\_epoch | When criteria for activation were met.                                                                                                                                                                                                                           |
+| activation\_epoch              | Epoch when validator activated. FAR\_FUTURE\_EPOCH if not activated.                                                                                                                                                                                             |
+| exit\_epoch                    | Epoch when validator exited.                                                                                                                                                                                                                                     |
+| withdrawable\_epoch            | When validator can withdraw or transfer funds. FAR\_FUTURE\_EPOCH if not defined.                                                                                                                                                                                |
+| execution\_optimistic          | Execution optimistic.                                                                                                                                                                                                                                            |
+| finalized                      | Finalized.                                                                                                                                                                                                                                                       |
+| \_created\_at                  | Timestamp of the entry creation.                                                                                                                                                                                                                                 |

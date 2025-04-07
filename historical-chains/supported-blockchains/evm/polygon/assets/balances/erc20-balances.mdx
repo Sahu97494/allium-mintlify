@@ -1,0 +1,42 @@
+---
+title: "ERC20 Balances"
+description: Historical ERC20 balances of all addresses at every block height.
+---
+
+ERC20 balances table contains the ERC20 balances of all addresses, at every block height. Use this table to easily plot the change in the balance of ERC20 tokens for an address or a group of addresses over time.
+
+### Sample Query
+
+Getting the ERC20 Balances of USDC in Binance Hot Wallet.
+
+```sql
+select 
+date(block_timestamp) as date,
+median(balance) as usdc_balance
+from polygon.assets.erc20_balances 
+where address = '0xe7804c37c13166ff0b37f5ae0bb07a3aebb6e245' -- Binance Hot Wallet
+and token_address ='0x2791bca1f2de4661ed88a30c99a7a9449aa84174' -- USDC
+group by 1
+order by 1 desc
+```
+
+### Table Columns
+
+| Column Name         | Description                                                                                                                                                                    | Example                                                                                                                              |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------ |
+| address             | Address of the account.                                                                                                                                                        | 0xe7804c37c13166ff0b37f5ae0bb07a3aebb6e245                                                                                           |
+| token\_address      | <p>Token address of the asset.<br /><br />Note: Native ETH does not have a contract address, but for convention, it is labelled as: 0x0000000000000000000000000000000000000000</p> | 0x2791bca1f2de4661ed88a30c99a7a9449aa84174                                                                                           |
+| token\_name         | Name of the ERC20 token.                                                                                                                                                       | usd coin (pos)                                                                                                                       |
+| token\_symbol       | Token symbol of this token.                                                                                                                                                    | usdc                                                                                                                                 |
+| raw\_balance        | [Balance of MATIC in wei.](https://www.investopedia.com/terms/w/wei.asp)                                                                                                       | 36,714,039,843                                                                                                                       |
+| raw\_balance\_str   | Balance of tokens (unnormalized) in string.                                                                                                                                    | 36714039843                                                                                                                          |
+| balance\_str        | Balance of this ERC20 token, normalized by the decimal points defined in the ERC20 token contract.                                                                             | 36714.03984                                                                                                                          |
+| balance             | Balance of ether.                                                                                                                                                              | 36,714.04                                                                                                                            |
+| usd\_balance        | The amount of tokens, in $USD.                                                                                                                                                 | 36,688.34                                                                                                                            |
+| usd\_exchange\_rate | The exchange rate used to calculate the usd\_value.                                                                                                                            | 0.9993                                                                                                                               |
+| transaction\_hash   | Transaction hash that resulted in the balance change.                                                                                                                          | 0xc355a5415c70f337aac6b6b6abeb4d326050fb4749bf567290e91bc9ff7f6bd8                                                                   |
+| block\_timestamp    | The timestamp of the block that that resulted in the balance.                                                                                                                  | 2021-11-04 14:35:16                                                                                                                  |
+| block\_number       | The number of the block that resulted in the balance.                                                                                                                          | 20,975,094                                                                                                                           |
+| block\_hash         | The hash of the block that resulted in the balance.                                                                                                                            | 0xd56d8272e79a4b4f9e74679b543a8d207f310d52883df534839d8d7490826a27                                                                   |
+| unique\_id          | Unique ID of the balances entry                                                                                                                                                | block-20975094\_address-0xe7804c37c13166ff0b37f5ae0bb07a3aebb6e245\_token\_address-0x2791bca1f2de4661ed88a30c99a7a9449aa84174\_erc20 |
+

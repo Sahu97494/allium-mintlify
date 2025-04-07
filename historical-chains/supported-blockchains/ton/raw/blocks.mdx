@@ -1,0 +1,42 @@
+---
+title: "Blocks"
+---
+
+TON blocks are units of data that contain batches of validated transactions and messages, forming the backbone of the TON blockchain.
+
+### Table Columns
+
+| Column Name                  | Description                                                           |
+| ---------------------------- | --------------------------------------------------------------------- |
+| after\_merge                 | Indicates if the block was created after merging two shardchains.     |
+| after\_split                 | Indicates if the block was created after splitting a shardchain.      |
+| before\_split                | Indicates if the block was created before splitting a shardchain.     |
+| created\_by                  | The entity (usually a validator's public key) that created the block. |
+| end\_lt                      | End logical time associated with the block.                           |
+| file\_hash                   | The hash of the block file.                                           |
+| flags                        | Additional flags for the block.                                       |
+| gen\_catchain\_seqno         | Catchain sequence number related to the block.                        |
+| gen\_utime                   | The generation time of the block.                                     |
+| global\_id                   | An ID of the network where this block is created.                     |
+| key\_block                   | Indicates if this block is a key block.                               |
+| master\_ref\_seqno           | The sequence number of the masterchain block.                         |
+| masterchain\_block\_ref      | Reference to the corresponding masterchain block.                     |
+| masterchain\_seqno           | Sequence number of the corresponding masterchain block.               |
+| min\_ref\_mc\_seqno          | Minimum reference sequence number of the masterchain block.           |
+| prev\_blocks                 | List of previous blocks in the shardchain.                            |
+| prev\_key\_block\_seqno      | Sequence number of the previous key block.                            |
+| rand\_seed                   | Random seed used in the block.                                        |
+| root\_hash                   | The root hash of the block.                                           |
+| seqno                        | The sequence number of the block.                                     |
+| shard                        | The shard identifier of the block.                                    |
+| start\_lt                    | Start logical time associated with the block.                         |
+| tx\_count                    | The count of transactions in the block.                               |
+| validator\_list\_hash\_short | Short hash of the validator list.                                     |
+| version                      | Version of the block format.                                          |
+| vert\_seqno                  | Vertical sequence number of the block.                                |
+| vert\_seqno\_incr            | Vertical sequence number increment.                                   |
+| want\_merge                  | Indicates if the block wants to merge shardchains.                    |
+| want\_split                  | Indicates if the block wants to split the shardchain.                 |
+| workchain                    | The workchain identifier of the block.                                |
+| \_created\_at                | Timestamp of the entry creation.                                      |
+| \_updated\_at                | Timestamp of the entry update.                                        |

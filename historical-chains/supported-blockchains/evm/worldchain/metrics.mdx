@@ -1,0 +1,82 @@
+---
+title: "Metrics"
+---
+
+**Overview:**
+
+Chain Metrics provides a comprehensive suite of pre-computed blockchain metrics designed to streamline the analysis and comparison of on-chain activity across multiple blockchain networks.
+
+**Key Features:**
+
+* **Pre-computed Metrics:** Save time and resources with metrics that are regularly updated and stored in accessible tables.
+
+* **Cross-Chain Comparisons:** Easily compare metrics across different blockchains using `crosschain.metrics.overview`.
+
+* **Chain-Specific Insights:** Dive deep into specific blockchain metrics with `<chain>.metrics.overview`.
+
+**How It Works:**
+
+We process vast amounts of blockchain data to compute essential metrics such as daily active addresses, transaction volumes, and gas usage. These metrics are stored in tables that can be queried with a single line, providing quick access to valuable insights.
+
+**Use Cases:**
+
+* **Visualization:** Generate time-series data for visualizations without writing custom code.
+
+* **Comparison:** Effortlessly compare metrics across different periods and blockchains.
+
+* **Integration:** Seamlessly integrate blockchain metrics into applications or dashboards.
+
+**Table Overview:**
+
+* `crosschain.metrics.overview`**:** Offers daily metrics grouped by chain, covering transactions, users, fees, token transfers, DEX activity, NFTs, stablecoins, and more. Not all metrics are available for every chain.
+
+* `<chain>.metrics.overview`**:** Provides daily metrics for individual chains, including only available metrics.
+
+**Sample Queries:**
+
+1. **Historical Metrics for All Chains:**
+
+   ```sql
+   SELECT * FROM crosschain.metrics.overview ORDER BY activity_date DESC;
+   ```
+
+2. **90-Day Metrics for Ethereum:**
+
+   ```sql
+   SELECT * FROM crosschain.metrics.overview
+   WHERE chain = 'ethereum' AND activity_date >= CURRENT_DATE - INTERVAL '90 days'
+   ORDER BY activity_date DESC;
+   ```
+
+3. **Transaction Fees for Base:**
+
+   ```sql
+   SELECT activity_date, transaction_fees, transaction_fees_usd
+   FROM base.metrics.overview;
+   ```
+
+**Metric Categories:**
+
+* **General Metrics:** Includes active addresses, transaction counts, and smart contract interactions.
+
+* **Fees:** Covers transaction fees in native tokens and USD, including average transfer costs.
+
+* **Token Supply:** Details circulating and total supply metrics.
+
+* **Token Transfers:** Tracks volumes and counts for native tokens, ERC20s, and stablecoins.
+
+* **DEX & NFT Activity:** Monitors trading volumes, transaction counts, and user activity.
+
+* **Chain-Specific Metrics:** Provides unique insights for chains like Ethereum, Solana, and Bitcoin.
+
+**Notes:**
+
+* **Fee Metrics:** Focus on simple transaction types and exclude system transactions to avoid skewing.
+
+* **Token Transfer Metrics:** Distinguish between user-initiated and contract-initiated transfers.
+
+* **Solana Nuances:** SPL tokens are identified by their mint address, covering both fungible and non-fungible tokens.
+
+Chain Metrics is a powerful tool for anyone looking to leverage blockchain data for analysis, development, or business intelligence. With its comprehensive coverage and ease of use, it simplifies the process of gaining insights from blockchain activity.
+
+

@@ -1,0 +1,26 @@
+---
+title: "Transfers"
+---
+
+The `solana.assets.transfers` table holds a record of spl-tokens (both legacy and token2022) and native SOL transfers.
+
+If you require tx-level detail for records in this table, see [here](/historical-chains/supported-blockchains/solana#transaction-level-columns) for more info.
+
+### Sample Query
+
+Finding the volume of USDC transferred on Solana Network.
+
+```sql
+select
+    date(block_timestamp) as date,
+    sum(amount) as USDC,
+    count(distinct from_address) as senders
+from solana.assets.transfers
+where mint = 'EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v' -- USDC Mint
+    group by 1
+    order by 1 desc
+```
+
+### Table Columns
+
+<table><thead><tr><th width="191.33333333333331">Column</th><th width="297">Description</th><th>Type</th><th>Example</th></tr></thead><tbody><tr><td>from_address</td><td>Address where the token is being transferred from.</td><td>varchar</td><td>CyZuD7RPDcrqCGbNvLCyqk6Py9cEZTKmNKujfPi3ynDd</td></tr><tr><td>to_address</td><td>Address where the token is being transferred to.</td><td>varchar</td><td>CyZuD7RPDcrqCGbNvLCyqk6Py9cEZTKmNKujfPi3ynDd</td></tr><tr><td>token_acc_from</td><td>Token account sender address.</td><td>varchar</td><td>FjLVB8vNk2vPQXUWNJk7P8JYhco9jjVwpbsC7K8dwHDb</td></tr><tr><td>token_acc_to</td><td>Token account recipient address.</td><td>varchar</td><td>56pzXb1q2t4ZwgHC77pTELid2NYw8upu57McFK5j8Mj3</td></tr><tr><td>mint</td><td>Mint address of the token transferred.</td><td>varchar</td><td>So11111111111111111111111111111111111111112</td></tr><tr><td>decimals</td><td>The number of decimal points the token amounts are represented in. This is used to calculate the normalized amount of a token by taking the raw amount divided by 10^decimal_points.</td><td>number</td><td>9</td></tr><tr><td>symbols</td><td>Symbol of the token transferred</td><td>varchar</td><td>SOL</td></tr><tr><td>raw_amount</td><td>Raw of amount of token (unnormalized) transferred. Note that any fee withheld is *not* deducted from this amount.</td><td>float</td><td>12,500</td></tr><tr><td>raw_amount_str</td><td>Raw of amount of token (unnormalized) transferred, in string format.</td><td>varchar</td><td>12500</td></tr><tr><td>amount</td><td>Amount of token transferred, normalized.</td><td>float</td><td>0.0000125</td></tr><tr><td>amount_str</td><td>Amount of token transferred, normalized in string format.</td><td>varchar</td><td>0.0000125</td></tr><tr><td>usd_amount</td><td>USD value of the token amount transferred.</td><td>float</td><td>0.000261375</td></tr><tr><td>usd_exchange_rate</td><td>Price of the token at the time of transfer.</td><td>varchar</td><td>20.91</td></tr><tr><td>block_slot</td><td>Block slot of the transfer.</td><td>varchar</td><td>190,430,409</td></tr><tr><td>block_height</td><td>Block height of the transfer</td><td>number</td><td>173,371,181</td></tr><tr><td>block_timestamp</td><td>Block timestamp of the transfer.</td><td>timestamp_ntz</td><td>2023-04-25 15:55:07</td></tr><tr><td>block_hash</td><td>Block hash of the transfer.</td><td>varchar</td><td>8cAnWkjiy7VENBH3h1pN2rFQJLJsujB87bTcfYJNnvtD</td></tr><tr><td>txn_id</td><td>Transaction ID of the transfer.</td><td>varchar</td><td>4iMB9gP6nf5atgDpofK9hUkBiqiLBxqtocMc64vHBwZvR8iJiuyBdcvaHBwCxk5W1szK9jFFo3XwsSZ2APdPo6Um</td></tr><tr><td>txn_index</td><td>Transaction Index of the transfer.</td><td>number</td><td>1,011</td></tr><tr><td>instruction_index</td><td>Transfer instruction index.</td><td>number</td><td>2</td></tr><tr><td>inner_instruction_index</td><td>Transfer inner instruction index.</td><td>number</td><td>0</td></tr><tr><td>program_name</td><td>Program name of the transfer transaction. Includes system and spl-token</td><td>varchar</td><td>spl-token</td></tr><tr><td>type</td><td>Includes transfer, transferChecked, setAuthority, transferWithSeed</td><td>varchar</td><td>transfer</td></tr><tr><td>transfer_type</td><td>Token transfer type. Includes sol_transfer, spl_token_transfer, token_account_transfer</td><td>varchar</td><td>spl_token_transfer</td></tr><tr><td>unique_id</td><td>Unique id of the transfer.</td><td>varchar</td><td>txn_id-4iMB9gP6nf5atgDpofK9hUkBiqiLBxqtocMc64vHBwZvR8iJiuyBdcvaHBwCxk5W1szK9jFFo3XwsSZ2APdPo6Um_i_index-2_ii_index-0</td></tr></tbody></table>

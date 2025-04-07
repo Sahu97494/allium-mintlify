@@ -1,0 +1,40 @@
+---
+title: "ERC721 Balances Latest"
+---
+
+<Info>
+Note that we don't have USD prices for NFT balances yet
+</Info>
+
+The ERC721 balances latest table contains the current ERC721 balances of all addresses.
+
+### Sample Query
+
+Getting the ERC721 latest balance of an NFT from an address.
+
+```sql
+select * from avalanche.assets.erc721_balances_latest
+where address = '0xec451d6a06741e86e5ff0f9e5cc98d3388480c7a'
+and token_address = '0xe030543b943bdcd6559711ec8d344389c66e1d56'
+```
+
+Currently, the USD exchange rates of ERC721 tokens are not available.
+
+### Table Columns
+
+| Column Name                      | Description                                                                                             | Example                                                                                                                                                |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| address                          | Address of the account.                                                                                 | 0x44228c343e102d2860a800f05da2f09cd00f0c60                                                                                                             |
+| token\_address                   | Addres of the token.                                                                                    | 0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258                                                                                                             |
+| token\_name                      | Name of the token.                                                                                      | Otherdeed                                                                                                                                              |
+| token\_symbol                    | Symbol of the token.                                                                                    | OTHR                                                                                                                                                   |
+| token\_id                        | Token ID of the ERC721 token.                                                                           | 80383                                                                                                                                                  |
+| raw\_balance                     | Balance of tokens (unnormalized). For ERC721 tokens, there are no decimals division involved.           | 1                                                                                                                                                      |
+| raw\_balance\_str                | Balance of tokens (unnormalized) in string. For ERC721 tokens, there are no decimals division involved. | 1                                                                                                                                                      |
+| balance\_str                     | Balance of tokens in string. For ERC721 tokens, the max balance is 1.                                   | 1                                                                                                                                                      |
+| balance                          | Balance of tokens. For ERC721 tokens, the max balance is 1.                                             | 1                                                                                                                                                      |
+| last\_activity\_block\_timestamp | Timestamp of the last activity that resulted in this balance.                                           | 2023-03-14 14:12:23                                                                                                                                    |
+| last\_activity\_block\_number    | Block number of the last activity that resulted in this balance.                                        | 16,826,706                                                                                                                                             |
+| last\_activity\_block\_hash      | Block hash of the last activity that resulted in this balance.                                          | 0x230f13eae18b694dae232baae4dc78e9b9ca09f937d242d13380f075eb888ead                                                                                     |
+| unique\_id                       | Unique ID of the balance.                                                                               | block-16826706\_address-0x44228c343e102d2860a800f05da2f09cd00f0c60\_token\_address-0x34d85c9cdeb23fa97cb08333b511ac86e1c4e258\_token\_id-80383\_erc721 |
+| \_updated\_at                    | Timestamp of the balance update.                                                                        | 2023-03-14 15:28:54                                                                                                                                    |

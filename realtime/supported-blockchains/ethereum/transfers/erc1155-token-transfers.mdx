@@ -1,0 +1,60 @@
+---
+title: "ERC1155 Token Transfers"
+---
+
+Get ERC1155 token transfers. Includes minting and burning transfers from and to null addresses.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query ERC1155 token transfers by token/sender/recipient address and token_id.
+
+```sql
+select * from ethereum.erc1155_token_transfers
+where token_address = '0x495f947276749ce646f68ac8c248420045cb7b5e' -- OS StoreFront
+limit 10
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+### **Table Columns**
+
+```
+                                          Partitioned table "evm.erc1155_token_transfers"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ event_type        | character varying           |           |          |         | extended |             |              |
+ token_address     | character varying(42)       |           |          |         | extended |             |              |
+ token_id          | numeric(512,0)              |           |          |         | main     |             |              |
+ from_address      | character varying(42)       |           |          |         | extended |             |              |
+ to_address        | character varying(42)       |           |          |         | extended |             |              |
+ amount            | numeric(512,0)              |           |          |         | main     |             |              |
+ operator          | character varying(42)       |           |          |         | extended |             |              |
+ array_index       | numeric(512,0)              |           |          |         | main     |             |              |
+ transaction_hash  | character varying(66)       |           |          |         | extended |             |              |
+ log_index         | numeric(38,0)               |           |          |         | main     |             |              |
+ block_timestamp   | timestamp without time zone |           |          |         | plain    |             |              |
+ block_number      | numeric(38,0)               |           |          |         | main     |             |              |
+ block_hash        | character varying(66)       |           |          |         | extended |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ transaction_index | bigint                      |           |          |         | plain    |             |              |
+Partition key: RANGE (block_timestamp)
+Indexes:
+    "erc1155_token_transfers_block_number_index" btree (block_number, block_timestamp DESC)
+    "erc1155_token_transfers_block_timestamp_index" btree (block_timestamp DESC)
+    "erc1155_token_transfers_from_address_block_timestamp_index" btree (from_address, block_timestamp DESC)
+    "erc1155_token_transfers_to_address_block_timestamp_index" btree (to_address, block_timestamp DESC)
+    "erc1155_token_transfers_token_address_block_timestamp_index" btree (token_address, block_timestamp DESC)
+    "erc1155_token_transfers_unique_not_null" UNIQUE, btree (transaction_hash, log_index, array_index, block_timestamp) WHERE array_index IS NOT NULL
+    "erc1155_token_transfers_unique_null" UNIQUE, btree (transaction_hash, log_index, block_timestamp) WHERE array_index IS NULL      |          |         | plain   |             |              |
+```

@@ -1,0 +1,13 @@
+---
+title: "Pubkey Maps"
+---
+
+The `pubkey_maps` schema tracks Solana public key activity by mapping each public key (`pubkey`) to the corresponding transaction (`txn_id`) and the block timestamp (`block_timestamp`) when the transaction occurred. This structure allows for tracing the history of public key interactions on the network, providing insights into account activity and transaction timing. It is useful for auditing, monitoring, and analyzing on-chain events involving specific addresses.
+
+### Table Columns
+
+| Column          | Description                    | Example                                                                                  |
+| --------------- | ------------------------------ | ---------------------------------------------------------------------------------------- |
+| block_timestamp | block timestamp of transaction | 2024-10-16 20:28:24                                                                      |
+| txn_id          | transaction hash               | 2iSJ1X7AV8SinLkKv4joDRJLuoegP97HkYie4MRFyUJJf5QBZqivq2FQ9NFGdyX3idec5EbUQjBajEkEk2MEvudy |
+| pubkey          | address                        | 7Kov3TtyUU5G1WkGy1huf3JiqLuKA7j8L9hzov2CPtFN                                             |

@@ -1,0 +1,14 @@
+---
+title: "Block Rewards"
+description: Retrieve block reward info for blocks proposed on Beacon chain.
+---
+
+`beacon.raw.block_rewards`
+
+For missed slots, there are no proposer index and rewards present. I.e. the values will be null.
+
+### Table Columns
+
+Unique key: `slot_number`
+
+<table><thead><tr><th width="271">Column</th><th>Description</th></tr></thead><tbody><tr><td>slot_number</td><td>Beacon Chain slot number of the slot proposed.</td></tr><tr><td>slot_timestamp</td><td>Beacon Chain slot timestamp of the block.</td></tr><tr><td>proposer_index</td><td>The index of the proposer for the specified block</td></tr><tr><td>execution_optimistic</td><td>A boolean indicating whether the execution of rewards for the specified block is done optimistically or not</td></tr><tr><td>finalized</td><td>A boolean indicating whether the rewards for the specified block have been finalized</td></tr><tr><td>total</td><td>The total reward for the specified block</td></tr><tr><td>attestations</td><td>The total rewards specifically for attestations in the specified block</td></tr><tr><td>sync_aggregate</td><td>The total reward for the sync aggregate in the specified block</td></tr><tr><td>proposer_slashings</td><td>The number of proposer slashings that occurred in the specified block</td></tr><tr><td>attester_slashings</td><td><p></p><p>The number of attester slashings that occurred in the specified block</p></td></tr></tbody></table>

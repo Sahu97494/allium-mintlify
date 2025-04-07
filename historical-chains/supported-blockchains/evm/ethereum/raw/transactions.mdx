@@ -1,0 +1,69 @@
+---
+title: "Transactions"
+---
+
+Transactions are cryptographically signed instructions from accounts.
+
+An account will initiate a transaction to update the state of the blockchain network. Transactions always originate from an externally owned account (a smart contract can not initiate a transaction). Transactions, which change the state of the EVM, need to be broadcast to the whole network. Any node can broadcast a request for a transaction to be executed on the EVM; after this happens, a validator will execute the transaction and propagate the resulting state change to the rest of the network.
+
+Learn more in the official Ethereum documentation [here](https://ethereum.org/en/developers/docs/transactions/).
+
+### Transaction Fees
+
+<Info>
+For detailed metrics on transaction fees in native tokens and USD, including average transfer costs, see [Metrics](/historical-chains/supported-blockchains/evm/core-schemas/metrics).
+</Info>
+
+Transaction fees on Ethereum can be calculated based on the transaction type. After EIP-4844, there are two components to consider:
+
+1. **Calldata Fee**: This is the basic transaction fee
+
+   ```sql
+   Calldata Fee = (receipt_gas_used * receipt_effective_gas_price) / 1e18 ETH
+   ```
+
+2. **Blob Fee**: This only applies to transactions of type 3 (post EIP-4844)
+
+   ```sql
+   Blob Fee = (receipt_blob_gas_used * receipt_blob_gas_price) / 1e18 ETH
+   ```
+
+The total transaction fee is the sum of these components:
+
+```
+Total Fee = Calldata Fee + Blob Fee
+```
+
+Note that for pre-EIP-4844 transactions, only the Calldata Fee applies.
+
+### Table Columns
+
+Several columns may only be applicable for specific EVM-compatible blockchains. The list of columns present in the table is not exhaustive.
+
+Unique Key: `hash`
+
+| Column Name                    | Description                                                                                                                                                                                                                                    |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| block\_number                  | The length of the chain, in blocks.                                                                                                                                                                                                            |
+| block\_timestamp               | The time when the block that contains this transaction was included on the blockchain.                                                                                                                                                         |
+| block\_hash                    | Unique identifier of the block that includes this transaction.                                                                                                                                                                                 |
+| hash                           | Unique identifier of a transaction.                                                                                                                                                                                                            |
+| nonce                          | [The transaction nonce, unique to the wallet](https://evm.org/en/glossary/#nonce)                                                                                                                                                              |
+| transaction\_index             | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                                                                                           |
+| from\_address                  | The address of the sending party of this transaction.                                                                                                                                                                                          |
+| to\_address                    | The address of the receiving party of this transaction (could be a contract address).                                                                                                                                                          |
+| value                          | The amount of ether sent in this transaction, in wei.                                                                                                                                                                                          |
+| gas                            | The maximum amount of gas allocated for this transaction in wei.                                                                                                                                                                               |
+| gas\_price                     | Cost per unit of gas specified by the transaction in wei. The higher the gas price, the higher chance of getting included in a block.                                                                                                          |
+| input                          | The data send along with the transaction.                                                                                                                                                                                                      |
+| max\_fee\_per\_gas             | [The maximum fee per gas that the transaction sender is willing to pay for this transaction (introduced in EIP1559)](https://eips.ethereum.org/EIPS/eip-1559)                                                                                  |
+| max\_priority\_fee\_per\_gas   | [The maximum fee per gas the transaction sender is willing to give to validators (Proof of Stake) or miners (Proof of Work) to incentivize them to include their transaction (introduced in EIP1559)](https://eips.ethereum.org/EIPS/eip-1559) |
+| receipt\_cumulative\_gas\_used | The total amount of gas used when this transaction was executed in the block.                                                                                                                                                                  |
+| receipt\_effective\_gas\_price | The sum of the base fee and tip paid per unit of gas.                                                                                                                                                                                          |
+| receipt\_contract\_address     | The contract address created, if the transaction was a contract creation, otherwise null.                                                                                                                                                      |
+| receipt\_root                  | Transaction stateroot (pre Byzantium)                                                                                                                                                                                                          |
+| receipt\_status                | Success status of the transaction. Either 1 (success) or 0 (failure).                                                                                                                                                                          |
+| log\_count                     | Number of event logs emitted in the transaction.                                                                                                                                                                                               |
+| transaction\_type              | The integer of the transaction type, 0x0 for legacy transactions, 0x1 for access list types, 0x2 for dynamic fees.                                                                                                                             |
+| \_created\_at                  | Timestamp of the entry creation.                                                                                                                                                                                                               |
+| \_updated\_at                  | Timestamp of the entry update.                                                                                                                                                                                                                 |

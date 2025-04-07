@@ -1,0 +1,39 @@
+---
+title: "Overview"
+---
+
+The dex vertical contains trades and aggregator trades from major DEXs & Aggregators on Solana network.
+
+### Trades
+
+`solana.dex.trades`contains direct program calls to a dex program such as raydium's clmm (concentrated liq)
+
+### Aggregator Trades
+
+`solana.dex.aggregator_trades`contains direct program calls to an aggregator contract which in turn calls one or more liquidity sources to execute the trade
+
+* routes the trade through liquidity sources from
+
+  * dexes - those covered in solana.dex.trades
+
+  * non-dexes such as marinade and openbook which provide liquidity as well.
+
+## Note on calculating volume
+
+* When calculating aggregator volume via summing the `usd_amount`column, you will get volumes per aggregator-swap, not at the hop level.
+
+* To illustrate - if a user swaps \$1000 thats hops through 2 amms:
+
+  * sol -> usdc on meteora
+
+  * usdc -> jto on meteora
+
+  * This swap will be represented in `solana.dex.aggregator_trades` as **1 row** and usd\_amount = **\$1000**.
+
+  * This swap will be represented in `solana.dex.trades` as **2 rows** and summing the 2 records i.e. summing across hops would get you trade volume of \~**\$2000**
+
+* This is seen in this [dune dashboard](https://dune.com/ilemi/jupiter-aggregator-solana), where volume is summed across hops, resulting in overcounting of volume.
+
+* The equivalent of the dune dashboard with overcounting is [here](https://app.hex.tech/fc6e427a-6bfb-40e5-9cc1-1808967c3c12/app/112779d1-ee83-419a-8976-1ecfce9bd12f/latest)
+
+

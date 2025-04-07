@@ -1,0 +1,128 @@
+---
+title: "Balances"
+icon: "wallet"
+description: "Fetch block-level changes in the balances of assets across wallets."
+---
+
+The `crosschain.assets.fungible_balances_evm` model offers a historical record of fungible asset balances, including native gas tokens and ERC-20 compatible tokens.
+
+Each entry in the model corresponds to a specific event/transaction that causes a balance change in a particular asset at the block level.
+
+This means **a new data entry is only created when a transaction alters an asset's balance at the block level.**
+
+- For example, if a wallet receives 1 ETH in 2015 and experiences no further changes until yesterday, the model will have two entries: one for the initial receipt in 2015 and another for the recent change
+
+## Blockchain Coverage
+
+EVM-compatible blockchains supported:
+
+- ethereum, avalanche, arbitrum, base, bsc (Binance Smart Chain), polygon, optimism.
+
+<Info>
+For information on Solana balances, refer to the Solana-specific[docs](/historical-chains/supported-blockchains/solana/assets/balances).
+</Info>
+## Sample Query
+<Accordion title="Generate Daily Balances from block-level balances data">
+\[1] Replace the `wallet` CTE with the desired list of wallet addresses (comma-separated) or the table of wallet addresses
+
+\[2] Replace the 'day' argument in `date_trunc` function to adjust the granularity of the balance output (day, week, month, year).
+
+```sql
+with
+    wallets as (
+        select distinct value::varchar as wallet_address
+        -- Comma-separated wallet addresses
+        from
+            (select split(replace(lower('0x915867061ea708869e34819216ae726041f48739, 0x0d37eb1528e7313a3954f25d4d4aead0dc7ff037'), ' ', ''), ',') as addresses),
+            lateral flatten(input => addresses)
+    ),
+    balances as (
+        select
+            date_trunc('day', b.block_timestamp) as date,
+            b.chain,
+            b.block_number,
+            b.address,
+            b.raw_balance,
+            b.usd_balance,
+            b.balance,
+            b.token_address,
+            b.token_name,
+            b.token_symbol
+        from crosschain.assets.fungible_balances_evm b
+        inner join wallets on b.address = wallets.wallet_address
+        -- where b.usd_balance is not null -- Optional filter to remove tokens without price data (mainly spam tokens)
+        qualify row_number() over (partition by b.chain, b.address, b.token_address, date order by b.block_number desc) = 1
+    ),
+    distinct_address_tokens as (  -- Generate a list of chain x address x token
+        select distinct chain, address, token_address from balances
+    ),
+    distinct_dates as (  -- Generate a list of timestamps (Ethereum as it is the first EVM chain)
+        select date_trunc('day', timestamp) as date, count(1) as count_all
+        from ethereum.raw.blocks
+        where timestamp >= (select min(date) from balances)
+        group by all
+    ),
+    date_address_token_cte as (  -- Generate timestamp x chain x address x tokens
+        select t1.date, t2.chain, t2.address, t2.token_address from distinct_dates t1, distinct_address_tokens t2
+    ),
+    final as ( -- Forward fill the token_address, token_name, token_symbol, usd_balance, raw_balance, balance
+        select
+            t1.chain,
+            t1.date,
+            t1.address,
+            lag(t2.token_address) ignore nulls over (partition by t1.chain, t1.address, t1.token_address order by t1.date) as token_address,
+            lag(t2.token_name) ignore nulls over (partition by t1.chain, t1.address, t1.token_address order by t1.date) as token_name,
+            lag(t2.token_symbol) ignore nulls over (partition by t1.chain, t1.address, t1.token_address order by t1.date) as token_symbol,
+            lag(t2.usd_balance) ignore nulls over (partition by t1.chain, t1.address, t1.token_address order by t1.date) as usd_balance,
+            lag(t2.raw_balance) ignore nulls over (partition by t1.chain, t1.address, t1.token_address order by t1.date) as raw_balance,
+            lag(t2.balance) ignore nulls over (partition by t1.chain, t1.address, t1.token_address order by t1.date) as balance
+        from date_address_token_cte t1
+        left join balances t2 on t1.date = t2.date and t1.chain = t2.chain and t1.address = t2.address and t1.token_address = t2.token_address
+        where 1 = 1
+    )
+
+select
+    f.chain,
+    f.date,
+    f.address,
+    f.token_address,
+    f.token_name,
+    f.token_symbol,
+    f.raw_balance,
+    f.balance,
+    hourly.price as usd_exchange_rate,
+    coalesce(hourly.price * f.balance, hourly.price * f.raw_balance / pow(10, hourly.decimals), f.usd_balance) as usd_balance
+from final f
+left join common.prices.hourly on f.date = hourly.timestamp and f.chain = hourly.chain and f.token_address = hourly.address
+where f.raw_balance > 0
+order by 1 desc
+```
+
+**Note**: the final output will contain all tokens held by the wallet, including undesirable spam tokens.
+
+One approach to counter this would be to filter the output of the query with the desired tokens or balances above a certain USD value.
+
+</Accordion>
+
+## Table Column
+
+Unique Key: `unique_id`
+
+| Column Name         | Description                                                                         |
+| ------------------- | ----------------------------------------------------------------------------------- |
+| `chain`             | The EVM-compatible blockchain of where the assets are held.                         |
+| `address`           | The wallet address holding the token.                                               |
+| `token_address`     | The contract address of the token. Native tokens are represented with zero address. |
+| `token_name`        | The name of the token.                                                              |
+| `token_symbol`      | The symbol of the token.                                                            |
+| `raw_balance_str`   | The raw balance as a string to retain precision.                                    |
+| `raw_balance`       | The raw balance as a numeric value.                                                 |
+| `balance_str`       | The formatted balance as a string to retain precision.                              |
+| `balance`           | The formatted balance as a numeric value.                                           |
+| `usd_balance`       | The balance converted to USD.                                                       |
+| `usd_exchange_rate` | The exchange rate used for USD conversion.                                          |
+| `block_timestamp`   | The timestamp of the block containing the balance.                                  |
+| `block_number`      | The block number containing the balance.                                            |
+| `block_hash`        | The hash of the block containing the balance.                                       |
+| `unique_id`         | A unique identifier for the balance record.                                         |
+| `_updated_at`       | The timestamp of the last update to the balance record.                             |

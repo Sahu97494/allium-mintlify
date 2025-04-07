@@ -1,0 +1,57 @@
+---
+title: "ERC721 Token Transfers"
+---
+
+Get ERC721 token transfers. Includes minting and burning transfers from and to null addresses.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query ERC721 (NFTs) token transfers by token/sender/recipient address and token_id.
+
+```sql
+select * from ethereum.erc721_token_transfers
+where token_address = '0xed5af388653567af2f388e6224dc7c4b3241c544' -- Azuki
+and token_id = 6412
+order by block_timestamp desc
+limit 10
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+```
+                                     Partitioned table "evm.erc721_token_transfers"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ token_address     | character varying(42)       |           |          |         | extended |             |              |
+ token_id          | numeric(512,0)              |           |          |         | main     |             |              |
+ from_address      | character varying(42)       |           |          |         | extended |             |              |
+ to_address        | character varying(42)       |           |          |         | extended |             |              |
+ transaction_hash  | character varying(66)       |           | not null |         | extended |             |              |
+ log_index         | numeric(38,0)               |           | not null |         | main     |             |              |
+ block_timestamp   | timestamp without time zone |           | not null |         | plain    |             |              |
+ block_number      | numeric(38,0)               |           |          |         | main     |             |              |
+ block_hash        | character varying(66)       |           |          |         | extended |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ transaction_index | bigint                      |           |          |         | plain    |             |              |
+Partition key: RANGE (block_timestamp)
+Indexes:
+    "erc721_token_transfers_pk" PRIMARY KEY, btree (transaction_hash, log_index, block_timestamp)
+    "erc721_token_transfers_block_number_index" btree (block_number, block_timestamp DESC)
+    "erc721_token_transfers_block_timestamp_index" btree (block_timestamp DESC)
+    "erc721_token_transfers_from_address_block_timestamp_index" btree (from_address, block_timestamp DESC)
+    "erc721_token_transfers_to_address_block_timestamp_index" btree (to_address, block_timestamp DESC)
+    "erc721_token_transfers_token_address_block_timestamp_index" btree (token_address, block_timestamp DESC)
+```

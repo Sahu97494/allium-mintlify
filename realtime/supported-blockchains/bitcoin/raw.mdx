@@ -1,0 +1,51 @@
+---
+title: "Raw"
+sidebarTitle: Overview
+---
+
+The raw data schema includes blocks, transactions, transaction input, and transaction output of Bitcoin data.
+
+<Frame caption="Anatomy of Bitcoin UTXO. Image Source: Liu, Y., Zhang, L. & Zhao, Y.">
+  <img src="/images/bitcoinraw1.png" />
+</Frame>
+
+Anatomy of Bitcoin UTXO. Image Source: [Liu, Y., Zhang, L. & Zhao, Y.](https://www.nature.com/articles/s41597-022-01254-0/figures/2)
+
+Our realtime Bitcoin raw schema contains the following tables:
+
+| Raw Data Type | Description                                                       |
+| ------------- | ----------------------------------------------------------------- |
+| blocks        | Blocks data, including block size, difficulty, and confirmations. |
+| transactions  | Transaction level data.                                           |
+| inputs        | Input data of Bitcoin transactions.                               |
+| outputs       | Output data of Bitcoin transactions.                              |
+
+### Common Query Patterns
+
+To retrieve the inputs of a certain transaction, you can use the following queries:
+
+```
+select * from bitcoin.enriched_inputs where transaction_hash = '82794a9ee221453c8da04ea1f876a379cc70512edcd8b3dbc2349c84c4265ce0';
+```
+
+```
+select * from bitcoin.outputs where transaction_hash = '82794a9ee221453c8da04ea1f876a379cc70512edcd8b3dbc2349c84c4265ce0';
+```
+
+To retrieve the inputs and outputs of a user, you can use the following queries:
+
+```
+select * from bitcoin.enriched_inputs where address0 = 'bc1qcr393nj4ps806qjarqnrd68yl9pl2klqc5c225' limit 10;
+```
+
+```
+select * from bitcoin.outputs where address0 = 'bc1qcr393nj4ps806qjarqnrd68yl9pl2klqc5c225' limit 10;
+```
+
+**Additional resources:**
+
+- [mempool](https://mempool.space/) -- recommended block explorer
+
+- [blocks](https://developer.bitcoin.org/reference/block_chain.html)
+
+- [transactions](https://developer.bitcoin.org/reference/transactions.html)

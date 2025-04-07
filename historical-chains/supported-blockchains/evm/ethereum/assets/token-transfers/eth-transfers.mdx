@@ -1,0 +1,29 @@
+---
+title: "ETH Transfers"
+---
+
+The table for ETH Token Transfers holds a record of all transactions conducted using the native Ether token.
+
+This includes the transaction type, such as value transfer, miner payment, or gas burn, transaction call type, the transaction hash, block timestamp, and the sender and recipient wallet addresses along with the quantity of ETH transferred.
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                          |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | `0x8e5a6e6fb4926284774a437241769f9b30c2f743`                                     |
+| to\_address                | Address where the token is being transferred to.                                       | `0x28ffe35688ffffd0659aee2e34778b0ae4e193ad`                                     |
+| token\_address             | Token address of the asset transferred.                                                | `0x0000000000000000000000000000000000000000`                                     |
+| token\_name                | Name of the asset transferred.                                                         | `ETH`                                                                            |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | `ETH`                                                                            |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | `3368902291543500000`                                                            |
+| amount                     | Amount of token moved, normalized.                                                     | `3.3689022915435`                                                                |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | `4489.09599250462`                                                               |
+| call\_type                 | Call type of the transaction. Non-call type will be indicated by NULL.                 | `call`                                                                           |
+| transfer\_type             | Transfer type can be either `value_transfer, gas_burn, gas_payment_to_miner`.          | `value_transfer`                                                                 |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | `0x8e5a6e6fb4926284774a437241769f9b30c2f743`                                     |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | `0x28ffe35688ffffd0659aee2e34778b0ae4e193ad`                                     |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | `0x02cce135ae535e3ce389f2f94600949b5a997b5fb985f21247e20dff434572d2`             |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | `2023-01-11 15:26:35.000`                                                        |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | `16384458`                                                                       |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | `0x7c6e3c027e23dc2fc14562dbe00bd1c4c7e83620ee7e3b0d827fb70e613f697d`             |
+| unique\_id                 | Unique id generated to each transfer.                                                  | `trace-call_0x02cce135ae535e3ce389f2f94600949b5a997b5fb985f21247e20dff434572d2_` |

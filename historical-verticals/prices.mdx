@@ -1,0 +1,31 @@
+---
+title: "Overview"
+---
+
+Our prices data vertical offers comprehensive and detailed token price datasets that cater to various blockchain analysis use cases.
+
+The prices schema includes hourly token prices derived from [**DEX trades**](/historical-verticals/prices#dex-token-prices) and [**centralized exchanges**](/historical-verticals/prices#exchange-token-prices).
+
+All price data are denominated in USD unless otherwise stated.
+
+<Warning>
+**Deprecation Notice**
+
+Tables being deprecated:
+
+* common.prices.token\_prices\_hourly & common.prices.token\_prices\_hourly\_latest
+
+Recommended Migration: Use `common.prices.hourly` which provides:
+
+* Chain-specific and token address pricing
+
+The legacy tables will be decommissioned by the end Feb-2025. Please update your queries accordingly.
+</Warning>
+## Price Tables
+
+| Table Name | Description | Use Case |
+|------------|-------------|----------|
+| `common.prices.hourly` | Hourly token prices with blockchain and token/contract addresses provided. | Enriching blockchain analysis with price data. |
+| `common.prices.dex_token_prices_hourly` | Token prices computed from DEX trades. | Finding historical price data of tokens not commonly listed on exchanges. |
+| `common.prices.token_prices_hourly [deprecated]` | Hourly token prices from centralized exchanges from `2017-09-01T00:00:00` | Finding historical price data of a token of interest. |
+| `common.prices.token_prices_hourly_latest [deprecated]` | The latest token prices of tokens from centralized exchanges. | Standardizing token volumes to latest price. |

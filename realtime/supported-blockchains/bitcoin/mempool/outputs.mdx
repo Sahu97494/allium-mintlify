@@ -1,0 +1,38 @@
+---
+title: "Outputs"
+---
+
+Outputs in Bitcoin transactions specify the recipients and the amount of bitcoin being transferred. Each output creates a new unspent transaction output (UTXO), which can be used as an input in future transactions. Any leftover value can be sent to a change address or used for fees, ensuring precise fund allocation.
+
+## Sample Query
+
+To select all outputs for a given user
+
+```sql
+select *
+from bitcoin.mempool_outputs
+where address0 = 'bc1qvj7sa83e7j9l9dz60vxuy5n4dmp2q8vhml6ftj'
+```
+
+## Table Columns
+
+This table is indexed on utxo_id, address0, block_number, block_timestamp, and transaction_hash. Please use one of thes columns when selecting for a specific row in the bitcoin.outputs table for faster queries.
+
+| Column Name         | Description                                                                                                                                                                    | Example                                                            |
+| ------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------ |
+| transaction_hash    | Unique hash of the transaction output.                                                                                                                                         | 1c0c548ee49d051aebbaa42d25f6e6b87c670bdff09bf043a949121f04b8098f   |
+| block_hash          | Block hash of the transaction output.                                                                                                                                          | 00000000000000000001efb1fa7dea83fa8621c369b4bd58c3ae01c43c30c9c5   |
+| block_number        | Block number or block height of the transaction output.                                                                                                                        | 770,401                                                            |
+| block_timestamp     | Block timestamp of the transaction output.                                                                                                                                     | 2023-01-05 00:54:14                                                |
+| index               | The index of the output.                                                                                                                                                       | 0                                                                  |
+| script_asm          | Symbolic representation of the bitcoin's script language op-codes                                                                                                              | OP_HASH160 acb41dd71aa79315b97d0160a297b1ba976cc903 OP_EQUAL       |
+| script_hex          | Hexadecimal representation of the bitcoin's script language op-codes.                                                                                                          | a914acb41dd71aa79315b97d0160a297b1ba976cc90387                     |
+| required_signatures | Required signatures.                                                                                                                                                           | NULL                                                               |
+| type                | The addres type of output.                                                                                                                                                     | scripthash                                                         |
+| addresses           | parsed addresses used in the transaction (including multisig, pubkey info)<br/><em>\*\* note: do not query by searching on this column as it is not indexed, use address0</em> | 3HSBvFrBC7RFLyVohwhXQu4juAPomuY9XR                                 |
+| value               | Value in BTC unnormalized.                                                                                                                                                     | 1,538,115                                                          |
+| utxo_id             | Spent UTXO ID generated from transaction hash and index.                                                                                                                       | 1c0c548ee49d051aebbaa42d25f6e6b87c670bdff09bf043a949121f04b8098f:0 |
+| address0            | parsed address that the utxo belongs to                                                                                                                                        | 3HSBvFrBC7RFLyVohwhXQu4juAPomuY9XR                                 |
+| address             | raw address output from rpc<br/><em>\*\* note: do not query by searching on this column as it is not indexed, use address0</em>                                                | 3HSBvFrBC7RFLyVohwhXQu4juAPomuY9XR                                 |
+| value_max_exclusive | `sum(value of all inputs with index lesser than itself) + value - 1` within the same transaction. Used for ordinal tracking where FIFO principle is used.                      | 1,538,115                                                          |
+| value_min_inclusive | `sum(value of all inputs with index lesser than itself)` within the same transaction. Used for ordinal tracking where FIFO principle is used.                                  | 0                                                                  |

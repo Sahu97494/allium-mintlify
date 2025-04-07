@@ -1,0 +1,21 @@
+---
+title: "Identity"
+---
+
+The `identity` schema contains Tron wallet address labels to enrich your analysis.
+
+The `tron.identity.entities` table contains curated and categorised wallet address (preferred for analysis) build from the raw `tron.identity.labels.`
+
+### Entities
+
+`tron.identity.entities` contains curated and categorised wallet labels specifically for Tron addresses. There is one row for each unique address.
+
+See the [Sample Query](/historical-chains/supported-blockchains/evm/tron/assets/token-transfers/trc20-token-transfers#sample-query)in the token transfers segment joining labels.
+
+<table><thead><tr><th width="165.33333333333331">Column Name</th><th width="363">Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Base58 address of the wallet.</td><td>TV6MuMXfmLbBqPZvBHdwFsDnQeVfnmiuSi</td></tr><tr><td>name</td><td>Name of the wallet.</td><td>Binance-Hot</td></tr><tr><td>category</td><td>Category of the project and wallet address. <br /><br />Currently includes the follow categories: <code>cex, dex, staking, burn, bridge, super_representative, psm, lending, entity, cdp</code></td><td>cex</td></tr><tr><td>project</td><td>Project associated with the wallet, in lower casing. <br /><br />e.g. All Binance wallets (Binance cold wallet, hot wallet) will be labelled as "binance" .</td><td>binance</td></tr><tr><td>source</td><td>Source of the wallet label, if available.</td><td>external</td></tr></tbody></table>
+
+### Labels
+
+`tron.identity.labels` contains raw address name and category labels.&#x20;
+
+<table><thead><tr><th width="165.33333333333331">Column Name</th><th width="331">Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Base58 address of the wallet.</td><td>TQnAGXspTiqJVvdNqUk8giSBFW4Ykt2Gxm</td></tr><tr><td>name</td><td>Name of the wallet.</td><td>USDD: USDC Quota</td></tr><tr><td>category</td><td>Raw category assigned to the address based on the data source.</td><td>contract</td></tr></tbody></table>

@@ -1,0 +1,65 @@
+---
+title: "Mints"
+---
+
+The NFT mints tables contain all ERC721 and ERC1155 mints and their respective prices in one consolidated table. The current coverage includes mints from standard mints and protocol mints such as Seadrop.
+
+### Minting Currency
+
+**NFT minting may involve NATIVE, ERC20, or no currency.** Free mints will be included by an empty currency address field and 0 value in price.
+
+To identify native ETH-specific minting volume, `currency_address` filters will need to be applied as shown in the example below.
+
+### Sample Query
+
+#### Example: NFT Minting volume (ETH) in the last 7 days
+
+A total number of collections minted daily, total minters, and total ETH volume minted.
+
+```sql
+select 
+  date(block_timestamp) as date,
+  count(distinct token_address) as collections,
+  count(distinct token_to_address) as total_minters,
+  sum(price) as native_mint_volume
+from b3.nfts.mints 
+  where current_date - date(block_timestamp) < 7
+  and currency_address = '0x0000000000000000000000000000000000000000' 
+group by date
+```
+
+### Table Columns
+
+| Column Name                          | Description                                                                                                                                                                                                    |
+| ------------------------------------ | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| platform                             | Platform where the mint occurred                                                                                                                                                                               |
+| minting\_protocol                    | Minting protocol used (if relevant).                                                                                                                                                                           |
+| order\_match\_type                   | MINT order type.                                                                                                                                                                                               |
+| trade\_type                          | SINGLE\_TRADE or BUNDLE\_TRADE                                                                                                                                                                                 |
+| total\_mint\_quantity                | Number of NFTs minted. This is transaction level aggregated value.                                                                                                                                             |
+| token\_to\_address                   | Recipient address of the NFTs minted.                                                                                                                                                                          |
+| event\_type                          | Type of event transferred involved in the mint. erc1155\_transfer\_single, erc1155\_transfer\_batch, erc721\_transfer                                                                                          |
+| token\_standard                      | TOKEN\_ADDRESS                                                                                                                                                                                                 |
+| token\_address                       | Address of the NFT collection.                                                                                                                                                                                 |
+| token\_name                          | Name of the NFT collection.                                                                                                                                                                                    |
+| token\_symbol                        | Symbol of the NFT collection.                                                                                                                                                                                  |
+| token\_id                            | Token ID of the NFT minted.                                                                                                                                                                                    |
+| item\_quantity                       | Number of NFTs bought.                                                                                                                                                                                         |
+| currency\_address                    | Address of the currency used in the mint.                                                                                                                                                                      |
+| currency\_symbol                     | Symbol of the currency used in the mint.                                                                                                                                                                       |
+| raw\_price                           | The price of the NFT in the currency used to mint (not divided by the number of decimals)                                                                                                                      |
+| price                                | \\'raw\_price\\' divided by the number of decimals of the currency.                                                                                                                                            |
+| usd\_price                           | USD price paid for the NFTs in this mint. The USD value of the mint is calculated by multiplying the hourly exchange rate of the currency (e.g. ETH) with the price oracle data source from exchanges.         |
+| aggregator_name                      | Name of the aggregator used for the mint (if applicable)                                                                                                                                                       |
+| aggregator_address                   | Contract address of the aggregator used for the mint (if applicable)                                                                                                                                           |
+| transaction_hash                     | Transaction hash of where this mint occurred.                                                                                                                                                                  |
+| log\_index                           | Log index of this mint                                                                                                                                                                                         |
+| block\_timestamp                     | Block timestamp of the mint.                                                                                                                                                                                   |
+| block\_number                        | Block number of the mint.                                                                                                                                                                                      |
+| block\_hash                          | Block hash of the mint.                                                                                                                                                                                        |
+| defi\_mint                           | Whether this mint is associated with a defi transaction, such as minting an NFT position for Uniswap v3.                                                                                                       |
+| unique\_id                           | Unique ID of this mint.                                                                                                                                                                                        |
+| \_created\_at                        | Timestamp of the entry creation.                                                                                                                                                                               |
+| \_updated\_at                        | Timestamp of the entry update.                                                                                                                                                                                 |
+| \_changed\_since\_full\_refresh      | Whether this row has changed since the last full refresh.                                                                                                                                                      |
+| \_helper\_nft\_tokens\_\_updated\_at | Token info last update.                                                                                                                                                                                        |

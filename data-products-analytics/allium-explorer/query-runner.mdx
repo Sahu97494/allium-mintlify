@@ -1,0 +1,51 @@
+---
+title: "Query Runner"
+icon: "rotate"
+---
+
+#### Allium Explorer's Query Runner:
+
+The query runner is the main engine of the Allium Explorer. Users can effortlessly query data over all the blockchains offered by Allium in a single platform.
+
+**Features**
+
+* **Multi-Chain Support:** Write SQL queries that span across all blockchains offered by Allium in a single platform.
+
+* **Unified Data Schema**: Leverage abstracted data models across different blockchains (e.g `crosschain.dex.trades` and `crosschain.stablecoin.transfers`) to simplify query writing.
+
+* **Parameterized Queries:** Create dynamic, reusable SQL statements with user-defined parameters.
+
+* **SQL Formatter**: Formats your code to clean, readable SQL code, enhancing collaboration and maintenance.
+
+Using the Explorer Query Runner:
+
+In this example we will show you how to fetch DEX USD Volume for Ethereum, Base, and Solana with parameterized queries.
+
+**Example: Fetch DEX USD Volume for Ethereum, Base, and Solana**
+
+Head to https\://app.allium.so/explorer and click on *New* to create a new query.
+
+Creating the query:
+
+1. Copy and paste the query below into the query editor.
+
+```sql
+select 
+    date(block_timestamp) as date, 
+    chain, 
+    sum(usd_amount) as usd_volume
+from crosschain.dex.trades
+where block_timestamp >= current_timestamp - interval '{{last_n_days}} days' and chain in ('ethereum', 'base', 'solana')
+group by all
+order by 1 desc
+```
+
+1. The `{{last_n_days}}` is a parameter that you can use to filter the data. There will be a window to input the parameter value once a parameter is defined.
+
+2. Click on *Format* to format the query.
+
+3. Click on *Save* to save the query.
+
+4. Click on *Run* (or Crtl+Enter / Mac: Cmd+Enter) to execute the query.
+
+

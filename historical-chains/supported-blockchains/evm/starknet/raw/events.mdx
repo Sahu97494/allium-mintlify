@@ -1,0 +1,9 @@
+---
+title: "Events"
+---
+
+A contract may emit events throughout its execution. Events are a useful tool for logging and notifying external entities about specific occurrences within a contract, with a timestamp (the block number). They emit data that can be accessed by everybody.
+
+### Table Columns
+
+<table><thead><tr><th width="294">Column Name</th><th>Description</th></tr></thead><tbody><tr><td>block_hash</td><td>Block hash of the block that this message belongs to.</td></tr><tr><td>block_number</td><td>Block number of the block that this message belongs to.</td></tr><tr><td>block_timestamp</td><td>Block timestamp of the block that this message belongs to.</td></tr><tr><td>transaction_hash</td><td><p>The transaction hash of the transaction that this message belongs to, as assigned in </p><p>StarkNet.</p></td></tr><tr><td>event_index</td><td>The index of the event in the transaction's events array.</td></tr><tr><td>from_address</td><td>The address of the contract emitting the events.</td></tr><tr><td>keys</td><td>The list of field elements.</td></tr><tr><td>data</td><td>The list of field elements.</td></tr></tbody></table>

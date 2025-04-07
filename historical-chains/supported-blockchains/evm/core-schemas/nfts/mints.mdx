@@ -1,0 +1,80 @@
+---
+title: Mints
+---
+
+The NFT mints tables contain all ERC721 and ERC1155 mints and their respective prices in one consolidated table.
+
+## Methodology
+
+In an NFT minting transaction, there is a transfers of erc721/erc1155 tokens from the zero address.
+
+The cost of an NFT mint can be assigned to
+
+* Free: the NFT recipient receives the NFT without paying any other cost aside from transaction fees.
+* Paid by minter: the mint payer is the same as the NFT recipient
+* Paid by non-minter: the mint payer is different from the NFT recipient
+
+We identify all erc721 and erc1155 token transfers from zero address as mints. In these transactions, the minting cost of the mints were identified by the balance changes / deduction of erc20/native tokens (ETH) from the mint recipient. The cost of the NFT mint is deducted from the total cost of the transfers divided by counts of mints within the same transactions (excluding transaction fees cost).
+
+### Protocol-based mints
+
+We identify protocol-based mints based on the token address collection created by minting protocol’s factory address. NFT mints of these collections are then tagged based on the contract address or transactions from these factory address.
+
+<Info>
+* NFT minting may involve native gas token, ERC20, or no currency.
+* Free mints will be included by an empty currency address field and 0 value in price.
+* Native gas tokens are represented as `0x0000000000000000000000000000000000000000` in the `token_address` in our assets schemas.
+* To identify native gas token-specific minting volume, currency\_address filters will need to be applied as shown in the example below.
+</Info>
+
+### Sample Query
+
+Example: nfts minted with native gas token (0x00000000000000000000000000000000) on Ethereum.
+
+```sql
+select 
+  date(block_timestamp) as date,
+  count(distinct token_address) as collections,
+  count(distinct token_to_address) as total_minters,
+  sum(price) as native_volume
+from ethereum.nfts.mints 
+  where current_date - date(block_timestamp) < 14
+  and currency_address = '0x0000000000000000000000000000000000000000' 
+group by date
+```
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                          | Description                                                                                                                                 |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------- |
+| minting\_protocol                    | Minting protocol used (if relevant). Currently includes standard\_mint protocol(s) from opensea, zora and fair.xyz                          |
+| platform                             | Minting platform if relevant. Currently includes: fair.xyz, zora, opensea. Mints not associated with a platform will be null.               |
+| protocol                             | Minting protocol used (if relevant). Currently includes standard\_mint protocol(s) from opensea, zora and fair.xyz                          |
+| order\_match\_type                   | MINT order type.                                                                                                                            |
+| trade\_type                          | SINGLE\_TRADE or BUNDLE\_TRADE                                                                                                              |
+| total\_mint\_quantity                | Number of NFTs minted. This is transaction level aggregated value.                                                                          |
+| token\_to\_address                   | Recipient address of the NFTs minted.                                                                                                       |
+| event\_type                          | Type of event transferred involved in the mint. erc1155\_transfer\_single, erc1155\_transfer\_batch, erc721\_transfer                       |
+| token\_standard                      | Token standard e.g. erc721 or erc1155                                                                                                       |
+| token\_address                       | Address of the NFT collection.                                                                                                              |
+| token\_name                          | Name of the NFT collection.                                                                                                                 |
+| token\_symbol                        | Symbol of the NFT collection.                                                                                                               |
+| token\_id                            | Token ID of the NFT minted.                                                                                                                 |
+| fungible\_amount                     | Amount of token transferred.                                                                                                                |
+| item\_quantity                       | Number of NFTs bought.                                                                                                                      |
+| currency\_address                    | Address of the currency used in the mint.                                                                                                   |
+| currency\_symbol                     | Symbol of the currency used in the mint.                                                                                                    |
+| raw\_price                           | The price of the NFT in the currency used to mint (not divided by the number of decimals)                                                   |
+| price                                | 'raw\_price' divided by the number of decimals of the currency.                                                                             |
+| usd\_price                           | USD price paid for the NFTs in this mint. The USD value of the mint is calculated by multiplying the hourly exchange rate of the currency . |
+| log\_index                           | Log index of this mint.                                                                                                                     |
+| transaction\_hash                    | Transaction hash of where this mint occurred.                                                                                               |
+| block\_timestamp                     | Block timestamp of the mint.                                                                                                                |
+| block\_number                        | Block number of the mint.                                                                                                                   |
+| block\_hash                          | Block hash of the mint.                                                                                                                     |
+| defi\_mint                           | Whether this mint is associated with a defi transaction, such as minting an NFT position for Uniswap v3.                                    |
+| unique\_id                           | Unique ID of this mint.                                                                                                                     |
+| \_updated\_at                        | Timestamp of the entry update.                                                                                                              |
+| \_helper\_nft\_tokens\_\_updated\_at | Token info last update.                                                                                                                     |

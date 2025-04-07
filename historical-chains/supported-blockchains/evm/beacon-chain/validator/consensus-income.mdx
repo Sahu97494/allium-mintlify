@@ -1,0 +1,37 @@
+---
+title: "Consensus Income"
+description: "Fetch granular beacon chain consensus income by validator and slot time ranges."
+---
+
+The `beacon.validator.consensus_income` combines all the rewards that can be earned by validators on the Beacon chain.
+
+Currently, this includes attestation rewards (distributed each Epoch), block rewards (distributed each slot) for the validator that successfully proposed a block, and sync committee rewards (post Altair upgrade) for the validator that is selected to sync committee.
+
+This table does NOT contain execution rewards that are received by validators on the execution layer.
+
+### Query Example
+
+Fetching validator income for a list of validators between 2 timestamps.
+
+```sql
+select *
+from beacon.validator.consensus_income 
+where 1=1 
+and validator_index in (897919, 897920)
+and slot_timestamp >= '2025-01-01' and slot_timestamp <= '2025-02-01'
+```
+
+### Table Columns
+
+| Column Name           | Description                                                                                                                                                                                                                                                                         |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| slot\_number          | Slot number of the balance snapshot.                                                                                                                                                                                                                                                |
+| slot\_timestamp       | Slot timestamp of balance snapshot.                                                                                                                                                                                                                                                 |
+| validator\_index      | Unique index of the validator.                                                                                                                                                                                                                                                      |
+| reward\_type          | Type of reward. Currently includes attestation\_total\_rewards (attestation rewards from beacon.raw.total\_rewards), block\_rewards (block rewards from beacon.raw.block\_rewards), and sync\_committee\_rewards (sync committee rewards from beacon.raw.sync\_committee\_rewards). |
+| raw\_amount           | Raw amount of reward, in string to retain precision.                                                                                                                                                                                                                                |
+| amount                | Amount of reward normalized.                                                                                                                                                                                                                                                        |
+| finalized             | If the slot/epoch is finalized.                                                                                                                                                                                                                                                     |
+| execution\_optimistic | If the slot/epoch is executed optimistically.                                                                                                                                                                                                                                       |
+| \_created\_at         | Timestamp of the entry creation.                                                                                                                                                                                                                                                    |
+| \_updated\_at         | Timestamp of the entry update.                                                                                                                                                                                                                                                      |

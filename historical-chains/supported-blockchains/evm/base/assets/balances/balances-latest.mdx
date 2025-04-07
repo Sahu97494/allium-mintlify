@@ -1,0 +1,15 @@
+---
+title: "Balances Latest"
+---
+
+The balances latest table contains th&#x65;**&#x20;latest balances&#x20;**&#x6F;f every type of token of any address. This includes Native Ether and ERC20 currently.
+
+* `usd_balance_current` which reflects the **current USD** value of the asset.
+
+* `usd_balance_at_block_timestamp `which reflects the USD value of the asset at the **last transaction activity.**
+
+<table><thead><tr><th width="386">Table Name</th><th> Description</th></tr></thead><tbody><tr><td><code>base.assets.eth_balances_latest</code></td><td>Latest ETH balances </td></tr><tr><td><code>base.assets.erc20_balances_latest</code></td><td>Latest ERC20 balances </td></tr></tbody></table>
+
+### Table Columns
+
+<table><thead><tr><th width="273">Column Name</th><th>Description</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td></tr><tr><td>token_address</td><td><p>Address of the token.</p><p></p><p>For Ether it is represented as nulll address.</p></td></tr><tr><td>token_name</td><td>Name of the token.</td></tr><tr><td>token_symbol</td><td>Symbol of the token.</td></tr><tr><td>token_id</td><td>Token ID of a ERC721 token or ERC1155 token.</td></tr><tr><td>raw_balance</td><td>Raw balance amount of the token (not divided by the number of decimals)</td></tr><tr><td>raw_balance_str</td><td>Raw balance amount of the token (not divided by the number of decimals) in string.</td></tr><tr><td>balance</td><td><code>raw_balance</code> divided by the number of decimals of this token. This value will be the same as raw_balance for erc721 and erc1155 tokens.</td></tr><tr><td>balance_str</td><td>Balance of token normalized and in string format.</td></tr><tr><td>usd_balance_current</td><td>USD balance of token at the current timestamp.</td></tr><tr><td>usd_balance_at_block_timestamp</td><td>USD balance of token at the timestamp of the <strong>last activity that resulted in balance change.</strong></td></tr><tr><td>usd_exchange_rate_current</td><td>USD exchange rate of token at the <strong>current timestamp.</strong></td></tr><tr><td>usd_exchange_rate_at_block_timestamp</td><td>USD exchange rate of token at the timestamp of the last activity that resulted in balance update.</td></tr><tr><td>transaction_hash</td><td>The transaction hash that resulted in the balance update.</td></tr><tr><td>last_activity_block_timestamp</td><td>The last timestamp of the block that that resulted in the balance update.</td></tr><tr><td>last_activity_block_number</td><td>The last block number that resulted in the balance update.</td></tr><tr><td>last_activity_block_hash</td><td>The block hash of the last activity that resulted in this balance.</td></tr><tr><td>_updated_at__usd_exchange_rate_current</td><td>Timestamp of the current USD exchange.</td></tr><tr><td>unique_id</td><td>Unique ID of the balance.</td></tr><tr><td>_updated_at</td><td>Timestamp of the balance update. </td></tr></tbody></table>

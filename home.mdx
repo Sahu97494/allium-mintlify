@@ -1,0 +1,53 @@
+---
+title: "Welcome to Allium"
+icon: "circle-o"
+---
+
+Allium broadly empowers three use cases:
+
+### Analytics
+
+Analytics teams use Allium's enriched data, query interface, and visualization layer to understand blockchain ecosystems, competitive fund flows, track user journeys, and generate insights from on-chain activity.
+
+**Featured Customers:** [Visa](https://www.allium.so/post/visa-x-allium-making-sense-of-stablecoins), [Paradigm](https://phantom.com/learn/developers/jup-airdrop-at-phantom), [Electric Capital](https://www.allium.so/post/electric-capital-to-address-cross-chain-cnalytical-data-challenges-with-new-nft-venture), [Uniswap](https://www.allium.so/post/monitoring-the-dynamics-of-liquidity-providers-on-uniswap)
+
+### Application Developers
+
+Application developers build and scale blockchain applications using Allium's real-time infrastructure, powering everything from high-performance wallets to real-time dashboards.
+
+**Featured Customers:** [Phantom](https://www.allium.so/post/the-inside-story-of-the-jup-airdrop-at-phantom), Magic Eden
+
+### Audit, Accounting, and Compliance
+
+Audit, accounting, and compliance teams depend on Allium for transaction monitoring, data reconciliation, and financial reporting.
+
+**Featured Customers:** [Wormhole](https://www.allium.so/post/from-eligibility-to-sybil-detection-a-deep-dive-into-wormholes-multichain-airdrop), Bridge.xyz
+
+## Products
+
+- **Explorer**
+- **Datashares**
+- **Developer**
+- **Datastreams**
+
+## Use Cases
+
+- **Investment Research & Analytics** teams understanding crypto trends.
+- **Audit and Accounting** teams needing full historical balance and transaction data for reconciliation.
+- **Finance or Engineering** teams wanting to manage their own infrastructure for **privacy** or **control of their compute**.
+- **Engineers** building and scaling real-time applications like wallets, dApps, and fraud monitoring systems.
+- **Engineers** building transaction monitoring systems or ingesting their own real-time streams.
+
+## Comparison Table
+
+| Feature                          | Explorer                                                                                                                                                                                                                                                                                                                                                  | Datashares                                               | Developer                                                                                                                            | Datastreams                                              |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------ | -------------------------------------------------------- |
+| **Query Infra**                  | Snowflake                                                                                                                                                                                                                                                                                                                                                 | Snowflake, DataBricks, BigQuery, S3, GCS                 | Postgres                                                                                                                             | -                                                        |
+| **Query Speed**                  | ~5s (for simple queries)                                                                                                                                                                                                                                                                                                                                  | -                                                        | 30-120ms                                                                                                                             | -                                                        |
+| **Freshness**                    | Up to ~1 hour                                                                                                                                                                                                                                                                                                                                             | 1-3 hours, depending on destination                      | p50: Raw blocks: 1-1.2s, Other schemas: 2.5-8s due to additional transformations                                                     | p50 of 3-5 seconds                                       |
+| **Blockchains**                  | 80+ ([see more](/historical-chains/supported-blockchains))                                                                                                                                                                                                                                                                                                  | 80+ ([see more](/historical-chains/supported-blockchains)) | 12 ([see more](/realtime/supported-blockchains))                                                                               | 80+ ([see more](/historical-chains/supported-blockchains)) |
+| **Schemas**                      | Raw, [Decoded](/historical-verticals/decoded), [DEXs](/historical-verticals/dex-trades), [Balances](/historical-verticals/balances), [NFTs](/historical-verticals/nft-trades), [Stablecoins](/historical-verticals/stablecoins), enriched with [price and token data](/historical-verticals/prices) | Same as Explorer                                         | Raw, Decoded, DEXs, Balances, NFTs                                                                                                   | Same as Explorer                                         |
+| **Interface**                    | Both Sync and [Async](/data-products-analytics/allium-explorer/explorer-api/post-get-requests) API (highly recommended)                                                                                                                                                                                                                                           | Snowflake, DataBricks, BigQuery, S3, GCS                 | [Custom SQL](/data-products-real-time/allium-developer/sql-api), [Fixed Wallet API](/data-products-real-time/allium-developer/wallet-apis) endpoints | Kafka, PubSub, SNS                                       |
+| **Data Processing Architecture** | OLAP (Analytics)                                                                                                                                                                                                                                                                                                                                          | OLAP (Analytics)                                         | OLTP (Real-Time)                                                                                                                     | Event Bus (Real-Time)                                    |
+| **Pricing Structure**            | Allium credits based on **Seconds of Query Compute**                                                                                                                                                                                                                                                                                                      | **Number of Chains** and **schemas**                     | **Supported vs Net new data destinations** (e.g. Net new global region will incur additional egress and storage costs)               | Allium credits based on **Number of API Calls**          |
+| **Data Throughput**              | -                                                                                                                                                                                                                                                                                                                                                         | -                                                        | **Number of Chains** and **schemas**                                                                                                 | **Data Throughput** of Chains (Solana is 50x bigger)     |

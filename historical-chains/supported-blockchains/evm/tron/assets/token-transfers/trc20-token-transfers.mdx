@@ -1,0 +1,70 @@
+---
+title: "TRC20 Token Transfers"
+---
+
+Currently our assets schema includes **trc20 token transfers.**
+
+The `tron.assets.trc20_token_transfers` table contains the details of all transfer events of TRC20 tokens on the Tron blockchain.
+
+### Sample Query
+
+Finding stablecoin movement volumes by entities on Tron.
+
+```sql
+select
+    date_trunc('month', block_timestamp) as date,
+    from_project,
+    token_symbol,
+    sum(amount) as volume
+from
+    (
+        select
+            block_timestamp,
+            from_address,
+            sender.project as from_project,
+            sender.category as from_category,
+            to_address,
+            recipient.project as to_project,
+            recipient.category as to_category,
+            token_symbol,
+            amount,
+            usd_amount
+        from
+            tron.assets.trc20_token_transfers
+            left join tron.identity.entities sender on sender.address = from_address
+            left join tron.identity.entities recipient on recipient.address = to_address
+        where
+            1 = 1
+            and block_timestamp >= '2021-01-01'
+            and token_address in (
+                'TR7NHqjeKQxGTCi8q8ZY4pL8otSzgjLj6t', -- Tether USD
+                'TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8', -- Circle USDC
+                'TUpMhErZL2fhh4sVNULAbNKLokS4GjC1F4' -- TrueUSD
+            ) 
+    )
+group by 1,2,3
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                              |
+| -------------------------- | -------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------ |
+| from\_address              | Address where the token is being transferred from.                                     | TYE218dMfzo2TH348AbKyHD2G8PjGo7ESS                                                   |
+| to\_address                | Address where the token is being transferred to.                                       | T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb                                                   |
+| token\_address             | Token address of the asset transferred.                                                | TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8                                                   |
+| token\_name                | Name of the asset transferred.                                                         | USD Coin                                                                             |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | USDC                                                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 1,101,950,000                                                                        |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string                                        | 1101950000                                                                           |
+| amount                     | Amount of token moved, normalized.                                                     | 1,101.95                                                                             |
+| amount\_str                | Amount of token moved, normalized in string.                                           | 1101.95                                                                              |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | 1,101.95                                                                             |
+| usd\_exchange\_rate        | The exchange rate used to calculate the usd\_value.                                    | 1                                                                                    |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | TYE218dMfzo2TH348AbKyHD2G8PjGo7ESS                                                   |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8                                                   |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0x8f1b88cc42fd0923bcb6460c631ac319eb18793e45feb3fa3bd2087dafe273f1                   |
+| log\_index                 | The log index that corresponds to this transfer.                                       | 9                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2021-07-04 11:29:30                                                                  |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 31,641,759                                                                           |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x0000000001e2d09ff8d7322804797a046afb97433cfedc15f46b057df5c47dee                   |
+| unique\_id                 | Unique id generated to each transfer. Includes transaction hash and log index.         | txn-0x8f1b88cc42fd0923bcb6460c631ac319eb18793e45feb3fa3bd2087dafe273f1\_log\_index-9 |

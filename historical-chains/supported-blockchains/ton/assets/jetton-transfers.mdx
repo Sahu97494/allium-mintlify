@@ -1,0 +1,73 @@
+---
+title: "Jetton Transfers"
+---
+
+The `ton.assets.jetton_transfers` contains jetton transfers identified from `ton.raw.messages` with the opcode `0x0f8a7ea5`.
+
+This model **does not include internal transfers and transfer notifications** to prevent duplicate volume counts (read more Ton and Jetton Wallet Communication below for context).
+
+<Warning>
+**This table is in Beta**
+
+* There may be unaccounted edge cases involving jetton transfers that do not involve `transfer`
+
+**All address fields used in this table will be in Hex format and upper casing**
+
+* There are up to 5 equivalent addresses for a given address on Ton.
+
+  * Use this website to convert the desired address [https://ton.org/address/](https://ton.org/address/)
+
+* Example of Hex address: `0:B113A994B5024A16719F69139328EB759596C38A25F59028B146FECDC3621DFE`
+</Warning>
+
+### Asynchronous and Non-Atomic Transactions in TON
+
+The TON blockchain operates differently from many other blockchains, particularly in how it handles transactions.
+
+Two key characteristics of TON transactions are their **asynchronous and non-atomic nature:**
+
+**Asynchronous Transactions:**
+
+In TON, when a transaction is initiated, it isn't immediately complete. Instead, it triggers a series of message-passing events between smart contracts. These messages are processed in subsequent blocks, which means the full execution of a transaction can span multiple blocks.
+
+Implications:
+
+* The final state of a transaction isn't known immediately after it's sent.
+
+* There can be a delay between when a transaction is initiated and when it's fully executed.
+
+**Non-Atomic Transactions:**
+
+Atomicity in database systems means that a transaction is treated as a single, indivisible unit that either completes entirely or not at all. In TON, transactions are not atomic. This means that a single logical operation (like a token transfer) might involve multiple separate steps that can be partially completed.
+
+Implications:
+
+* A transaction can partially succeed or fail.
+
+* Some effects of a transaction can occur while others don't.
+
+* Error handling and state management become more complex.
+
+### Jetton Wallets Communication
+
+For Jetton (TON's equivalent of ERC20) transfers, this asynchronous and non-atomic nature manifests as follows:
+
+<Frame>
+<img src="/images/image-historical-ton-assets-jetton.png" />
+</Frame>
+
+[https://docs.ton.org/develop/dapps/asset-processing/jettons#jetton-wallets-communication-overview](https://docs.ton.org/develop/dapps/asset-processing/jettons#jetton-wallets-communication-overview)
+
+1. The initial transfer operation is just the first step of the transfer
+
+2. This triggers an internal transfer between two Jetton wallets.
+
+3. To confirm a successful transfer, we must check that this internal transfer has occurred.
+
+In our Jetton Transfers, we check that there is a corresponding `internal_transfer` message that has succeded. This will be represented by `succcess = true`
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+<table><thead><tr><th width="225">Column</th><th>Description</th></tr></thead><tbody><tr><td>from_address</td><td>Address that initiated the transfer [Bob's Wallet]</td></tr><tr><td>from_jetton_address</td><td>Jetton address of the user that initiated the transfer [Bob's Jetton Wallet]</td></tr><tr><td>to_address</td><td><p>Address that received the transfer [Alice's wallet]</p><p>Note: <code>to_jetton_address</code> included in our schema, this field is not present in the decoded transfer payload.</p></td></tr><tr><td>jetton_master</td><td>Jetton master address in hex. This is the token contract equivalent (like ERC20) on TON. </td></tr><tr><td>token_name</td><td>Name of the token</td></tr><tr><td>token_symbol</td><td>Symbol of the token</td></tr><tr><td>amount_str</td><td>Amount of the token in string format</td></tr><tr><td>amount</td><td>Amount of the token in float format</td></tr><tr><td>raw_amount_str</td><td>The unnormalized amount of the token in string format</td></tr><tr><td>raw_amount</td><td>The unnormalized amount of the token in float format</td></tr><tr><td>response_destination</td><td>Response destination of the transfer [Joe's wallet address]</td></tr><tr><td>forward_ton_amount</td><td>Forward TON amount of the transfer</td></tr><tr><td>forward_payload</td><td>Forward payload of the transfer</td></tr><tr><td>block_timestamp</td><td>Timestamp of the block that contains the transfer</td></tr><tr><td>utime</td><td>Timestamp of the transfer</td></tr><tr><td>hash</td><td>Message hash of the transfer</td></tr><tr><td>created_lt</td><td>Logical time of the transfer</td></tr><tr><td>masterchain_seqno</td><td>Sequence number on the masterchain</td></tr><tr><td>seqno</td><td>Sequence number on the workchain</td></tr><tr><td>shard</td><td>Shard of the transfer</td></tr><tr><td>workchain</td><td>Workchain of the transfer</td></tr><tr><td>bounce</td><td>Bounce of the transfer</td></tr><tr><td>bounced</td><td>Bounced of the transfer</td></tr><tr><td>tokens_updated_at</td><td>Timestamp of the last update of the token</td></tr><tr><td>created_at</td><td>Timestamp of the creation of the transfer</td></tr><tr><td>updated_at</td><td>Timestamp of the last update of the transfer</td></tr><tr><td>changed_since_full_refresh</td><td>Whether the transfer has changed since the last full refresh</td></tr></tbody></table>

@@ -1,0 +1,120 @@
+---
+title: "Orderflow"
+description: Identify flow of DEX volume through frontend
+---
+
+The `dex.orderflow`table provides transaction-level swap data to illustrate DEX transaction volumes through frontends.
+
+### Data Lineage
+
+The `dex.orderflow` model builds upon swap events identified from both `dex.trades` and `dex.aggregator_trades.`
+
+The orderflow table aggregates swaps by transaction hash. The exception here is cow-protocol swaps, which are treated as individual transactions. Within each transaction, we roll up all swaps that are routed by aggregators and all swaps that are executed by pools.
+
+The `usd_volume` of the swap is determined by the max `usd_amount` of the swap within the entire transaction.
+
+The volume and swaps executed by all dex pools are aggregated in the `liquidity_details` column. For volume and swaps routed through dex aggregators, they are wrapped in the `aggregator_details`
+
+### Frontend Labeling
+
+The orderflow model utilises both contract interactions and the integrator field in `dex.aggregator_trades`to identify the most probably frontend where the transaction was executed.
+
+**Labelling based on Contract Interaction**
+
+Internally, Allium maintains a mapping of key telegram bots, MEV contracts, and aggregator routers which we use to label the transaction by the most probable frontend by the transaction's `to_address`
+
+<Frame>
+<img src="/images/image-historical-evm-ALL-dex-orderflow.png" />
+</Frame>
+
+The `to_address` would be the ParaSwap Augutus Router.
+
+**Labelling Based on Event Log**
+
+In the event logs of certain transactions, the aggregator may emit fields which tell us where the swap source is executed from. This can be from the details of the swap referrals or the actual name of the frontend that was used.
+
+* In OpenOcean's event swap log, the `referrer` field indicates the fee recipient and frontend integrator where the swap was executed from.
+
+  * In this [swap](https://etherscan.io/tx/0x87e21185e8e1bf4d89cf036aa19011074bed2fd2add8a2d6d7205e08b4603291#eventlog#164), the referrer points to the Rabby Fee Wallet.
+
+* In Kyberswap Aggregator's [client data event log](https://etherscan.io/tx/0xf3b1ef5e0cffb209dcf0a2554deebaf72dba08755e1824d11a1c7301df3449d8#eventlog#300), the hex-decoded data will tell us the source of the swap: `{"Source":"dextools","AmountInUSD":"27.418064752878504","AmountOutUSD":"25.55357350955812","Referral":"...}`
+
+These fields are parsed and used to label the `integrator`fields in the `dex.aggregator_trades`model.
+
+**Heuristics to determine frontend**
+
+A combination of integrator and contract labels is used to infer the frontend. The orderflow currently uses the following logic. Users can use the `dex.unhydrated_orderflow`to tune their labelling logic.
+
+```sql
+select
+    coalesce(
+        orderflow.integrators[0]::varchar,
+        entities.project::varchar,
+        case
+            when orderflow.aggregator_source[0] is not null
+            then orderflow.aggregator_source[0]::varchar || ' Integrator'
+        end
+    )::varchar as frontend,
+    orderflow.*
+from <chain>.dex.unhydrated_orderflow orderflow
+left join
+    common.identity.entities
+    on entities.address = orderflow.to_address
+    and lower(entities.chain) = '<chain>'
+    and entities.category in ('dex', 'dex_aggregator')
+```
+
+## Sample Query
+
+```sql
+select
+  date_trunc('week', block_timestamp) as date,
+  -- Alternatively, one may assume the first dex aggregator or pools swapped, using:
+  -- coalesce(frontend, aggregator_source[0]::varchar, liquidity_source[0]::varchar) as frontend,
+  coalesce(frontend, 'others') as frontend,
+  count(distinct senders) as user_count,
+  sum(usd_volume) as usd_volume
+from ethereum.dex.orderflow
+group by all
+order by 1 desc
+```
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                 | Data Type         | Description                                                      |
+| --------------------------- | ----------------- | ---------------------------------------------------------------- |
+| frontend                    | VARCHAR           | The frontend interface used for the transaction                  |
+| block\_number               | BIGINT            | The block number in which the transaction was included           |
+| block\_timestamp            | TIMESTAMP\_NTZ(9) | The timestamp of the block in which the transaction was included |
+| transaction\_hash           | VARCHAR           | The hash of the transaction                                      |
+| transaction\_index          | BIGINT            | The index of the transaction within the block                    |
+| swapper\_address            | VARCHAR           | The address of the user performing the swap                      |
+| from\_address               | VARCHAR           | The address initiating the transaction (msg.sender)              |
+| to\_address                 | VARCHAR           | The address receiving the transaction                            |
+| is\_aggregator              | BOOLEAN           | Flag indicating if the transaction is an aggregator              |
+| usd\_volume                 | NUMERIC           | The volume of the transaction in USD                             |
+| total\_usd\_volume          | NUMERIC           | The total volume of the transaction in USD                       |
+| senders                     | VARIANT           | Array of addresses sending tokens in the transaction             |
+| recipients                  | VARIANT           | Array of addresses receiving tokens in the transaction           |
+| user\_token\_input          | VARCHAR           | Address of the token the user is selling                         |
+| user\_token\_input\_symbol  | VARCHAR           | Symbol of the token the user is selling                          |
+| user\_token\_output         | VARCHAR           | Address of the token the user is buying                          |
+| user\_token\_output\_symbol | VARCHAR           | Symbol of the token the user is buying                           |
+| tokens\_sold                | VARIANT           | Array of tokens sold in the transaction                          |
+| tokens\_bought              | VARIANT           | Array of tokens bought in the transaction                        |
+| integrators                 | VARIANT           | Array of integrator names involved in the transaction            |
+| integrator\_tags            | VARIANT           | Array of integrator contract addresses                           |
+| aggregator\_source          | VARCHAR           | Source of the aggregator                                         |
+| aggregator\_usd\_volume     | NUMERIC           | USD volume of the aggregator portion                             |
+| aggregators                 | VARIANT           | Array of aggregator contracts involved                           |
+| aggregators\_count          | BIGINT            | Count of aggregators involved                                    |
+| aggregator\_details         | VARIANT           | JSON details of aggregator swaps                                 |
+| liquidity\_source           | VARIANT           | Array of liquidity sources used                                  |
+| liquidity\_usd\_volume      | FLOAT             | USD volume from liquidity sources                                |
+| liquidity\_pools            | VARIANT           | Array of liquidity pool addresses used                           |
+| liquidity\_pools\_count     | BIGINT            | Count of liquidity pools involved                                |
+| liquidity\_details          | VARIANT           | JSON details of liquidity pool swaps                             |
+| total\_trades               | BIGINT            | Total number of trades in the transaction                        |
+| unique\_id                  | STRING            | Unique identifier for the transaction                            |

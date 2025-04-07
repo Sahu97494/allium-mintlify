@@ -1,0 +1,56 @@
+---
+title: "Overview"
+---
+
+Bitcoin Tables
+
+Allium supports raw Bitcoin data and enriched schemas, including balances and ordinals data.
+
+<table><thead><tr><th width="138.00000000000003">Schema</th><th width="340">Description</th><th>Tables</th></tr></thead><tbody><tr><td>Raw</td><td>Raw blockchain data.</td><td>blocks, transactions, inputs, outputs</td></tr><tr><td>Assets</td><td>Bitcoin ordinals transfers.</td><td>ordinals_transfers, btc_credit_debit, balances, balances_latest</td></tr><tr><td>NFTs</td><td>BTC inscription trades and mints. Includes metadata on ordinals inscription and collections.</td><td>trades, mints, ordinals_inscription, ordinals_collection</td></tr></tbody></table>
+
+### Bitcoin UTXO
+
+Bitcoin UTXO, short for Unspent Transaction Output, represents a specific amount of bitcoin that has been sent to a recipient and not yet spent.
+
+When a new transaction occurs, it references and consumes specific UTXOs as inputs and creates new UTXOs as outputs.
+
+We have schemas for Bitcoin utxo balances per address in double entry book form, as balances per change block height, and the latest balance reflected by the block height with the most recent
+
+### Ordinals
+
+The *satoshi* is the smallest denomination of the cryptocurrency bitcoin. In each Bitcoin, there are 100 million satoshis.
+
+Ordinals are a numbering scheme for satoshis that allows tracking and transferring individual sats.
+
+Bitcoin holders can “inscribe” their satoshis permanently with unique digital content of up to 4 megabytes, following the Taproot Bitcoin protocol update in 2021.
+
+As a result, can inscribe assets such as NFTs to each satoshi with the ordinal numbers as an identifier, introducing NFTs on the Bitcoin network.
+
+* Ordinals Coverage: ✅ Inscription ✅ BRC-20
+
+### Ordinals NFT Data
+
+Our Bitcoin NFT data is enriched with ordinals inscription, showing buyer/seller addresses as well as collection and inscription data in sales.
+
+Bitcoin NFT Data. Notebook to the charts published below.
+
+<Frame>
+<img src="/images/image-bitcoin-1.png" />
+</Frame>
+
+[Ordinals Activity on Bitcoin Network](https://app.hex.tech/fc6e427a-6bfb-40e5-9cc1-1808967c3c12/app/fd5def55-063a-433f-83f6-26d01f9e15f2/latest?selectedStaticCellId=cab379d4-1dbe-40ba-b1bf-9daf212a23d5)
+
+<Frame>
+<img src="/images/image-bitcoin-2.png" />
+</Frame>
+
+[Bitcoin NFT Trades](https://app.hex.tech/fc6e427a-6bfb-40e5-9cc1-1808967c3c12/app/fd5def55-063a-433f-83f6-26d01f9e15f2/latest?selectedStaticCellId=7403c8c9-4bd8-4221-b4fb-dc1809d09f96)
+
+<Frame>
+<img src="/images/image-bitcoin-3.png" />
+</Frame>
+
+[Top Bitcoin Ordinals Collection in the Last 7 Days](https://app.hex.tech/fc6e427a-6bfb-40e5-9cc1-1808967c3c12/app/fd5def55-063a-433f-83f6-26d01f9e15f2/latest?selectedStaticCellId=edce93e6-0460-4cca-a5a6-34f791f47f80)
+
+
+

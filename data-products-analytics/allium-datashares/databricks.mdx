@@ -1,0 +1,53 @@
+---
+title: "Databricks Delta Shares"
+icon: "block-brick"
+description: "Access to Allium data in your own Databricks Environment"
+---
+
+## Databricks
+
+### Delta Sharing
+
+Allium utilizes [**Databricks Delta Sharing**](https://docs.databricks.com/data-sharing/index.html) allowing users to access our data in your own Databricks Environment.
+
+<Frame caption="Databricks Delta Sharing Overview">
+  <img src="/images/image-databrick-1.avif" />
+</Frame>
+
+### Data Freshness
+
+#### Batch Data
+
+Data freshness on Databricks is typically within 2-3 hours.
+
+#### Real-time Data
+
+Databricks also supports streaming capabilities. Allowing it to achieve sub-minute latency for real-time data:
+
+<Frame caption="End-to-End query latency for ethereum decoded logs on databricks">
+  <img src="/images/image-databrick-2.png" />
+</Frame>
+
+### Blockchains and Schemas Supported
+
+Our Databricks integration currently supports historical batch data.
+
+**Batch Data**
+
+<Card
+  title="[Explorer / Datashares] Blockchains (80+)"
+  icon="database"
+  href="/historical-chains/supported-blockchains"
+  horizontal
+/>
+
+## Getting started with Databricks Delta Share (for recipients)
+
+<Info>
+  We strongly recommend that you use a Databricks workspace located in AWS
+  us-east-2 (Ohio). But we are still able to setup Delta Share for any other
+  regions.
+</Info>
+<Frame>
+  <img src="/images/image-databrick-3.webp" />
+</Frame>

@@ -1,0 +1,45 @@
+---
+title: Repayments
+---
+
+The `<chain>.lending.repayments` table contains repayment events from Aave v1, v2, v3 and Compound v2 and v3 and Morpho Blue protocols, consolidated into a single table for easy querying.
+
+This table tracks all debt repayment activities across major lending protocols, providing comprehensive information about repayment amounts, tokens, participants, and transaction details.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column                     | Data Type         | Description                                                               |
+| -------------------------- | ----------------- | ------------------------------------------------------------------------- |
+| project                    | VARCHAR           | Name of the lending project                                               |
+| protocol                   | VARCHAR           | Underlying protocol that the lending protocol is utilising                |
+| lending\_event             | VARCHAR           | Type of lending event (always 'repayments' for this table)                |
+| event\_name                | VARCHAR           | Name of the event                                                         |
+| market\_address            | VARCHAR           | Address of the lending market where the repayment occurred                |
+| borrower\_address          | VARCHAR           | Address of the original borrower of the debt                              |
+| repayer\_address           | VARCHAR           | Address of the account repaying the debt (may be different from borrower) |
+| token\_address             | VARCHAR           | Address of the token being repaid                                         |
+| token\_name                | VARCHAR           | Name of the token being repaid                                            |
+| token\_symbol              | VARCHAR           | Symbol of the token being repaid                                          |
+| token\_decimals            | INTEGER           | Number of decimals of the token                                           |
+| raw\_amount\_str           | VARCHAR           | Raw amount of tokens repaid, in string to retain precision                |
+| raw\_amount                | FLOAT             | Raw amount of tokens repaid                                               |
+| amount\_str                | VARCHAR           | Normalised amount of tokens repaid, in string to retain precision         |
+| amount                     | FLOAT             | Normalised amount of tokens repaid                                        |
+| usd\_amount                | FLOAT             | USD value of the tokens repaid at the time of the transaction             |
+| usd\_exchange\_rate        | FLOAT             | Hourly USD exchange rate of the token                                     |
+| debt\_token\_address       | VARCHAR           | Address of the debt token being repaid (if applicable for the protocol)   |
+| extra\_fields              | VARIANT           | Additional protocol-specific fields from the event                        |
+| transaction\_hash          | VARCHAR           | Transaction hash of the repayment event                                   |
+| transaction\_index         | INTEGER           | Index of the transaction in the block                                     |
+| transaction\_from\_address | VARCHAR           | Address of the sender of the repayment transaction                        |
+| transaction\_to\_address   | VARCHAR           | Address of the recipient of the repayment transaction                     |
+| log\_index                 | INTEGER           | Index of the log in the transaction                                       |
+| topic0                     | VARCHAR           | Topic 0 of the event                                                      |
+| block\_number              | INTEGER           | Block number of the repayment event                                       |
+| block\_timestamp           | TIMESTAMP\_NTZ(9) | Timestamp of the block                                                    |
+| block\_hash                | VARCHAR           | Hash of the block                                                         |
+| unique\_id                 | VARCHAR           | Unique ID of the repayment event                                          |
+| \_created\_at              | TIMESTAMP\_NTZ(9) | Timestamp of when the event was created                                   |
+| \_updated\_at              | TIMESTAMP\_NTZ(9) | Timestamp of when the event was last updated                              |

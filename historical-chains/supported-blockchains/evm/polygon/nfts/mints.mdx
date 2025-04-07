@@ -1,0 +1,66 @@
+---
+title: "Mints"
+---
+
+The NFT mints tables contain all ERC721 and ERC1155 mints and their respective prices in one consolidated table. The current coverage includes mints from standard mints and protocol mints such as seadrop.
+
+### Minting Currency
+
+**NFT minting may involve MATIC, ERC20, or no currency.** Free mints will be included by an empty currency address field and 0 value in price.
+
+To identify native MATIC-specific minting volume, currency\_address filters will need to be applied as shown in the example below.
+
+### Sample Query
+
+#### Example: NFT Minting volume (MATIC) in the last 7 days
+
+A total number of collections minted daily, total minters, and total MATIC volume minted.
+
+```sql
+select 
+  date(block_timestamp) as date,
+  count(distinct token_address) as collections,
+  count(distinct token_to_address) as total_minters,
+  sum(price) as matic_mint_volume
+from polygon.nfts.mints 
+  where current_date - date(block_timestamp) < 7
+  and currency_address = '0x0000000000000000000000000000000000000000' 
+group by date
+```
+
+### Table Columns
+
+| Column Name                          | Description                                                                                                                                                                                            | Example                                                                               |
+| ------------------------------------ | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ------------------------------------------------------------------------------------- |
+| minting\_protocol                    | Minting protocol used (if relevant). Currently includes standard\_mint protocol(s) from opensea, zora and fair.xyz                                                                                     | standard mint                                                                         |
+| platform                             | Minting platform if relevant. Currently includes: fair.xyz, zora, opensea. Mints not associated with a platform will be null.                                                                          | Magic Eden Launchpad                                                                  |
+| protocol                             | Minting protocol used (if relevant). Currently includes standard\_mint protocol(s) from opensea, zora and fair.xyz                                                                                     | standard mint                                                                         |
+| order\_match\_type                   | MINT order type.                                                                                                                                                                                       | MINT                                                                                  |
+| trade\_type                          | SINGLE\_TRADE or BUNDLE\_TRADE                                                                                                                                                                         | SINGLE\_TRADE                                                                         |
+| total\_mint\_quantity                | Number of NFTs minted. This is transaction level aggregated value.                                                                                                                                     | 1                                                                                     |
+| token\_to\_address                   | Recipient address of the NFTs minted.                                                                                                                                                                  | 0xe7fdb8c96eb9f95b58b3db281cb4f8fee06405e4                                            |
+| event\_type                          | Type of event transferred involved in the mint. erc1155\_transfer\_single, erc1155\_transfer\_batch, erc721\_transfer                                                                                  | erc721\_transfer                                                                      |
+| token\_standard                      | Token standard e.g. erc721 or erc1155                                                                                                                                                                  | ERC721                                                                                |
+| token\_address                       | Address of the NFT collection.                                                                                                                                                                         | 0x670fd103b1a08628e9557cd66b87ded841115190                                            |
+| token\_name                          | Name of the NFT collection.                                                                                                                                                                            | y00ts                                                                                 |
+| token\_symbol                        | Symbol of the NFT collection.                                                                                                                                                                          |                                                                                       |
+| token\_id                            | Token ID of the NFT minted.                                                                                                                                                                            | 1604                                                                                  |
+| fungible\_amount                     | Amount of token transferred.                                                                                                                                                                           |                                                                                       |
+| item\_quantity                       | Number of NFTs bought.                                                                                                                                                                                 | 1                                                                                     |
+| currency\_address                    | Address of the currency used in the mint.                                                                                                                                                              | 0x0000000000000000000000000000000000000000                                            |
+| currency\_symbol                     | Symbol of the currency used in the mint.                                                                                                                                                               | MATIC                                                                                 |
+| raw\_price                           | The price of the NFT in the currency used to mint (not divided by the number of decimals)                                                                                                              | 5.00E+16                                                                              |
+| price                                | \\'raw\_price\\' divided by the number of decimals of the currency.                                                                                                                                    | 0.05                                                                                  |
+| usd\_price                           | USD price paid for the NFTs in this mint. The USD value of the mint is calculated by multiplying the hourly exchange rate of the currency (e.g. ETH) with the price oracle data source from exchanges. | 0.04787                                                                               |
+| log\_index                           | Log index of this mint.                                                                                                                                                                                | 16                                                                                    |
+| transaction\_hash                    | Transaction hash of where this mint occurred.                                                                                                                                                          | 0x599e03726ec78eb8a60ab73e71770e223b4670d98b36c9a77533dfc0a8abf316                    |
+| block\_timestamp                     | Block timestamp of the mint.                                                                                                                                                                           | 2023-05-02 03:32:24                                                                   |
+| block\_number                        | Block number of the mint.                                                                                                                                                                              | 42,200,963                                                                            |
+| block\_hash                          | Block hash of the mint.                                                                                                                                                                                | 0x83d2b4aca927463a47aa5597198e5d7678a52b6798f032fc31265a6ecce7eed9                    |
+| defi\_mint                           | Whether this mint is associated with a defi transaction, such as minting an NFT position for Uniswap v3.                                                                                               | FALSE                                                                                 |
+| unique\_id                           | Unique ID of this mint.                                                                                                                                                                                | txn-0x599e03726ec78eb8a60ab73e71770e223b4670d98b36c9a77533dfc0a8abf316\_log\_index-16 |
+| \_updated\_at                        | Timestamp of the entry update.                                                                                                                                                                         | 2023-06-19 19:53:33.889 +0000                                                         |
+| \_helper\_nft\_tokens\_\_updated\_at | Token info last update.                                                                                                                                                                                | 2023-04-15 15:39:04                                                                   |
+
+
+

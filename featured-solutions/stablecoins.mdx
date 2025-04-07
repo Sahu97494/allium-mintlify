@@ -1,0 +1,70 @@
+---
+title: "Stablecoins"
+icon: "circle-dollar"
+description: "Institutions, issuers, and investors use Allium's macro metrics and underlying transaction data to understand stablecoin trends, deep-dive market segments, and audit stablecoin activity."
+---
+
+## Stablecoin Metrics
+
+Allium's pre-computed stablecoin metrics help researchers, analysts, and auditors identify stablecoin trends and drill down into specific blockchains, stablecoins, holders, and transactions - all using simple lookups with minimal additional code.
+
+<Frame caption="Monthly Stablecoin Supply across EVM vs. Non-EVM chains">
+  <img src="/images/image-stablecoins.png" />
+</Frame>
+
+### Data Lineage: Allium Stablecoin Transaction Data & Token Metadata
+
+These metrics are built on Allium's underlying stablecoin transaction data, stablecoin metadata, and address attribution. Details on these underlying schemas can be found here:
+
+<Card
+  title="Stablecoins | Allium Docs"
+  icon="circle-o"
+  href="/historical-verticals/stablecoins"
+  horizontal
+/>
+<Card
+  title="Identity | Allium Docs"
+  icon="circle-o"
+  href="/historical-verticals/identity"
+  horizontal
+/>
+### Metrics Library
+
+**Notes**
+
+- Segments / filters with asterisks (\*) in the table below are available upon request
+
+- [Address Type](/historical-verticals/identity#entities-categories) includes the following categories: CEX, DEX, Fund, On/offramp, Bridge, NFT, MEV, Mixer, Web3 wallet, Stablecoin contract
+
+- Transaction Type includes the following categories: DEX Transfers, Liquidation, Bridging, NFT Trades, DEX Swaps, DEX Liquidity, Loans, Others
+
+| Category     | Metric                                                 | Time Granularity                        | Segments / Filters                                                                                                                                |
+| ------------ | ------------------------------------------------------ | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Transactions | Transaction volume (USD, token)                        | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Native vs. bridged\*<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\* |
+| Transactions | Transaction count                                      | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Native vs. bridged\*<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\* |
+| Transactions | User-initiated transaction volume (USD, token)         | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Native vs. bridged\*<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\* |
+| Transactions | User-initiated transaction count                       | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\*                            |
+| Transactions | Bridging transaction volume (USD, token)               | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\*                            |
+| Transactions | Bridging transaction count                             | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Native vs. bridged\*<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\* |
+| Transactions | Average transaction notional (USD, token)              | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Native vs. bridged\*<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\* |
+| Transactions | 10th–90th percentile transaction notional (USD, token) | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Native vs. bridged\*<br/>- Address type\*<br/>- Transaction type\*<br/>- Organic vs. inorganic\*<br/>- Time\* |
+| Supply       | Total supply (USD, token)                              | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Supply       | Supply change (USD, token)                             | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Supply       | Mints (USD, token)                                     | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Supply       | Burns (USD, token)                                     | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Supply       | % of supply moved                                      | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Supply       | Bridged supply (USD, token)                            | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Supply       | Top 1, 5, 10 holder supply concentration (%)           | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Total addresses                                        | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | New addresses                                          | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Active addresses                                       | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Returning addresses                                    | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Newly funded addresses                                 | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Average transaction volume (USD, token)                | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | 10th–90th percentile transaction volume (USD, token)   | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Average transaction count                              | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | 10th–90th percentile transaction count                 | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Average balance (USD, token)                           | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | 10th–90th percentile balance (USD, token)              | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | Average wallet age                                     | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |
+| Holders      | 10th–90th percentile wallet age                        | - Day<br/>- Week<br/>- Month<br/>- Year | - Blockchain<br/>- Stablecoin<br/>- Address type\*                                                                                                |

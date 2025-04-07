@@ -1,0 +1,30 @@
+---
+title: "Inscription Transfers"
+---
+
+The `bitcoin.assets.inscription_transfers` table contain the transfer details (sender, recipient) of the inscription with the ID of the inscribed satoshis.
+
+<Frame>
+<img src="/images/image-bitcoin-inscription.png" />
+</Frame>
+
+Get an overview of [Ordinals Activity on Bitcoin Network](https://app.hex.tech/fc6e427a-6bfb-40e5-9cc1-1808967c3c12/app/fd5def55-063a-433f-83f6-26d01f9e15f2/latest?selectedStaticCellId=cab379d4-1dbe-40ba-b1bf-9daf212a23d5) with inscription transfers.
+
+### Table Column
+
+| Column Name        | Description                                                         | Example                                                            |
+| ------------------ | ------------------------------------------------------------------- | ------------------------------------------------------------------ |
+| from\_address      | Address where the inscription is being transferred from.            | bc1q0qfzuge7vr5s2xkczrjkccmxemlyyn8mhx298v                         |
+| input\_index       | Index of the input which spent the UTXO containing the inscription. | 4                                                                  |
+| from\_utxo\_id     | ID of the origin UTXO.                                              | f346a50b905484c75db08205d8ae175ed45bb71de48ddb8ef4219bbad85163e1:1 |
+| from\_utxo\_offset | Offset of the sat in the origin UTXO.                               | 628,274,419                                                        |
+| to\_address        | Address where the inscription is being transferred to.              | 19zQVA771UivHpZPidQGXJknTbwBbMx3iq                                 |
+| output\_index      | Index of the output UTXO which receives the inscription.            | 0                                                                  |
+| to\_utxo\_id       | ID of the destination UTXO.                                         | 40cc43b0db8e3ecb44cb1aa0ceb39f7542b8c9af62af0693f6ccbe1186843b21:0 |
+| to\_utxo\_offset   | Offset of the sat in the destination UTXO.                          | 3,156,764,487                                                      |
+| inscription\_id    | ID of the inscription.                                              | 31a3a65afe5276a36caaab53e94f330c5393bb0162367ff0b894c67aa7db61fdi0 |
+| transfer\_count    | Transfer count of the inscription. 0 for the mint transaction       | 3                                                                  |
+| transaction\_hash  | Unique transaction hash of the transfer.                            | 40cc43b0db8e3ecb44cb1aa0ceb39f7542b8c9af62af0693f6ccbe1186843b21   |
+| block\_hash        | Block hash of the the inscription transfer.                         | 000000000000000000000db2a092ede8409f5f300ce0277f9bfd480890a9738d   |
+| block\_number      | Block number of the inscription transfer.                           | 797,838                                                            |
+| block\_timestamp   | Block timestamp of the transfer.                                    | 2023-07-08 20:53:33                                                |

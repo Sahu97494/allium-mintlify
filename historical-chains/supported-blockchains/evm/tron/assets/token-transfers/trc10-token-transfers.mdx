@@ -1,0 +1,33 @@
+---
+title: "TRC10 Token Transfers"
+---
+
+<Info>
+For TRC10 transfers, transaction and block hashes are **not appended with 0x** as they are from the Tron JSON RPC.
+</Info>
+
+TRC-10 is a native token on the TRON blockchain that is a standard of basic token production and does not require the TRON Virtual Machine (TVM).
+
+The `tron.assets.trc10_token_transfers` table contains the details of TRC10 movement on the Tron blockchain.
+
+Transfers type included:
+
+* `legacy_value_transfer` - movement of TRC10 tokens via `TransferAssetContract`
+
+* `value_transfer` - movement of TRC10 tokens via `TransferAssetContract`
+
+* `trace_transfer` - movement of TRC10 tokens in internal transactions
+
+<Info>
+**Null&#x20;**`token_id`**&#x20;for legacy value transfers before 2019-01-05 0600.**
+
+Currently, the `asset_name` field of TRC10 transactions returns the hex encoded value of the `token_id` from RPC calls
+
+* [https://tronprotocol.github.io/documentation-en/mechanism-algorithm/system-contracts/#3-transferassetcontract](https://tronprotocol.github.io/documentation-en/mechanism-algorithm/system-contracts/#3-transferassetcontract)
+
+However, in historical version of the same call, the `asset_name` field returns the hex **encoded value token name which caused ambiguity.&#x20;**&#x54;his inconsistency was a [known issue](https://github.com/tronprotocol/java-tron/issues/2423) and was corrected subsequently.
+</Info>
+
+### Table Columns
+
+<table><thead><tr><th width="233">Column Name</th><th width="295">Description</th><th>Example</th></tr></thead><tbody><tr><td>from_address</td><td>The address of the sending party of this transaction. (Tron Base58)</td><td>TRoFcmjYqjF67Pgt9FxgtAFYTW6cPeLi3Y</td></tr><tr><td>to_address</td><td>The address of the receiving party of this transaction (could be a contract address). (Tron Base58)</td><td>TQo92evkR3Ndts2bofKRTfegTL7Ek3Netg</td></tr><tr><td>token_id</td><td>Token ID of the TRC10 transferred</td><td>1004178</td></tr><tr><td>token_name</td><td>Name of the asset transferred.</td><td>LETCOINS</td></tr><tr><td>token_symbol</td><td>Token symbol of the asset transferred.</td><td>LETS</td></tr><tr><td>raw_amount</td><td>Amount of tokens moved (unnormalized).</td><td>1250000</td></tr><tr><td>raw_amount_str</td><td>Amount of tokens moved (unnormalized) in string</td><td>1250000</td></tr><tr><td>amount</td><td>Amount of token moved, normalized.</td><td>12500</td></tr><tr><td>amount_str</td><td>Amount of token moved, normalized in string.</td><td>12500</td></tr><tr><td>usd_amount</td><td>USD value of TRC10 transferred. Note that we do not support TRC10 token prices.</td><td></td></tr><tr><td>usd_exchange_rate</td><td>USD value of the TRC10 token. Note that we do not support TRC10 token prices.</td><td></td></tr><tr><td>transaction_from_address</td><td>The address of the sending party of this transaction.</td><td>TRoFcmjYqjF67Pgt9FxgtAFYTW6cPeLi3Y</td></tr><tr><td>transaction_to_address</td><td>The address of the receiving party of this transaction (could be a contract address).</td><td>TQo92evkR3Ndts2bofKRTfegTL7Ek3Netg</td></tr><tr><td>transaction_hash</td><td>Unique identifier of the transaction that this log belongs to.</td><td>b1e4a6adecc5ea771ba1e939de40561d2a300e1558dee9d4ed4b1d68f231b6f9</td></tr><tr><td>transfer_type</td><td>Transfer type includes the type of transfer.</td><td>value_transfer</td></tr><tr><td>block_timestamp</td><td>The time when the block that contains this transaction was included on the blockchain.</td><td>2021-06-29 08:18:24</td></tr><tr><td>block_number</td><td>The length of the chain, in blocks.</td><td>31494335</td></tr><tr><td>block_hash</td><td>Unique identifier of the block that includes this transaction.</td><td>0000000001e090bf19906be5789292a7a9981dff49826535ca4605b87deac7fe</td></tr><tr><td>unique_id</td><td>Unique id generated to each transfer. Includes transaction hash and log index.</td><td>txn-b1e4a6adecc5ea771ba1e939de40561d2a300e1558dee9d4ed4b1d68f231b6f9</td></tr><tr><td>_created_at</td><td>Timestamp of the entry creation.</td><td></td></tr><tr><td>_updated_at</td><td>Timestamp of the entry updated.</td><td>2024-03-01 09:05:55</td></tr></tbody></table>

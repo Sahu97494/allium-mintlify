@@ -1,0 +1,40 @@
+---
+title: "FT Token Transfers"
+---
+
+This model captures all fungible token (FT) transfers on the Near protocol, including token metadata and USD values when available.
+
+### Table Description
+
+**Unique Key**: `unique_id`
+
+| Column Name                | Description                                       |
+| -------------------------- | ------------------------------------------------- |
+| from\_address              | The sender address of the transfer                |
+| to\_address                | The recipient address of the transfer             |
+| token\_address             | The contract address of the fungible token        |
+| token\_name                | The name of the token                             |
+| token\_symbol              | The symbol of the token                           |
+| raw\_amount\_str           | The raw token amount as a string                  |
+| raw\_amount                | The raw token amount before decimal normalization |
+| amount\_str                | The normalized token amount as a string           |
+| amount                     | The normalized token amount of the transfer       |
+| usd\_amount                | The USD value of the transfer                     |
+| usd\_exchange\_rate        | The exchange rate used to calculate the USD value |
+| signer\_id                 | The ID of the signer of the transaction           |
+| method\_name               | The method name invoked in the transaction        |
+| transaction\_hash          | Unique identifier for the transaction             |
+| transaction\_index         | The index of the transaction within the block     |
+| transaction\_block\_height | The block height of the transaction               |
+| receipt\_id                | The ID of the receipt for the transaction         |
+| receipt\_index             | The index of the receipt within the block         |
+| receipt\_action\_index     | The index of the action within the receipt        |
+| block\_height              | The height of the block containing this transfer  |
+| block\_timestamp           | Timestamp of the block containing this transfer   |
+| block\_hash                | The hash of the block containing this transfer    |
+| chunk\_hash                | The hash of the chunk containing this transfer    |
+| unique\_id                 | A unique identifier for the transfer              |
+| \_tokens\_updated\_at      | The last update timestamp of the token data       |
+| \_created\_at              | The timestamp when the record was created         |
+| \_updated\_at              | The timestamp when the record was last updated    |
+

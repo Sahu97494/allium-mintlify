@@ -1,0 +1,47 @@
+---
+title: "ERC20 Balances Latest"
+description: "Fetch the current ERC20 balance of all addresses."
+---
+
+The `assets.erc20_balances_latest` table contains the current ERC20 balances of all addresses. It is otherwise identical to [ERC20 Balances](/historical-chains/supported-blockchains/evm/unichain/assets/balances/erc20-balances).
+
+<Info>
+Note that the USD prices of any given latest balance might lag more than you expect them to. Check the \_updated\_at\_\_usd\_exchange\_rate\_current column to ensure the price is fresh enough for your use case.
+</Info>
+
+### Sample Query
+
+Getting the latest ERC20 Balances of USDC Token from an address.
+
+```sql
+select * from ethereum.assets.erc20_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC Token Address
+```
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                              | Data Type        | Description                                                                                     |
+|------------------------------------------|------------------|-------------------------------------------------------------------------------------------------|
+| address                                  | VARCHAR          | Address of the account                                                                         |
+| token_address                            | VARCHAR          | Address of the token                                                                           |
+| token_name                               | VARCHAR          | Name of the token                                                                              |
+| token_symbol                             | VARCHAR          | Symbol of the token                                                                            |
+| raw_balance                              | FLOAT            | Balance of ERC20 token unnormalized                                                            |
+| raw_balance_str                          | VARCHAR          | Balance of ERC20 token unnormalized in string format                                            |
+| balance_str                              | VARCHAR          | Balance of ERC20 token in string format                                                         |
+| balance                                  | FLOAT            | Balance of ERC20 token normalized                                                              |
+| usd_balance_current                      | FLOAT            | USD balance of ERC20 token at the current timestamp                                             |
+| usd_balance_at_block_timestamp           | FLOAT            | USD balance of ERC20 token at the timestamp of the last activity that resulted in balance change |
+| usd_exchange_rate_current                | FLOAT            | USD exchange rate of ERC20 token at the current timestamp                                       |
+| usd_exchange_rate_at_block_timestamp     | FLOAT            | USD exchange rate of ERC20 token at the timestamp of the last activity that resulted in balance update |
+| last_activity_block_timestamp            | TIMESTAMP_NTZ(9) | The last timestamp of the block that resulted in the balance update                             |
+| last_activity_block_number               | INTEGER          | The last block number that resulted in the balance update                                      |
+| last_activity_block_hash                 | VARCHAR          | The last hash of the block that resulted in the balance update                                 |
+| _updated_at__usd_exchange_rate_current   | TIMESTAMP_NTZ(9) | Timestamp of the current USD exchange rate                                                     |
+| unique_id                                | VARCHAR          | Unique ID of the balance                                                                       |
+| _updated_at                              | TIMESTAMP_NTZ(9) | Timestamp of the balance update                                                                |
+
+

@@ -1,0 +1,28 @@
+---
+title: "ERC20 Transfers"
+---
+
+The ERC20 tokens transfers table contains the details of all transfer events of ERC20 tokens on the Ethereum blockchain.
+
+It includes information such as the sender and receiver addresses, the amount of tokens transferred, the transaction hash, and the block timestamp.
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | 0xf212621976db35c9fa4f7579d684fe2e66e577f1                                             |
+| to\_address                | Address where the token is being transferred to.                                       | 0xcd5a6750bce2859239c0ea2ceff05cfe53598201                                             |
+| token\_address             | Token address of the asset transferred.                                                | 0x0d500b1d8e8ef31e21c99d1db9a6444d3adf1270                                             |
+| token\_name                | Name of the asset transferred.                                                         | Wrapped Matic                                                                          |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | WMATIC                                                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 940,144,044,116,050                                                                    |
+| amount                     | Amount of token moved, normalized.                                                     | 0                                                                                      |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | 0.001128172853                                                                         |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0xcd5a6750bce2859239c0ea2ceff05cfe53598201                                             |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0xf212621976db35c9fa4f7579d684fe2e66e577f1                                             |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0x3ae02efa1aee7497b62dd2d5cac3cb6a859d3ded15e4d75283d1c7cdb9715311                     |
+| log\_index                 | The log index that corresponds to this transfer.                                       | 441                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2021-09-22 20:02:22                                                                    |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 19,395,697                                                                             |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x37bb35b2bad532872ca5cad7b92e883a2506bc260d975529ce4aa256cd0c92c1                     |
+| unique\_id                 | Unique id generated to each transfer.                                                  | txn-0x3ae02efa1aee7497b62dd2d5cac3cb6a859d3ded15e4d75283d1c7cdb9715311\_log\_index-441 |

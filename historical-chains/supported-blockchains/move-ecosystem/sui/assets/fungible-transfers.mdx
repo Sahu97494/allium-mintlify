@@ -1,0 +1,76 @@
+---
+title: "Fungible Transfers"
+---
+
+<Info>
+Token transfers provide additional info over a plain credit/debit dataset, Allium has painstakingly reconstructed a token transfers dataset to enable more use cases such as tracking fund movements across Sui. We are continuously working to increase coverage for all Sui balance changes.
+</Info>
+
+The fungible transfers table contains the details of all transfer events of fungible tokens on the Sui blockchain.
+
+Users of Sui fungible transfer data need to be aware that transfer data is reconstructed from events, transactions and balance changes recorded on the blockchain. Our team continuously works to expand and improve coverage through case-by-case analysis. We strive to ensure comprehensive matching of all balance changes. If you discover any gaps in coverage, please don't hesitate to reach out to our team for support.
+
+It includes information such as the sender and receiver addresses, the amount of tokens transferred, the transaction block digest, and the checkpoint timestamp.
+
+### Transfer Types
+
+Sui fungible transfers are categorized into types to help distinguish between regular value transfers, protocol-specific operations (like staking or DEX trades), and system-level transfers (like gas fees). Each transfer type provides insight into different aspects of on-chain activity.
+
+| Transfer Type    | Description                                                                        |
+|-----------------|------------------------------------------------------------------------------------|
+| gas_fee         | Transaction gas fees in sui                               |
+| claim           | Tokens claimed from airdrops, rewards, or other distribution mechanisms (mainly wave wallet ocean game claims)            |
+| virtual_transfer | Token movements derived from DEX swaps and liquidity pool interactions, representing the flow of tokens between pools and traders |
+| value_transfer  | Standard token transfers between addresses                                         |
+| staking         | Tokens transferred for staking purposes                                            |
+| unstaking       | Tokens withdrawn from staking positions                                            |
+| commission      | Fee payments or commission transfers                                               |
+| initial_mint            | Initial Sui mint                                                   |
+
+### Sample Query
+
+Stablecoins value transfer (1 to 1 transfer) stats on Sui.
+
+```sql
+select
+    date_trunc('week', checkpoint_timestamp) as date,
+    coin_type,
+    count(distinct from_address) as senders,
+    count(distinct to_address) as recipients,
+    sum(usd_amount) as transfer_volume
+from sui.assets.fungible_transfers
+where
+    1 = 1
+    and checkpoint_timestamp >= '2025-01-01'
+    and coin_type in (
+        '0x5d4b302506645c37ff133b98c4b50a5ae14841659738d6d733d59d0d217a93bf::coin::COIN',  -- usdc
+        '0xc060006111016b8a020ad5b33834984a437aaa7d3c74c18e09a95d48aceab08c::coin::COIN'  -- usdt
+    )
+    and transfer_type = 'value_transfer'
+group by 1, 2
+order by 1 desc 
+```
+
+### Table Columns
+
+| Column Name | Description | Example |
+|------------|-------------|----------|
+| from_address | Address where the token is being transferred from | `0x986c83e4195131436c6d37a96b3bf31f70347570e0c007b9bc3676e9061e7dd4` |
+| to_address | Address where the token is being transferred to | `0xb4dbc4bc55ff4b8e8271570eb0077d014b7255ba461f5283aa5235b2a1cd34a0` |
+| coin_type | The type of the coin being transferred | `0x7016aae72cfc67f2fadf55769c0a7dd54291a583b63051a5ed71081cce836ac6::sca::SCA` |
+| transfer_type | The type of transfer (see Transfer Types table above) | `value_transfer` |
+| raw_amount_str | Amount of tokens moved (unnormalized) in string | `5842731014.00000` |
+| raw_amount | Amount of tokens moved (unnormalized) | `5842731014` |
+| amount_str | Amount of token moved, normalized in string | `5.842731014` |
+| amount | Amount of token moved, normalized | `5.842731014` |
+| usd_amount | The amount of tokens moved, in $USD | `6.099811179` |
+| usd_exchange_rate | The exchange rate used to calculate the usd_value | `1.044` |
+| tx_sender | The address of the sending party of this transaction | `0x986c83e4195131436c6d37a96b3bf31f70347570e0c007b9bc3676e9061e7dd4` |
+| tx_success | Boolean indicating if the transaction was successful | `true` |
+| unique_id | Unique identifier for the transfer | `txn-CTL5XVAZZNcwHgHKHZBPtvRHEthkXngd14CYL7bPVV8E_bc-2` |
+| transaction_block_digest | The digest of the transaction block containing this transfer | `CTL5XVAZZNcwHgHKHZBPtvRHEthkXngd14CYL7bPVV8E` |
+| checkpoint_timestamp | Timestamp of the checkpoint when this transfer was processed | `2024-03-18 01:28:55.090` |
+| checkpoint_sequence | Sequence number of the checkpoint | `29048230` |
+| checkpoint_digest | Digest of the checkpoint | `EiSjwNFiwPefqk8XzVN9BkzDtQwht8FpRYFiDB2Yprw3` |
+| _created_at | Timestamp when this record was created | `2025-02-26 23:42:54.466` |
+| _updated_at | Timestamp when this record was last updated | `2025-02-26 23:42:54.466` |

@@ -1,0 +1,34 @@
+---
+title: "Deposits"
+description: Staking deposits to validator on the network
+---
+
+The `sui.staking.deposits` model tracks all staking deposits made to validators on the Sui network.
+
+### Staking Process
+
+* User selects a validator to stake with
+
+* User delegates SUI to the validator's staking pool
+
+* User receives pool tokens representing their stake
+
+* Rewards automatically accumulate through an increasing exchange rate
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column                     | Description                                           |
+| -------------------------- | ----------------------------------------------------- |
+| checkpoint\_timestamp      | Timestamp of when the checkpoint was created          |
+| epoch                      | The epoch number                                      |
+| sender                     | Address of the sender                                 |
+| staker\_address            | Address of the staker                                 |
+| validator\_address         | Address of the validator                              |
+| pool\_id                   | ID of the staking pool                                |
+| amount\_str                | Amount of SUI deposited (string format for precision) |
+| amount                     | Amount of SUI deposited (float format)                |
+| checkpoint\_sequence       | Sequence number of the checkpoint                     |
+| transaction\_block\_digest | Digest of the transaction block                       |
+| unique\_id                 | Unique ID of the deposit                              |

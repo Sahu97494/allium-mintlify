@@ -1,0 +1,17 @@
+---
+title: "Overview"
+---
+
+### Ink Tables
+
+| Schema | Description                                           | Tables                             |
+| ------ | ----------------------------------------------------- | ---------------------------------- |
+| Raw    | Raw blockchain data.                                  | blocks, transactions, logs, traces |
+| Raw+   | Deployed contracts with bytecode, decoded tokens data | contracts                          |
+| Assets | Token transfers and balance changes                   | native_transfers, erc20_transfers, erc721_transfers, erc1155_transfers, native_credit_debit, erc20_credit_debit, erc721_credit_debit, erc1155_credit_debit |
+| DEX    | Decentralized exchange activity                      | trades, pools (coming soon), aggregator_trades (coming soon), uniswap_v2_events, uniswap_v3_events, uniswap_v4_events, orderflow (coming soon), token_prices_hourly|
+
+
+*Our Ink data tables are structurally similar to Ethereum across all schemas.*
+
+

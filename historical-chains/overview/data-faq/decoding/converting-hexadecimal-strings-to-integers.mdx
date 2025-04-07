@@ -1,0 +1,19 @@
+---
+title: "Decoding Hexadecimal Strings To Integers"
+---
+
+To turn hex values into decimals, use our UDF:
+
+```sql
+select common.udfs.js_hextoint_secure('0x10') -- returns '16'
+```
+
+Since blockchain numbers can be really big and exceed the size limit of a numerical column on Snowflake, our UDF returns strings
+
+But you can convert it by casting the return value to int:
+
+```sql
+select common.udfs.js_hextoint_secure('0x10')::int -- returns 16
+```
+
+

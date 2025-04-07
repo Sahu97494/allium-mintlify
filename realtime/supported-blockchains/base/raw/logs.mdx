@@ -1,0 +1,56 @@
+---
+title: "Logs"
+---
+
+Logs (or event logs), is a way for smart contracts to communicate with the outside world by "documenting" small pieces of information.
+
+Event logs allow other people to know that something has happened without them having to query the contract directly. The most common form of event logs today are ERC20 (and ERC721) token transfer events.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query raw logs data by contract address/topic0.
+
+```sql
+select * from base.logs
+where address = '0xc9cca8e570f81a7476760279b5b19cc1130b7580' limit 10
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon.
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+```
+                                                   Partitioned table "evm.logs"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ transaction_hash  | character varying(66)       |           | not null |         | extended |             |              |
+ log_index         | bigint                      |           | not null |         | plain    |             |              |
+ transaction_index | bigint                      |           |          |         | plain    |             |              |
+ address           | character varying(42)       |           |          |         | extended |             |              |
+ data              | text                        |           |          |         | extended |             |              |
+ topic0            | character varying(66)       |           |          |         | extended |             |              |
+ topic1            | character varying(66)       |           |          |         | extended |             |              |
+ topic2            | character varying(66)       |           |          |         | extended |             |              |
+ topic3            | character varying(66)       |           |          |         | extended |             |              |
+ block_timestamp   | timestamp without time zone |           | not null |         | plain    |             |              |
+ block_number      | bigint                      |           |          |         | plain    |             |              |
+ block_hash        | character varying(66)       |           |          |         | extended |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+Partition key: RANGE (block_timestamp)
+Indexes:
+    "logs_pk" PRIMARY KEY, btree (transaction_hash, log_index, block_timestamp)
+    "logs_address_block_timestamp_index" btree (address, block_timestamp DESC)
+    "logs_block_index" btree (block_number)
+    "logs_block_timestamp_index" btree (block_timestamp DESC)
+```

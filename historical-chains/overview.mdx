@@ -1,0 +1,32 @@
+---
+title: "Historical Data"
+icon: "circle-o"
+description: "Blockchains and schemas supported by Allium."
+---
+
+## Data Delivery & Interfaces
+
+Our historical data on Snowflake Datawarehouse can be accessed through the following interfaces:
+
+- [Allium Explorer](/data-products-analytics/allium-explorer)
+
+- [Snowflake Data Shares](https://docs.snowflake.com/en/user-guide/data-sharing-intro) (Enterprise)
+
+- Messaging queue delivery (Kafka, Pubsub)
+
+- [Other Integrations](/archive/postgres)
+
+## Data Schemas
+
+Core schemas supported by Allium for historical data (batched data) on Snowflake data warehouse.
+
+| Schemas       | Description                                                                                                                                     |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------------|
+| Raw           | Raw data, such as blocks, logs, transactions, etc. specific to each blockchain.                                                                |
+| Decoded       | Decoded logs and traces for EVM chains.                                                                                                         |
+| Assets        | Token transfers, balances & credit debit data.                                                                                                  |
+| DEX           | DEX trades, liquidity pool and events (mints and burn) across major DEX protocols.                                                             |
+| DeFi          | DeFi-related verticals including lending, farms, rewards, etc                                                                                   |
+| NFTs          | NFT trades, mints, [wash trading](/historical-chains/supported-blockchains/evm/ethereum/nfts/wash-trading-flag) filters.                        |
+| Metrics       | Overview metrics for on-chain activity: new & returning users, transaction activity and contracts deployed.                                     |
+| Wallet 360™️  | Get a comprehensive understanding of users, projects, and the competitive landscape to feed the growth engine.                                 |

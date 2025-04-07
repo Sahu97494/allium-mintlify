@@ -1,0 +1,55 @@
+---
+title: "DEX Token Prices Hourly"
+description: "Hourly token prices derived from DEX trades."
+---
+
+### DEX Token Prices
+
+The`dex_token_prices_hourly` contains hourly price data of tokens derived from swaps performed on decentralized exchanges.
+
+### Chains Supported
+
+* arbitrum, avalanche, base, blast, bsc, celo, ethereum, optimism, polygon, solana, worldchain, zksync, zora
+
+### Methodology
+
+To ensure accuracy in our token price calculations, we only include swaps with a value exceeding 1 USD. We employ a volume-weighted approach to determine token prices.
+
+For a given token, the total USD swap volume (encompassing both sold and bought volumes) is divided by the total volume of the token swapped in DEX trades.
+
+For example. if Token A has a swap volume of 200,000 USD and the total volume of Token A swapped is 18,000 units within a given hour, the price is calculated as follows:
+<Frame caption="Here, the calculated price is 11.111 USD, with a USD trading volume of 200,000.">
+<img src="/images/dex-token.png" />
+</Frame>
+
+### Limitations
+
+Decentralized exchanges (DEXs) derived token prices face several key limitations in price reliability.
+
+Low liquidity for certain tokens can lead to significant price volatility and slippage during trades. Market manipulation through practices like wash trading and arbitrage can artificially influence token prices, resulting in misleading data.
+
+To address these concerns, our DEX token prices table incorporates trade count and volume metrics, enabling users to filter out potentially unreliable price information.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name            | Description                                                                                       | Example                                                                                     |
+| ---------------------- | ------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------- |
+| chain                  | Blockchain.                                                                                       | ethereum                                                                                   |
+| timestamp              | Hourly timestamp of the token price.                                                              | 2024-03-27 21:00:00                                                                          |
+| address                | The contract address of the token.                                                                | 0x62b9c7356a2dc64a1969e19c23e4f579f9810aa7                                                 |
+| symbol                 | Token symbol of the currency traded.                                                              | cvxCRV                                                                                     |
+| name                   | Token name.                                                                                       | Convex CRV                                                                                 |
+| price                  | USD Price of the token calculated.                                                                | 0.6145106101                                                                                |
+| median_price           | Median price of the token.                                                                        | 0.6145106101                                                                                |
+| median_safe_price      | Median price of token calculated by only including swaps > 100 usd.                              | 0.6145106101                                                                                |
+| is_imputed             | Whether the price data is imputed: true or false. Note that there will be no imputation performed. | FALSE                                                                                       |
+| usd_trading_volume     | USD volume of the trade to calculate the price data.                                               | 421.2072                                                                                   |
+| traders                | Number of distinct traders that swapped the token for the hour by counting distinct `transaction_from_address.` | 1                                                                                           |
+| trade_count            | Number of swaps used to compute the dex token prices.                                             | 1                                                                                           |
+| unique_id              | Unique ID attached to the derived price data.                                                     | timestamp-2024-03-27 21:00:00.000_address-0x62b9c7356a2dc64a1969e19c23e4f579f9810aa7_chain-ethereum |
+| _created_at            | Timestamp of entry creation.                                                                      | 2024-03-27 22:30:46                                                                          |
+| _updated_at            | Timestamp of entry update.                                                                        | 2024-03-28 04:28:38                                                                          |
+
+

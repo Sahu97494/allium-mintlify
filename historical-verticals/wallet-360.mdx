@@ -1,0 +1,219 @@
+---
+title: "Overview"
+description: "Get a comprehensive understanding of users, projects, and the competitive landscape to feed the growth engine."
+---
+
+<Warning>
+  This table is currently in beta and doesn't cover all of the wallet addresses.
+  Contact us if you want addresses that haven't already been indexed.
+</Warning>
+
+At Allium, we have curated 100+ attributes for every wallet out there built on Allium's raw and enriched data verticals.
+
+- **Transaction Activity:** transaction counts, days online, funding address, and transaction for a wallet address.
+
+- **Assets Held:** Wallet USD balance, assets held, stablecoin balances, native currency balances.
+
+- **DEX Interactions**: DEX projects interacted by the wallet, USD volume traded.
+
+- **NFT Marketplace Interactions:&#x20;**&#x4E;FT marketplace used, total and average USD traded, NFT transactions, and collections traded per marketplace.
+
+- **NFT Acquired and Bluechips:** First NFT minted, acquired, and traded, bluechip collections held.
+
+### Blockchains Covered
+
+| **Blockchains** | **Link**                                                                       |
+| --------------- | ------------------------------------------------------------------------------ |
+| **Ethereum**    | [Wallet 360](/historical-chains/supported-blockchains/evm/ethereum/wallet-360) |
+| **Polygon**     | [Wallet 360](/historical-chains/supported-blockchains/evm/polygon/wallet-360)  |
+| **Base**        | [Wallet 360](/historical-chains/supported-blockchains/evm/base/wallet-360)     |
+| **Bitcoin**     | coming soon                                                                    |
+
+### Sample Queries
+
+Using Ethereum Wallet360, explore what your users are doing on-chain.
+
+<Tabs>
+
+  <Tab title="User Funding Source">
+    For addresses that were tagged as Rainbow Wallet, where were they first funded from?
+
+        ```sql
+        select
+            nvl(entities.project, 'Unknown') as funder,
+            nvl(entities.category, 'Unknown') as funder_category,
+            count(1) as wallet_count
+        from ethereum.wallet_features.wallet_360
+        left join common.identity.entities on first_funding_address = address and chain = 'ethereum'
+        where array_contains('rainbow_wallet'::variant, app_list)
+        group by all
+        order by 1 asc
+        ```
+    Expanding to explore other wallet funding source:
+    <Frame>
+    <img src="/images/wallet360-userfunding.png" />
+    </Frame>
+
+  </Tab>
+
+  <Tab title="DeFi Particiation">
+    Overall DeFi Participation of wallets tagged.
+
+        ```sql
+            select
+            app_list[0]::VARCHAR as wallet,
+            count(wallet_address) as wallet_count,
+            count(total_nft_mint_txn) / wallet_count * 100 as "% NFT Minter",
+            count(list_nft_trade_marketplace_used) / wallet_count * 100 as "% NFT Buyer",
+            count(list_dex_trade_project_used) / wallet_count * 100 as "% DEX Trader"
+            from
+            ethereum.wallet_features.wallet_360,
+            lateral flatten(input => app_list)
+            where 1 = 1 and wallet like '%_wallet%'
+            group by all
+        ```
+    <Frame>
+    <img src="/images/wallet360-defi.png" />
+    </Frame>
+
+  </Tab>
+
+  <Tab title="DEX Activity">
+    What tokens were popular amongst wallets tagged in the last 30 days?
+    ```sql
+        with app as (
+        select 
+            value::varchar as wallet,
+            wallet_address 
+        from ethereum.wallet_features.wallet_360, 
+        lateral flatten(input => app_list)
+            where wallet like '%_wallet%'
+        ),
+        tokens_bought as (
+        select 
+            wallet,
+            trades.token_bought_address,
+            trades.token_bought_name,
+            count(distinct transaction_from_address) as users,
+            avg(usd_amount) as avg_usd_amount,
+            sum(usd_amount) as sum_usd_amount 
+        from ethereum.dex.trades 
+            inner join app on wallet_address = transaction_from_address 
+            and block_timestamp >= current_timestamp - interval '30 days'
+        group by all
+        )
+        select * from tokens_bought
+        qualify row_number() over (partition by wallet order by users desc) <= 6
+    ```
+    <Frame>
+    <img src="/images/wallet360-dex.png" />
+    </Frame>
+
+    What tokens that were bought by wallets that were tagged as coinbase wallets in the last 30 days?
+
+    ```sql
+        select
+            trades.token_bought_address,
+            trades.token_bought_name,
+            count(distinct transaction_from_address) as traders
+        from ethereum.wallet_features.wallet_360
+        inner join ethereum.dex.trades
+        on wallet_address = transaction_from_address
+        and block_timestamp >=current_timestamp - interval '30 days'
+        where array_contains('coinbase_wallet'::variant, app_list)
+        group by all
+        order by 3 desc
+    ```
+
+  </Tab>
+
+  <Tab title="Wallet Balances">
+  What's the average / median stablecoin holdings of users that interacted with opensea?
+  ```sql
+    select
+        case
+            when total_usd_balance = 0 or total_usd_balance is null then 'Null'
+            when total_usd_balance <= 1000 then 'a. <=1k'
+            when total_usd_balance > 1000 and total_usd_balance <= 10000 then 'b. 1-10k'
+            when total_usd_balance > 10000 and total_usd_balance <= 100000 then 'c. 10-100k'
+            when total_usd_balance > 100000 and total_usd_balance <= 1000000 then 'd. 100k-1m'
+            when total_usd_balance > 1000000 then 'e. >1m'
+        end as balance_tier,
+        avg(stablecoin_usd_balance) as avg_stable_balance,
+        count(1) as count_all
+    from ethereum.wallet_features.wallet_360
+    where array_contains('opensea_nft_marketplace'::variant, app_list)
+    group by all
+    order by 1 asc
+    ```
+
+  </Tab>
+
+</Tabs>
+
+---
+
+### Wallet 360 Sample Output
+
+| Wallet Address                                | 0xdd11dc9b6666b03bae04446f4d31d349115adc64                                                   | 0xff5bb2d8623d34521cd2fa64131cc841f8967497                                                   | 0x9515cb3caf793077b085c66c8609f50570769420                           |
+| --------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| app_list                                      | ['opensea_nft_marketplace']                                                                  | ['opensea_nft_marketplace']                                                                  | ['opensea_nft_marketplace']                                          |
+| entity_list                                   | ['opensea']                                                                                  | ['opensea']                                                                                  | ['opensea']                                                          |
+| interaction_list                              | ['opensea_nft_marketplace_trader']                                                           | ['opensea_nft_marketplace_trader']                                                           | ['opensea_nft_marketplace_trader']                                   |
+| latest_ens_name                               | devdaoist.eth                                                                                | vibesandlogic.eth                                                                            | .eth                                                                 |
+| total_days_active                             | 7                                                                                            | 51                                                                                           | 6                                                                    |
+| total_txn_count                               | 11                                                                                           | 188                                                                                          | 11                                                                   |
+| total_to_address                              | 6                                                                                            | 25                                                                                           | 9                                                                    |
+| first_txn_date                                | 2021-11-06T19:49:23                                                                          | 2021-11-09T17:06:28                                                                          | 2021-12-02T00:47:15                                                  |
+| first_txn_hash                                | `0x461eb306139645313be7800359b74e293ffefff84b8fbbae144af4750452d12e`                         | `0xf961325d765f8fb5455950b160c4896c790bb48422bcb4348736bd3430e630f3`                         | `0xeb523d415557de8ea39a9fa43e5d8fbe02a2b8057bb8e7d841df7b396e70a40f` |
+| first_funding_date                            | 2021-11-06T19:45:48                                                                          | 2021-11-09T16:05:21                                                                          | 2021-12-01T00:18:49                                                  |
+| first_funding_address                         | `0x378ff65cb9e9b83b86aa2534c9991e5b28f1ec92`                                                 | `0x6aed00e976f2e1f760025b52000d350c9080dbab`                                                 | `0x025d6f999b9e396ad88486f5e3db266e1ecd3328`                         |
+| first_funding_txn_hash                        | `0xd4dac0342f128ea8f78540583ce0473bbb95e43ae79da1823ebeb03b3ee6c9d0`                         | `0xbfa5be643fb5e44a44a4b1e2a53999f575593d00b79f6ecebdd6a0ad8575006e`                         | `0x114dfb02082fd906df4a56adca0a54c72cd1719996996ecbb0fd18948a4352b7` |
+| tokens_held_symbols                           | ["ETH", "MATIC"]                                                                             | ["ETH", "SolFi.Vision"]                                                                      | ["ETH"]                                                              |
+| tokens_held_addresses                         | ["0x0000000000000000000000000000000000000000", "0x7d1afa7b718fb893db30a3abc0cfc608aacfebb0"] | ["0x0000000000000000000000000000000000000000", "0xd88e87cd53d5b3c88c07bdb4715a39b75d6e7870"] | ["0x0000000000000000000000000000000000000000"]                       |
+| total_usd_balance                             | 1190.300945817120                                                                            | 5818.584920992770                                                                            | 54.38545303545910                                                    |
+| stablecoin_usd_balance                        | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| native_token_usd_balance                      | 1113.9609458171200                                                                           | 5818.584920992770                                                                            | 54.38545303545910                                                    |
+| native_token_balance                          | 0.5922142603266990                                                                           | 3.536445749758570                                                                            | 0.028912899471804500                                                 |
+| total_dex_trade_volume_usd                    |                                                                                              |                                                                                              |                                                                      |
+| avg_dex_trade_volume_usd                      |                                                                                              |                                                                                              |                                                                      |
+| first_dex_trade_txn_hash                      |                                                                                              |                                                                                              |                                                                      |
+| first_dex_trade_project                       |                                                                                              |                                                                                              |                                                                      |
+| total_nft_trade_txn_count                     | 1.0                                                                                          | 12.0                                                                                         | 2.0                                                                  |
+| total_nft_trade_volume_usd                    | 1219.071                                                                                     | 8648.718235333330                                                                            | 818.1918000000000                                                    |
+| avg_nft_trade_volume_usd                      | 1219.071                                                                                     | 205.92186274603200                                                                           | 409.09590000000000                                                   |
+| list_nft_trade_marketplace_used               | ["opensea"]                                                                                  | ["opensea"]                                                                                  | ["opensea"]                                                          |
+| list_nft_trade_aggregator_used                | []                                                                                           | ["[genie.xyz](http://genie.xyz)"]                                                            | []                                                                   |
+| total_nft_trade_marketplace_count             | 1.0                                                                                          | 1.0                                                                                          | 1.0                                                                  |
+| total_nft_trade_aggregator_count              | 0.0                                                                                          | 1.0                                                                                          | 0.0                                                                  |
+| total_nft_trade_collection_count              | 1.0                                                                                          | 4.0                                                                                          | 1.0                                                                  |
+| opensea_nft_trade_user                        | 1.0                                                                                          | 1.0                                                                                          | 1.0                                                                  |
+| opensea_nft_trade_first_txn_block_timestamp   | 2021-12-27T00:08:38                                                                          | 2022-03-10T03:27:10                                                                          | 2021-12-15T05:13:19                                                  |
+| opensea_nft_trade_last_txn_block_timestamp    | 2021-12-27T00:08:38                                                                          | 2023-08-28T03:53:59                                                                          | 2021-12-18T15:29:12                                                  |
+| opensea_nft_trade_total_txn_count             | 1.0                                                                                          | 12.0                                                                                         | 2.0                                                                  |
+| opensea_nft_trade_total_volume_usd            | 1219.071                                                                                     | 8648.718235333330                                                                            | 818.1918000000000                                                    |
+| opensea_nft_trade_avg_volume_usd              | 1219.071                                                                                     | 205.92186274603200                                                                           | 409.09590000000000                                                   |
+| looksrare_nft_trade_user                      | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| looksrare_nft_trade_first_txn_block_timestamp |                                                                                              |                                                                                              |                                                                      |
+| looksrare_nft_trade_last_txn_block_timestamp  |                                                                                              |                                                                                              |                                                                      |
+| looksrare_nft_trade_total_txn_count           | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| looksrare_nft_trade_total_volume_usd          | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| looksrare_nft_trade_avg_volume_usd            | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| x2y2_nft_trade_user                           | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| x2y2_nft_trade_first_txn_block_timestamp      |                                                                                              |                                                                                              |                                                                      |
+| x2y2_nft_trade_last_txn_block_timestamp       |                                                                                              |                                                                                              |                                                                      |
+| x2y2_nft_trade_total_txn_count                | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| x2y2_nft_trade_total_volume_usd               | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| x2y2_nft_trade_avg_volume_usd                 | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| blur_nft_trade_user                           | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| blur_nft_trade_first_txn_block_timestamp      |                                                                                              |                                                                                              |                                                                      |
+| blur_nft_trade_last_txn_block_timestamp       |                                                                                              |                                                                                              |                                                                      |
+| blur_nft_trade_total_txn_count                | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| blur_nft_trade_total_volume_usd               | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| blur_nft_trade_avg_volume_usd                 | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| rarible_nft_trade_user                        | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| rarible_nft_trade_first_txn_block_timestamp   |                                                                                              |                                                                                              |                                                                      |
+| rarible_nft_trade_last_txn_block_timestamp    |                                                                                              |                                                                                              |                                                                      |
+| rarible_nft_trade_total_txn_count             | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| rarible_nft_trade_total_volume_usd            | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |
+| rarible_nft_trade_avg_volume_usd              | 0.0                                                                                          | 0.0                                                                                          | 0.0                                                                  |

@@ -1,0 +1,31 @@
+---
+title: "Sync Committee Rewards"
+description: "Retrieves rewards info for sync committee members specified by slot number or validator index."
+---
+
+The `beacon.raw.sync_committee_rewards` contains rewards for individual validators participating in the sync committee after the Altair upgrade.
+
+### Beacon Chain Sync Committee Rewards
+
+The sync committee, a key feature of the Altair hard fork, consists of 512 validators randomly selected every day. Validators in the sync committee sign the block header of the new head of the chain at each slot.
+
+The sync committee helps light clients track the chain of beacon block headers. Unlike block proposal and attestation duties, which require access to the active validator set, sync committees are updated infrequently and stored in the beacon state.
+
+More on Beacon Chain Sync Committee Rewards
+
+### Table Columns
+
+This table is indexed from the[`/eth/v1/beacon/rewards/sync_committee/{block_id} `](https://ethereum.github.io/beacon-APIs/#/Beacon/getSyncCommitteeRewards)RPC Method.
+
+This table only contains finalized slots and includes slots from 2375680 (Epoch 74240) onwards. Sync reward is only present when a corresponding block is proposed in the slot on the ETH1 mainnet.
+
+| Column Name           | Description                                                                                                             | Example                 |
+| --------------------- | ----------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| slot\_number          | Slot number.                                                                                                            | 9237940                 |
+| slot\_timestamp       | Slot timestamp in UTC.                                                                                                  | 2024-06-06 13:08:23     |
+| validator\_index      | Validator index                                                                                                         | 1110624                 |
+| reward                | Sync committee reward.                                                                                                  | 21968                   |
+| execution\_optimistic | A boolean indicating whether the execution of rewards for the specified epoch is done optimistically or not             | FALSE                   |
+| finalized             | The boolean field that signifies whether the rewards for the sync committee at the specified block have been finalized. | TRUE                    |
+| \_created\_at         | Timestamp where the entry was created                                                                                   | 2024-06-13 03:19:02.310 |
+| \_updated\_at         | Timestamp where the entry was updated at                                                                                | 2024-06-13 03:19:02.310 |

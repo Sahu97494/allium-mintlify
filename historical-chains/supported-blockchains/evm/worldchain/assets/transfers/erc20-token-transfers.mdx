@@ -1,0 +1,33 @@
+---
+title: "ERC20 Transfers"
+description: Track movement of ERC20 token transfers.
+---
+
+The ERC20 Token Transfers table records all transfers made with fungible tokens from the `Transfer` event logs.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                | Data Type         | Description                                                                                  |
+| -------------------------- | ----------------- | -------------------------------------------------------------------------------------------- |
+| from\_address              | VARCHAR           | Address where the token is being transferred from.                                           |
+| to\_address                | VARCHAR           | Address where the token is being transferred to.                                             |
+| token\_address             | VARCHAR           | Token address of the asset transferred.                                                      |
+| token\_name                | VARCHAR           | Name of the asset transferred.                                                               |
+| token\_symbol              | VARCHAR           | Token symbol of the asset transferred.                                                       |
+| raw\_amount                | FLOAT             | Amount of tokens transferred (unnormalized).                                                 |
+| raw\_amount\_str           | VARCHAR           | Amount of tokens transferred (unnormalized) in string to retain precision.                   |
+| amount                     | FLOAT             | Amount of token transferred, normalized.                                                     |
+| amount\_str                | VARCHAR           | Amount of token transferred, normalized in string to retain precision.                       |
+| usd\_amount                | FLOAT             | The amount of tokens moved, in $USD.                                                         |
+| usd\_exchange\_rate        | FLOAT             | The exchange rate used to calculate the usd\_value.                                          |
+| transaction\_from\_address | VARCHAR           | The address of the sending party of this transaction.                                        |
+| transaction\_to\_address   | VARCHAR           | The address of the receiving party of this transaction (could be a contract address).        |
+| transaction\_hash          | VARCHAR           | Transaction hash that this transfer belongs to.                                              |
+| transaction\_index         | BIGINT            | The position of this transaction in the block. The first transaction of a block has index 0. |
+| log\_index                 | BIGINT            | The position of this log within the block. The first log of a block has index 0              |
+| block\_timestamp           | TIMESTAMP\_NTZ(9) | The time when the block that contains this transaction was included on the blockchain.       |
+| block\_number              | BIGINT            | The block number that the corresponding transaction of this transfer belongs to.             |
+| block\_hash                | VARCHAR           | The block hash that the corresponding transaction of this transfer belongs to.               |
+| unique\_id                 | VARCHAR           | Unique id generated to each transfer. Includes transaction hash and log index.               |

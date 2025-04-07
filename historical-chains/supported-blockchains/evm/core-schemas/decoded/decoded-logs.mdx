@@ -1,0 +1,76 @@
+---
+title: "Decoded Logs"
+description: "Decoded event logs."
+---
+
+The `decoded.logs`table contains decoded event logs based on the available contract ABIs.
+
+Users can identify the desired event logs by the contract address and event topic0.
+
+### Using Decoded Logs
+
+<Check>
+**Using Decoded Logs**
+
+* In general, we recommend using this combination of `params` and `params_keys_mapping` on all of your production pipelines, since it guarantees that your query won’t break if the decoded key names ever change.
+
+* Logs are decoded via topic0, but they do not specify the name of the params. As a result, there **may be inconsistencies in the decoded params field** while the underlying values are correct.
+
+Field name changes over time are influenced by contract ABIs used during log decoding. We prioritize contract-specific ABIs but may fall back to generic ABIs.
+
+Historical records aren't retroactively updated to maintain query consistency.
+</Check>
+
+### Using Params Key Mapping
+
+Using Uniswap v3 Swap() event params as an example, we first reference the params field:
+
+```
+{   "amount0": "-718884554",   "amount1": "600000000000000000",   "liquidity": "11511633818000282989",   "recipient": "0xd034d7e8b27b99b5674f2d412584a2897fc87eae",   "sender": "0x68b3465833fb72a70ecdf485e0e4c7bd8665fc45",   "sqrtPriceX96": "2285459885189609648572828648093816",   "tick": "205405" }
+```
+
+Then look at the `params_keys_mapping`:
+
+```
+[   "sender",   "recipient",   "amount0",   "amount1",   "sqrtPriceX96",   "liquidity",   "tick" ]
+```
+
+From there, rewrite the query using `params[params_keys_mapping[index]]` syntax:
+
+```sql
+select 
+    params[params_keys_mapping[0]] as sender,
+    params[params_keys_mapping[1]] as recipient,
+...
+```
+
+### Table Columns
+
+Unique Key: `transaction_hash`, `log_index`
+
+| Column Name               | Data Type         | Description                                                                 | Example                                                                                                                                                                                                                                                                              |
+|---------------------------|-------------------|-----------------------------------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| name                      | VARCHAR           | Decoded event log name.                                                    | Swap                                                                                                                                                                                                                                                                                |
+| params                    | VARIANT           | Decoded parameters in JSON format.                                         | `{ "amount0In": "0", "amount0Out": "10000000000000000000000", "amount1In": "16962444212633508", "amount1Out": "0", "sender": "0xc6265979793435b496e28e61af1500c22c3ba277", "to": "0xb77dc27d092d2ee46043a7f70ff869533c44082f" }`                                                       |
+| signature                 | VARCHAR           | Event log signature.                                                       | Swap(address,uint256,uint256,uint256,uint256,address)                                                                                                                                                                                                                               |
+| transaction_hash          | VARCHAR           | Unique identifier of the transaction that contains this log.              | 0xb67e3832a67dc9626479acb092e61c878d14b3744bbf90803a3ca6efd7107da7                                                                                                                                                                                                                  |
+| transaction_index         | BIGINT            | The position of this transaction in the block. First transaction has index 0. | 31                                                                                                                                                                                                                                                                                   |
+| log_index                 | BIGINT            | The position of this log in the block. First log has index 0.              | 210                                                                                                                                                                                                                                                                                  |
+| address                   | VARCHAR           | The address of the contract that emitted this log.                         | 0x7c564421de1fa9fc10cba2a392451e6b72d2557f                                                                                                                                                                                                                                           |
+| data                      | VARCHAR           | Unindexed data with further event info, encoded in hex.                    | 0x0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000003c4340cdd0ffa400000000000000000000000000000000000000000000021e19e0c9bab24000000000000000000000000000000000000000000000000000000000000000000000                                                                                                                                                                                             |
+| topic0                    | VARCHAR           | The keccak256 hash of a flattened event signature string.                 | 0xd78ad95fa46c994b6551d0da85fc275fe613ce37657fb8d5e3d130840159d822                                                                                                                                                                                                                  |
+| topic1                    | VARCHAR           | First indexed topic of the event.                                          | 0x000000000000000000000000c6265979793435b496e28e61af1500c22c3ba277                                                                                                                                                                                                                  |
+| topic2                    | VARCHAR           | Second indexed topic of the event.                                         | 0x000000000000000000000000b77dc27d092d2ee46043a7f70ff869533c44082f                                                                                                                                                                                                                  |
+| topic3                    | VARCHAR           | Third indexed topic of the event.                                          |                                                                                                                                                                                                                                                                                      |
+| transaction_from_address  | VARCHAR           | The address of the sending party of this transaction.                      | 0xb77dc27d092d2ee46043a7f70ff869533c44082f                                                                                                                                                                                                                                           |
+| transaction_to_address    | VARCHAR           | The address of the receiving party of this transaction.                    | 0xdb5889e35e379ef0498aae126fc2cce1fbd23216                                                                                                                                                                                                                                           |
+| interface_id              | VARCHAR           | Interface ID.                                                              | 3b0281affe1a62ff1ca7c26385e1105a                                                                                                                                                                                                                                                     |
+| params_keys_mapping       | ARRAY             | Mapping of parameter keys in decoding.                                     | [ "sender", "amount0In", "amount1In", "amount0Out", "amount1Out", "to" ]                                                                                                                                                                                                             |
+| block_timestamp           | TIMESTAMP_NTZ(9)  | The time when the block was included on the blockchain.                    | 2023-12-03 20:23:11.000                                                                                                                                                                                                                                                              |
+| block_number              | BIGINT            | The length of the chain, in blocks.                                        | 18708213                                                                                                                                                                                                                                                                             |
+| block_hash                | VARCHAR           | Unique identifier of the block that includes this log.                    | 0xbcde8785ea4c6d4acffc84c344230b6a1eeb1b6f0d91ce66993c4d251d278545                                                                                                                                                                                                                  |
+| _created_at               | TIMESTAMP_NTZ(9)  | Timestamp of the entry creation.                                           | 2023-12-03 20:29:35.910                                                                                                                                                                                                                                                              |
+| _updated_at               | TIMESTAMP_NTZ(9)  | Timestamp of the entry update.                                             | 2023-12-03 20:29:35.910                                                                                                                                                                                                                                                              |
+
+
+

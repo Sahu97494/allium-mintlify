@@ -1,0 +1,39 @@
+---
+title: "Overview"
+---
+
+The assets data schema includes transfers of inscriptions, balances and credit debit tables
+
+<table><thead><tr><th width="212">Assets</th><th>Description</th></tr></thead><tbody><tr><td>Inscription Transfers</td><td>Transfer of inscriptions between Bitcoin addresses.</td></tr><tr><td>Balances</td><td>utxo balances of bitcoin wallets at change block heights</td></tr><tr><td>Balances Latest</td><td>Latest utxo balances of bitcoin wallets</td></tr><tr><td>Credit Debit</td><td>Double entry book of bitcoin transaction input/outputs</td></tr><tr><td>Transfers</td><td>BTC transfers. N.A - see below</td></tr></tbody></table>
+
+### A note on native(BTC) transfers
+
+Due to the way utxos work, there is no concept of point to point A->B native transfers in bitcoin. in each tx, a bunch of utxos are spent, and another bunch created, and we cannot reliably conclude that address X sent some amount to some address A.
+
+A more concrete example:
+
+<Frame caption="Sample txn">
+<img src="/images/image-bitcoin-asset-1.png" />
+</Frame>
+
+**Question**: How much did X and Y transfer to A,B,C,D?
+
+**Answer**: Depending on how we ‘view’ the sats in the input utxos, there can be many different answers to the above question.
+
+**Possibility 1&#x20;**- if we say input sats in a utxo move to the output side in a first-in-first-out (FIFO) manner:
+
+<Frame caption="fifo style transfer">
+<img src="/images/image-bitcoin-asset-2.png" />
+</Frame>
+
+**Possibility 2 -&#x20;**&#x6D;ultiplexed from inputs to output. each input is proportionately split into all the outputs
+
+<Frame caption="multiplexed transfers">
+<img src="/images/image-bitcoin-asset-3.png" />
+</Frame>
+
+**Possibility 3** - any other logic mapping inputs to outputs (e.g. maybe we assume input0 always pays for the gas?)
+
+Depending on the use case of the analysis, how input/outputs translates to transfers will be drastically different. Feel free to reach out to the team to clarify/for assistance in implementing a preferred style!
+
+

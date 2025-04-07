@@ -1,0 +1,38 @@
+---
+title: "Token Prices Hourly"
+---
+
+The`dex.token_prices_hourly` table contains hourly price data of tokens computed from the `dex.trades` table. This table also provides metrics for the swap volumes, traders and trade counts of assets swapped onchain at the hourly basis.
+
+### Methodology
+
+* Swaps above USD volume > 1 USD are included in the price calculation.
+
+* For a given token, the sum of the total USD swap volume (both sold/bought volume) was divided by the sum of the total volume of the token swapped in DEX trades.
+
+* If token A had 200,000 USD volume in swaps and the total volume of token A swapped was 18,000 for a given hour, the price calculated will be:
+
+```sql
+price = sum(usd_volume)/sum(token_volume) 
+11.111 USD = 200,000/18,000
+where price = 11.111 USD and the usd_trading_volume = 200,000
+```
+
+### Table Columns
+
+| Column Name          | Type              | Description                                                                                                     |
+| -------------------- | ----------------- | --------------------------------------------------------------------------------------------------------------- |
+| chain                | VARCHAR           | Blockchain network (e.g., 'ethereum', 'arbitrum')                                                               |
+| timestamp            | TIMESTAMP\_NTZ(9) | Start of the hourly period                                                                                      |
+| address              | VARCHAR           | Token contract address                                                                                          |
+| symbol               | VARCHAR           | Token symbol                                                                                                    |
+| name                 | VARCHAR           | Token name                                                                                                      |
+| decimals             | INTEGER           | Number of decimal places for the token                                                                          |
+| price                | FLOAT             | Volume-weighted average price for the hour                                                                      |
+| median\_price        | FLOAT             | Median price from all trades in the hour                                                                        |
+| median\_safe\_price  | FLOAT             | Filtered median price by filtering swaps > 100 usd in volume                                                    |
+| usd\_trading\_volume | FLOAT             | Total USD volume traded in the hour                                                                             |
+| traders              | INTEGER           | Number of distinct traders that swapped the token for the hour by counting distinct `transaction_from_address.` |
+| trade\_count         | INTEGER           | Total number of swaps executed                                                                                  |
+| \_created\_at        | TIMESTAMP\_NTZ(9) | Timestamp of entry creation                                                                                     |
+| \_updated\_at        | TIMESTAMP\_NTZ(9) | Timestamp of entry update                                                                                       |

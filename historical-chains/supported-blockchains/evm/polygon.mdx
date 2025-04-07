@@ -1,0 +1,27 @@
+---
+title: "Overview"
+description: Polygon Proof of Stake (POS)
+---
+
+Polygon is a sidechain scaling solution that runs alongside the Ethereum blockchain, offering faster and cheaper transactions. It uses MATIC as its native currency for fees, staking and other activities.
+
+<Card href="https://wiki.polygon.technology/docs/pos/polygon-architecture">
+More about the Polygon Blockchain.
+</Card>
+
+### Overview
+
+Our Polygon data models are structurally similar to Ethereum across all schemas. The core different would be in the coverage projects indexed in the abstracted schemas, such as NFTs and DEX trades (e.g. quickswap operates only on Polygon and not Ethereum mainnet).
+
+### Polygon Tables
+
+Our Polygon schema includes the following raw and enriched schemas.
+
+| Schema     | Description                                                                                                                  | Tables                                                              |
+| ---------- | ---------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------- |
+| Raw        | Raw blockchain data.                                                                                                         | blocks, transactions, logs, traces                                  |
+| Raw+       | Deployed contracts with bytecode, decoded token data from raw data.                                                          | contracts, erc20\_tokens, erc721\_tokens, erc\_1155\_tokens         |
+| Assets     | Latest balances, balances by block, transfers, credit debit for MATIC and ERC tokens.                                        | balances\_latest, balances, token\_transfers, credit\_debit         |
+| NFTs       | NFT mints, NFT trades with flags and wash trading filters.                                                                   | trades, mints, trades\_with\_wash\_trading\_flags, trades\_w\_flags |
+| DEXs       | DEX trades, liquidity pool deployed and events (mints and burns).                                                            | trades, pools, liquidity\_pool\_events                              |
+| Wallet 360 | Aggregated wallets activities of tagged wallets on-chain - includes wallet assets, DEX trade, NFT trades and bluechips held. | wallet\_360                                                         |

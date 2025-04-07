@@ -1,0 +1,20 @@
+---
+title: "ERC1155 Credit Debit"
+description: Credit and debit entries of all addresses for every ERC1155 token transfer.
+---
+
+ERC1155 credit debit table allows you to easily track the inflows and outflows of every ERC1155 token belonging to all addresses.
+
+### Sample Query
+
+Getting the ERC1155 Credit Debit history of an address.
+
+```sql
+select * from ethereum.assets.erc721_credit_debit
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+order by block_number desc  
+```
+
+### Table Columns
+
+<table><thead><tr><th>Column Name</th><th>Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>event_type</td><td>Transfer event type specific to ERC1155 tokens. Either <code>transfer_single</code> or <code>batch_transfer.</code></td><td><code>transfer_single</code></td><td></td></tr><tr><td>address</td><td>Address of the account that was credited or debited <code>value</code> amount of ERC1155 token.</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>counterparty_address</td><td>The address of counter party of this credit or debit transfer.</td><td><code>0x92acc22c7e154d8164decb901f9cdf0cad93ac6a</code></td><td></td></tr><tr><td>token_address</td><td>Token address of the ERC1155 token.</td><td><code>0xd07dc4262bcdbf85190c01c996b4c06a461d2430</code></td><td></td></tr><tr><td>token_name</td><td>Name of the ERC1155 token.</td><td><code>Rarible</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td><code>RARI</code></td><td></td></tr><tr><td>token_id</td><td>Unique ID of the ERC1155 token.</td><td><code>583230</code></td><td></td></tr><tr><td>amount_raw</td><td>Balance of tokens (unnormalized). For ERC1155 tokens, there are no decimals division involved. </td><td><code>1</code></td><td></td></tr><tr><td>amount_raw_str</td><td>Balance of tokens (unnormalized) in string.</td><td><code>1</code></td><td></td></tr><tr><td>amount</td><td>Amount of tokens moved. </td><td><code>1</code></td><td></td></tr><tr><td>amount_str</td><td>Amount of tokens moved in string.</td><td><code>1</code></td><td></td></tr><tr><td>usd_value</td><td>The amount of tokens moved, in $USD.</td><td></td><td></td></tr><tr><td>usd_exchange_rate</td><td>This is the price of a single token, in $USD.<br /><br />Refer to <a href="../../../../../../historical-verticals/prices/">Hourly Token Prices</a> for more information.</td><td></td><td></td></tr><tr><td>operator</td><td>The operator is defined as the addresses authorized (or <em>approved</em>) by a NFT owner to spend all of his token Ids.</td><td><code>0x92acc22c7e154d8164decb901f9cdf0cad93ac6a</code></td><td></td></tr><tr><td>transaction_hash</td><td>Transaction hash that this transfer belongs to.</td><td><code>0xdfd40caed2ac0cdd89a79b5728a965cda73bc5a56088f1b1d086b3f23fd5df53</code></td><td></td></tr><tr><td>log_index</td><td>The log index that corresponds to this transfer.</td><td><code>395</code></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred.</td><td><code>2022-09-18T09:43:59</code></td><td></td></tr><tr><td>block_number</td><td>The block number that the corresponding transaction of this transfer belongs to.</td><td><code>15559619</code></td><td></td></tr><tr><td>block_hash</td><td>The block hash that the corresponding transaction of this transfer belongs to.</td><td><code>0x2437b0e92b011094a3e60e6bd9d0cd781cba7237f8fc2d59b8b85e94ef9c2137</code></td><td></td></tr><tr><td>unique_id</td><td>Unique id generated to each  transfer. Includes transaction hash, log index and credit and debit transaction type. </td><td><code>txn-0xdfd40caed2ac0cdd89a79b5728a965cda73bc5a56088f1b1d086b3f23fd5df53_log_index-395_debit</code></td><td></td></tr></tbody></table>

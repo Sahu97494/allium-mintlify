@@ -1,0 +1,52 @@
+---
+title: "ERC20 Transfers"
+---
+
+The ERC20 (BEP-20) tokens transfers table contains the details of all transfer events of ERC20 tokens on the BSC network.
+
+It includes information such as the sender and receiver addresses, the amount of tokens transferred, the transaction hash, and the block timestamp.
+
+### Query
+
+Stablecoin transfers on BSC.
+
+```sql
+select
+    date_trunc('month', block_timestamp) as date,
+    token_symbol,
+    sum(amount) as volume
+from
+    bsc.assets.erc20_token_transfers
+where
+    1 = 1
+    and block_timestamp >= '2022-01-01'
+    and token_address IN (
+        '0x8ac76a51cc950d9822d68b83fe1ad97b32cd580d', --  USDC
+        '0x55d398326f99059ff775485246999027b3197955' --  BSC USD
+    )
+    group by 1,2
+```
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | 0x107bbf40dce15b5f98f408c91f7158d36b764721                                             |
+| to\_address                | Address where the token is being transferred to.                                       | 0x804678fa97d91b974ec2af3c843270886528a9e6                                             |
+| token\_address             | Token address of the asset transferred.                                                | 0x0e09fabb73bd3ade0a17ecc321fd13a19e81ce82                                             |
+| token\_name                | Name of the asset transferred.                                                         | PancakeSwap Token                                                                      |
+| token\_symbol              | Symbol of the asset transferred.                                                       | Cake                                                                                   |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 8.565324338609242e+17                                                                  |
+| raw\_amount\_str           | Amount of tokens moved (unnormalized) in string.                                       | 856532433860924195                                                                     |
+| amount                     | Amount of token moved, normalized.                                                     | 0.8565324338609241                                                                     |
+| amount\_str                | Amount of token moved, normalized in string.                                           | 0.8565324339                                                                           |
+| usd\_amount                | USD value of the amount of tokens transferred.                                         | 16.950776866107688                                                                     |
+| usd\_exchange\_rate        | USD value of the token at the time of transfer.                                        | 19.79                                                                                  |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0x7db9de58c7e0842aee80aba76098e9102b4850a7                                             |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0x107bbf40dce15b5f98f408c91f7158d36b764721                                             |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0x767bb5057651e4a20e1c22b7e505bd6c258a56e270d7fb5201854a3303830d2f                     |
+| log\_index                 | The log index that corresponds to this transfer.                                       | 514                                                                                    |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2021-10-22 20:00:51+00:00                                                              |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 12001742                                                                               |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0x52614b5079262ea8b2133a58c2d9dcb2cefba7f6cd8ebb4959c6ff380d8dd89d                     |
+| unique\_id                 | Unique id generated to each transfer.                                                  | txn-0x767bb5057651e4a20e1c22b7e505bd6c258a56e270d7fb5201854a3303830d2f\_log\_index-514 |

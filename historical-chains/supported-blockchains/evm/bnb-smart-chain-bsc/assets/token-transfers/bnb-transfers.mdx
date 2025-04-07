@@ -1,0 +1,29 @@
+---
+title: "BNB Transfers"
+---
+
+The table for BNB Token Transfers holds a record of all transactions conducted using the native BNB token,
+
+This includes the transfer type, such as value transfer and gas payment to miner, transaction call type, the transaction hash, block timestamp, and the sender and recipient wallet addresses along with the quantity of BNB transferred.
+
+### Table Columns
+
+| Column Name                | Description                                                                            |
+| -------------------------- | -------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     |
+| to\_address                | Address where the token is being transferred to.                                       |
+| token\_address             | Token address of the asset transferred.                                                |
+| token\_name                | Name of the asset transferred.                                                         |
+| token\_symbol              | Token symbol of the asset transferred.                                                 |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 |
+| amount                     | Amount of token moved, normalized.                                                     |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   |
+| call\_type                 | Call type of the transaction. Non-call type will be indicated by NULL.                 |
+| transfer\_type             | Transfer type can be either value\_transfer, gas\_burn, gas\_payment\_to\_miner.       |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         |
+| unique\_id                 | Unique id generated to each transfer.                                                  |

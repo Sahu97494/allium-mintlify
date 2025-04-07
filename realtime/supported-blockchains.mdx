@@ -1,0 +1,52 @@
+---
+title: "[Developer] Supported Chains (13+ Chains)"
+sidebarTitle: Overview
+---
+
+<Info>
+  For analytics data (1-hour data freshness), check out Allium
+  [https://docs.allium.so/historical-data/overview](/historical-chains/overview)
+  on our Snowflake Data Warehouse. Our analytics data supports broader and
+  deeper coverage of chains and schemas.
+</Info>
+
+## Developer-Supported Blockchains Overview
+
+The following blockchains and schemas are available on our [Developer](/data-products-real-time/allium-developer) **platform** via our **Postgres Database**.
+
+We support the following [integrations](/data-products-analytics/allium-datashares). The Allium team is happy to work with our customers to index new blockchains and schemas quickly as part of agreement.
+
+| Ecosystem      | Chain            | Raw         | Latest Balances | Historical Balances | Activities | Transfers | Decoded        | DEX         | PnL |
+| -------------- | ---------------- | ----------- | --------------- | ------------------- | ---------- | --------- | -------------- | ----------- | --- |
+| Bitcoin / UTXO | Bitcoin          | ✓           | Beta            | ✗                   | ✓          | ✗         | ✗              | ✗           | ✗   |
+| EVM            | Arbitrum         | ✓           | ✗               | ✓                   | ✓          | ✓         | ✗              | ✗           | ✗   |
+| EVM            | Base             | ✓           | ✓               | ✓                   | ✓          | ✓         | ✗              | ✓           | ✗   |
+| EVM            | BSC              | ✓           | ✗               | ✗                   | ✗          | ✓         | ✗              | ✓           | ✗   |
+| EVM            | Ethereum         | ✓           | ✓               | ✓                   | ✓          | ✓         | ✓<br/>(Logs Only)  | ✓           | ✗   |
+| EVM            | Polygon          | ✓           | ✓               | ✓                   | ✓          | ✓         | ✓<br/>(Logs Only)  | ✓           | ✗   |
+| EVM            | Abstract         | Beta        | Beta            | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| EVM            | Abstract Testnet | Beta        | ✗               | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| EVM            | Apechain         | Beta        | Beta            | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| EVM            | Berachain        | Beta        | Beta            | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| EVM            | Monad Testnet    | Beta        | Beta            | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| EVM            | Sei              | Beta        | Beta            | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| Sui            | Sui              | Beta        | Beta            | ✗                   | ✗          | ✓         | ✗              | ✗           | ✗   |
+| SVM            | Solana           | Coming Soon | ✓<br/>(7 days)      | ✓<br/>(7 days)          | ✓<br/>(7 days) | ✗         | ✓<br/>(On request) | Coming Soon | ✗   |
+
+## Postgres-Supported Real-Time Schemas
+
+| Schema                             | EVMs (e.g. Ethereum, Polygon, Base, Arbitrum, Optimism, Monad, Oasys, BSC, Avalanche) | Bitcoin (+Ordinals)                                                                                 | Solana                                                                                              |
+|------------------------------------|----------------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------|
+| Raw – Txs, blocks, etc.           | ✔ [Docs](/realtime/supported-blockchains/ethereum/raw)                                        | ✔ [Docs](/realtime/supported-blockchains/bitcoin/raw)                   | ✔ [Docs](/realtime/supported-blockchains/solana/raw)<br/>Last 7 days in realtime |
+| Decoded data – Logs, traces       | ✔ [Docs](/realtime/supported-blockchains/ethereum/decoded)<br/>Contracts with public ABIs     | N/A (EVMs only)                                                                                      | N/A (EVMs only)                                                                                     |
+| Token transfers                   | ✔ [Docs](/realtime/supported-blockchains/ethereum/transfers)<br/>Native, ERC20/721/1155       | ✔ [Docs](/realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats/ordinals-token-transfers)<br/>Native, Ordinals | ✔ [Docs](/realtime/supported-blockchains/solana/enriched/token-transfers)<br/>Native, SPL |
+| Balances – Latest, Historical     | ✔ [Docs](/realtime/supported-blockchains/ethereum/balances/fungible-balances)<br/>Native, ERC20 | ✔                                                                                                    | ✔ [Docs](/realtime/supported-blockchains/solana/enriched/assets-fungible-balances-latest)<br/>Native, SPL |
+| DEX – Trades, Pools, etc.         | ✔ [Docs](/realtime/supported-blockchains/ethereum/dex/dex-trades)<br/>Supports 33+ DEXs       | _                                                                                                    | ✔ On request                                                                                        |
+| NFTs                               | ✔ [Docs](/realtime/supported-blockchains/ethereum/nfts)<br/>Opensea & Blur                    | ✔ [Docs](/realtime/supported-blockchains/bitcoin/inscriptions-and-rare-sats)<br/>7+ marketplaces | _                                                                                                   |
+| Mempool                            | _                                                                                                                          | ✔ [Docs](/realtime/supported-blockchains/bitcoin/mempool)<br/>Txs, Inputs, Outputs | _                                                                                                   |
+| Prices                             | ✔ Can ingest from external sources (e.g. CoinGecko)                                                                       | ✔ Can ingest from external sources                                                                   | ✔ Can ingest from external sources                                                                  |
+| Wallet activity                   | ✔ On request                                                                                                               | ✔ On request                                                                                         | ✔ On request                                                                                        |
+| Wallet P&L                        | ✔ On request                                                                                                               | _                                                                                                    | ✔ On request                                                                                        |
+| Wallet DeFi positions             | _                                                                                                                          | _                                                                                                    | ✔ On request                                                                                        |
+
+[Contact us](https://www.allium.so/contact) if you would like to request a new blockchain or schema.

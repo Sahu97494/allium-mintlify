@@ -1,0 +1,55 @@
+---
+title: "ERC20 Token Transfer"
+---
+
+Get ERC20 tokens transfers.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query ERC20 token transfers by ERC20 token/sender/recipient address.
+
+```sql
+select * from ethereum.erc20_token_transfers
+where from_address = '0x98c3d3183c4b8a650614ad179a1a98be0a8d6b8e'
+and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC Contract
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+### **Table Columns**
+
+```
+                                           Partitioned table "evm.erc20_token_transfers"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ token_address     | character varying(42)       |           |          |         | extended |             |              |
+ value             | numeric(512,0)              |           |          |         | main     |             |              |
+ from_address      | character varying(42)       |           |          |         | extended |             |              |
+ to_address        | character varying(42)       |           |          |         | extended |             |              |
+ transaction_hash  | character varying(66)       |           | not null |         | extended |             |              |
+ log_index         | numeric(38,0)               |           | not null |         | main     |             |              |
+ block_timestamp   | timestamp without time zone |           | not null |         | plain    |             |              |
+ block_number      | numeric(38,0)               |           |          |         | main     |             |              |
+ block_hash        | character varying(66)       |           |          |         | extended |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ transaction_index | bigint                      |           |          |         | plain    |             |              |
+Partition key: RANGE (block_timestamp)
+Indexes:
+    "erc20_token_transfers_pk" PRIMARY KEY, btree (transaction_hash, log_index, block_timestamp)
+    "erc20_token_transfers_block_number_index" btree (block_number, block_timestamp DESC)
+    "erc20_token_transfers_block_timestamp_index" btree (block_timestamp DESC)
+    "erc20_token_transfers_from_address_block_timestamp_index" btree (from_address, block_timestamp DESC)
+    "erc20_token_transfers_to_address_block_timestamp_index" btree (to_address, block_timestamp DESC)
+    "erc20_token_transfers_token_address_block_timestamp_index" btree (token_address, block_timestamp DESC)
+```

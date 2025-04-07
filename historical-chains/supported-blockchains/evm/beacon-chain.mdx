@@ -1,0 +1,47 @@
+---
+title: "Overview"
+description: "Get the performance, income and metrics of validators on Ethereum's Beacon Chain."
+---
+
+The Beacon Chain introduced the consensus logic and block gossip protocol which now secures Ethereum. The Beacon Chain introduced [proof-of-stake](https://ethereum.org/en/developers/docs/consensus-mechanisms/pos/) to Ethereum.
+
+This keeps Ethereum secure and earns validators more ETH in the process.
+
+<Card href="https://ethereum.org/en/roadmap/beacon-chain/">
+More about Beacon Chain
+</Card>
+
+### Beacon Chain Tables:
+
+<table><thead><tr><th width="157">Schemas </th><th width="246">Tables</th><th>Description</th><th data-hidden>Description</th></tr></thead><tbody><tr><td>Validator</td><td>balances, income, index, entities</td><td>Daily validator income and APR calculated, validator balances as well as index for mapping validators to ETH1 withdrawal address.</td><td>Daily validator income and APR calculated, validator balances as well as index for mapping validators to ETH1 withdrawal address. </td></tr><tr><td>Raw</td><td><p>blocks, withdrawals, deposits, attestations,<br /></p><p>attestation_rewards_daily<br />ideal_rewards, total_rewards, </p><p>block_rewards, sync_committee_rewards</p></td><td>Raw block data, attestations, deposits, and withdrawals on Beacon Chain. <br /><br />Rewards for Validator: Block rewards for slot proposed, epoch-level attestation rewards, daily aggregated attestation rewards, and sync committee rewards</td><td>Raw block data, attestations, deposits, withdrawal on Beacon Chain. </td></tr></tbody></table>
+
+## Solutions
+
+### Deep dive into validator metrics
+
+Querying our `beacon.validator.income` to explore validator income for insights into validator performance across time.
+
+E.g. exploring the distribution of consensus income to the Lido Withdrawal vault
+
+```sql
+select 
+    date_trunc('week', income.slot_timestamp) as date,
+    nvl(entity, 'unlabeled') as entity,
+    count(distinct  entities.validator_index) as validators,
+    sum(consensus_income) as income 
+from beacon.validator.income 
+left join beacon.validator.entities on entities.validator_index = income.validator_index
+where consensus_income > 0 
+group by 1,2
+order by 1 desc 
+```
+
+### Beacon Chain Consensus Income by Entity
+
+<Frame>
+<img src="/images/image-historical-evm-beacon.avif" />
+</Frame>
+
+Distribution of Beacon Chain Consensus Income grouped by withdrawal wallets. [https://app.allium.so/s/sTht8Q9U](https://app.allium.so/s/sTht8Q9U)
+
+

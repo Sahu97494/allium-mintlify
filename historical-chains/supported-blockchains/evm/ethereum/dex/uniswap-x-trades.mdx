@@ -1,0 +1,106 @@
+---
+title: "Uniswap X Trades"
+description: 'UniswapX: Dutch Order Reactor orders and settlement. This'
+---
+
+`ethereum.dex.uniswap_x_trades` table includes all trades **including failed** `execute` calls from Uniswap X's [`ExclusiveDutchOrderReactor`](https://etherscan.io/address/0x6000da47483062a0d734ba3dc7576ce6a0b645c4) .
+
+<Info>
+⚠️ **This model includes failed orders that failed to execute.**
+
+To filter them out, set status = 1 (see example below) .These trades amount to \~1.6% of total volume, and \~3% of all trades.
+</Info>
+
+<Card href="https://docs.uniswap.org/contracts/uniswapx/overview">
+UniswapX is a new permissionless, open source (GPL), auction-based routing protocol for trading across AMMs and other liquidity sources.
+</Card>
+
+### Sample Query
+
+```sql
+-- Daily Swap Volume 
+select 
+    date(block_timestamp) as date, 
+    sum(usd_amount) as usd_volume,
+    count(distinct transaction_hash) as txn_count
+from ethereum.dex.uniswap_x_trades
+where status = 1 
+group by all 
+```
+
+### Methodology
+
+* Identify the following trace call from UniswapX `ExclusiveDutchOrderReactor` contract
+
+  * `executeBatchWithCallback executeWithCallback executeBatch execute`
+
+* From the trace calls, we fetch the serialised **order** and ABI decode.
+
+* From event logs, we join the corresponding `Fill` event emitted by the `ExclusiveDutchOrderReactor` contract
+
+<Tabs>
+<Tab title="Serialized Order">
+Using this transaction as an example: [https://etherscan.io/tx/0xc3cb3b518f455144d153e6d086b8688d6678b7318ab928b82983ab03e315e333](https://etherscan.io/tx/0xc3cb3b518f455144d153e6d086b8688d6678b7318ab928b82983ab03e315e333)
+
+```json
+{
+  "msg.sender": "0x6f1cdbbb4d53d226cf4b917bf768b94acbab6168",
+  "func": "execute",
+  "args": {
+    "order": [
+      {
+        "order": "0x000000000000000000000000000000000000000000000000000000000000002000000000000000000000000000000000000000000000000000000000000001200000000000000000000000000000000000000000000000000000000065c529c20000000000000000000000000000000000000000000000000000000065c529fe000000000000000000000000d198fbe60c49d4789525fc54567447518c7d2a110000000000000000000000000000000000000000000000000000000000000064000000000000000000000000111111111117dc0aa78b770fa6a738034120c302000000000000000000000000000000000000000000000083f4b3a5432fac844d000000000000000000000000000000000000000000000083f4b3a5432fac844d00000000000000000000000000000000000000000000000000000000000002000000000000000000000000006000da47483062a0d734ba3dc7576ce6a0b645c400000000000000000000000045fabb434124afaa123eeee19cea29b5e0e3dd0b04683207312f3edb79be915765c1d5b7529ef4a9500dbe0e667c9878fe7bce010000000000000000000000000000000000000000000000000000000065c52a0a000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000c0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000010000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000057a57e7d2199140000000000000000000000000000000000000000000000000052ff507e7c84afc00000000000000000000000045fabb434124afaa123eeee19cea29b5e0e3dd0b",
+        "sig": "0x4f210fdb1808d4ca777960ff781ceecc37f4362605fa241216ec85f201f3d244179158351a0a2d2e5ba9a2d42c4bf647ac6bcf46216d10863644cb31ea42eef31c"
+      }
+    ]
+  },
+  "return": []
+}
+```
+</Tab>
+<Tab title="Decoded Orders">
+We code the order into the following JSON format
+
+<Frame>
+<img src="/images/image-historical-evm-ethereum-dex-uniswap.avif" />
+</Frame>
+
+This reflects a 1inch > ETH order
+
+```json
+{
+  "decayEndTime": 1707420158,
+  "decayStartTime": 1707420098,
+  "exclusiveFiller": "0xd198fbe60c49d4789525fc54567447518c7d2a11",
+  "exclusivityOverrideBps": 100,
+  "input": {
+    "endAmount": "2434156092330018112589",
+    "startAmount": "2434156092330018112589",
+    "token": "0x111111111117dc0aa78b770fa6a738034120c302"
+  },
+  "orders": {
+    "additionalValidationContract": "0x0000000000000000000000000000000000000000",
+    "additionalValidationData": "",
+    "deadline": 1707420170,
+    "nonce": 1.993348770286722e+75,
+    "reactor": "0x6000da47483062a0d734ba3dc7576ce6a0b645c4",
+    "swapper": "0x45fabb434124afaa123eeee19cea29b5e0e3dd0b"
+  },
+  "outputs": [
+    {
+      "endAmount": 373786708397280000,
+      "recipient": "0x45fabb434124afaa123eeee19cea29b5e0e3dd0b",
+      "startAmount": 394724570522292540,
+      "token": "0x0000000000000000000000000000000000000000"
+    }
+  ]
+}
+```
+</Tab>
+</Tabs>
+
+### Table Columns
+
+Note that the decoded orders can be found in the `extra_fields` column.
+
+<table><thead><tr><th>Column Name</th><th width="322">Description</th><th>Example</th></tr></thead><tbody><tr><td>project</td><td>Project name.</td><td>uniswap_x</td></tr><tr><td>protocol</td><td>Protocol name.</td><td>uniswap_x</td></tr><tr><td>trace_call</td><td>Trace call method.</td><td>execute</td></tr><tr><td>order_type</td><td>Order type. Can be either `single` or `batch` orders. `execute` and `executeWithCallback` maps to single orders.</td><td>single</td></tr><tr><td>order_index</td><td>Order index within the call. For batch orders, they are flatten with each order executed represented as a line.</td><td>0</td></tr><tr><td>status</td><td>Trace status of the call. This will 1 for successful traces and 0 for failed traces.</td><td>1</td></tr><tr><td>error</td><td>Error message emitted by the trace call.</td><td></td></tr><tr><td>filler</td><td>Address of the filler. These agents pickup signed orders from swappers and compete to execute them using any source of liquidity they have access to.</td><td>0x7321ac264b89254ea749a0657d41a9a2ebf8e3da</td></tr><tr><td>reactor</td><td>Address or the reactor. Order Reactors settle UniswapX orders. They are responsible for validating orders of a specific type, resolving them into inputs and outputs, and executing them against the filler's strategy, and verifying that the order was successfully fulfilled.</td><td>0x6000da47483062a0d734ba3dc7576ce6a0b645c4</td></tr><tr><td>swapper</td><td>Address of the swapper.</td><td>0x27b6318dd9861cf26ba8c32dde26bbf8b5e0c956</td></tr><tr><td>exclusive_filler</td><td>Address of the exclusive filler.</td><td>0x7321ac264b89254ea749a0657d41a9a2ebf8e3da</td></tr><tr><td>exclusivity_override_bps</td><td>The amount in bps that a non-exclusive filler needs to improve the outputs by to be able to fill the order.</td><td>100</td></tr><tr><td>token_sold_address</td><td>Input token address. Input tokens will map to token sold. Native ETH will be represented as zero address `0x0000000000000000000000000000000000000000`.</td><td>0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2</td></tr><tr><td>token_sold_name</td><td>Input token name.</td><td>Wrapped Ether</td></tr><tr><td>token_sold_symbol</td><td>Input token symbol.</td><td>WETH</td></tr><tr><td>token_sold_decimals</td><td>Input token decimals.</td><td>18</td></tr><tr><td>token_sold_amount_raw</td><td>Input token amount, unnormalized, in string.</td><td>40000000000000000</td></tr><tr><td>token_sold_amount</td><td>Input token amount, normalized.</td><td>0.04</td></tr><tr><td>usd_sold_amount</td><td>USD value of the input token.</td><td>132.4968</td></tr><tr><td>outputs</td><td>Array of outputs. Note that there can be > 1 outputs for a single trade. Most of the case the bulk of the output values goes to the first output.</td><td>`[ { "endAmount": 92415831, "recipient": "0x27b6318dd9861cf26ba8c32dde26bbf8b5e0c956", "startAmount": 119475368, "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }, { "endAmount": 138831, "recipient": "0x27213e28d7fda5c57fe9e5dd923818dbccf71c47", "startAmount": 179482, "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" } ]`</td></tr><tr><td>token_bought_address</td><td>First output token address. Output tokens will map to tokens bought. Native ETH will be represented as zero address `0x0000000000000000000000000000000000000000`.</td><td>0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</td></tr><tr><td>token_bought_name</td><td>First output token name.</td><td>USD Coin</td></tr><tr><td>token_bought_symbol</td><td>First output token address.</td><td>USDC</td></tr><tr><td>token_bought_decimals</td><td>First output token decimals.</td><td>6</td></tr><tr><td>token_bought_amount_raw</td><td>Amount of token bought, unnormalized and in string.</td><td>119475368</td></tr><tr><td>token_bought_amount</td><td>Amount of token bought, normalized.</td><td>119.475368</td></tr><tr><td>usd_bought_amount</td><td>USD amount of token bought, normalized.</td><td>119.43952539</td></tr><tr><td>usd_amount</td><td>USD value of the swap. We preferentially select the input (token sold) usd value. If this is not available, we will select the output.</td><td>132.4968</td></tr><tr><td>additional_validation_contract</td><td>Custom validation contract.</td><td>0x0000000000000000000000000000000000000000</td></tr><tr><td>additional_validation_data</td><td>Encoded validation params for additionalValidationContract.</td><td></td></tr><tr><td>deadline</td><td>Deadline timestamp.</td><td>1712191068</td></tr><tr><td>decay_start_time</td><td>The time at which the DutchOutputs start decaying.</td><td>2024-04-04 00:36:36.000</td></tr><tr><td>decay_end_time</td><td>The time at which price becomes static.</td><td>2024-04-04 00:37:36.000</td></tr><tr><td>order_hash</td><td>Unique hash of the order.</td><td>0xe2bdd76383aab99fb591ca99fac72b6b99dc0e5822df200f7e97e481a99426b7</td></tr><tr><td>nonce</td><td>Nonce of the order.</td><td>1993352865421623303439960934785910165619400008222801057126382995622032590081</td></tr><tr><td>sig</td><td>Signature of the order.</td><td></td></tr><tr><td>extra_fields</td><td>The decoded serialized order.</td><td>`{ "decayEndTime": 1712191056, "decayStartTime": 1712190996, "exclusiveFiller": "0x7321ac264b89254ea749a0657d41a9a2ebf8e3da", "exclusivityOverrideBps": 100, "input": { "endAmount": 40000000000000000, "startAmount": 40000000000000000, "token": "0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2" }, "orders": { "additionalValidationContract": "0x0000000000000000000000000000000000000000", "additionalValidationData": "", "deadline": 1712191068, "nonce": 1.993352865421623e+75, "reactor": "0x6000da47483062a0d734ba3dc7576ce6a0b645c4", "swapper": "0x27b6318dd9861cf26ba8c32dde26bbf8b5e0c956" }, "outputs": [ { "endAmount": 92415831, "recipient": "0x27b6318dd9861cf26ba8c32dde26bbf8b5e0c956", "startAmount": 119475368, "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" }, { "endAmount": 138831, "recipient": "0x27213e28d7fda5c57fe9e5dd923818dbccf71c47", "startAmount": 179482, "token": "0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48" } ] }`</td></tr><tr><td>transaction_from_address</td><td>The address of the sending party of this transaction.</td><td>0xd9f4faa80fa2ace09ccf56b15b9d2eec423dd4bd</td></tr><tr><td>transaction_to_address</td><td>The address of the receiving party of this transaction (could be a contract address).</td><td>0x7321ac264b89254ea749a0657d41a9a2ebf8e3da</td></tr><tr><td>transaction_hash</td><td>Transaction hash of this trade.</td><td>0xb072c5aa5c36dc3a31140d8adf02af47c5290238fd4294076701dbbf99256e6a</td></tr><tr><td>transaction_index</td><td>Transaction index of this trade in the block.</td><td>57</td></tr><tr><td>calldata_selector</td><td>The call data selector of the transaction.</td><td>0x01349c00</td></tr><tr><td>transaction_fees</td><td>Fees paid at the transaction level.</td><td>0.00365229813185184</td></tr><tr><td>transaction_fees_usd</td><td>Fees paid in USD.</td><td>12.097945378</td></tr><tr><td>fee_details</td><td>Additional fee details of the transaction, including max priority fee, gas price and gas used for the transaction.</td><td>`{ "gas": 247915, "gas_price": 0, "max_fee_per_gas": null, "max_priority_fee_per_gas": null, "receipt_effective_gas_price": 21038098960, "receipt_gas_used": 173604 }`</td></tr><tr><td>log_index</td><td>Log index of this trade.</td><td>133</td></tr><tr><td>trace_id</td><td>Block timestamp of this trade.</td><td>call_0xb072c5aa5c36dc3a31140d8adf02af47c5290238fd4294076701dbbf99256e6a_0</td></tr><tr><td>trace_type</td><td>Block number of this trade.</td><td>call</td></tr><tr><td>call_type</td><td>Block hash of this trade.</td><td>call</td></tr><tr><td>block_timestamp</td><td>Block timestamp of this trade.</td><td>2024-04-04 00:36:23.000</td></tr><tr><td>block_number</td><td>Block number of this trade.</td><td>19578864</td></tr><tr><td>block_hash</td><td>Block hash of this trade.</td><td>0xef0c1104a96c2a515121058f045b945f54f679f27665a5a64d55fba070f0aa8e</td></tr><tr><td>unique_id</td><td>Unique ID of each trade.</td><td>trace_id-call_0xb072c5aa5c36dc3a31140d8adf02af47c5290238fd4294076701dbbf99256e6a_0_order_index-0</td></tr><tr><td>_created_at</td><td>Timestamp of the entry creation.</td><td>2024-04-04 04:29:21.057</td></tr><tr><td>_updated_at</td><td>Timestamp of the entry update.</td><td>2024-04-04 04:29:21.057</td></tr></tbody></table>

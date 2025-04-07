@@ -1,0 +1,100 @@
+---
+title: "Income"
+description: Find the daily income and APR of active validators on Beacon Chain.
+---
+
+The `beacon.validator.income` table provides a daily snapshot of the consensus & execution layer income (MEV rewards) of active validators.
+
+### Consensus Layer Income
+
+Effectively, validator balances on the Beacon Chain can only change due to the following events:
+
+* rewards (attestation, block proposing, sync committee rewards)
+
+* penalties (attester slashing, proposer slashing)
+
+* deposits (from ETH1 - aka execution layer)
+
+* withdrawals (to ETH1, if the withdrawal address is specified)
+
+**Source**: [https://kb.beaconcha.in/rewards-and-penalties](https://kb.beaconcha.in/rewards-and-penalties)
+
+Thus, the consensus layer income from rewards and penalties accrued at the end of the day can be derived from the following calculation
+
+> `consensus_income = current_balance - previous_balance - current_deposits - current_withdrawals`
+
+Where `current_` refers to deposits, withdrawals made on the same day of the balance snapshot and `previous_` is the last balance snapshot.
+
+**Note**: Income can be negative if the validator is slashed. Exiting validators are not included in the calculation.
+
+For granular consensus income data, please query `beacon.validator.consensus_income` model - this table provides slot-level consensus income from attestations, block proposing and sync committee reward paritcipation.
+
+### Execution Layer Income
+
+Execution Layer Income of the validator is dependent on whether there is proposer-builder separation (PBS).
+
+* **PBS Blocks**: These are blocks where the builder sends an MEV payout to the **Proposer Fee Recipient (block proposer),** which typically happens in the last transaction of a block.
+
+* **Non-PBS Blocks**: For blocks that do not have build -> proposer MEV payout, the execution layer income will be the total builder **priority fee reward** from transactions + th&#x65;**&#x20;total direct ETH transferred** to block builders.
+
+<Info>
+**Assumptions**
+
+* the proposer fee recipient (MEV Reward) on the Execution Layer is the same entity as the Validator that is proposing the block on the Consensus Layer.
+</Info>
+
+i.e. in the following example, Validator = 711548 proposed this block and would be the recipient of MEV Rewards. Note that the withdrawal address of the validator can be different from the proposer fee recipient.
+
+<Frame>
+<img src="/images/image-historical-evm-beacon-validator-income-1.png" />
+</Frame>
+
+Block Proposed by 711548, receiving 0.0407 ETH in MEV rewards: [https://etherscan.io/block/17667807#mevinfo](https://etherscan.io/block/17667807#mevinfo)
+
+<Info>
+**Execution Income Pre-Merge**
+
+Before the Ethereum merge, there was no execution (L1) income for validators because validators on the Beacon Chain did not propose blocks. Block proposals and transaction execution were managed by miners on the Ethereum mainnet (proof-of-work chain).
+
+Post-merge, Ethereum switched to proof-of-stake, where Beacon Chain validators propose blocks built by block builders on the execution chain. Execution income, including MEV rewards, is mapped from these blocks to validators.
+</Info>
+
+### Sample Query
+
+Finding daily income of active validators by ETH1 `withdrawal_address` specified in withdrawal credentials.
+
+```sql
+select
+    date(slot_timestamp) as date,
+    count(distinct validator_index) as validators, -- active validators 
+    sum(total_income) as total_income -- daily total income 
+from beacon.validator.income 
+where withdrawal_address = '0x210b3cb99fa1de0a64085fa80e18c22fe4722a1b' -- Kraken Withdrawal
+group by 1
+order by 1 desc
+```
+
+<Frame>
+<img src="/images/image-historical-evm-beacon-validator-income-2.png" />
+</Frame>
+
+[https://app.allium.so/s/I50cFs9M](https://app.allium.so/s/I50cFs9M)
+
+Retrieve the daily income and APR of the validator by `validator_index`.
+
+```sql
+select 
+slot_timestamp, validator_index, total_income, consensus_income, execution_income
+from beacon.validator.income 
+where validator_index = 10 
+```
+
+<Frame>
+<img src="/images/image-historical-evm-beacon-validator-income-3.png" />
+</Frame>
+
+[https://app.allium.so/s/2nJ185bE](<https://app.allium.so/s/2nJ185bE >)
+
+### Table Columns
+
+<table><thead><tr><th width="264">Column Name</th><th width="337.3333333333333">Description</th><th>Example</th></tr></thead><tbody><tr><td>slot_number</td><td>Slot number of the balance snapshot.</td><td>6,411,598</td></tr><tr><td>slot_timestamp</td><td>Slot timestamp of balance snapshot.</td><td>2023-05-10 23:59:59</td></tr><tr><td>validator_index</td><td>Unique index of the validator.</td><td>459,015</td></tr><tr><td>total_income</td><td>Total income = consensus + execution income</td><td>0.002814952</td></tr><tr><td>consensus_income</td><td>Consensus layer (Beaon Chain) income.</td><td>0.002814952</td></tr><tr><td>execution_income</td><td>Execution layer income, if validator proposed block and block miner sent MEV rewards in the block proposed.</td><td>0</td></tr><tr><td>execution_income_pbs</td><td>PBS blocks income - MEV payout transfer from block builder to proposer fee recipient.</td><td>0</td></tr><tr><td>execution_income_non_pbs</td><td>Non-PBS blocks income - assuming that there is no MEV payout in that transaction.</td><td>0</td></tr><tr><td>income_7d</td><td>7 day validator income to the current slot_timestamp.</td><td>0.019833533</td></tr><tr><td>income_30d</td><td>30 day validator income to the current slot_timestamp.</td><td>0.084810516</td></tr><tr><td>income_90d</td><td>90 day validator income to the current slot_timestamp.</td><td>1.94E-01</td></tr><tr><td>apr_7d</td><td>Estimated APR based on income in the last 7 days. Where APR_7D = income_7d/sum_effective_balance_7d/365.25*100</td><td>3.234016932</td></tr><tr><td>apr_30d</td><td>Estimated APR based on income in the last 30 days.</td><td>3.226775101</td></tr><tr><td>apr_90d</td><td>Estimated APR based on income in the last 90 days.</td><td>4.439010365</td></tr><tr><td>current_balance</td><td>Balance of the validator at current date timestamp.</td><td>32.00094938</td></tr><tr><td>previous_balance</td><td>Balance of the validator at the previous date timestamp.</td><td>32.01058424</td></tr><tr><td>withdrawal_amount</td><td><p>Total ETH withdrawn for the validator at the current date. </p><p></p><p>This will be 0 if no withdrawals are made for the day.</p></td><td>0.012449812</td></tr><tr><td>deposit_amount</td><td><p>Total ETH deposit for the current validator at the current date. </p><p></p><p>This will be 0 if no deposits were made for the day.</p></td><td>0</td></tr><tr><td>status</td><td>Current status of the validator. Note that only active validators are included.</td><td>active_ongoing</td></tr><tr><td>is_slashed</td><td>Was validator slashed (not longer active).</td><td>FALSE</td></tr><tr><td>pubkey</td><td>The validator's BLS public key, uniquely identifying them. 48-bytes, hex encoded with 0x prefix, case insensitive.</td><td>0x9373298f965025e074c6be92d38e5e3d6049dcad80546f81ea1859e694f3f147d85918a4e87341a294cedf9c29165c90</td></tr><tr><td>withdrawal_prefix</td><td>The first byte of this credential is known as the withdrawal prefix. This value is currently either 0x00 or 0x01.</td><td>0x01</td></tr><tr><td>withdrawal_address</td><td>ETH1 Withdrawal address specified in withdrawal credentials, applicable for validators with 0x01 withdrawal credentials only.</td><td>0x94e69f03d5d02acbab4b22747a064103fb6b6be0</td></tr><tr><td>current_effective_balance</td><td>Effective staked balance of the validator at current date.</td><td>32</td></tr><tr><td>previous_effective_balance</td><td>Effective staked balance of the validator at previous date.</td><td>32</td></tr><tr><td>unique_id</td><td>Unique ID of the income entry</td><td>date-2023-05-10_validator_index-459015</td></tr><tr><td>slot_change</td><td>Slot change from the previous date to the current date.</td><td>7,200</td></tr></tbody></table>

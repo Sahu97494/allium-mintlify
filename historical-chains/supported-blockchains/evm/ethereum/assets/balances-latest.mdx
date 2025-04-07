@@ -1,0 +1,76 @@
+---
+title: "Overview"
+---
+
+The balances latest table contains th&#x65;**&#x20;latest balances&#x20;**&#x6F;f every type of token of any address. This includes Native Ether, ERC20, ERC721, and ERC1155 tokens.
+
+For the value of the asset balances, there are two USD balance fields:
+
+* `usd_balance_current` which reflects the **current USD** value of the asset.
+
+* `usd_balance_at_block_timestamp `which reflects the USD value of the asset at the **last transaction activity.**
+
+### Sample Query
+
+Getting the latest balances address.
+
+```sql
+select * from ethereum.assets.balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459'
+```
+
+Finding the distribution of current ETH holdings amongst users who bought an NFT on OpenSea in the last 7 days.
+
+```sql
+select 
+  case 
+  when balance <= 0.1 then 'a. >0-0.1 ETH'
+  when balance > 0.1 and balance <= 1 then 'b. >0.1-1 ETH'
+  when balance > 1 and balance <= 10 then 'c. >1-10 ETH'
+  when balance > 10 and balance <= 100 then 'd. >10-100 ETH'
+  when balance > 100 then 'e. >100 ETH' end as eth_holdings,
+  count(distinct address) as address_count
+from 
+  ethereum.assets.balances_latest 
+where 
+  token_type = 'ETH'
+  and token_address = '0x0000000000000000000000000000000000000000'
+  and address IN ( -- selecting address of Opensea buyers in the last 7 days 
+    select 
+      distinct buyer_address 
+    from 
+      ethereum.nfts.trades 
+    where 
+      usd_price > 0 
+      and current_date - date(block_timestamp) < 7
+      and marketplace = 'opensea'
+  )
+group by eth_holdings
+order by eth_holdings asc
+```
+
+### Table Columns
+
+| Column Name                                   | Description                                                                                                                               | Example                                                                 |
+| --------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+| address                                       | Address of the account.                                                                                                                   | 0x66a84d487780c088d862971045d84b02d9b25aab                              |
+| token\_address                                | <p>Address of the token.</p><p></p><p>For Ether it is represented as nulll address.</p>                                                   | 0x0000000000000000000000000000000000000000                              |
+| token\_name                                   | Name of the token.                                                                                                                        | ETH                                                                     |
+| token\_symbol                                 | Symbol of the token.                                                                                                                      | ETH                                                                     |
+| token\_id                                     | Token ID of a ERC721 token or ERC1155 token.                                                                                              |                                                                         |
+| raw\_balance                                  | Raw balance amount of the token (not divided by the number of decimals)                                                                   | 216,765,847,229,634                                                     |
+| raw\_balance\_str                             | Raw balance amount of the token (not divided by the number of decimals) in string.                                                        | 216765847229634                                                         |
+| balance                                       | `raw_balance` divided by the number of decimals of this token. This value will be the same as raw\_balance for erc721 and erc1155 tokens. | 0.0002167658472                                                         |
+| balance\_str                                  | Balance of token normalized and in string format.                                                                                         | 0.0002167658472                                                         |
+| usd\_balance\_current                         | USD balance of token at the current timestamp.                                                                                            | 0.308804626                                                             |
+| usd\_balance\_at\_block\_timestamp            | USD balance of token at the timestamp of the **last activity that resulted in balance change.**                                           | 0.2800939895                                                            |
+| usd\_exchange\_rate\_current                  | USD exchange rate of token at the **current timestamp.**                                                                                  | 1,424.60                                                                |
+| usd\_exchange\_rate\_at\_block\_timestamp     | USD exchange rate of token at the timestamp of the last activity that resulted in balance update.                                         | 1,292.15                                                                |
+| transaction\_hash                             | The transaction hash that resulted in the balance update.                                                                                 | 0xb2bf75bdb376ab2c59fdfed688355bc4b3b20d2e71d3ec6ff8e3a6b47f3894dc      |
+| last\_activity\_block\_timestamp              | The last timestamp of the block that that resulted in the balance update.                                                                 | 2022-12-05 03:58:11                                                     |
+| last\_activity\_block\_number                 | The last block number that resulted in the balance update.                                                                                | 16,116,061                                                              |
+| last\_activity\_block\_hash                   | The block hash of the last activity that resulted in this balance.                                                                        | 0x49ae37a2a5feb07d3f237dbfe4af59abb3b9ef19e3cd47ef083f1d7e45a2e616      |
+| \_updated\_at\_\_usd\_exchange\_rate\_current | Timestamp of the current USD exchange.                                                                                                    | 2023-03-10 22:00:00                                                     |
+| unique\_id                                    | Unique ID of the balance.                                                                                                                 | block-16116061\_address-0x66a84d487780c088d862971045d84b02d9b25aab\_eth |
+| \_updated\_at                                 | Timestamp of the balance update.                                                                                                          | 2023-03-10 10:18:07                                                     |
+

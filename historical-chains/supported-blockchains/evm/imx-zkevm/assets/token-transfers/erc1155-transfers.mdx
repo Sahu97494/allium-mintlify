@@ -1,0 +1,33 @@
+---
+title: "ERC1155 Transfers"
+---
+
+The ERC1155 Token Transfers table records all transfers from the event log `TransferSingle` and `TransferBatch`.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name                | Description                                                                                          |
+| -------------------------- | ---------------------------------------------------------------------------------------------------- |
+| event\_type                | Type of transfer event for ERC1155 tokens. This can either be a single\_transfer or batch\_transfer. |
+| operator                   | Address of the ERC1155 operator.                                                                     |
+| from\_address              | Address where the token is being transferred from.                                                   |
+| to\_address                | Address where the token is being transferred to.                                                     |
+| token\_address             | Token address of the asset transferred.                                                              |
+| token\_name                | Token name.                                                                                          |
+| token\_symbol              | Token symbol.                                                                                        |
+| token\_id                  | The token ID of the token.                                                                           |
+| raw\_amount\_str           | Amount of token moved, unnormalized, in string (to retain precision).                                |
+| raw\_amount                | Amount of tokens moved, unnormalized.                                                                |
+| amount\_str                | Amount of token moved, normalized, in string (to retain precision).                                  |
+| amount                     | Amount of token moved, normalized.                                                                   |
+| transaction\_from\_address | The address of the sending party of this transaction.                                                |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).                |
+| transaction\_hash          | The transaction hash that this transfer belongs to.                                                  |
+| transaction\_index         | The position of this transaction in the block. The first transaction has index 0.                    |
+| log\_index                 | The position of this log within the block.                                                           |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain.               |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.                     |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.                       |
+| unique\_id                 | Unique id generated to each transfer.                                                                |

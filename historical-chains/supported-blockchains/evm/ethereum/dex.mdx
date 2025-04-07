@@ -1,0 +1,8 @@
+---
+title: "Overview"
+---
+
+Our DEX schema is designed to capture and organize data related to decentralized exchanges (DEX). It includes tables for recording token swap events, liquidity pool creations, and events such as mints and burns.
+
+<table><thead><tr><th width="226">DEX Tables</th><th>Description</th></tr></thead><tbody><tr><td>Trades</td><td>Token swaps on major DEXes that route through the protocol's or DEX's liquidity pool.</td></tr><tr><td>Aggregator Trades</td><td>DEX aggregator trades are trades executed by aggregators or contracts that route swaps across multiple liquidity pools on-chain or through market makers.</td></tr><tr><td>Liquidity Pool Events</td><td>Liquidity pool events specific to each DEX protocol. Includes events such as mints, burns, sync, and collect. </td></tr><tr><td>Liquidity Pools</td><td>Pool creation events and parameters. </td></tr><tr><td>Uniswap X Trades</td><td>Uniswap X Orders are executed on the Ethereum mainnet. Includes swaps that failed to execute as well. </td></tr><tr><td>JIT Liquidty Events</td><td>Just-in-time (JIT) Liquidity events for UniswapV3 protocols executed. Includes data such as the liquidity action and swap that was sandwiched between a JIT liquidity provision. </td></tr><tr><td>Sanwich Trades</td><td>The Sandwich Trades table captures DEX events where sandwich trading activity is detected. Sandwich trading involves placing two trades (a front-run and a back-run) around a victim's trade to manipulate the market price for profit.</td></tr></tbody></table>
+

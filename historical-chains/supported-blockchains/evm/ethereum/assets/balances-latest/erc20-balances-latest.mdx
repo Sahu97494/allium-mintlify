@@ -1,0 +1,26 @@
+---
+title: "ERC20 Balances Latest"
+description: The current ERC20 balance of all addresses.
+---
+
+<Info>
+Note that the USD prices of any given latest balance might lag more than you expect them to. Check the \_updated\_at\_\_usd\_exchange\_rate\_current column to ensure the price is fresh enough for your use case.
+
+Also keep in mind we only use CEX USD prices to estimate the usd\_amount. This has the benefit of excluding scam tokens, but some defi tokens might not be covered.
+</Info>
+
+ERC20 balances latest contains the current ERC20 balances of all addresses. It is otherwise identical to [ERC20 Balances](/historical-chains/supported-blockchains/evm/ethereum/assets/balances/erc20-balances).
+
+### Sample Query
+
+Getting the latest ERC20 Balances of USDC Token from an address.
+
+```sql
+select * from ethereum.assets.erc20_balances_latest
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48' -- USDC Token Address
+```
+
+### Table Columns
+
+<table><thead><tr><th width="253.33333333333331">Column Name</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td>0x4b805632240e35b06d93e42af2aee45417f9af6b</td></tr><tr><td>token_address</td><td>Addres of the token.</td><td>0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48</td></tr><tr><td>token_name</td><td>Name of the token.</td><td>USD Coin</td></tr><tr><td>token_symbol</td><td>Symbol of the token.</td><td>USDC</td></tr><tr><td>raw_balance</td><td>Balance of ERC20 token unnormalized.</td><td>84,005</td></tr><tr><td>raw_balance_str</td><td>Balance of ERC20 token unnormalized in string.</td><td>84005</td></tr><tr><td>balance_str</td><td>Balance of ERC20 token in string.</td><td>0.084005</td></tr><tr><td>balance</td><td>Balance of ERC20 token.</td><td>0.084005</td></tr><tr><td>usd_balance_current</td><td>USD balance of ERC20 token at the <strong>current timestamp.</strong></td><td>0.0839797985</td></tr><tr><td>usd_balance_at_block_timestamp</td><td>USD balance of ERC20 token at the <strong>timestamp of the last activity that</strong> resulted in balance change.</td><td>0.083920995</td></tr><tr><td>usd_exchange_rate_current</td><td>USD exchange rate of ERC20 token at the current timestamp.</td><td>0.9997</td></tr><tr><td>usd_exchange_rate_at_block_timestamp</td><td>USD exchange rate of ERC20 token at the timestamp of the last activity that resulted in balance update.</td><td>0.999</td></tr><tr><td>last_activity_block_timestamp</td><td>The last timestamp of the block that that resulted in the balance update.</td><td>2020-08-01 13:12:58</td></tr><tr><td>last_activity_block_number</td><td>The last block number that resulted in the balance update.</td><td>10,574,102</td></tr><tr><td>last_activity_block_hash</td><td>The last hash of the block that resulted in the balance update.</td><td>0x1e8003f10add525ff56b7bc28c65f5011a8d6d098aa086ecba0f87c881ffb7ae</td></tr><tr><td>_updated_at__usd_exchange_rate_current</td><td>Timestamp of the current USD exchange.</td><td>2023-03-10 22:00:00</td></tr><tr><td>unique_id</td><td>Unique ID of the balance</td><td>block-10574102_address-0x4b805632240e35b06d93e42af2aee45417f9af6b_token_address-0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48_erc20</td></tr><tr><td>_updated_at</td><td>Timestamp of the balance update. </td><td>2023-03-10 10:18:08</td></tr></tbody></table>

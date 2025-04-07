@@ -1,0 +1,43 @@
+---
+title: "Farms"
+description: This table contains information for various farms.
+---
+
+`solana.defi.farms` currently includes the following farms/protocols
+
+| Project | Protocol     | Farm Type |
+| ------- | ------------ | --------- |
+| kamino  | kfarm        | vault     |
+| meteora | meteora-dlmm | dlmm-farm |
+
+## Table columns
+
+| Column Name                             | Description                                                                                          | Type           | Example                                                                                            |
+| --------------------------------------- | ---------------------------------------------------------------------------------------------------- | -------------- | -------------------------------------------------------------------------------------------------- |
+| project                                 | The farm project                                                                                     | varchar        | kamino                                                                                             |
+| protocol                                | The protocol used by the farm project                                                                | varchar        | kfarm                                                                                              |
+| farm\_type                              | Type of farm. current values are: `dlmm-farm`, `vault`                                               | varchar        | vault                                                                                              |
+| farm                                    | The farm identifier. For a dlmm-farm, it is the lb\_pair, for a kamino vault, it is the farm state   | varchar        | 8DLa1qFJf6u5mhxKtaP6dSRNaDQytc1G5xUcLWaSkgYW                                                       |
+| strategy                                | The strategy of the vault. applicable for vaults                                                     | varchar        | 4dPX2rrJgSEeB7sLrM9SdTE9PWzfeMe8Ky5YCfqQCwMD                                                       |
+| underlying\_dex\_pool                   | Underlying dex pool of used by the farm.                                                             | varchar        | 2QrWsSWrGvoAqkDC5XSGqjS752RWLaopqAaGrbugSxBL                                                       |
+| underlying\_dex\_tokens                 | An array of mint addresses of the constituent tokens in the underlying dex pool                      | variant        | \[ "JUPyiwrYJFskUPiHa7hkeR8VUtAeFoSYbKedZNsDvCN", "J1toso1uCk3RLmjorhTtrVwY9HJ7X8V9yYac6Y7kGCPn" ] |
+| underlying\_dex\_token\_symbols         | An array of symbols of the constituent tokens in the underlying dex pool                             | variant        | \[ "JUP", "JitoSOL" ]                                                                              |
+| deposit\_mint\_0                        | Mint of 1st deposit token, if applicable. for a vault, this is the vault lp receipt (e.g. kaminoLP). | varchar        | 2nsveNLZqybj7rb92JeT7LMT2EkpwBF5mw6NeoTVpYKM                                                       |
+| deposit\_mint\_symbol\_0                | Symbol of 1st deposit token, if applicable                                                           | varchar        |                                                                                                    |
+| deposit\_mint\_1                        | Mint of 2nd deposit token, if applicable                                                             | varchar        |                                                                                                    |
+| deposit\_mint\_symbol\_1                | Symbol of 2nd deposit token, if applicable                                                           | varchar        |                                                                                                    |
+| reward\_mint\_0                         | Mint of 1st reward token, if applicable                                                              | varchar        | jtojtomepa8beP8AuQc6eXt5FriJwfFMwQx2v2f9mCL                                                        |
+| reward\_mint\_symbol\_0                 | Symbol of 1st reward token, if applicable                                                            | varchar        | JTO                                                                                                |
+| reward\_mint\_1                         | Mint of 2nd reward token, if applicable                                                              | varchar        |                                                                                                    |
+| reward\_mint\_symbol\_1                 | Symbol of 2nd reward token, if applicable                                                            | varchar        |                                                                                                    |
+| reward\_mint\_2                         | Mint of 3rd reward token, if applicable                                                              | varchar        |                                                                                                    |
+| reward\_mint\_symbol\_2                 | Symbol of 3rd reward token, if applicable                                                            | varchar        |                                                                                                    |
+| emission\_rps\_0                        | Emission per second of 1st reward token (normalized)                                                 | number         |                                                                                                    |
+| emission\_rps\_1                        | Emission per second of 2nd reward token (normalized)                                                 | number         |                                                                                                    |
+| emission\_rps\_2                        | Emission per second of 3rd reward token (normalized)                                                 | number         |                                                                                                    |
+| reward\_total\_funded\_0                | Total funded amount of 1st reward token (normalized)                                                 | float          |                                                                                                    |
+| reward\_total\_funded\_1                | Total funded amount of 2nd reward token (normalized)                                                 | float          |                                                                                                    |
+| reward\_total\_funded\_2                | Total funded amount of 3rd reward token (normalized)                                                 | float          |                                                                                                    |
+| farm\_config\_updated\_block\_timestamp | Last updated block\_timestamp for farm configurations in this record                                 | timestamp\_ntz | 2024-01-30 22:57:40+00:00                                                                          |
+| farm\_config\_updated\_block\_slot      | Last updated block\_slot for farm configurations in this record                                      | number         | 245148486                                                                                          |
+

@@ -1,0 +1,43 @@
+---
+title: "Pools"
+---
+
+The `dex.pools` table contains liquidity pools of DEX protocols indexed by Allium, consolidated into a single table.
+
+For seed pools such as Curve, the pool creation transaction information is unavailable, so the block, transactions and log details are null.
+
+Protocols indexed by Allium:
+
+* algebra\_protocol, balancer\_v1, balancer\_v2, curve, dodo\_v2, maverick\_v1, maverick\_v2, native\_v1, solidly\_protocol, pancakeswap\_v3, traderjoe\_v2\_1, uniswap\_v3\_protocol, uniswap\_v2\_protocol,
+
+### Table Columns
+
+Unique Key: `liquidity_pool_address`
+
+| Column                   | Data Type         | Description                                                                         |
+| ------------------------ | ----------------- | ----------------------------------------------------------------------------------- |
+| project                  | VARCHAR           | The project or platform name                                                        |
+| protocol                 | VARCHAR           | The specific protocol or version used                                               |
+| liquidity\_pool\_address | VARCHAR           | The address of the liquidity pool                                                   |
+| token0\_address          | VARCHAR           | The address of the first token in the pair                                          |
+| token0\_name             | VARCHAR           | The name of the first token                                                         |
+| token0\_symbol           | VARCHAR           | The symbol of the first token                                                       |
+| token0\_decimals         | BIGINT            | The number of decimal places for the first token                                    |
+| token1\_address          | VARCHAR           | The address of the second token in the pair                                         |
+| token1\_name             | VARCHAR           | The name of the second token                                                        |
+| token1\_symbol           | VARCHAR           | The symbol of the second token                                                      |
+| token1\_decimals         | BIGINT            | The number of decimal places for the second token                                   |
+| tokens\_array            | ARRAY             | An array containing the addresses of all tokens for pools with more than two tokens |
+| fee                      | BIGINT            | The fee associated with the pool                                                    |
+| tick\_spacing            | VARCHAR           | The spacing between ticks in the pool                                               |
+| factory\_address         | VARCHAR           | The address of the factory contract that created the pool                           |
+| extra\_fields            | VARIANT           | Additional fields emitted in pool creation in JSON format                           |
+| transaction\_hash        | VARCHAR           | The hash of the transaction (\*null for seed pools)                                 |
+| transaction\_index       | BIGINT            | The index of the transaction within the block (\*null for seed pools)               |
+| log\_index               | BIGINT            | The index of the log entry within the transaction (\*null for seed pools)           |
+| trace\_id                | VARCHAR           | The ID of the trace (if applicable)                                                 |
+| block\_timestamp         | TIMESTAMP\_NTZ(9) | The timestamp of the block                                                          |
+| block\_number            | BIGINT            | The number of the block                                                             |
+| block\_hash              | VARCHAR           | The hash of the block                                                               |
+| \_created\_at            | TIMESTAMP\_NTZ(9) | Timestamp when the record was created                                               |
+| \_updated\_at            | TIMESTAMP\_NTZ(9) | Timestamp when the record was last updated                                          |

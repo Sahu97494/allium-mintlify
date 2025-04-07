@@ -1,0 +1,35 @@
+---
+title: "ERC1155 Balances"
+description: Historical ERC1155 balances of all addresses at every block height.
+---
+
+<Info>
+Note that there are no ERC1155 tokens detected on Oasys as of block 2,900,000
+</Info>
+
+ERC1155 balances table contains the ERC1155 balances of all addresses, at every block height.
+
+Use this table to easily plot the change in the balance of ERC1155 tokens for an address or a group of addresses over time.
+
+Note that ERC1155 permits the creation of both semi-fungible tokens and non-fungible tokens. In other words, there can be more than one quantity for a particular ERC1155 contract and token ID.
+
+### Table Columns
+
+| Column Name       | Description                                                                  |
+| ----------------- | ---------------------------------------------------------------------------- |
+| address           | Address of the account.                                                      |
+| token\_address    | Token address of the asset.                                                  |
+| token\_name       | Name of the token.                                                           |
+| token\_symbol     | Symbol of the token.                                                         |
+| token\_id         | Unique token ID of the token. Only applicable for ERC721 and ERC1155 tokens. |
+| raw\_balance      | Balance of tokens (unnormalized)                                             |
+| raw\_balance\_str | Balance of tokens (unnormalized) in string.                                  |
+| balance           | Balance of token, normalized.                                                |
+| balance\_str      | Balance of token, normalized in string.                                      |
+| transaction\_hash | The transaction hash that resulted in the balance.                           |
+| block\_timestamp  | The timestamp of the block that that resulted in the balance.                |
+| block\_number     | The number of the block that resulted in the balance.                        |
+| block\_hash       | The hash of the block that resulted in the balance.                          |
+| unique\_id        | Unique id of the balance entry.                                              |
+| \_updated\_at     | nan                                                                          |
+

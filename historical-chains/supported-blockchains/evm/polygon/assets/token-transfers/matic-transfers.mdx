@@ -1,0 +1,29 @@
+---
+title: "MATIC Transfers"
+---
+
+The table for MATIC Token Transfers holds a record of all transactions conducted using the native MATIC token.
+
+This includes the transaction type, such as value transfer, miner payment, or gas burn, transaction call type, the transaction hash, block timestamp, and the sender and recipient wallet addresses along with the quantity of MATIC transferred.
+
+### Table Columns
+
+| Column Name                | Description                                                                            | Example                                                                                |
+| -------------------------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------- |
+| from\_address              | Address where the token is being transferred from.                                     | 0x840b7199ee12bf266def7903fec1e09c6a9d9a03                                             |
+| to\_address                | Address where the token is being transferred to.                                       | 0x0000000000000000000000000000000000000000                                             |
+| token\_address             | Token address of the asset transferred.                                                | 0x0000000000000000000000000000000000000000                                             |
+| token\_name                | Name of the asset transferred.                                                         | MATIC                                                                                  |
+| token\_symbol              | Token symbol of the asset transferred.                                                 | MATIC                                                                                  |
+| raw\_amount                | Amount of tokens moved (unnormalized).                                                 | 49,365,030,000,000                                                                     |
+| amount                     | Amount of token moved, normalized.                                                     | 0                                                                                      |
+| usd\_amount                | The amount of tokens moved, in $USD.                                                   | 0.0001076068797                                                                        |
+| call\_type                 | Call type of the transaction. Non-call type will be indicated by NULL.                 |                                                                                        |
+| transfer\_type             | Transfer type can be either value\_transfer, gas\_burn, gas\_payment\_to\_miner.       | gas\_payment\_to\_miner                                                                |
+| transaction\_from\_address | The address of the sending party of this transaction.                                  | 0x840b7199ee12bf266def7903fec1e09c6a9d9a03                                             |
+| transaction\_to\_address   | The address of the receiving party of this transaction (could be a contract address).  | 0x0515cada387799e8246ea697530dd0febb2f7331                                             |
+| transaction\_hash          | Transaction hash that this transfer belongs to.                                        | 0x12d6ea5d44685caeaa123a80297f5acbbc8dea7b1e90021adb6760455f48cd29                     |
+| block\_timestamp           | The time when the block that contains this transaction was included on the blockchain. | 2021-05-27 07:03:45                                                                    |
+| block\_number              | The block number that the corresponding transaction of this transfer belongs to.       | 14,982,036                                                                             |
+| block\_hash                | The block hash that the corresponding transaction of this transfer belongs to.         | 0xa99c71d83193d589978a7a873c957bf2704eaa041f34ad52d1723070c175277c                     |
+| unique\_id                 | Unique id generated to each transfer.                                                  | txn-0x12d6ea5d44685caeaa123a80297f5acbbc8dea7b1e90021adb6760455f48cd29\_block-14982036 |

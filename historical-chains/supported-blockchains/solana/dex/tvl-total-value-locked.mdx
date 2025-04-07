@@ -1,0 +1,37 @@
+---
+title: "TVL (Total Value Locked)"
+description: This table contains TVL information for various dex pools.
+---
+
+`solana.dex.tvl` currently includes the following dex/protocols
+
+| Project | Protocol       |
+| ------- | -------------- |
+| meteora | meteora-dlmm   |
+| orca    | orca-whirlpool |
+| phoenix | phoenix        |
+
+The data tracks changes to a pool's TVL at the **transaction** level, not instruction level
+
+### Table Columns
+
+| Column Name         | Description                                                                                         | Type           | Examples                                                                                 |
+| ------------------- | --------------------------------------------------------------------------------------------------- | -------------- | ---------------------------------------------------------------------------------------- |
+| project             | The dex project                                                                                     | varchar        | phoenix                                                                                  |
+| protocol            | The protocol used by the dex project                                                                | varchar        | phoenix                                                                                  |
+| pool                | The liquidity pool address                                                                          | varchar        | FicF181nDsEcasznMTPp9aLa5Rbpdtd11GtSEa1UUWzx                                             |
+| pool\_token\_0      | Token0's mint address                                                                               | varchar        | DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263                                             |
+| pool\_token\_1      | Token1's mint address                                                                               | varchar        | So11111111111111111111111111111111111111112                                              |
+| mint                | Mint address of the tvl statistic in this record. this is either token0\_address or token1\_address | varchar        | DezXAZ8z7PnrnRJjz3wXBoRgixCa6xjnB7YaB1pPB263                                             |
+| symbol              | Mint symbol of the tvl statistic in this record                                                     | varchar        | Bonk                                                                                     |
+| decimals            | Mint decimals of the tvl statistic in this record                                                   | number         | 5                                                                                        |
+| raw\_amount         | raw\_amount Raw amount of `<mint>` tokens in the pool                                               | varchar        | 1336404100000000                                                                         |
+| amount              | Normalized amount of `<mint>` tokens in the pool                                                    | float          | 13364041000.0                                                                            |
+| usd\_amount         | USD amount of the `<mint>` tokens in the pool                                                       | float          | 4305.641747889275                                                                        |
+| usd\_exchange\_rate | USD exchange rate per token                                                                         | float          | 3.2218112382226585e-07                                                                   |
+| block\_slot         | Block slot of the txn                                                                               | number         | 211671832                                                                                |
+| block\_height       | Block height of the txn                                                                             | number         | 194094461                                                                                |
+| block\_timestamp    | Block timestamp of the txn                                                                          | timestamp\_ntz | 2023-08-15 23:46:04+00:00                                                                |
+| block\_hash         | Block hash of the txn                                                                               | varchar        | AH4Jqy4rNZSFh1kMcE1A2Rm3YusQsELtmQTS2AxrkE6C                                             |
+| txn\_id             | Txn id of the txn                                                                                   | varchar        | 5wEwd4siUAADLJh7gNHQn3FENAq9buscXQDUaMsc52vdBoRnY8JQ8JHgMraQsFTcM7BbBQyiE6u2jVMngJye6D3L |
+| txn\_index          | Txn index of the txn                                                                                | number         | 2698                                                                                     |

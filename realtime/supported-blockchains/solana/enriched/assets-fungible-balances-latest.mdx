@@ -1,0 +1,22 @@
+---
+title: "Assets Fungible Balances Latest"
+---
+
+Our data contains latest balance for a user for both sol and spl balances. Note that these latest balances are aggregated on a block_timestamp level and unique by token_account. Token accounts are unique but an address can have several token_accounts for a given mint. You can learn more about token_accounts [here](https://solana.com/docs/core/tokens).
+
+Solana's network supports fungible balances through its native SOL tokens and SPL tokens. SOL, as the platform's primary asset, serves as the foundational currency for transaction fees and staking. SPL tokens, on the other hand, represent user-defined assets that can operate alongside SOL, which enables custom tokens and decentralized application support.
+
+### Table Columns
+
+| Column          | Description                                                  | Example                                                                                  |
+| --------------- | ------------------------------------------------------------ | ---------------------------------------------------------------------------------------- |
+| address         | wallet address                                               | 6Z9yHEY1FF2YWW8K3294vCthA3KcAq3ByVBoUzYxZmQv                                             |
+| mint            | token/asset mint address                                     | So11111111111111111111111111111111111111112                                              |
+| token_account   | token account                                                |                                                                                          |
+| raw_balance     | raw balance token account                                    | 0                                                                                        |
+| decimals        | token decimals                                               | 9                                                                                        |
+| block_timestamp | block timestamp of latest balance update for token account   | 2024-10-16 00:00:00                                                                      |
+| block_slot      | block slot of latest balance update for token account        | 295848237                                                                                |
+| txn_index       | transaction index of latest balance update for token account | 17                                                                                       |
+| block_hash      | block hash of latest balance update for token account        | 267cuJsFc8SbPTkvU24BWvTQEwBfswh7BtYT23ReYAmc                                             |
+| txn_id          | transaction id of latest balance update for token account    | 5vNPrvNBHB4HTDQhRkVZxdWsCexNCrc8sKe1meWSGHtDLPDke3hSZXLNU1FdoejFpENzAWnQpiugujYMFFwD5yei |

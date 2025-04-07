@@ -1,0 +1,47 @@
+---
+title: "Lending"
+icon: "building-columns"
+---
+
+DeFi lending protocols are decentralized platforms enabling users to borrow digital assets without traditional intermediaries. These protocols use smart contracts to automate lending operations, allowing lenders to earn interest on their deposits while borrowers can access capital by providing collateral.
+
+Allium provides comprehensive data on major DeFi protocols across the entire lending lifecycle, enabling users to analyze market dynamics, identify yield opportunities, and monitor protocol performance.
+
+Our lending models include detailed protocol identification, complete token information, normalized transaction amounts, USD valuations, full transaction metadata, participant addresses, and precise timestamps to support sophisticated analytical use cases.
+
+## Lending Data Coverage
+
+We support the following category of Lending data on EVM-compatible blockchains.
+
+| Category                        | Protocols Supported                          | Notes                                      |
+|--------------------------------|----------------------------------------------|--------------------------------------------|
+| Core Lending Events            | Aave, Morpho Blue, Compound                  |                                            |
+| Lending TVL                    | Aave, Morpho Blue, Compound *(Beta)*         |                                            |
+| Interest Rates & Outstanding Loans | Aave, Morpho Blue                          |                                            |
+| Revenue and Fees               | Planned                                      | Not yet available                          |
+
+
+## Lending Blockchain Coverage
+
+| Ecosystem       | Blockchain Supported                          | Planned Support (~Q2)                                     |
+|------------------|-----------------------------------------------|------------------------------------------------------------|
+| EVM-Compatible   | Arbitrum, Base, Optimism, Ethereum            | Avalanche, Berachain, BSC, Gnosis, Polygon, Sonic, Scroll |
+| Other            | Solana                                        | Aptos, Sui                                                |
+
+
+## Models Supported
+
+The following models are supported for EVM-compatible blockchains.
+
+| Model         | Description                                                                                                                                             | Use Case                                                                                     |
+|---------------|---------------------------------------------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------|
+| **TVL Daily** | Daily snapshots of Total Value Locked in lending markets by token.                                                                                      | Explore TVL of lending projects by token address.                                            |
+| **Interest Rates** | Provides transaction-level interest rates and outstanding loans from Aave and Morpho Blue lending protocols by market.                              | Get historical borrowing rates of USDC on Aave; total outstanding loans on Morpho Blue.     |
+| **Deposits**  | Tracks deposit events across Aave and Compound, capturing deposit amounts, token details, and participant addresses.                                    | Analyze users depositing/supplying collateral on lending projects over time.                |
+| **Withdrawals** | Monitors withdrawal events from lending protocols with full data on withdrawn amounts, tokens, and user addresses.                                      | Track users withdrawing collateral from lending projects over time.                         |
+| **Loans**     | Records borrowing activity from lending platforms, including loan amounts, terms, borrower addresses, and collateralization.                           | Measure loan volume by assets and users.                                                    |
+| **Repayments**| Documents loan repayment transactions with details on repaid amounts, outstanding balances, and borrower activity.                                     | Analyze repayment volume by asset/user over time during market changes.                     |
+| **Liquidations**| Captures liquidation events, including data on liquidated collateral, repaid debt, liquidators, and borrowers.                                          | Monitor liquidation events by assets and users over time.                                   |
+
+
+

@@ -1,0 +1,80 @@
+---
+title: "Overview"
+description: "Frequently asked questions about our historical batch data."
+---
+
+### Address Casing
+
+**EVM-compatible (e.g. Ethereum, Polygon) chains address are in lower casing by default.**
+
+**Incorrect ❌ - This will return no results.**
+
+```sql
+-- Querying Latest ETH balances of ZkSync Era Bridge
+  select address, balance, last_activity_block_timestamp
+  from ethereum.assets.balances_latest
+  where address = '0x32400084C286CF3E17e7B677ea9583e60a000324' -- Address with upper-cased
+    and token_address = '0x0000000000000000000000000000000000000000' -- Default Native ETH address 
+  
+```
+
+**Correct ✅ - Lower-cased address**
+
+```sql
+select address, balance, last_activity_block_timestamp
+from ethereum.assets.balances_latest
+where address = '0x32400084c286cf3e17e7b677ea9583e60a000324' -- lower-casing
+  and token_address = '0x0000000000000000000000000000000000000000' -- Default Native ETH address 
+```
+
+Output of the query above. Note that the address column is lower-casing.
+
+**Blockchain with case-sensitive addresses**
+
+Base58 addresses are case-sensitive.
+
+<Tabs>
+<Tab title="Tron">
+Tron uses Base58 address by default.
+
+* E.g. `TEkxiTehnzSmSe2XqrBj4w32RUN966rdz8` USDC token address
+</Tab>
+<Tab title="Solana">
+Solana addresses are Base58 encoded.
+
+E.g. `EPjFWdd5AufqSSqeM2qN1xzybapC8G4wEGGkZwyTDt1v` USDC token address
+</Tab>
+<Tab title="Bitcoin*">
+There are two types of [address formats on Bitcoin.](https://bitcoin.stackexchange.com/questions/98498/are-bitcoin-addresses-case-sensitive)
+
+* bech32 encoded address (bc1 address) are case-insensitive:
+
+  * `bc1p4v7njx233etkwl06y79v8tds3mxj2pa63634mrprjque7n55nf6qg45d2k`
+
+* base58 encoded addresses are case-sensitive:
+
+  * `3Nr2pzPhZaBKfBbnaCjpxuuT8SUdGQYZCc`
+</Tab>
+</Tabs>
+
+### Native Token Address
+
+Native token (e.g. Native Ether) will be represented with zero address.
+
+<Tabs>
+<Tab title="EVM">
+| Chains                        | Symbol | Native Token Address                                      |
+|-------------------------------|--------|-----------------------------------------------------------|
+| Ethereum + EVM Roll-ups       | ETH    | `0x0000000000000000000000000000000000000000`              |
+| EVM Compatible Blockchains (L1s) | MATIC, BNB, AVAX | `0x0000000000000000000000000000000000000000`  |
+| Tron                          | TRX    | `T9yD14Nj9j7xAB4dbGeiX9h8unkKHxuWwb`                     |
+</Tab>
+<Tab title="Non-EVM Chains">
+| Chain    | Symbol | Native Token Address                                           |
+|----------|--------|----------------------------------------------------------------|
+| Solana   | SOL    | `So11111111111111111111111111111111111111112`                 |
+| Bitcoin  | BTC    | `NULL` - Null as there is only BTC transacted on the Bitcoin Network |
+</Tab>
+</Tabs>
+
+

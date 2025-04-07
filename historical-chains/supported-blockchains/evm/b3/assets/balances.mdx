@@ -1,0 +1,18 @@
+---
+title: "Balances"
+---
+
+Our B3 balances schema currently supports balances and latest balances for Native, ERC20, ERC721 and ERC1155 tokens.
+
+<Info>
+Note that the native token on B3 uses the null address `0x0000000000000000000000000000000000000000` as token\_address.
+</Info>
+
+| Table           | Description                         | Assets Supported                 |
+|-----------------|-------------------------------------|----------------------------------|
+| balances        | Block-level balances of all assets  | Native, ERC20, ERC721, ERC1155   |
+| balances_latest | Latest-balances of all assets       | Native, ERC20, ERC721, ERC1155   |
+
+`b3.assets.fungible_balances` combines both Native and ERC20 balances.
+
+

@@ -1,0 +1,34 @@
+---
+title: "Index"
+---
+
+The `beacon.validator.index` table gives an index of Beacon Chain validator index, pubkey, withdrawal credentials and withdrawal address of each validator.
+
+**This table updates daily with newly activated validators.**
+
+### Sample Query
+
+Finding the total number of validators that have withdrawal address to Lido Withdrawal Vaults
+
+```sql
+select 
+    withdrawal_address, 
+    count(distinct validator_index) as validators
+from beacon.validator.index
+where withdrawal_address = '0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f' -- Lido Withdrawal Vault
+group by 1 
+```
+
+### Table Columns
+
+| Column Name             | Description                                                                                                                   | Example                                                                                            |
+| ----------------------- | ----------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| validator\_index        | Unique index of validator.                                                                                                    | 524,079                                                                                            |
+| pubkey                  | The validator's BLS public key, uniquely identifying them. \_48-bytes, hex encoded with 0x prefix, case insensitive.          | 0x91b392a184c10fae87a8ce1eaf23fd5b62369efe67b93d123feee2a757191e85bc0d99892c65f3657ce18b0533c120a8 |
+| withdrawal\_credentials | The root of withdrawal credentials.                                                                                           | 0x010000000000000000000000b9d7934878b5fb9610b3fe8a5e441e8fad7e293f                                 |
+| withdrawal\_prefix      | The first byte of this credential is known as the withdrawal prefix. This value is currently either 0x00 or 0x01.             | 0x01                                                                                               |
+| withdrawal\_address     | ETH1 Withdrawal address specified in withdrawal credentials, applicable for validators with 0x01 withdrawal credentials only. | 0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f                                                         |
+| last\_status            | Last updated status.                                                                                                          | active\_ongoing                                                                                    |
+| activation\_epoch       | Epoch when validator activated. FAR\_FUTURE\_EPOCH if not activated.                                                          | 182804                                                                                             |
+| exit\_epoch             | Epoch when validator exited. FAR\_FUTURE\_EPOCH if not exited.                                                                | 18446744073709551615                                                                               |
+| updated\_at             | Timestamp when entry was last updated.                                                                                        | 2023-06-26 02:22:38.183 +0000                                                                      |

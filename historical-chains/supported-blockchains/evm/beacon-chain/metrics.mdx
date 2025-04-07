@@ -1,0 +1,95 @@
+---
+title: "Metrics"
+description: "A comprehensive daily overview of Ethereum beacon chain metrics including staking statistics, validator performance, rewards, and queue information."
+---
+
+### Overview
+
+<Warning>
+**Important**
+
+This model is new and we may have additional columns with time. If would like a particular Beacon Chain metric supported, please get in touch with us.
+</Warning>
+
+The `beacon.metrics.overview` table provides a comprehensive **daily** view of Ethereum's beacon chain performance metrics.
+
+This table consolidates key statistics about validator activity, staking economics, rewards, and queue dynamics into a single source of truth.
+
+The table includes critical metrics such as:
+
+* Daily validator counts and balances
+
+* APR calculations for different reward types
+
+* Consensus and execution layer rewards
+
+* Deposit and withdrawal activity
+
+* Entry and exit queue statistics
+
+This table is ideal for analysts tracking Ethereum's staking ecosystem, validator performance, and overall network health.
+
+The data is updated daily and provides a complete picture of the beacon chain's economic activity.
+
+### Sample Query
+
+```sql
+-- Get the last 30 days of staking APR and validator counts
+SELECT 
+    activity_date,
+    apr_total_reward,
+    apr_consensus_reward,
+    apr_execution_pbs_reward,
+    apr_execution_non_pbs_reward,
+    validators_active_ongoing,
+    total_validators,
+    staked_balance_active_ongoing / 1e9 AS staked_eth_active_ongoing_billions
+FROM beacon.metrics.overview
+WHERE activity_date >= CURRENT_DATE - 30
+ORDER BY activity_date DESC;
+```
+
+### Table Columns
+
+Unique Key: `activity_date`
+
+| Column                           | Data Type         | Description                                                                                         |
+| -------------------------------- | ----------------- | --------------------------------------------------------------------------------------------------- |
+| activity\_date                   | TIMESTAMP\_NTZ(9) | The date for which the metrics are reported                                                         |
+| missed\_slots                    | INTEGER           | Number of slots where a block was expected but not produced                                         |
+| apr\_consensus\_reward           | FLOAT             | Annualized percentage rate of consensus rewards relative to active staked balance                   |
+| apr\_execution\_pbs\_reward      | FLOAT             | Annualized percentage rate of execution PBS rewards relative to active staked balance               |
+| apr\_execution\_non\_pbs\_reward | FLOAT             | Annualized percentage rate of execution non-PBS rewards relative to active staked balance           |
+| apr\_total\_reward               | FLOAT             | Annualized percentage rate of all rewards (consensus + execution) relative to active staked balance |
+| staked\_balance                  | NUMERIC           | Total amount of ETH staked across all validators                                                    |
+| staked\_balance\_active\_ongoing | NUMERIC           | Total amount of ETH staked by active and ongoing validators                                         |
+| total\_balance                   | NUMERIC           | Total balance including staked ETH and rewards across all validators                                |
+| balance\_active\_ongoing         | NUMERIC           | Total balance of active and ongoing validators including staked ETH and rewards                     |
+| total\_validators                | INTEGER           | Total count of validators across all states                                                         |
+| validators\_active\_ongoing      | INTEGER           | Count of validators in the active and ongoing state                                                 |
+| execution\_rewards\_non\_pbs     | NUMERIC           | Total execution layer rewards not from PBS (Priority Block Space)                                   |
+| execution\_rewards\_pbs          | NUMERIC           | Total execution layer rewards from PBS (Priority Block Space)                                       |
+| consensus\_rewards               | NUMERIC           | Total consensus layer rewards                                                                       |
+| block\_rewards                   | NUMERIC           | Total rewards from block proposals                                                                  |
+| block\_rewards\_validators       | INTEGER           | Number of validators that received block proposal rewards                                           |
+| sync\_committee\_rewards         | NUMERIC           | Total rewards from sync committee participation                                                     |
+| sync\_committee\_validators      | INTEGER           | Number of validators that received sync committee rewards                                           |
+| attestation\_rewards             | NUMERIC           | Total rewards from attestations                                                                     |
+| total\_eth\_deposits             | NUMERIC           | Total amount of ETH deposited during the period                                                     |
+| avg\_eth\_deposits               | NUMERIC           | Average amount of ETH per deposit                                                                   |
+| total\_validator\_deposits       | INTEGER           | Total number of validator deposits                                                                  |
+| total\_eth\_withdrawals          | NUMERIC           | Total amount of ETH withdrawn during the period                                                     |
+| avg\_eth\_withdrawals            | NUMERIC           | Average amount of ETH per withdrawal                                                                |
+| total\_validator\_withdrawals    | INTEGER           | Total number of validator withdrawals                                                               |
+| validators\_entry\_queued        | INTEGER           | Number of validators waiting in the entry queue                                                     |
+| entry\_churn\_per\_epoch         | INTEGER           | Number of validators that can enter the active set per epoch                                        |
+| total\_entry\_queue\_epochs      | FLOAT             | Estimated number of epochs required to process the entry queue                                      |
+| total\_entry\_queue\_minutes     | FLOAT             | Estimated time in minutes to process the entry queue                                                |
+| total\_entry\_queue\_hours       | FLOAT             | Estimated time in hours to process the entry queue                                                  |
+| total\_entry\_queue\_days        | FLOAT             | Estimated time in days to process the entry queue                                                   |
+| validators\_exit\_queued         | INTEGER           | Number of validators waiting in the exit queue                                                      |
+| exit\_churn\_per\_epoch          | INTEGER           | Number of validators that can exit the active set per epoch                                         |
+| total\_exit\_queue\_epochs       | FLOAT             | Estimated number of epochs required to process the exit queue                                       |
+| total\_exit\_queue\_minutes      | FLOAT             | Estimated time in minutes to process the exit queue                                                 |
+| total\_exit\_queue\_hours        | FLOAT             | Estimated time in hours to process the exit queue                                                   |
+| total\_exit\_queue\_days         | FLOAT             | Estimated time in days to process the exit queue                                                    |

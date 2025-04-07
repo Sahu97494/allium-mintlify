@@ -1,0 +1,35 @@
+---
+title: "Blocks"
+---
+
+Blocks are the building blocks of blockchains and rollups.
+
+A block contains transactions which will alter the state of an EVM system incrementally. Transaction within a block can only be executed one after the other, not in parallel.
+
+### Table Columns
+
+Unique Key: number
+
+| Column Name         | Description                                                                                                                                    |
+| ------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
+| number              | The length of the chain, in blocks.                                                                                                            |
+| timestamp           | The unix timestamp for when the block was collated.                                                                                            |
+| hash                | Unique identifier of a transaction.                                                                                                            |
+| parent\_hash        | Unique identifier of the block preceding this block, also known as the parent block.                                                           |
+| nonce               | [The transaction nonce, unique to the wallet](https://ethereum.org/en/glossary/#nonce)                                                         |
+| sha3\_uncles        | An array of uncle hashes.                                                                                                                      |
+| logs\_bloom         | The bloom filter for the logs of the block.                                                                                                    |
+| state\_root         | The root of the final state trie of the block.                                                                                                 |
+| receipts\_root      | The root of the receipts trie of the block.                                                                                                    |
+| miner               | The address of the beneficiary to whom the mining rewards were given                                                                           |
+| difficulty          | The integer of the difficulty for this block.                                                                                                  |
+| total\_difficulty   | The integer of the total difficulty of the chain until this block.                                                                             |
+| size                | The size of the block, in bytes, as determined by the gas\_limit.                                                                              |
+| extra\_data         | The "extra data" field of this block.                                                                                                          |
+| gas\_limit          | Gas limit of the current block.                                                                                                                |
+| gas\_used           | Total gas used in the block.                                                                                                                   |
+| base\_fee\_per\_gas | Post London Upgrade (EIP1559), this represents the minimum gas\_used required for a transaction to be included in a block. Represented in wei. |
+| transaction\_count  | Number of transactions included in this block.                                                                                                 |
+| transactions\_root  | The root of the transaction trie of the block.                                                                                                 |
+| \_created\_at       | Timestamp of the entry creation.                                                                                                               |
+| \_updated\_at       | Timestamp of the entry update.                                                                                                                 |

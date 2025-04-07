@@ -1,0 +1,13 @@
+---
+title: "Blocks"
+---
+
+Blocks are ordered sets of Starknet transactions that are run using the Starknet OS, resulting in one aggregated state change that is then committed to the Starknet L1 core contract. A block has:
+
+* a block hash – a unique stable identifier that can be used to query and refer to the block.
+
+* a block number – an ordinal number representing the location of the block in the sequence of accepted blocks in Starknet. Note, a block’s number may change over time. Also, a given number may refer to different blocks at different points in time, e.g., in the event of L1 chain re-orders.
+
+### Table Columns
+
+<table><thead><tr><th width="281">Column Name</th><th width="611.3333333333333">Description</th></tr></thead><tbody><tr><td>timestamp</td><td>The unix timestamp for when the block was collated.</td></tr><tr><td>number</td><td>An ordinal number representing the location of the block in the sequence of accepted blocks in Starknet.</td></tr><tr><td>hash</td><td>Unique identifier for that block.</td></tr><tr><td>parent_hash</td><td>Unique identifier of the block preceding this block, also known as the parent block.</td></tr><tr><td>new_root</td><td>The new global state root.</td></tr><tr><td>sequencer_address</td><td>The StarkNet identity of the sequencer submitting this block.</td></tr><tr><td>status</td><td>The status of the block. Possible values: <code>PENDING</code>, <code>ACCEPTED_ON_L2</code>, <code>ACCEPTED_ON_L1</code>, <code>REJECTED.</code></td></tr><tr><td>gas_price</td><td>The price of l1 gas in the block.</td></tr><tr><td>transaction_count</td><td>Number of transactions included in this block.</td></tr></tbody></table>

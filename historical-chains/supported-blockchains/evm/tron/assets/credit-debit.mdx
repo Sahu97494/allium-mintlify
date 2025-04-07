@@ -1,0 +1,19 @@
+---
+title: "Overview"
+---
+
+Credit Debit tables contain the amount and direction (credit/debit) of every transfer event of TRX. This table will include two rows for every event, with one row representing credit and one row representing debit. Asset-specific tables are also available for query.
+
+### Difference with transfers
+
+Unlike token transfers, data here is organized into **credit&#x20;**&#x61;nd **debit&#x20;**&#x72;ows (similar to the accounting concept called "double entry book").
+
+### Methodology
+
+Using an TRX as an example, a **token transfer** will be represented as follows:
+
+<table><thead><tr><th width="166.33333333333331">from_address</th><th width="180">to_address</th><th width="100">amount</th><th>event</th></tr></thead><tbody><tr><td>X</td><td>Y</td><td>1250</td><td>X transfers 1250 tokens to Y</td></tr></tbody></table>
+
+In credit debit, it will be represented **two rows**.
+
+<table><thead><tr><th width="134">address </th><th width="208">counterparty_address </th><th width="100">amount</th><th>event</th></tr></thead><tbody><tr><td>X </td><td>Y</td><td>-1250</td><td> X decrease 1250 tokens to Y </td></tr><tr><td>Y</td><td>X</td><td>1250</td><td>Y increase 1250 tokens from </td></tr></tbody></table>

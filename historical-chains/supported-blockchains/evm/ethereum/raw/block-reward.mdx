@@ -1,0 +1,57 @@
+---
+title: "Block Reward"
+---
+
+`ethereum.raw.block_rewards` provides enriched block-level data of the various types of protocol-level rewards to the miners (block builder) and block proposers (validator), pre and most-merge.
+
+<Info>
+Update: 2024-05-20
+
+* This table is updated to include pre-merge block-level rewards.
+
+* All columns with ETH values (rewards) in this table are kept in string format to retain precision.
+</Info>
+
+Block-level ETH rewards on Ethereum can be separated into various types:
+
+* **Miner (block builder)**
+
+  * Pre-merge
+
+    * Block rewards from protocol emissions.
+
+      * For each block, the miner is rewarded with a finite amount of Ether on top of the fees paid.
+
+    * Uncle rewards
+
+      * Uncles reward is valid but rejected as it is not on the longest chain which is the working mechanism of the blockchain.
+
+  * Transaction priority fee
+
+  * Direct transfers from transaction senders to block builder
+
+* **Proposer (MEV post-merge)**
+
+  * amount of MEV reward received by the block proposer, and the corresponding index of the validator that proposed the block
+
+  * Corresponds to transfer from builder to proposer in the last transaction of the block: [https://etherscan.io/block/19900222#mevinfo](https://etherscan.io/block/19900222#mevinfo)
+
+### Sample Query
+
+Examine block-level rewards by reward type on Ethereum over time.
+
+```sql
+select 
+    date_trunc('week', block_timestamp) as date, 
+    sum(block_reward) as block_reward,
+    sum(uncles_reward) as uncles_reward,
+    sum(builder_priority_fee_reward) as builder_priority_fee_reward,
+    sum(builder_direct_reward) as builder_direct_reward,
+    sum(proposer_mev_reward) as proposer_mev_reward
+from ethereum.raw.block_rewards
+group by all 
+```
+
+### Table Columns
+
+<table><thead><tr><th width="254.33333333333331">Column Name</th><th>Description</th><th>Example</th></tr></thead><tbody><tr><td>block_number</td><td>The block number.</td><td>17,828,815</td></tr><tr><td>block_timestamp</td><td>The unix timestamp for when the block was collated.</td><td>2023-08-02 17:30:47</td></tr><tr><td>has_block_reward</td><td>Boolean flag indicating that there is a block reward pre-merge.</td><td>FALSE</td></tr><tr><td>block_reward</td><td>Amount of block rewards to the miner in ETH.</td><td>0</td></tr><tr><td>has_uncle_reward</td><td>Boolean flag indicating that there is a uncle reward pre-merge.</td><td>FALSE</td></tr><tr><td>uncles_reward</td><td>Amount of block uncle rewards in ETH. Note that it is possible to have more than one uncles rewards recipient.</td><td>0</td></tr><tr><td>uncles_reward_transactions</td><td>The trace level transfers to the uncles reward recipient wrapped in JSON.</td><td>NULL</td></tr><tr><td>base_fee_burnt</td><td>ETH burnt from base fee gas amount.</td><td>0.4084471863</td></tr><tr><td>builder_priority_fee_reward</td><td>Priority fee (tips) to the block builder (miner) recipient address.</td><td>0.02960400525</td></tr><tr><td>builder_direct_reward</td><td>Direct ETH transfers rewarded to the block builder (miner) in the block.</td><td>0.0002492600004</td></tr><tr><td>builder_address</td><td>Block builder (miner) address.</td><td>0xdafea492d9c6733ae3d56b7ed1adb60692c98bc5</td></tr><tr><td>builder_direct_transactions</td><td>Array of direct ETH transactions to the block producer in the block, which are assuemd to be builder's direct rewards.</td><td>[ `{ "amount": "0.000249260000412", "eth_from_address": "0x0c3de458b51a11da7d4616f42f66c861e3859d3e", "transaction_from_address": "0x26fd09c8b44af53df38a9bad41d5abc55a1786af", "transaction_hash": "0xf766b525bdfee22dd4ab5216a3a3d8dd0771bb59b8e384e2371700bf72b5cb17", "transaction_to_address": "0x0c3de458b51a11da7d4616f42f66c861e3859d3e", "usd_amount": "0.45555256195297944" }` ]</td></tr><tr><td>has_mev_reward</td><td>Boolean flag indicating whether there an MEV reward, sent from the miner to the block proposer fee recipient in the last transaction of the block.</td><td>TRUE</td></tr><tr><td>proposer_mev_reward</td><td>Proposer's MEV reward sent from the block builder.</td><td>0.02926816803</td></tr><tr><td>proposer_fee_recipient</td><td>Block proposer fee recipient address.</td><td>0x388c818ca8b9251b393131c08a736a67ccb19297</td></tr><tr><td>proposer_payout_transaction</td><td>Proposer's MEV reward payout transaction.</td><td>0x4186fa75972f93882acf7c9630eaee05c21132fba8d97a0826dc78b1e1cf1464</td></tr><tr><td>l1_gas_used</td><td>L1 gas used.</td><td>15,435,342</td></tr><tr><td>l1_gas_limit</td><td>L1 gas limit of the block.</td><td>30,000,000</td></tr><tr><td>l1_extra_data</td><td>L1 extra data.</td><td>0x496c6c756d696e61746520446d6f63726174697a6520447374726962757465</td></tr><tr><td>l1_block_hash</td><td>L1 block hash.</td><td>0x69b5ed627b2a16c7e13446b6cab4159ef1e850a4f9d64b66a31225d2e24b4d2f</td></tr><tr><td>slot_number</td><td>Beacon Chain slot number.</td><td>7,014,452</td></tr><tr><td>epoch</td><td>Beacon Chain epoch number.</td><td>219,201</td></tr><tr><td>proposer_index</td><td>Validator Index of the block proposer on Beacon Chain.</td><td>277,565</td></tr><tr><td>pubkey</td><td>Pubkey of thevalidator proposing this block</td><td>0xb7be38a5fcc9400c3c4b7dace7c0ae75ca76d47ce0e8de5177e38786b8bf71c5b03889ab3c4c436b731f4df01f398b78</td></tr><tr><td>graffiti</td><td>32 byte field of arbitrary data. This field may contain any data included by the block proposer.</td><td>0x0000000000000000000000000000000000000000000000000000000000000000</td></tr></tbody></table>

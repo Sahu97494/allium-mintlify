@@ -1,0 +1,55 @@
+---
+title: "Traces"
+---
+
+Traces keep track of the actions that modify the internal state of the EVM.
+
+<Info>
+Typically, `trace_id` for traces are unique, unless there are **duplicate transactions** on the blockchain. Which may occur for edge cases. Unless otherwise specified, all the EVM-trace data is fetched from `debug_traceBlockByNumber` from geth client.
+</Info>
+
+### Table Columns
+
+Unique Key: `trace_id`
+
+| Column Name            | Data Type         | Description                                                                                                                                                                         |
+| ---------------------- | ----------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| block\_number          | NUMBER(38,0)      | The length of the chain, in blocks.                                                                                                                                                 |
+| block\_timestamp       | TIMESTAMP\_NTZ(9) | The time when the block that contains this trace was included on the blockchain.                                                                                                    |
+| block\_hash            | VARCHAR(66)       | Unique identifier of the block that includes this trace.                                                                                                                            |
+| transaction\_hash      | VARCHAR(66)       | Unique identifier of the transaction that this trace belongs to.                                                                                                                    |
+| transaction\_index     | NUMBER(38,0)      | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                                |
+| from\_address          | VARCHAR(42)       | The address of the sending party of this transaction.                                                                                                                               |
+| to\_address            | VARCHAR(42)       | The address of the receiving party of this transaction, typically a contract address for traces.                                                                                    |
+| value                  | VARCHAR(16777216) | The amount of gas token moved from the from\_address to to\_address.                                                                                                                |
+| selector               | VARCHAR(10)       | 4-bytes of the input data.                                                                                                                                                          |
+| input                  | VARCHAR(16777216) | The bytecode of the call that is made to another smart contract.                                                                                                                    |
+| output                 | VARCHAR(16777216) | The bytecode answer the smart contract that was called gives back.                                                                                                                  |
+| trace\_type            | VARCHAR(16777216) | The value of the method such as call, create, create2, suicide.                                                                                                                     |
+| call\_type             | VARCHAR(16777216) | [The type of method such as call, delegatecall, staticcall. Learn more here.](https://medium.com/coinmonks/delegatecall-calling-another-contract-function-in-solidity-b579f804178c) |
+| reward\_type           | VARCHAR(16777216) | Populated when trace\_type =reward. Possible values: block, uncle.                                                                                                                  |
+| gas                    | NUMBER(38,0)      | Gas provided with the trace call, in wei.                                                                                                                                           |
+| gas\_used              | NUMBER(38,0)      | The amount of gas consumed, in wei.                                                                                                                                                 |
+| subtraces              | NUMBER(38,0)      | Number of children traces.                                                                                                                                                          |
+| error                  | VARCHAR(16777216) | Human readable developer error message. Examples: "Out of gas", "Reverted", "Bad instruction", "Bad jump destination"                                                               |
+| status                 | NUMBER(38,0)      | Success status of the trace. Either 1 (success) or 0 (failure).                                                                                                                     |
+| trace\_id              | VARCHAR(16777216) | Unique identifier for this trace. Generated by combining the trace\_type, transaction\_hash and trace\_address.                                                                     |
+| trace\_address         | VARCHAR(16777216) | The address of the trace within the call graph.                                                                                                                                     |
+| before\_evm\_transfers | VARIANT           | EVM transfers state before the trace execution. (Only applicable for Arbitrum Orbit Chains)                                                                                         |
+| after\_evm\_transfers  | VARIANT           | EVM transfers state after the trace execution. (Only applicable for Arbitrum Orbit Chains)                                                                                          |
+| \_created\_at          | TIMESTAMP\_NTZ(9) | Timestamp of the entry creation.                                                                                                                                                    |
+| \_updated\_at          | TIMESTAMP\_NTZ(9) | Timestamp of the entry update.                                                                                                                                                      |
+
+
+### Additional Info
+
+#### Trace Address field different from Etherscan/Explorers
+
+The number of traces Allium has indexed for this transaction is 12, whereas if you count the number of traces that Etherscan has on this [page](https://etherscan.io/tx/0x9068357001dc45c59a0c0383860f25fd64daeef205f723c5cbd980f280baca38/advanced#internal), you'll notice that it is 11. Etherscan has chosen to leave out certain types of traces and coupled with how trace addresses are generated, it will result in a different trace address numbering scheme.
+
+In the example above, the trace in the example as indexed by Allium is `{0,0,2,0}` whereas on Etherscan/Block Explorer it's as follows:
+
+<Frame>
+<img src="/images/image-historical-evm-arbitrum-raw-traces.png" />
+</Frame>
+

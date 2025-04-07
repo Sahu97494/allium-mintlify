@@ -1,0 +1,24 @@
+---
+title: "Uniswap V2"
+---
+
+The Uniswap v2 liquidity pool table contains pool creation events for projects utilizing Uniswap v2 protocol. These events are identified by the event log [`PairCreated()`](https://docs.uniswap.org/contracts/v2/reference/smart-contracts/factory).
+
+### Table Columns
+
+| Column Name                       | Description                            | Example                                                              |
+| --------------------------------- | -------------------------------------- | -------------------------------------------------------------------- |
+| project                           | Name of the project.                   | `uniswap`                                                            |
+| liquidity\_pool\_factory\_address | Address of the liquidity pool factory. | `0x5c69bee701ef814a2b6a3edd4b1652cb9cc5aa6f`                         |
+| liquidity\_pool\_address          | Address of the liquidity pool.         | `0xb4e16d0168e52d35cacd2c6185b44281ec28c9dc`                         |
+| token0\_address                   | Address of token0 in this LP.          | `0xa0b86991c6218b36c1d19d4a2e9eb0ce3606eb48`                         |
+| token0\_symbol                    | Symbol of token0 in this LP.           | `USDC`                                                               |
+| token0\_decimals                  | Decimals of token0 in this LP.         | `6`                                                                  |
+| token1\_address                   | Address of token1 in this LP.          | `0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2`                         |
+| token1\_symbol                    | Symbol of token1 in this LP.           | `WETH`                                                               |
+| token1\_decimals                  | Decimals of token1 in this LP.         | `18`                                                                 |
+| transaction\_hash                 | Transaction hash the pool creation.    | `0xd07cbde817318492092cc7a27b3064a69bd893c01cb593d6029683ffd290ab3a` |
+| log\_index                        | Log index of the transaction.          | `34`                                                                 |
+| block\_timestamp                  | Block timestamp of the pool creation.  | `2020-05-05 20:22:25`                                                |
+| block\_number                     | Block number of the pool creation.     | `10,008,355`                                                         |
+| block\_hash                       | Block hash of the pool creation.       | `0x359d1dc4f14f9a07cba3ae8416958978ce98f78ad7b8d505925dad9722081f04` |

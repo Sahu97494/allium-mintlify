@@ -1,0 +1,60 @@
+---
+title: "Sandwich Trades"
+---
+
+### Sandwich Trades Table
+
+The Sandwich Trades table captures DEX events where sandwich trading activity is detected.
+
+Sandwich trading involves placing two trades (a front-run and a back-run) around a victim's trade to manipulate the market price for profit.
+
+<Card href="https://medium.com/coinmonks/defi-sandwich-attack-explain-776f6f43b2fd" icon="medium">
+More on Sandwich Attack
+</Card>
+
+#### Sample Query
+
+Finding the total USD amount of sandwich trades by project and date:
+
+```sql
+select 
+  date_trunc('week', block_timestamp) as date,
+  project,
+  sum(usd_amount) as sandwich_trade_volume_usd
+from ethereum.dex.sandwich_trades
+group by date, project
+```
+
+#### Methodology
+
+We use the `dex.trades` table to construct this table. This table contains all trade events from DEX protocols. We identify sandwich trades using the following criteria:
+
+1. **Trade Pair Identification**:
+
+   * The sandwich trade (swap1 , swap2) must occur within the same block.
+
+   * It must be executed in the same liquidity pool (same `liquidity_pool_address`).
+
+   * It must be executed by the same signer (`transaction_from_address`).
+
+   * The transaction indices must be different (`transaction_index`).
+
+2. **Direction Determination**:
+
+   * If `s1.transaction_index` > `s2.transaction_index`, the trade is a "back" part of the sandwich.
+
+   * If `s1.transaction_index` \< `s2.transaction_index`, the trade is a "front" part of the sandwich.
+
+3. **Token Matching**:
+
+   * The token bought in the first trade (`s1`) must match the token sold in the second trade (`s2`).
+
+   * Alternatively, the token sold in the first trade (`s1`) should be the token bought in the second trade (`s2`).
+
+**Exclusion of Non-Applicable Projects**:
+
+* Exclude DEXs without the concept of liquidity pools, such as RFQ protocols like Airswap.
+
+## Table Columns
+
+<table><thead><tr><th width="272">Column Name</th><th width="298">Description</th><th>Example</th></tr></thead><tbody><tr><td>direction</td><td>Indicates whether the transaction is the front or back of the sandwich trade</td><td>back</td></tr><tr><td>project</td><td>The project or DEX name where the trade occurred</td><td>uniswap</td></tr><tr><td>protocol</td><td>The protocol used within the project</td><td>uniswap_v2</td></tr><tr><td>block_timestamp</td><td>The timestamp of the block containing the trade</td><td>2024-06-13 01:00:11.000</td></tr><tr><td>block_number</td><td>The block number containing the trade</td><td>20079481</td></tr><tr><td>transaction_index</td><td>The index of the transaction within the block</td><td>7</td></tr><tr><td>sandwich_transaction_index</td><td>The transaction index of the corresponding sandwich within the block (back/front)</td><td>5</td></tr><tr><td>log_index</td><td>The index of the log within the block</td><td>56</td></tr><tr><td>transaction_hash</td><td>The hash of the transaction</td><td>0x07fe3f18c82800b63072d14606d85d72ccdda9a5cf1c8a6aed900450d761e363</td></tr><tr><td>sandwich_transaction_hash</td><td>The hash of the corresponding end of sandwich (back/front)</td><td>0x25273ef2808f689f8621daf2c2ae25746f30367780c54dc2ec90938d0c37efcc</td></tr><tr><td>liquidity_pool_address</td><td>The address of the liquidity pool involved in the trade</td><td>0xbf16540c857b4e32ce6c37d2f7725c8eec869b8b</td></tr><tr><td>transaction_from_address</td><td>The address initiating the transaction</td><td>0x8ef57238cd4178eed96cd30a13cbc7448925328e</td></tr><tr><td>transaction_to_address</td><td>The address receiving the transaction</td><td>0x00000023c10000eecb940000b914cdfd76cc83d1</td></tr><tr><td>token_sold_address</td><td>The address of the token sold in the transaction</td><td>0x3ffeea07a27fab7ad1df5297fa75e77a43cb5790</td></tr><tr><td>token_sold_symbol</td><td>The symbol of the token sold in the transaction</td><td>PEIPEI</td></tr><tr><td>token_sold_name</td><td>The name of the token sold in the transaction</td><td>PeiPei</td></tr><tr><td>token_sold_amount</td><td>The amount of the token sold</td><td>50279216370.7169</td></tr><tr><td>token_sold_amount_str</td><td>The amount of the token sold, in string format for precision.</td><td>50279216370.716897543345668096</td></tr><tr><td>token_sold_amount_raw</td><td>The raw string representation of the amount of the token sold</td><td>50279216370716897543345668096</td></tr><tr><td>token_bought_address</td><td>The address of the token bought in the transaction</td><td>0xc02aaa39b223fe8d0a0e5c4f27ead9083c756cc2</td></tr><tr><td>token_bought_symbol</td><td>The symbol of the token bought in the transaction</td><td>WETH</td></tr><tr><td>token_bought_name</td><td>The name of the token bought in the transaction</td><td>Wrapped Ether</td></tr><tr><td>token_bought_amount</td><td>The amount of the token bought</td><td>2.759992254</td></tr><tr><td>token_bought_amount_str</td><td>The amount of the token bought, in string format for precision.</td><td>2.759992254092279808</td></tr><tr><td>token_bought_amount_raw</td><td>The raw string representation of the amount of the token bought</td><td>2759992254092279808</td></tr><tr><td>usd_amount</td><td>The USD value of the swap log</td><td>9817.485647264</td></tr><tr><td>sender_address</td><td>The address of the sender in the swap</td><td>0x00000023c10000eecb940000b914cdfd76cc83d1</td></tr><tr><td>recipient_address</td><td>The address of the recipient in the swap</td><td>0x00000023c10000eecb940000b914cdfd76cc83d1</td></tr><tr><td>unique_id</td><td>The unique identifier for the transaction</td><td>txn-0x07fe3f18c82800b63072d14606d85d72ccdda9a5cf1c8a6aed900450d761e363_log_index-56</td></tr></tbody></table>

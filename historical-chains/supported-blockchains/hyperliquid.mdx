@@ -1,0 +1,197 @@
+---
+title: "Hyperliquid 🌱"
+icon: "splotch"
+---
+
+<Warning>
+Hyperliquid data is currently in beta and the schemas are subject to change. **DEX Trades:**
+
+Data is backfilled, but as of March 2025, the Hyperliquid API has a limitation so only the last 10k trades **per address** are available. This means that we're unable to get 100% coverage of trades for \~1% of traders (\~4,000 traders). Once this is accessible, any gaps will be backfilled.
+</Warning>
+
+Hyperliquid is an L1 built to support an ecosystem of permisionless financial applications. The flagship native application is the Hyperliquid DEX, a fully onchain order book exchange.
+
+## Tables
+
+<Info>
+Using `hyperliquid.dex.trades` is recommended as it enriches the `raw.trades` table with relevant trade & token metadata
+</Info>
+
+| Table Name                     | Description                                                                                                                                                 |
+| ------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `hyperliquid.raw.trades`       | <p>Raw Hyperliquid spot &#x26; perpetual trades data<br /><br />This is available as a real-time Kafka stream without the <code>extra_fields</code> column.</p> |
+| `hyperliquid.dex.trades`       | Enriched Hyperliquid spot & perpetual trades data.                                                                                                          |
+| `hyperliquid.raw.tokens`       | List of tokens that are traded on Hyperliquid DEX, with token metadata such as token name and symbol. Currently only includes spot tokens.                  |
+| `hyperliquid.assets.transfers` | Token transfers on Hyperliquid L1. Currently only includes deposits & withdrawals.                                                                          |
+
+## Sample Queries
+
+**Get total monthly DEX volume on Hyperliquid over time**
+
+<Frame>
+<img src="/images/image-historical-hyperliquid.avif" />
+</Frame>
+
+```sql
+SELECT
+    DATE_TRUNC('MONTH', timestamp) AS month,
+    token_a_symbol,
+    SUM(usd_amount) AS volume_usd
+FROM hyperliquid.dex.trades
+GROUP BY ALL
+```
+
+**Get all available trades for a given user**
+
+```sql
+select
+    *
+from hyperliquid.dex.trades
+where 1=1
+    and (buyer_address = <address_to_search> or seller_address = <address_to_search>)
+```
+
+**Get all trades of BTC in the last 24 hours**
+
+```sql
+select
+    *
+from hyperliquid.dex.trades
+where 1=1
+    and token_a_symbol = 'BTC'
+    and timestamp >= current_timestamp - interval '24 hours'
+```
+
+**Get a list of tokens traded in the last 24 hours, with a breakdown of spot vs perpertuals volume, ordered by total USD volume traded**
+
+```sql
+select
+    token_a_symbol,
+    sum(case when market_type = 'spot' then usd_amount else 0 end) as total_spot_usd_amount,
+    sum(case when market_type = 'perpetuals' then usd_amount else 0 end) as total_perpetuals_usd_amount,
+    sum(usd_amount) as total_usd_amount,
+from hyperliquid.dex.trades
+where 1=1
+    and timestamp >= current_timestamp - interval '24 hours'
+group by all
+order by total_usd_amount desc
+```
+
+**Get daily activity metrics, aggregated by token, for the last 7 days**
+
+```sql
+select
+    date(timestamp) as day,
+    token_a_symbol,
+    count(distinct buyer_address) as num_buyers,
+    count(distinct seller_address) as num_sellers,
+    sum(usd_amount) as total_usd_amount,
+from hyperliquid.dex.trades
+where 1=1
+    and timestamp >= current_timestamp - interval '7 days'
+group by all
+order by 1 asc
+```
+
+## Table Columns
+
+<Tabs>
+<Tab title="dex.trades">
+| Column Name       | Description                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| market\_type      | The type of market for the trade, e.g. `spot`, `perpetuals`                                                                                                                                                                                                                                                                                                                          |
+| coin              | <p>A unique identifier for the asset being traded:<br />• The coin for perpetuals is the standard token symbol, e.g. HYPE<br />• The coin for spot tokens is an ID representing a pair of tokens based on Hyperliquid's metadata, e.g. @4 (coin) represents token 5/token 0, which corresponds to JEFF/USDC<br />The metadata is available from the info endpoint of Hyperliquid's API</p> |
+| token\_a\_symbol  | The symbol of the first token in the trading pair                                                                                                                                                                                                                                                                                                                                    |
+| token\_b\_symbol  | The symbol of the second token in the trading pair. At the moment, this is always USDC                                                                                                                                                                                                                                                                                               |
+| amount            | The quantity of token\_a being traded (normalized)                                                                                                                                                                                                                                                                                                                                   |
+| price             | The execution price of token\_a for the trade, in terms of token\_b (usually USDC)                                                                                                                                                                                                                                                                                                   |
+| usd\_amount       | The quantity of token\_a being traded, in USD terms                                                                                                                                                                                                                                                                                                                                  |
+| buyer\_address    | The address of the buyer in the trade                                                                                                                                                                                                                                                                                                                                                |
+| seller\_address   | The address of the seller in the trade                                                                                                                                                                                                                                                                                                                                               |
+| timestamp         | The UTC timestamp of when the trade was executed                                                                                                                                                                                                                                                                                                                                     |
+| transaction\_hash | The transaction hash for the trade. There can be multiple trades (i.e. multiple records with different trade\_id) for the same transaction\_hash                                                                                                                                                                                                                                     |
+| trade\_id         | An identifier for the trade. Some historical trades share a tid of 0                                                                                                                                                                                                                                                                                                                 |
+| unique\_id        | A unique identifier for each trade                                                                                                                                                                                                                                                                                                                                                   |
+| extra\_fields     | Additional information for each trade. See notes for more details.                                                                                                                                                                                                                                                                                                                   |
+</Tab>
+<Tab title="raw.trades">
+| Column Name       | Description                                                                                                                                                                                                                                                                                                                                                                          |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| coin              | <p>A unique identifier for the asset being traded:<br />• The coin for perpetuals is the standard token symbol, e.g. HYPE<br />• The coin for spot tokens is an ID representing a pair of tokens based on Hyperliquid's metadata, e.g. @4 (coin) represents token 5/token 0, which corresponds to JEFF/USDC<br />The metadata is available from the info endpoint of Hyperliquid's API</p> |
+| price             | Price of the coin at the time of the trade                                                                                                                                                                                                                                                                                                                                           |
+| side              | <p>B = Buy (spot) / Long (perpetuals)<br />A = Sell (spot) / Short (perpetuals)</p>                                                                                                                                                                                                                                                                                                    |
+| size              | Units of the coin that were traded                                                                                                                                                                                                                                                                                                                                                   |
+| users             | An array of 2 users that were involved in the trade                                                                                                                                                                                                                                                                                                                                  |
+| transaction\_hash | The transaction hash for the trade                                                                                                                                                                                                                                                                                                                                                   |
+| trade\_id         | An identifier for the trade. Some historical trades share a tid of 0                                                                                                                                                                                                                                                                                                                 |
+| timestamp         | The UTC timestamp of when the trade was executed                                                                                                                                                                                                                                                                                                                                     |
+| unique\_id        | A unique identifier for each trade                                                                                                                                                                                                                                                                                                                                                   |
+| extra\_fields     | Additional information for each trade. See notes for more details.                                                                                                                                                                                                                                                                                                                   |
+</Tab>
+</Tabs>
+
+## Notes
+
+<Tabs>
+<Tab title="extra_fields">
+The `extra_fields` column contains additional information for each trade including fees and liquidation details. Some caveats to be aware of:
+
+* New trades are first fetched from Hyperliquid Websocket API, so the `extra_fields` are initially unavailable. We attempt to refetch all new trades via the Info endpoint, to source the `extra_fields`. Given the 10k transaction limit on the API, it's possible that some trades cannot be refetched.
+* Because of the above, trades may have:
+  * `extra_fields` not populated with buyer or seller details: this means the trade could not be backfilled with additional information. These can be identified by `extra_fields:source = 'api.hyperliquid.xyz/ws'`
+  * `extra_fields` populated with one of the buyer or seller details: we were able to backfill details for one side of the trade (i.e. the buy side or sell side)
+  * `extra_fields` populated with both buyer and seller details: we were able to backfill details for both sides of the trade
+
+**Sample on `extra_fields`**
+
+```json
+{
+  "buyer": {
+    "builder_fee": null,
+    "closed_pnl": "0.0",
+    "crossed": true,
+    "dir": "Open Long",
+    "fee": "0.0",
+    "fee_token": "USDC",
+    "liquidation": null,
+    "order_id": 80667495079,
+    "start_position": "99492.0"
+  },
+  "seller": {
+    "builder_fee": null,
+    "closed_pnl": "0.0",
+    "crossed": false,
+    "dir": "Open Short",
+    "fee": "0.0",
+    "fee_token": "USDC",
+    "liquidation": null,
+    "order_id": 80667490005,
+    "start_position": "-361760.0"
+  },
+  "source": "api.hyperliquid.xyz/info"
+}
+```
+
+
+</Tab>
+<Tab title="trade_id & unique_id">
+In most cases, the `trade_id` can be thought of as the unique identifier for a trade. However, there are cases where this isn't true:
+
+* **Before 24 Nov 2023:** For historical Hyperliquid trades before 24 Nov 2023, the `trade_id` for all trades was 0. For those trades, we construct a unique\_id from other values.
+* **After 24 Nov 2023:** There are a handful of trades where the Hyperliquid API returns the same `trade_id` for trades from different transactions. Because of this, we use the combination of `trade_id` and `transaction_hash` unique identifier for trades.
+</Tab>
+</Tabs>
+
+## FAQs
+
+**Is it possible to fetch all historical trades of \<address>?**
+
+The Hyperliquid API currently has a limitation, so only the last 10k trades for each address is available. If an address has made less than 10k trades as of the time of backfill (\~March 2025), then all their historical trades will be available. However, fetching all historical trades is not currently possible for addresses that have done more than 10k trades. Once historical data becomes accessible, any gaps will be backfilled.
+
+**How are liquidations treated in the&#x20;**`dex.trades`**&#x20;table?**
+
+To find liquidations, look for any dex.trades where the HLP Liquidator (`0x2e3d94f0562703b25c83308a05046ddaf9a8dd14`) is either the buyer or seller address.
+
+[Hyperliquidity Provider (HLP)](https://hyperliquid.gitbook.io/hyperliquid-docs/vaults/protocol-vaults) is a protocol vault that does market making and liquidations. The [HLP Liquidator](https://app.hyperliquid.xyz/vaults/0x2e3d94f0562703b25c83308a05046ddaf9a8dd14) is a component strategy that's part of the HLP. As per Hyperliquid, *"this strategy liquidates positions on all coins as soon as they become liquidatable. Once it acquires these positions, it exits the positions using a market making algorithm."*
+
+

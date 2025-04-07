@@ -1,0 +1,58 @@
+---
+title: "ETH Credit Debit"
+description: Credit and debit entries of all addresses for all ether transfers.
+---
+
+The ETH credit debit table allows you to easily track the inflows and outflows of ether belonging to all addresses.
+
+ETH can be transferred across wallets in different ways:
+
+* Direct transfers like in [this transaction](https://etherscan.io/tx/0x3bac741f12fe4f99c62df3ca2fb566d6b72480e698928126eab64f5e3946d934)
+
+* Indirect transfers through a router, like the routing of ETH from Tornado.Cash pool [in this transaction](https://etherscan.io/tx/0xf74991ca22457a054af65fef2112df568dcabb0400db4e312ad02cf13a8bdbb3)
+
+### How is `ethereum.assets.credit_debit` different from `ethereum.raw.transactions` ?
+
+* While `transactions` table includes the `value` of ETH in direct transfers, ETH transferred via the smart contract router will not be reflected in the `value` field
+
+```sql
+-- "value" field will be 0 for Router directed transaction
+select * from ethereum.raw.transactions
+where hash = '0xf74991ca22457a054af65fef2112df568dcabb0400db4e312ad02cf13a8bdbb3' -- Tornado Cash Routed Txn
+```
+
+* In contrast, `credit_debit` table will show all ETH transferred.
+
+  * `value_transfer` from the Tornado.Cash pool to the recipient
+
+  * `gas_payment_to_miner` from the transaction initiator to the miners and;
+
+  * `gas_burn` from the transaction
+
+```sql
+-- The amount field includes the credit and debit ETH amounts 
+select * from ethereum.assets.eth_credit_debit
+where transaction_hash = '0xf74991ca22457a054af65fef2112df568dcabb0400db4e312ad02cf13a8bdbb3' -- Tornado Cash Routed Txn
+order by unique_id desc
+```
+
+### Table Columns
+
+Using the ETH transfer from Tornado.Cash as an example.
+
+| Column Name           | Description                                                                                                                                        | Example                                                                                   |
+| --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------- |
+| address               | Address of the account that was credited or debited value amount of ETH                                                                            | `0x274db056083b9495fa75a1d3bdd2ae2ff9dd3a99`                                              |
+| counterparty\_address | The address of counter party of this credit or debit transfer.                                                                                     | `0xa160cdab225685da1d56aa342ad8841c3b53f291`                                              |
+| raw\_amount           | [Amount of ETH in ](https://www.investopedia.com/terms/w/wei.asp)[wei](https://www.investopedia.com/terms/w/wei.asp)                               | `99610090438117500000`                                                                    |
+| raw\_amount\_str      | [Amount of ETH in ](https://www.investopedia.com/terms/w/wei.asp)[wei](https://www.investopedia.com/terms/w/wei.asp) in string.                    | `99610090438117450000`                                                                    |
+| amount                | Amount of ether.                                                                                                                                   | `99.610090438`                                                                            |
+| amount\_str           | Amount of ether in string.                                                                                                                         | `99.6100904381174`                                                                        |
+| usd\_amount           | The amount of ether moved, in $USD.                                                                                                                | `152078.709475491`                                                                        |
+| usd\_exchange\_rate   | The exchange rate used to calculate the usd\_value.                                                                                                | `1526.74`                                                                                 |
+| transfer\_type        | Type of transfers. Includes `value_transfer, gas_payment_to_mine, gas_burn`                                                                        | `value_transfer`                                                                          |
+| transaction\_hash     | Transaction hash that this transfer belongs to.                                                                                                    | `0xf74991ca22457a054af65fef2112df568dcabb0400db4e312ad02cf13a8bdbb3`                      |
+| block\_timestamp      | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred. | `44945.3816550926`                                                                        |
+| block\_number         | The block number that the corresponding transaction of this transfer belongs to.                                                                   | `16439864`                                                                                |
+| block\_hash           | The block hash that the corresponding transaction of this transfer belongs to.                                                                     | `0xbf90ceea5cd19fea1948bce3d3c0f6a635526a22f5f3ea6a49b8cae4c205a853`                      |
+| unique\_id            | Unique id generated to each transfer. Includes trace call, transaction\_hash, credit and debit transaction type.                                   | `trace-call_0xf74991ca22457a054af65fef2112df568dcabb0400db4e312ad02cf13a8bdbb3_2_1_debit` |

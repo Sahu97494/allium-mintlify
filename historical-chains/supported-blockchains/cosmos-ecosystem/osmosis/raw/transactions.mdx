@@ -1,0 +1,33 @@
+---
+title: "Transactions"
+---
+
+Transactions allow users to interact with an application and make state changes, like sending coins. Each transaction must be signed with the appropriate private key before being broadcasted to the network. Once broadcasted, the transaction is included in a block and validated through the network's consensus process.
+
+### Table Columns
+
+Unique key: hash
+
+| Column Name        | Description                                                                                           |
+| ------------------ | ----------------------------------------------------------------------------------------------------- |
+| block\_hash        | The hash of the block containing the transaction.                                                     |
+| block\_number      | The number of the block in the blockchain.                                                            |
+| block\_timestamp   | The timestamp when the block was created.                                                             |
+| hash               | The hash of the transaction.                                                                          |
+| transaction\_index | The index of the transaction within the block.                                                        |
+| code               | The code returned after the transaction execution (e.g., 0 for success).                              |
+| codespace          | The namespace for the error codes.                                                                    |
+| gas\_used          | The amount of gas used for the transaction.                                                           |
+| gas\_wanted        | The amount of gas requested for the transaction.                                                      |
+| tx\_acc\_seq       | The sequence number of the account used in the transaction.                                           |
+| tx\_fee\_payer     | The address of the account paying the transaction fee.                                                |
+| tx\_fee\_raw       | The raw fee data for the transaction, containing both amount and denomination.                        |
+| fee\_amount        | The fee amount for the transaction.                                                                   |
+| fee\_denom         | The denomination of the fee amount.                                                                   |
+| events\_count      | The number of events associated with the transaction.                                                 |
+| log                | The log of the transaction execution in string format. Use `try_parse_json` to fetch the log details. |
+| info               | Additional information about the transaction.                                                         |
+| tx                 | The transaction details in a serialized format.                                                       |
+| data               | The data returned from the transaction execution.                                                     |
+| \_created\_at      | The timestamp when the entry was created.                                                             |
+| \_updated\_at      | The timestamp when the entry was updated.                                                             |

@@ -1,0 +1,110 @@
+---
+title: "Transactions"
+---
+
+Transactions are cryptographically signed instructions from accounts.
+
+An account will initiate a transaction to update the state of the blockchain network. Transactions always originate from an externally owned account (a smart contract can not initiate a transaction). Transactions, which change the state of the EVM, need to be broadcast to the whole network. Any node can broadcast a request for a transaction to be executed on the EVM; after this happens, a validator will execute the transaction and propagate the resulting state change to the rest of the network.
+
+Learn more in the official Ethereum documentation [here](https://ethereum.org/en/developers/docs/transactions/).
+
+### Transaction Fees
+
+<Info>
+For detailed metrics on transaction fees in native tokens and USD, including average transfer costs, see [Metrics](/historical-chains/supported-blockchains/evm/core-schemas/metrics).
+</Info>
+
+Transaction fees vary across different blockchains. Layer 1 chains typically have a single fee component, while Layer 2 chains include both L1 and L2 fees. Each chain may handle system transactions and fee calculations differently.
+
+<Accordion title="Chain-Specific Fee Calculations Details">
+**Layer 2 Chains with L1 + L2 Fees (Base, Mode, Scroll, Optimism, Worldchain, Unichain)**
+
+The total transaction fee consists of two components:
+
+1. **L2 Fee**:
+
+   * Total L2 Fee = Base Fee + Priority Fee
+
+   * Note: `(receipt_effective_gas_price * receipt_gas_used) / 10^18` ETH combines both components
+
+   * **Base Fee**: `(block.base_fee_per_gas * receipt_gas_used) / 10^18` ETH
+
+     * Requires join with blocks table on `block_number`: see [example query](https://app.allium.so/s/R1DvhNk2).
+
+   * **Priority Fee**: L2 fee - base fee
+
+2. **L1 Fee**:
+
+   * Given by `receipt_l1_fee / 10^18` ETH
+
+   * Represents cost of posting transaction data to Ethereum mainnet
+
+Total Fee = `L2 Fee + L1 Fee` = `((receipt_gas_used * receipt_effective_gas_price) + receipt_l1_fee) / 10^18` ETH
+
+**Standard EVM Chains (Arbitrum, BSC, Avalanche, Polygon zkEVM)**
+
+Total Fee = `(receipt_gas_used * receipt_effective_gas_price) / 1e18` ETH
+
+Note: On Arbitrum, receipt\_gas\_used includes both L1 and L2 fees.
+
+**Ethereum**
+
+Total Fee = Calldata Fee + Blob Fee (Post EIP-4844)
+
+* Calldata Fee = `(receipt_gas_used * receipt_effective_gas_price) / 1e18` ETH
+
+* Blob Fee = `(receipt_blob_gas_used * receipt_blob_gas_price) / 1e18` ETH (for transaction\_type = 3)
+
+**Polygon**
+
+Total Fee = `(receipt_gas_used * COALESCE(receipt_effective_gas_price, gas_price)) / 1e18` ETH
+
+Note: receipt\_effective\_gas\_price values may be null, in which case gas\_price is used.
+
+**System Transactions**
+
+Different chains handle system transactions differently:
+
+* Base/Optimism/Scroll: Identified by `receipt_l1_fee IS NULL OR receipt_l1_fee = 0`
+
+* Polygon: Identified by `gas_price IS NULL OR gas_price = 0` (e.g., State Syncs)
+
+* Arbitrum: Identified by `transaction_type BETWEEN 100 AND 106`
+
+* BSC: Identified by `receipt_effective_gas_price IS NULL OR receipt_effective_gas_price = 0`
+</Accordion>
+
+### Table Columns
+
+<Info>
+Several columns may only be applicable for specific EVM-compatible blockchains. The list of columns present in the table is not exhaustive.
+</Info>
+
+Unique Key: `hash`
+
+| Column Name                  | Description                                                                                                                                                                                                 |
+|------------------------------|-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| block_number                 | The length of the chain, in blocks.                                                                                                                                                                        |
+| block_timestamp              | The time when the block that contains this transaction was included on the blockchain.                                                                                                                     |
+| block_hash                   | Unique identifier of the block that includes this transaction.                                                                                                                                             |
+| hash                         | Unique identifier of a transaction.                                                                                                                                                                        |
+| nonce                        | [The transaction nonce, unique to the wallet](https://evm.org/en/glossary/#nonce)                                                                                                                          |
+| transaction_index            | The position of this transaction in the block that it belongs to. The first transaction has index 0.                                                                                                       |
+| from_address                 | The address of the sending party of this transaction.                                                                                                                                                      |
+| to_address                    | The address of the receiving party of this transaction (could be a contract address).                                                                                                                      |
+| value                        | The amount of ether sent in this transaction, in wei.                                                                                                                                                      |
+| gas                          | The maximum amount of gas allocated for this transaction in wei.                                                                                                                                           |
+| gas_price                    | Cost per unit of gas specified by the transaction in wei. The higher the gas price, the higher chance of getting included in a block.                                                                      |
+| input                        | The data sent along with the transaction.                                                                                                                                                                  |
+| max_fee_per_gas              | [The maximum fee per gas that the transaction sender is willing to pay for this transaction (introduced in EIP1559)](https://eips.ethereum.org/EIPS/eip-1559)                                              |
+| max_priority_fee_per_gas     | [The maximum fee per gas the transaction sender is willing to give to validators (Proof of Stake) or miners (Proof of Work) to incentivize them to include their transaction (introduced in EIP1559)](https://eips.ethereum.org/EIPS/eip-1559) |
+| receipt_cumulative_gas_used  | The total amount of gas used when this transaction was executed in the block.                                                                                                                              |
+| receipt_effective_gas_price  | The sum of the base fee and tip paid per unit of gas.                                                                                                                                                      |
+| receipt_l1_fee               | The Layer 1 fee paid for the transaction (applicable for Layer 2 transactions).                                                                                                                            |
+| receipt_contract_address     | The contract address created, if the transaction was a contract creation, otherwise null.                                                                                                                  |
+| receipt_root                 | Transaction stateroot (pre Byzantium).                                                                                                                                                                     |
+| receipt_status               | Success status of the transaction. Either 1 (success) or 0 (failure).                                                                                                                                      |
+| log_count                    | Number of event logs emitted in the transaction.                                                                                                                                                           |
+| transaction_type             | The integer of the transaction type, 0x0 for legacy transactions, 0x1 for access list types, 0x2 for dynamic fees.                                                                                          |
+| _created_at                  | Timestamp of the entry creation.                                                                                                                                                                           |
+| _updated_at                  | Timestamp of the entry update.                                                                                                                                                                             |

@@ -1,0 +1,288 @@
+---
+title: "Uniswap V2"
+description: Get events emitted by Uniswap V2 protocols.
+---
+
+The `dex.uniswap_v2_events` table contains swap, sync, mint, and burn events of liquidity pools for projects utilizing the Uniswap v2 protocol. This table is used to track key events such as liquidity addition and removal and sync events which tells the pool balances after each event.
+
+<Info>
+* Columns appended with `_str` are in string format and will retain precision
+
+* Note that not all columns are applicabel to all events.
+</Info>
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+Column Name
+
+Data Type
+
+Description
+
+project
+
+VARCHAR
+
+Name of the project (e.g., uniswap)
+
+protocol
+
+VARCHAR
+
+Protocol Name (e.g., uniswap\_v2)
+
+factory\_address
+
+VARCHAR
+
+The factory address that deployed the liquidity pool
+
+liquidity\_pool\_address
+
+VARCHAR
+
+The liquidity pool address which emitted the event
+
+owner\_address
+
+VARCHAR
+
+Owner address
+
+sender\_address
+
+VARCHAR
+
+Address of the sender of the event log, which can be the Router
+
+recipient\_address
+
+VARCHAR
+
+Address of the recipient of the event log, which can be the Router
+
+token0\_address
+
+VARCHAR
+
+Token0 contract address
+
+token0\_name
+
+VARCHAR
+
+Token0 name
+
+token0\_symbol
+
+VARCHAR
+
+Token0 symbol
+
+token0\_decimals
+
+INTEGER
+
+Token0 decimals
+
+token0\_amount\_raw\_str
+
+VARCHAR
+
+Token0 amount unnormalized, in string format for precision
+
+token0\_amount\_raw
+
+FLOAT
+
+Token0 amount unnormalized
+
+token0\_amount\_str
+
+VARCHAR
+
+Token0 amount normalized, in string format for precision
+
+token0\_amount
+
+FLOAT
+
+Token0 amount normalized
+
+token0\_amount\_usd
+
+FLOAT
+
+Token0 USD amount
+
+token0\_price\_usd
+
+FLOAT
+
+Token0 hourly USD price at the time of the event
+
+token1\_address
+
+VARCHAR
+
+Token1 contract address
+
+token1\_name
+
+VARCHAR
+
+Token1 name
+
+token1\_symbol
+
+VARCHAR
+
+Token1 symbol
+
+token1\_decimals
+
+INTEGER
+
+Token1 decimals
+
+token1\_amount\_raw\_str
+
+VARCHAR
+
+Token1 amount unnormalized, in string format for precision
+
+token1\_amount\_raw
+
+FLOAT
+
+Token1 amount unnormalized
+
+token1\_amount\_str
+
+VARCHAR
+
+Token1 amount normalized, in string format for precision
+
+token1\_amount
+
+FLOAT
+
+Token1 amount normalized
+
+token1\_amount\_usd
+
+FLOAT
+
+Token1 USD amount
+
+token1\_price\_usd
+
+FLOAT
+
+Token1 hourly USD price at the time of the event
+
+usd\_amount
+
+FLOAT
+
+USD value of the event
+
+transaction\_fees
+
+FLOAT
+
+Fees paid at the transaction level
+
+transaction\_fees\_usd
+
+FLOAT
+
+Fees paid in USD
+
+fee\_details
+
+OBJECT
+
+Additional fee details of the transaction (gas, gas price, etc.)
+
+selector
+
+VARCHAR
+
+Call data selector at the transaction level
+
+transaction\_from\_address
+
+VARCHAR
+
+The address of the sending party of this transaction
+
+transaction\_to\_address
+
+VARCHAR
+
+The address of the receiving party of this transaction
+
+transaction\_hash
+
+VARCHAR
+
+Transaction hash of this event
+
+transaction\_index
+
+INTEGER
+
+Transaction index of this event in the block
+
+log\_index
+
+INTEGER
+
+Log index of this event
+
+block\_timestamp
+
+TIMESTAMP\_NTZ(9)
+
+Block timestamp of this event
+
+block\_number
+
+INTEGER
+
+Block number of this event
+
+block\_hash
+
+VARCHAR
+
+Block hash of this event
+
+unique\_id
+
+VARCHAR
+
+Unique ID of each event
+
+created\_at
+
+TIMESTAMP\_NTZ(9)
+
+Timestamp of the entry creation
+
+updated\_at
+
+TIMESTAMP\_NTZ(9)
+
+Timestamp of the entry update
+
+changed\_since\_full\_refresh
+
+BOOLEAN
+
+Boolean indicator on whether this table was full-refreshed
+
+

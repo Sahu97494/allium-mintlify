@@ -1,0 +1,81 @@
+---
+title: "Utility"
+icon: "screwdriver-wrench"
+description: "Utility models to aid analyses."
+---
+## Numbers Utility Table
+| Table                  | Description                                                                          |
+|------------------------|--------------------------------------------------------------------------------------|
+| `common.utility.numbers` | Utility table containing sequential numbers from 0 to 1 billion. For use in analytical queries and data generation. |
+
+<Tabs>
+  <Tab title="common.utility.numbers">
+    Unique Key: `number`
+
+    | Column Name | Description                                      |
+    |-------------|--------------------------------------------------|
+    | `number`    | The sequential number (primary key)              |
+    | `number_hex`| The hexadecimal representation of the number     |
+
+  </Tab>
+</Tabs>
+
+## Timestamp Utility Tables 
+| Table Name               | Description                                                                                             |
+|--------------------------|---------------------------------------------------------------------------------------------------------|
+| `common.utility.dates`   | Date dimension table containing dates from January 1, 1970 to December 31, 2500, with various date-related attributes for time-based analysis and reporting. |
+| `common.utility.hours`   | Hourly dimension table containing dates from January 1, 1970 to December 31, 2500, with various time-related attributes for detailed time-based analysis.     |
+
+<Tabs>
+  <Tab title="common.utility.hours">
+    Unique Key: `hour_timestamp`
+
+    | Column Name       | Description                                                                                      |
+    |-------------------|--------------------------------------------------------------------------------------------------|
+    | `hour_timestamp`  | The timestamp representing the start of the hour (primary key)                                   |
+    | `date`            | The calendar date for this hour                                                                  |
+    | `hour_of_day`     | The hour within the day (0-23)                                                                    |
+    | `am_pm`           | Indicator for AM or PM                                                                            |
+    | `hour_display`    | Human-readable hour format (e.g., '2 PM', '10 AM')                                                |
+    | `day_part`        | Part of day (Morning, Afternoon, Evening, Night)                                                 |
+    | `is_business_hour`| Boolean flag indicating if the hour falls within typical business hours (9 AM - 5 PM)            |
+    | `previous_hour`   | The timestamp of the previous hour                                                               |
+    | `next_hour`       | The timestamp of the next hour                                                                   |
+    | `day_of_week`     | The day of the week (0=Sunday, 6=Saturday)                                                       |
+    | `day_name`        | The name of the day of the week (Monday, Tuesday, etc.)                                          |
+    | `month`           | The month of the year (1-12)                                                                     |
+    | `year`            | The year component of the timestamp                                                              |
+    | `quarter`         | The quarter of the year (1-4)                                                                    |
+
+
+  </Tab>
+    <Tab title="common.utility.dates">
+    Unique Key: `date_timestamp`
+
+    | Column Name          | Description                                                                                   |
+    |----------------------|-----------------------------------------------------------------------------------------------|
+    | `date_timestamp`     | The calendar date (primary key)                                                               |
+    | `day_name`           | The name of the day of the week (Monday, Tuesday, etc.)                                       |
+    | `is_weekend`         | Boolean flag indicating if the date falls on a weekend (Saturday or Sunday)                   |
+    | `previous_day`       | The date of the previous calendar day                                                         |
+    | `next_day`           | The date of the next calendar day                                                             |
+    | `date_year`          | The year component of the date (e.g., 2023)                                                   |
+    | `date_quarter`       | The quarter of the year (1-4)                                                                 |
+    | `day_of_month`       | The day of the month (1-31)                                                                   |
+    | `date_day`           | The day component of the date                                                                 |
+    | `day_of_week`        | The day of the week (0=Sunday, 6=Saturday)                                                    |
+    | `day_of_year`        | The day of the year (1-366)                                                                   |
+    | `week_of_year`       | The week number within the year                                                               |
+    | `week_start_date`    | The first date (Sunday) of the week containing this date                                      |
+    | `week_end_date`      | The last date (Saturday) of the week containing this date                                     |
+    | `month_start_date`   | The first date of the month containing this date                                              |
+    | `month_end_date`     | The last date of the month containing this date                                               |
+    | `quarter_start_date` | The first date of the quarter containing this date                                            |
+    | `quarter_end_date`   | The last date of the quarter containing this date                                             |
+    | `fiscal_year`        | The fiscal year containing this date                                                          |
+    | `fiscal_month`       | The fiscal month containing this date                                                         |
+    | `fiscal_quarter`     | The fiscal quarter containing this date                                                       |
+
+
+  </Tab>
+</Tabs>

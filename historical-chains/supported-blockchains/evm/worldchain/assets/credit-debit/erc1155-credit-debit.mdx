@@ -1,0 +1,29 @@
+---
+title: "ERC1155 Credit Debit"
+---
+
+The ERC1155 credit debit model combines ERC1155 transfers, allowing you to easily track the inflows and outflows of every ERC1155 token belonging to all addresses.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name           | Data Type         | Description                                                                                                                                       |
+| --------------------- | ----------------- | ------------------------------------------------------------------------------------------------------------------------------------------------- |
+| address               | VARCHAR           | Address of the account that was credited or debited amount of ERC1155 token                                                                       |
+| counterparty\_address | VARCHAR           | The address of counter party of this credit or debit transfer                                                                                     |
+| token\_address        | VARCHAR           | Token address of the ERC1155 token                                                                                                                |
+| token\_name           | VARCHAR           | Name of the ERC1155 token                                                                                                                         |
+| token\_symbol         | VARCHAR           | Token symbol of this token                                                                                                                        |
+| token\_id             | VARCHAR           | Unique ID of the ERC1155 token                                                                                                                    |
+| raw\_amount           | FLOAT             | Balance of tokens (unnormalized). For ERC1155 tokens, there are no decimals division involved                                                     |
+| raw\_amount\_str      | VARCHAR           | Balance of tokens (unnormalized) in string                                                                                                        |
+| amount                | FLOAT             | Amount of tokens moved                                                                                                                            |
+| amount\_str           | VARCHAR           | Amount of tokens moved in string                                                                                                                  |
+| transaction\_hash     | VARCHAR           | Transaction hash that this transfer belongs to                                                                                                    |
+| transaction\_index    | BIGINT            | The position of this transaction in the block. The first transaction has index 0.                                                                 |
+| log\_index            | BIGINT            | The position of this log within the block. The first log has index 0.                                                                             |
+| block\_timestamp      | TIMESTAMP\_NTZ(9) | The timestamp of the block that the corresponding transaction of this transfer belongs to. This is also the timestamp when this transfer occurred |
+| block\_number         | BIGINT            | The block number that the corresponding transaction of this transfer belongs to                                                                   |
+| block\_hash           | VARCHAR           | The block hash that the corresponding transaction of this transfer belongs to                                                                     |
+| unique\_id            | VARCHAR           | Unique id generated to each transfer. Includes transaction hash, log index and credit and debit transaction type                                  |

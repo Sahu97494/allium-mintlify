@@ -1,0 +1,72 @@
+---
+title: "Trades"
+---
+
+The DEX trades table contains successful swaps made on decentralized exchanges (DEX), consolidated into a single table.
+
+### Coverage:
+
+Currently, we support 5 DEX protcols and over 12+ DEX projects on Sui.
+
+| Projects                                    | Protocols    |
+|---------------------------------------------|--------------|
+| cetus, cetus_adapter, daos_sui, movescription, suiai, suiemoji, suipump | cetus_protocol |
+| bluefin                                    | bluefin     |
+| turbos                                     | turbos_finance |
+| bluemove_dex, move_pump                    | bluemove    |
+| flowx                                      | flowx_v2    |
+| flowx                                      | flowx_v3    |
+
+### Coming Soon
+
+We're continuously expanding our DEX coverage. The following protocols are currently in our roadmap:
+
+* deepbook (*coming soon*)
+
+* suiswap (*coming soon*)
+
+* kriya (*coming soon*)
+
+We add new DEX protocols on a case-by-case basis. If you'd like to request support for a specific DEX, please reach out to our team. Your feedback helps us prioritize our roadmap.
+
+### Table Columns
+
+`_str` columns are numeric fields cast `varchar` to retain precision when summing.
+
+Unique Key: `unique_id`
+
+| Column                          | Description                                                                                                                                                                                           |
+| ------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| project                         | The project (decentralized exchange) of the liquidity pool that the swap occurred from.                                                                                                               |
+| protocol                        | DEX protocol (& version, if applicable) of the contract address facilitating the swap.                                                                                                                |
+| liquidity_pool_address         | The aaddress of the liquidity pool holding the asset                                                                 |
+| sender_address                 | The address of the sender emitted on the swap event logs.                                                                                                                                             |
+| to_address                     | Address of the recipient emitted on the swap event logs.                                                                                                                                              |
+| coin_sold_type                | Type of the coin sold.                                                                                                                                                                               |
+| coin_sold_name                | Name of the coin sold.                                                                                                                                                                               |
+| coin_sold_symbol              | Symbol of the coin sold.                                                                                                                                                                             |
+| coin_sold_decimals            | Coin decimals of the coin sold.                                                                                                                                                                      |
+| coin_sold_amount_raw_str      | Raw amount of coins sold (unnormalized) in string.                                                                                                                                                   |
+| coin_sold_amount_raw          | Raw amount of coins sold (unnormalized).                                                                                                                                                             |
+| coin_sold_amount_str          | Amount of coins sold in string.                                                                                                                                                                      |
+| coin_sold_amount              | Amount of coins sold.                                                                                                                                                                                |
+| usd_sold_amount               | Amount of coin sold in USD value.                                                                                                                                                                    |
+| coin_bought_type              | Type of the coin bought.                                                                                                                                                                             |
+| coin_bought_name              | Name of the coin bought.                                                                                                                                                                             |
+| coin_bought_symbol            | Symbol of the coin bought.                                                                                                                                                                           |
+| coin_bought_decimals          | Coin decimals of the coin bought.                                                                                                                                                                    |
+| coin_bought_amount_raw_str    | Raw amount of coins bought (unnormalized) in string.                                                                                                                                                 |
+| coin_bought_amount_raw        | Raw amount of coins bought (unnormalized).                                                                                                                                                           |
+| coin_bought_amount_str        | Amount of coins bought in string.                                                                                                                                                                    |
+| coin_bought_amount            | Amount of coins bought.                                                                                                                                                                              |
+| usd_bought_amount             | Amount of coin bought in USD value.                                                                                                                                                                  |
+| usd_amount                    | USD value of the swap. This field preferentially selects the USD value of Native Assets and Stablecoin (USDT/USDC) tokens.                                                                           |
+| transaction_block_digest      | Digest of the transaction block containing this swap.                                                                                                                                                |
+| event_seq                     | Sequence number of the event within the transaction.                                                                                                                                                  |
+| checkpoint_timestamp          | Timestamp of the checkpoint containing this swap.                                                                                                                                                     |
+| checkpoint_sequence          | Sequence number of the checkpoint.                                                                                                                                                                    |
+| checkpoint_digest            | Digest of the checkpoint.                                                                                                                                                                            |
+| unique_id                    | Unique ID of each trade.                                                                                                                                                                             |
+| _created_at                  | Timestamp when the record was created.                                                                                                                                                               |
+| _updated_at                  | Timestamp when the record was last updated.                                                                                                                                                          |
+| _changed_since_full_refresh  | Boolean indicating if the record has changed since the last full refresh.                                                                                                                            |

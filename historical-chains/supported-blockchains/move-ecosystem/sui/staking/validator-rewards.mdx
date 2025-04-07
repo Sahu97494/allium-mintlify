@@ -1,0 +1,47 @@
+---
+title: "Validator Rewards"
+description: Epoch level validator rewards.
+---
+
+## Validator Rewards
+
+The `sui.staking.validator_rewards` model provides detailed information about rewards and performance metrics for each validator per epoch.
+
+### Table Columns
+
+Unique Key: `epoch, validator_address`
+
+| Column                         | Description                                                         |
+| ------------------------------ | ------------------------------------------------------------------- |
+| checkpoint\_date               | Date and time of the checkpoint                                     |
+| epoch                          | The epoch number                                                    |
+| validator\_address             | Address of the validator                                            |
+| commission\_rate               | Percentage of rewards taken by the validator as commission          |
+| voting\_power                  | Validator's voting power in the consensus mechanism                 |
+| apr                            | Annual Percentage Rate for staking with this validator              |
+| stake                          | Total amount of SUI staked with this validator                      |
+| staking\_reward                | Total staking rewards earned by this validator's pool in this epoch |
+| pool\_staking\_reward          | Rewards from transaction fees and stake subsidies                   |
+| storage\_fund\_staking\_reward | Additional rewards from the storage fund                            |
+| pool\_exchange\_rate           | Exchange rate between pool tokens and SUI                           |
+| pool\_token\_amount            | Amount of pool tokens in this validator's staking pool              |
+| sui\_amount                    | Amount of SUI tokens in this validator's staking pool               |
+| reference\_gas\_survey\_quote  | Gas price quote submitted by this validator                         |
+| tallying\_rule\_global\_score  | Performance score based on the tallying rule                        |
+| tallying\_rule\_reporters      | List of validator addresses that reported on this validator         |
+
+### Understanding Validator Performance
+
+#### Commission Rate
+
+The percentage of rewards that validators keep for themselves. Lower commission rates mean more rewards for delegators.
+
+#### Tallying Rule
+
+The tallying rule is Sui's mechanism for evaluating validator performance. Validators observe and report on each other's behavior, resulting in a global score that reflects reliability and performance.
+
+#### Gas Survey Quote
+
+Each validator submits a gas price quote that contributes to determining the network-wide reference gas price.
+
+

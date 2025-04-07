@@ -1,0 +1,46 @@
+---
+title: "Balances"
+description: Daily balance snapshot of active validators on Beacon Chain.
+---
+
+The `beacon.validator.balances` table provides a daily snapshot of ETH balances for **active&#x20;**&#x76;alidators **on Beacon Chain.**
+
+**This snapshot is taken at the last slot of every day (UTC timing).**
+
+This means that validators with pending, withdrawal, exited status are not included in this snapshot. The types of validator status can be found [here](https://www.quicknode.com/docs/ethereum/eth-v1-beacon-states-state_id-validators).
+
+### Sample Query
+
+Querying balance of a validator by its unique index.
+
+```sql
+select 
+slot_timestamp, validator_index, balance
+from beacon.valdiator.balances 
+where validator_index = 10
+```
+
+**Note**: if the validator has specified an ETH1 withdrawal address, **reward payments of excess balance** over 32 ETH will automatically and regularly be sent to the withdrawal address on ETH1.
+
+### Table Columns
+
+| Column Name                    | Description                                                                                                                                                                                                                        | Example                                                                                            |
+| ------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| slot\_number                   | Slot number of balance snapshot.                                                                                                                                                                                                   | 6,116,398                                                                                          |
+| slot\_timestamp                | Timestamp of balance snapshot.                                                                                                                                                                                                     | 2023-03-30 23:59:59                                                                                |
+| validator\_index               | Unique index of validator.                                                                                                                                                                                                         | 538,903                                                                                            |
+| balance                        | Validator balance.                                                                                                                                                                                                                 | 32.10887728                                                                                        |
+| status                         | Current status of the validator.                                                                                                                                                                                                   | active\_ongoing                                                                                    |
+| activation\_eligibility\_epoch | When criteria for activation were met.                                                                                                                                                                                             | 184167                                                                                             |
+| activation\_epoch              | Epoch when validator activated. FAR\_FUTURE\_EPOCH if not activated.                                                                                                                                                               | 185165                                                                                             |
+| effective\_balance             | The balance at stake. Effective balance is a value for each validator that is derived from the validator's balance and prior effective balance. It is used to calculate the size of rewards and penalties given to that validator. | 32                                                                                                 |
+| exit\_epoch                    | Exit epoch of the validator.                                                                                                                                                                                                       | 18446744073709551615                                                                               |
+| pubkey                         | The validator's BLS public key, uniquely identifying them. 48-bytes, hex encoded with 0x prefix, case insensitive.                                                                                                                 | 0xb4783219cddc42d5950bf394ade17c60fe5fa50c065b379ae79cd272340d0f4fe28c0bbfb294230a801f616f80c167e8 |
+| is\_slashed                    | Was validator slashed (not longer active).                                                                                                                                                                                         | FALSE                                                                                              |
+| withdrawable\_epoch            | When validator can withdraw or transfer funds. FAR\_FUTURE\_EPOCH if not defined.                                                                                                                                                  | 18446744073709551615                                                                               |
+| withdrawal\_credentials        | The root of withdrawal credentials.                                                                                                                                                                                                | 0x010000000000000000000000b9d7934878b5fb9610b3fe8a5e441e8fad7e293f                                 |
+| withdrawal\_prefix             | The first byte of this credential is known as the withdrawal prefix. This value is currently either 0x00 or 0x01.                                                                                                                  | 0x01                                                                                               |
+| withdrawal\_address            | ETH1 Withdrawal address specified in withdrawal credentials, applicable for validators with 0x01 withdrawal credentials only.                                                                                                      | 0xb9d7934878b5fb9610b3fe8a5e441e8fad7e293f                                                         |
+| raw\_balance                   | Balance in gwei.                                                                                                                                                                                                                   | 32108877278                                                                                        |
+| raw\_effective\_balance        | Effective balance in gwei.                                                                                                                                                                                                         | 32000000000                                                                                        |
+| unique\_id                     | Unique ID given to validator balance entry.                                                                                                                                                                                        | slot\_timestamp-2023-03-30 23:59:59.000\_validator\_index-538903                                   |

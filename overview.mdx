@@ -1,0 +1,131 @@
+---
+title: Homepage
+mode: 'custom'
+---
+
+export function openSearch() {
+  document.getElementById('search-bar-entry').click();
+}
+
+<div className="relative w-full flex items-center justify-center" style={{ height: '24rem', overflow: 'hidden'}}>
+  <div className="absolute inset-0 bg-primary dark:bg-primary-light" style={{opacity: 0.05 }}></div>
+  <div style={{ position: 'absolute', textAlign: 'center', padding: '0 1rem' }}>
+    <div
+      className="text-gray-900 dark:text-gray-200"
+      style={{
+       fontWeight: '600',
+       fontSize: '28px',
+       margin: '0',
+      }}
+    >
+      Accurate, Fast, Simple blockchain data <span className="text-primary dark:text-primary-light">documentation</span>
+    </div>
+
+    <p
+      className="prose prose-gray dark:prose-invert"
+      style={{
+        marginTop: '1rem',
+       fontWeight: '400',
+       fontSize: '16px',
+       maxWidth: '42rem'
+      }}
+    >
+      Allium provides historical and real-time data to institutions and crypto enterprises.
+    </p>
+    <div className="flex items-center justify-center">
+    <button
+      type="button"
+      className="hidden w-full lg:flex items-center text-sm leading-6 rounded-lg py-1.5 pl-2.5 pr-3 shadow-sm text-gray-400 dark:text-white/50 bg-background-light dark:bg-background-dark dark:brightness-[1.1] dark:ring-1 dark:hover:brightness-[1.25] ring-1 ring-gray-400/20 hover:ring-gray-600/25 dark:ring-gray-600/30 dark:hover:ring-gray-500/30 focus:outline-primary"
+      id="home-search-entry"
+      style={{
+        marginTop: '2rem',
+        maxWidth: '28rem',
+      }}
+      onClick={openSearch}
+    >
+      <svg
+        className="h-4 w-4 ml-1.5 mr-3 flex-none bg-gray-500 hover:bg-gray-600 dark:bg-white/50 dark:hover:bg-white/70"
+        style={{
+         maskImage:
+           'url("https://mintlify.b-cdn.net/v6.5.1/solid/magnifying-glass.svg")',
+         maskRepeat: 'no-repeat',
+         maskPosition: 'center center',
+        }}
+      />
+
+      Search or ask
+    </button>
+    </div>
+  </div>
+</div>
+
+<div
+  style={{marginTop: '6rem', marginBottom: '8rem', maxWidth: '70rem', marginLeft: 'auto',
+   marginRight: 'auto', paddingLeft: '1.25rem',
+   paddingRight: '1.25rem' }}
+>
+  <div
+    className="text-gray-900 dark:text-gray-200"
+    style={{
+     textAlign: 'center',
+     fontSize: '24px',
+     fontWeight: '400',
+     marginBottom: '3rem',
+    }}
+  >
+    Choose a topic below or simply{' '}
+    <a href="/home" className="text-primary dark:text-primary-light">get started</a>
+  </div>
+
+  <h2 className="text-gray-900 dark:text-gray-200" style={{marginTop: '2rem', marginBottom: '2rem', fontWeight: '500'}}></h2>
+
+  <CardGroup cols={3}>
+    <Card
+      title="Data Products – Real-Time"
+      img="/images/realtime.png"
+      href="/data-products-real-time/allium-developer"
+    >
+Allium Developer provides access to blockchain data through Fixed and Enriched Endpoints via SQL API. 
+    </Card>
+
+    <Card
+      title="Data Products – Analytics"
+      img="/images/analytic.png"
+      href="/data-products-analytics/allium-explorer"
+    >
+      Allium Explorer is a one-stop destination to query, analyze, and visualize our Historical Data.
+    </Card>
+
+    <Card
+      title="Featured Solutions"
+      img="/images/solution.png"
+      href="/featured-solutions/wallets"
+    >
+      Use Allium’s real-time enriched transactions, balances, DEX, NFT, and token data to power wallet UX and workflows
+    </Card>
+
+    <Card
+      title="Real-time Data (Chains)"
+      img="/images/realtime.png"
+      href="/realtime/overview"
+    >
+      There are 2 ways to access Allium’s realtime data today.
+    </Card>
+
+    <Card
+      title="Historical Data (Chains)"
+      img="/images/solution.png"
+      href="/historical-chains/overview"
+    >
+      Blockchains and schemas supported by Allium.
+    </Card>
+
+    <Card
+      title="Historical Data (Verticals)"
+      img="/images/analytic.png"
+      href="/historical-verticals/wallet-360"
+    >
+      Get a comprehensive understanding of users, projects, and the competitive landscape to feed the growth engine.
+    </Card>
+    </CardGroup>
+</div>

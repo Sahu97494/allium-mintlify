@@ -1,0 +1,32 @@
+---
+title: "ERC721 Transfers"
+description: "Track movement of ERC721 token transfers."
+---
+
+The ERC721 Token Transfers table records all transfers made with unique, non-fungible tokens from the `Transfer` event logs with `tokenId`.
+
+### Table Columns
+
+Unique Key: `unique_id`
+
+| Column Name              | Data Type        | Description                                                                                     |
+|--------------------------|------------------|-------------------------------------------------------------------------------------------------|
+| from_address             | VARCHAR          | Address where the token is being transferred from.                                             |
+| to_address               | VARCHAR          | Address where the token is being transferred to.                                               |
+| token_address            | VARCHAR          | Token address of the asset transferred.                                                        |
+| token_name               | VARCHAR          | Token name.                                                                                     |
+| token_symbol             | VARCHAR          | Token symbol.                                                                                   |
+| token_id                 | VARCHAR          | Unique ID of the ERC token (used for ERC721 or ERC1155 tokens).                                 |
+| raw_amount               | FLOAT            | Amount of tokens transferred (unnormalized).                                                   |
+| raw_amount_str           | VARCHAR          | Amount of tokens transferred (unnormalized) in string to retain precision.                      |
+| amount                   | FLOAT            | Amount of token transferred, normalized.                                                       |
+| amount_str               | VARCHAR          | Amount of token transferred, normalized in string to retain precision.                          |
+| transaction_from_address | VARCHAR          | The address of the sending party of this transaction.                                          |
+| transaction_to_address   | VARCHAR          | The address of the receiving party of this transaction (could be a contract address).           |
+| transaction_hash         | VARCHAR          | Transaction hash that this transfer belongs to.                                                |
+| transaction_index        | BIGINT           | The position of this transaction in the block. The first transaction of a block has index 0.    |
+| log_index                | BIGINT           | The position of this log within the block. The first log of a block has index 0.                |
+| block_timestamp          | TIMESTAMP_NTZ(9) | The timestamp when the block that contains this transaction was included on the blockchain.     |
+| block_number             | BIGINT           | The block number that the corresponding transaction of this transfer belongs to.                |
+| block_hash               | VARCHAR          | The block hash that the corresponding transaction of this transfer belongs to.                  |
+| unique_id                | VARCHAR          | Unique ID generated for each transfer.                                                         |

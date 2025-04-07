@@ -1,0 +1,201 @@
+---
+title: "Getting Started With Google Pub/Sub"
+icon: google
+---
+
+Integrating Allium's Pub/Sub data streams into your systems is a straightforward process that allows you to access real-time data seamlessly. Follow the steps below to create and manage Pub/Sub streams for your organization.
+
+### Step 1: Access the Integration Portal
+
+To begin, visit the [Allium Pub/Sub Integration page](https://beta.allium.so/integrate/pubsub). Here, you can create and manage the Pub/Sub streams for the various types of data that Allium provides.
+
+### Step 2: Set Up Your Pub/Sub Subscription
+
+Within the integration page, you can set up Pub/Sub streams tailored to the specific data your organization needs. Allium offers a variety of data types, including:
+
+* **Raw Blockchain Data -&#x20;**&#x65;.g. blocks and transactions.
+
+* **Decoded Data -&#x20;**&#x65;.g. decoded logs and traces.
+
+* **Enriched Models** - e.g. NFT data or DEX data.
+
+You will need to set up a subscription to start receiving data. Allium supports two types of subscriptions:
+
+* **Pull Subscription**: This allows your system to pull data from the stream. When setting up a pull subscription, provide a service account or user that will be authorized to pull data.
+
+* **Push Subscription**: This option sends data directly to your specified webhook endpoint. When setting up a push subscription, ensure you provide the correct webhook URL where the data will be sent.
+
+### Step 3: Receive the data
+
+<Tabs>
+  <Tab title="Pull Subscription">
+
+In order to receive data, you will need to configure your code to connect and pull data from the Pub/Sub subscription. Here's an example Python snippet to pull the data:
+
+```python
+from google.cloud import pubsub_v1
+
+project_id = "degenalytics"
+subscription_id = "<your subscription ID>"
+
+def handle_message(message: pubsub_v1.subscriber.message.Message) -> None:
+    print(f"Received data: {message.data}")
+    message.ack()
+
+def pull_messages():
+    subscriber = pubsub_v1.SubscriberClient()
+    subscription_path = subscriber.subscription_path(project_id, subscription_id)
+
+    with subscriber:
+        print(f"Listening for messages on {subscription_path}..\n")
+        streaming_pull_future = subscriber.subscribe(
+            subscription_path, callback=handle_message
+        )
+        while True:
+            try:
+                streaming_pull_future.result()
+            except Exception:
+                streaming_pull_future.cancel()
+                streaming_pull_future.result()
+                
+if __name__ == "__main__":
+    pull_messages()
+```
+
+The data should look something like:
+
+```
+KLUv/QBYHTAAamIgEyXgRo4PCo4XahMHfypstXTqD/Hg5uJgA2bgS1rrTGCzzDDDDPPh...
+```
+
+You can read more about pull subscriptions and what each field means in the [Google Pub/Sub docs](https://cloud.google.com/pubsub/docs/pull).
+
+  </Tab>
+
+  <Tab title="Push Subscription">
+
+You should already be seeing data being sent to the endpoint you configured. The data you receive should look something like:
+
+```json
+{
+  "message":{
+    "data":"KLUv/QBYHTAAamIgEyXgRo4PCo4XahMHfypstXTqD/Hg5uJgA2bgS1rrTGCzzDDDDPPh...",
+    "messageId":"11996745375327517",
+    "message_id":"11996745375327517",
+    "publishTime":"2024-08-20T16:16:06.44Z",
+    "publish_time":"2024-08-20T16:16:06.44Z"
+  },
+  "subscription":"projects/degenalytics/subscriptions/allium_app.portal.solana.nonvoting_transactions.push"
+}
+```
+
+You can read more about push subscriptions and what each field means in the [Google Pub/Sub docs](https://cloud.google.com/pubsub/docs/push).
+
+  </Tab>
+</Tabs>
+
+### Step 4: Decompress the data
+
+Data in Allium's streams are typically compressed for optimization reasons. We employ 3 different compression methods, depending on the shape, size and frequency of data coming through the stream:
+
+* [gzip](https://www.gzip.org/)
+
+* [zstandard](https://facebook.github.io/zstd/)
+
+* [lz4](https://github.com/lz4/lz4)
+
+The easiest way to determine which compression method was used, is to check the first few bytes of the data. Here are the bytes that the data will start with depending on the compression method used:
+
+| Method     | First Bytes           |
+|------------|------------------------|
+| gzip       | `\x1f\x8b`             |
+| zstandard  | `\x28\xb5\x2f\xfd`     |
+| lz4        | `\x04\x22\x4d\x18`     |
+
+
+Here are sample scripts that will help you decompress the data if necessary:
+
+<CodeGroup>
+
+```py Python
+import gzip
+
+import lz4.frame
+import zstandard
+from google.cloud import pubsub_v1
+
+GZIP_PREFIX_MAGIC_NUMBERS = b"\x1f\x8b"
+ZSTD_PREFIX_MAGIC_NUMBERS = b"\x28\xb5\x2f\xfd"
+LZ4_PREFIX_MAGIC_NUMBERS = b"\x04\x22\x4d\x18"
+
+
+def auto_decompress(data):
+    if data.startswith(GZIP_PREFIX_MAGIC_NUMBERS):
+        try:
+            return gzip.decompress(data)
+        except OSError as e:
+            print(f"Error decompressing gzip data: {e}")
+    elif data.startswith(ZSTD_PREFIX_MAGIC_NUMBERS):
+        try:
+            decompressor = zstandard.ZstdDecompressor()
+            stream_reader = decompressor.stream_reader(data)
+            decompressed = stream_reader.read()
+            stream_reader.close()
+            return decompressed
+        except Exception as e:
+            print(f"Error decompressing zstd data: {e}")
+    elif data.startswith(LZ4_PREFIX_MAGIC_NUMBERS):
+        try:
+            return lz4.frame.decompress(data)
+        except lz4.frame.LZ4FrameError as e:
+            print(f"Error decompressing lz4 data: {e}")
+    return data
+
+
+def handle_message(message: pubsub_v1.subscriber.message.Message) -> None:
+    data = auto_decompress(message.data)
+    print(f"Received data: {str(data)}")
+    message.ack()
+```
+
+```js JavaScript
+import * as zlib from 'zlib';
+import * as lz4 from 'lz4';
+import * as zstandard from '@fbneill/node-zstd';
+import { PubSub } from '@google-cloud/pubsub';
+
+const GZIP_PREFIX_MAGIC_NUMBERS = Buffer.from([0x1f, 0x8b]);
+const ZSTD_PREFIX_MAGIC_NUMBERS = Buffer.from([0x28, 0xb5, 0x2f, 0xfd]);
+const LZ4_PREFIX_MAGIC_NUMBERS = Buffer.from([0x04, 0x22, 0x4d, 0x18]);
+
+function autoDecompress(data: Buffer): Buffer {
+    if (data.slice(0, GZIP_PREFIX_MAGIC_NUMBERS.length).equals(GZIP_PREFIX_MAGIC_NUMBERS)) {
+        try {
+            return zlib.gunzipSync(data);
+        } catch (e) {
+            console.error(`Error decompressing gzip data: ${e}`);
+        }
+    } else if (data.slice(0, ZSTD_PREFIX_MAGIC_NUMBERS.length).equals(ZSTD_PREFIX_MAGIC_NUMBERS)) {
+        try {
+            return zstandard.decompress(data);
+        } catch (e) {
+            console.error(`Error decompressing zstd data: ${e}`);
+        }
+    } else if (data.slice(0, LZ4_PREFIX_MAGIC_NUMBERS.length).equals(LZ4_PREFIX_MAGIC_NUMBERS)) {
+        try {
+            return lz4.decode(data);
+        } catch (e) {
+            console.error(`Error decompressing lz4 data: ${e}`);
+        }
+    }
+    return data;
+}
+
+function handleMessage(message: PubSub.Message): void {
+    const data = autoDecompress(message.data);
+    console.log(`Received data: ${data.toString()}`);
+    message.ack();
+}
+```
+</CodeGroup>
+

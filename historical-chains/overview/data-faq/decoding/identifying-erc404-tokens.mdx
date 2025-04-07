@@ -1,0 +1,48 @@
+---
+title: "Identifying ERC404 Tokens"
+description: "Navigating ERC404 with Allium Data."
+---
+
+This FAQ provides a guide into querying ERC404 tokens within Allium's data models.
+
+**Understanding ERC404 Token Identification**
+
+The ERC-404 token standard is an experimental protocol designed to facilitate the integration of fungible tokens and Non-Fungible Tokens (NFTs), with the goal of enhancing liquidity and enabling fractional ownership.
+
+In short, it behaves both like an ERC20 token and ERC721 tokens.
+
+<Card title="GitHub - 0xacme/ERC404" icon="github" horizontal href="https://github.com/0xacme/ERC404">
+More about the ERC404 standard.
+</Card>
+
+**Contract Classification:**
+
+* ERC404 tokens can be present in both `chain.raw.erc20_tokens` and `chain.raw.erc_721_tokens`
+
+* In short, the reason why this occurs is because our contract decoding pipeline recognises ERC404 as an ERC20 tokens, while our self-healing pipelines identifies it as an ERC721 token, as these tokens emit `Transfer()` events that resembles ERC721 tokens.
+
+**Transfers:**
+
+ERC404 token transfers can be found in `chain.assets.erc721_token_transfers` table if the contract deployer implements the ERC721 transfer event.
+
+* The `Transfer()` event log for ERC404 resemble ERC721 tokens, which the includes a token ID in the `topic3`
+
+* These transfers are tracked within the `chain.assets.erc721_token_transfers` table.
+
+**Balances**:
+
+ERC404 token balances can be found in `chain.assets.erc721_balances` table if the contract deployer implements the ERC721 transfer event.
+
+* Our NFT balances is computed based on a cumulative sum of tokens transfersrreds
+
+* Since most ERC404 tokens emit a `Transfer()` event, they will be found in `chain.assetes.erc721_balances`
+
+## FAQs About ERC404 Tokens
+
+**Q: What is the best way to identify ERC404 tokens?** A: The best way to identify ERC404 tokens is by finding the intersection of addresses in both erc721\_tokens and erc20\_tokens tables. This method should identify the bulk of ERC404 tokens.
+
+**Q: Why do I see many contract addresses in both erc721\_tokens and erc20\_tokens tables, and not all of them are ERC404 tokens?** A: Contract deployers can create tokens that fall under both ERC20 and ERC721 categories by implementing methods and transfer events from both standards. This results in some tokens appearing in both erc721\_tokens and erc20\_tokens tables even if they are not ERC404 tokens. In some instances, block explorers may also classify tokens as ERC20 or ERC721 based on the available methods, even if they later implement methods from both standards.
+
+**Q: Why do some contracts appear in both erc20 and erc721 tables even though they were deployed before the first ERC404 contract?** A: Some contracts may appear in both tables due to the flexibility of contract deployers to implement any combination of ERC20 and ERC721 methods and transfer events. This can result in tokens that meet the criteria for both standards, even if they were deployed before the ERC404 standard was introduced.
+
+

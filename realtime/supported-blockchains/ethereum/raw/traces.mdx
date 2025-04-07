@@ -1,0 +1,63 @@
+---
+title: "Traces"
+---
+
+Traces keep track of the actions that modify the internal state of the EVM.
+
+<Tabs>
+
+<Tab title="PSQL">
+
+Query decoded event traces by contract address/function call.
+
+```
+select * from ethereum.traces
+where to_address = '0xdef1c0ded9bec7f1a1670819833240f027b25eff' limit 1
+```
+
+</Tab>
+
+<Tab title="API">
+
+Coming Soon
+
+</Tab>
+
+</Tabs>
+
+### Table Columns
+
+```
+                                                  Partitioned table "evm.traces"
+      Column       |            Type             | Collation | Nullable | Default | Storage  | Compression | Stats target | Description
+-------------------+-----------------------------+-----------+----------+---------+----------+-------------+--------------+-------------
+ transaction_hash  | character varying(66)       |           |          |         | extended |             |              |
+ transaction_index | bigint                      |           |          |         | plain    |             |              |
+ from_address      | character varying(42)       |           |          |         | extended |             |              |
+ to_address        | character varying(42)       |           |          |         | extended |             |              |
+ value             | numeric(38,0)               |           |          |         | main     |             |              |
+ input             | text                        |           |          |         | extended |             |              |
+ output            | text                        |           |          |         | extended |             |              |
+ trace_type        | character varying(16)       |           |          |         | extended |             |              |
+ call_type         | character varying(16)       |           |          |         | extended |             |              |
+ reward_type       | character varying(16)       |           |          |         | extended |             |              |
+ gas               | bigint                      |           |          |         | plain    |             |              |
+ gas_used          | bigint                      |           |          |         | plain    |             |              |
+ subtraces         | bigint                      |           |          |         | plain    |             |              |
+ trace_address     | character varying(8192)     |           |          |         | extended |             |              |
+ error             | text                        |           |          |         | extended |             |              |
+ status            | integer                     |           |          |         | plain    |             |              |
+ block_timestamp   | timestamp without time zone |           | not null |         | plain    |             |              |
+ block_number      | bigint                      |           |          |         | plain    |             |              |
+ block_hash        | character varying(66)       |           |          |         | extended |             |              |
+ trace_id          | text                        |           | not null |         | extended |             |              |
+ _created_at       | timestamp without time zone |           |          |         | plain    |             |              |
+ _updated_at       | timestamp without time zone |           |          |         | plain    |             |              |
+Partition key: RANGE (block_timestamp)
+Indexes:
+    "traces_pk" PRIMARY KEY, btree (trace_id, block_timestamp)
+    "traces_block_index" btree (block_number, block_timestamp DESC)
+    "traces_block_timestamp_index" btree (block_timestamp DESC)
+    "traces_from_address_block_timestamp_index" btree (from_address, block_timestamp DESC)
+    "traces_to_address_block_timestamp_index" btree (to_address, block_timestamp DESC)
+```

@@ -1,0 +1,63 @@
+---
+title: "Balances"
+---
+
+## Balances
+
+| Table                                                                                                                               | Description                                                            |
+| ----------------------------------------------------------------------------------------------------------------------------------- | ---------------------------------------------------------------------- |
+| <p><code>solana.assets.balances</code></p><p><code>solana.assets.sol_balances</code> , <code>solana.assets.spl_balances</code>,</p> | Transaction-level balances from genesis.                               |
+| `solana.assets.balances_latest` , `solana.assets.spl_token_balances_latest`, `solana.assets.sol_balances_latest`                    | Latest balances of all Solana addresses, updated on an hourly cadence. |
+
+## Solana Balances
+
+The `solana.assets.balances` table provides transaction-level SOL and SPL token balances of all Solana accounts. Each row corresponds to a change in the balance of SOL / SPL tokens caused by the transaction.
+
+<Info>
+Both `sol_balances` and `spl_token_balances` are huge tables. It is advised that you query time ranges and specific addresses
+
+* spl\_token\_balances \~ 15bil rows
+
+* sol\_balances \~ 330bil rows
+</Info>
+
+### Sample Usage
+
+A common use case is to calculate daily balances of a solana address. Refer to this sample [query](https://app.allium.so/s/1kmMGjAx).
+
+### Column Name
+
+| Column              | Description                                                             | Type           | Example                                                                                                                                                |
+| ------------------- | ----------------------------------------------------------------------- | -------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| token\_type         | Type of token (SOL or SPL-TOKEN)                                        | varchar        | SOL                                                                                                                                                    |
+| address             | Address of the token holder                                             | varchar        | 4CKFRwj6YzVygMptmFtZgBNNn7zyCsVibM8Aq5pG252v                                                                                                           |
+| token\_account      | Token account associated with the token holder                          | varchar        |                                                                                                                                                        |
+| decimals            | Number of decimal places                                                | number         | 9                                                                                                                                                      |
+| mint                | Mint address of the token                                               | varchar        |                                                                                                                                                        |
+| program\_id         | Program id associated with the token                                    | varchar        |                                                                                                                                                        |
+| raw\_balance\_str   | Raw balance of the token as a string for precision.                     | varchar        | 842899177                                                                                                                                              |
+| raw\_balance        | Raw balance of the token                                                | float          | 842899177                                                                                                                                              |
+| balance\_str        | Balance of the token in string format for precision.                    | varchar        | 0.842899177                                                                                                                                            |
+| balance             | Balance of the token.                                                   | float          | 0.842899177                                                                                                                                            |
+| usd\_balance        | USD balance at the block timestamp.                                     | float          | 124.327628608                                                                                                                                          |
+| usd\_exchange\_rate | USD value of the balance at the block timestamp.                        | float          | 147.5                                                                                                                                                  |
+| signer              | Transaction Signer.                                                     | varchar        | 4CKFRwj6YzVygMptmFtZgBNNn7zyCsVibM8Aq5pG252v                                                                                                           |
+| success             | Boolean indicator whether this transaction suceeded.                    | boolean        | TRUE                                                                                                                                                   |
+| is\_voting          | Boolean indicator whether this is a voting transaction.                 | boolean        | TRUE                                                                                                                                                   |
+| block\_slot         | Block slot of the transaction that resulted in the balance change.      | number         | 274980322                                                                                                                                              |
+| block\_height       | Block height of the transaction that resulted in the balance change.    | number         | 254414017                                                                                                                                              |
+| block\_hash         | Block hash of the transaction that resulted in the balance change.      | varchar        | 4S4V2zoGKpMLxDmwz5PKamiKcwAy2euwEbdsypkkjNLt                                                                                                           |
+| block\_timestamp    | Block timestamp of the transaction that resulted in the balance change. | timestamp\_ntz | 2024-07-01 01:55:58.000                                                                                                                                |
+| txn\_id             | Transaction ID that resulted in the balance change.                     | varchar        | 5oP9oJ2JLYDhTpLi4QyxbNYQooLzmSfTq4auY1Dmm8XkG1bf9R1jNNSmFVDqpB8ByQ1Ta3aqWA6A4kYTyuPeJTp1                                                               |
+| txn\_index          | Transaction index of the transaction id.                                | number         | 685                                                                                                                                                    |
+| unique\_id          | Unique id assigned to the balances entry.                               | varchar        | txn\_id-5oP9oJ2JLYDhTpLi4QyxbNYQooLzmSfTq4auY1Dmm8XkG1bf9R1jNNSmFVDqpB8ByQ1Ta3aqWA6A4kYTyuPeJTp1\_address-4CKFRwj6YzVygMptmFtZgBNNn7zyCsVibM8Aq5pG252v |
+| \_updated\_at       | updated timestamp                                                       | timestamp\_ntz | 2024-07-01 07:11:07.696                                                                                                                                |
+
+## Solana Balances Latest
+
+The `solana.assets.balances_latest` table provides a snapshot of SPL and SOL tokens' most recent balance information.&#x20;
+
+### Table Columns&#x20;
+
+<table><thead><tr><th>Column Name</th><th width="160">Description</th><th>Type</th><th>Example</th></tr></thead><tbody><tr><td>token_type</td><td>Type of token</td><td>varchar</td><td>SPL-TOKEN</td></tr><tr><td>address</td><td>Address of the token holder</td><td>varchar</td><td>AuZ9H13nRXQzQNEeR7ovmPxb1EbFpWiie2fx8rRa8zxC</td></tr><tr><td>token_account</td><td>Token account associated with the token holder</td><td>varchar</td><td>8TfpcEJYwJrSx9XNHqLZCBhYuJkbcF3K1z5TySq52pjh</td></tr><tr><td>decimals</td><td>Number of decimal places the token can be divided into</td><td>number</td><td>6</td></tr><tr><td>mint</td><td>Mint address of the token</td><td>varchar</td><td>3RYgndhvJtpRNAYhc1pmJ8NuEdgCp9H2DUurA1Vvpump</td></tr><tr><td>program_id</td><td>Program ID associated with the token</td><td>varchar</td><td>TokenkegQfeZyiNwAJbNbGKPFXCWuBvf9Ss623VQ5DA</td></tr><tr><td>symbol</td><td>Symbol of the token</td><td>varchar</td><td>$ICE</td></tr><tr><td>raw_balance</td><td>Raw balance of the token</td><td>float</td><td>62388106652</td></tr><tr><td>raw_balance_str</td><td>Raw balance of the token as a string</td><td>varchar</td><td>62388106652</td></tr><tr><td>balance_str</td><td>Balance of the token in a string format</td><td>varchar</td><td>62388.10665</td></tr><tr><td>balance</td><td>Balance of the token</td><td>float</td><td>62388.10665</td></tr><tr><td>usd_balance_current</td><td>Current USD value of the balance</td><td>float</td><td>0.8110453865</td></tr><tr><td>usd_balance_at_block_timestamp</td><td>USD value of the balance at the block timestamp</td><td>float</td><td>5.614929599</td></tr><tr><td>usd_exchange_rate_current</td><td>Current USD exchange rate of the token</td><td>float</td><td>1.27E-05</td></tr><tr><td>usd_exchange_rate_at_block_timestamp</td><td>USD exchange rate of the token at the block timestamp</td><td>float</td><td>8.96E-05</td></tr><tr><td>last_activity_block_timestamp</td><td>Timestamp of the last activity involving the token</td><td>timestamp_ntz</td><td>2024-06-24 21:17:13</td></tr><tr><td>last_activity_block_slot</td><td>Slot number of the last activity involving the token</td><td>number</td><td>273800058</td></tr><tr><td>last_activity_block_hash</td><td>Hash of the block containing the last activity involving the token</td><td>varchar</td><td>BgaWmyUz3Ns1LJpD9vxTMCg5S21jXSBLrQxbjpcVbziH</td></tr><tr><td>last_activity_txn_index</td><td>Transaction index of the last activity involving the token</td><td>number</td><td>244</td></tr><tr><td>last_activity_txn_id</td><td>Transaction ID of the last activity involving the token</td><td>varchar</td><td>3FutYunZXCK76pjpPQS2xMajs6sTmk5WkyAGVVGxK38LndMuX52U4FppoR8qUqhc4DzVwejpi8kJUrvhjpRwo3o8</td></tr><tr><td>_updated_at__usd_exchange_rate_current</td><td>Timestamp of when the current USD exchange rate was last updated</td><td>timestamp_ntz</td><td>2024-06-26 08:00:00</td></tr><tr><td>_updated_at__unhydrated</td><td>Timestamp of when the data was last updated but not fully hydrated</td><td>timestamp_ntz</td><td>2024-06-25 02:33:24</td></tr><tr><td>_created_at</td><td>Timestamp of when the entry was created</td><td>timestamp_ntz</td><td>2024-06-26 08:43:39.613 +0000</td></tr><tr><td>_updated_at</td><td>Timestamp of when the entry was last updated</td><td>timestamp_ntz</td><td>2024-06-26 08:43:39.613 +0000</td></tr><tr><td>_changed_since_full_refresh</td><td>Boolean indicating if the entry has changed since the last full refresh</td><td>boolean</td><td>TRUE</td></tr></tbody></table>
+

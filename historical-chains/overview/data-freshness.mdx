@@ -1,0 +1,48 @@
+---
+title: "Data Freshness"
+description: "FAQ on data freshness for Historical (Batch) Data."
+icon: "arrows-rotate-reverse"
+---
+
+### Raw Data
+
+The following metrics applies for our historical batch data.
+
+* **Update frequency**: This is the frequency at which the data is insert into the database.
+
+* **Median Freshness**: This is the median time between the timestamp of the original data and the timestamp of its entry into Allium's database.
+
+| Ecosystem / Blockchains | Update Frequency | Median Freshness*^         |
+|--------------------------|------------------|----------------------------|
+| EVM Chains              | ~10 minutes      | ~6-10 minutes              |
+| Bitcoin                 | ~30 minutes      | ~30 minutes (staging)      |
+| Solana                  | ~30 minutes      | ~20 minutes                |
+| Cosmos Ecosystem        | ~30 minutes      | ~20 minutes                |
+| Other Blockchains       | ~30 minutes      | ~30 minutes                |
+
+*\*Freshness may be degraded as we mitigate block-reorgs, particularly for chains that experience them frequently.* <br />^*This does not apply for chains under beta tag.*
+
+### Enriched Data
+
+Enriched data is data that is derived from raw data. For example, DEX trades are derived from a combination of raw logs, transactions, erc tokens data as well as prices. Most enriched data tables undergo updates on an hourly basis.
+
+Any tables not mentioned in the aforementioned raw data should be regarded as enriched data.
+
+| Schemas                     | Update Frequency               |
+|-----------------------------|--------------------------------|
+| NFTs, DEXs, Assets, DeFi    | Hourly                        |
+| Prices                      | Hourly                        |
+| DefiLlama                   | Daily                         |
+| Beacon Chain Balances & Income | Daily                      |
+| Wallet360                   | Daily (Base), Weekly (Ethereum, Polygon) |
+| App Users                   | Daily                         |
+
+**Do raw entities (e.g. traces, transactions and logs) of the same block arrive at the same time?**
+
+For EVM-compatible chains, all raw entities (e.g. traces, transactions and logs) of the same block should arrive within the same update window. If the entities for the latest block is incomplete currently, they will be updated in the next two update windows (e.g. 10-20mins for EVM chains).
+
+**How do we calculate data freshness?**
+
+Freshness is determined by comparing the timestamp of the original data with the timestamp of its entry into Allium's database.
+
+

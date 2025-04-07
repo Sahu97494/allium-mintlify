@@ -1,0 +1,23 @@
+---
+title: 'Token Latest Price'
+openapi: '/api-reference/prices-api.json POST /api/v1/developer/prices/latest'
+description: "Get the latest price for the given token addresses and chains."
+---
+
+This endpoint returns the latest price and OHLCV values for a list of Solana tokens. Prices and OHLCV values are aggregated from trades in the most recent completed minute interval. If no trades occurred in the last minute, the endpoint returns the most recent available data.
+
+For inactive tokens, the last known price is derived from the most recent on-chain trade. If no trade has occurred within the past 7 days, the endpoint will return no data for that token.
+
+**Supported Protocols**
+
+- **AMM & Liquidity Pool DEXs**: Orca, Raydium, Saber, Lifinity, Mercurial, Cropper, Fluxbeam, Crema, Invariant, GooseFX, Meteora
+- **Order Book DEXs**: OpenBook, Phoenix
+- **Aggregators & Trading Focused DEXs**: Jupiter, Marinade, Symmetry, Pumpfun
+
+| **Performance Metrics** | **Value**                          |
+|-------------------------|------------------------------------|
+| Query Latency           | p50 1s                             |
+| Pagination              | Up to 50 tokens per request        |
+| Metadata Support        | Token decimals, token symbol       |
+| Data Freshness          | p50 4s                             |
+| Chain Coverage          | Solana                             |

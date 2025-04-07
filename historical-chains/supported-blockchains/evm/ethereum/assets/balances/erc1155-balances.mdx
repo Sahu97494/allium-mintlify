@@ -1,0 +1,27 @@
+---
+title: "ERC1155 Balances"
+description: Historical ERC1155 balances of all addresses at every block height.
+---
+
+<Info>
+USD prices for NFT token balances are not supported currently.
+</Info>
+
+ERC1155 balances table contains the ERC1155 balances of all addresses, at every block height. Use this table to easily plot the change in the balance of ERC1155 tokens for an address or a group of addresses over time.
+
+### Sample Query
+
+Getting the Balances of Cryptovoxel, an ERC1155 token from an address.
+
+```sql
+select * from ethereum.assets.erc1155_balances
+where address = '0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459' -- Pranksy
+and token_address = '0xa58b5224e2fd94020cb2837231b2b0e4247301a6' -- Cryptovoxel Wearables 
+order by block_number desc   
+```
+
+Note that ERC1155 permits the creation of both semi-fungible tokens and non-fungible tokens. In other words, there can be more than one quantity for a particular ERC1155 contract and token ID.
+
+### Table Columns
+
+<table><thead><tr><th width="220.33333333333331">Column Name</th><th width="279">Description</th><th>Example</th><th data-hidden>Column Name</th></tr></thead><tbody><tr><td>address</td><td>Address of the account.</td><td><code>0xd387a6e4e84a6c86bd90c158c6028a58cc8ac459</code></td><td></td></tr><tr><td>token_address</td><td>Token address of the ERC1155 token.</td><td><code>0xa58b5224e2FD94020cb2837231B2B0E4247301A6</code></td><td></td></tr><tr><td>token_name</td><td>Name of the ERC1155 token.</td><td><code>Cryptovoxel Wearables</code></td><td></td></tr><tr><td>token_symbol</td><td>Token symbol of this token.</td><td><code>WEAR</code></td><td></td></tr><tr><td>token_id</td><td>Unique token ID of the ERC1155 token.</td><td><code>3029</code></td><td></td></tr><tr><td>raw_balance</td><td>Balance of tokens (unnormalized). For ERC1155 tokens, there are no decimals division involved.</td><td><code>2</code></td><td></td></tr><tr><td>balance</td><td>Balance of tokens. For ERC1155 tokens, unlike ERC721, the max balance can be more than 1. </td><td><code>2</code></td><td></td></tr><tr><td>usd_value</td><td>The amount of tokens, in $USD.</td><td></td><td></td></tr><tr><td>usd_exchange_rate</td><td>The exchange rate used to calculate the <code>usd_value</code>.</td><td></td><td></td></tr><tr><td>block_timestamp</td><td>The timestamp of the block that that resulted in the <code>balance</code>.</td><td><code>2020-08-04T19:55:07</code></td><td></td></tr><tr><td>block_number</td><td>The number of the block that resulted in the <code>balance</code>.</td><td><code>10595307</code></td><td></td></tr><tr><td>block_hash</td><td>The hash of the block that resulted in the <code>balance</code>.</td><td><code>0xf64dfbe61a1e33cf7390d41a0be963a4d8c759f455ea69b42360bd7c42e50das</code></td><td></td></tr></tbody></table>

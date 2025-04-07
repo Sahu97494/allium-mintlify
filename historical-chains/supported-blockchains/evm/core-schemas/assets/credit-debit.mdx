@@ -1,0 +1,54 @@
+---
+title: "Overview"
+---
+
+The credit-debit model provides a double-entry accounting system for tracking asset movements on the blockchain. This model is particularly useful for analyzing token flows, calculating balances, and understanding asset distribution patterns.
+
+### Overview
+
+**Credit Debit vs Transfers** Credit-debit tables transform single transfer events into two corresponding entries:
+
+* A debit (negative) entry for the sending address
+
+* A credit (positive) entry for the receiving address
+
+**Example** Using an ERC20 token as an example, a **token transfer** will be represented as follows:
+
+| from_address | to_address | amount | event                     |
+|--------------|------------|--------|---------------------------|
+| X            | Y          | 1250   | X transfers 1250 tokens to Y |
+
+In credit debit, it will be represented **two rows**.
+
+| address | counterparty_address | amount  | event                          |
+|---------|----------------------|---------|--------------------------------|
+| X       | Y                    | -1250   | X decrease 1250 tokens to Y    |
+| Y       | X                    | 1250    | Y increase 1250 tokens from X  |
+
+### Advantages Over Transfer Tables
+
+1. **Balance Calculation**
+
+   * Easy summation of all credits and debits for an address
+
+   * Simplified queries for net position calculations
+
+   * Natural handling of complex transactions
+
+2. **Flow Analysis**
+
+   * Clear visualization of token inflows and outflows
+
+   * Simple aggregation of total volume by address
+
+   * Easy identification of major senders/receivers
+
+3. **Data Consistency**
+
+   * Built-in verification through balanced entries
+
+   * Self-auditing through equal total credits and debits
+
+   * Simplified reconciliation process
+
+

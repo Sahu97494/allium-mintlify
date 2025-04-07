@@ -1,0 +1,31 @@
+---
+title: "Trades"
+---
+
+The NFT transfers table aggregates ERC721 and ERC1155 token transfers into a single table.
+
+### Table Columns
+
+Unique ID: `unique_id`
+
+| Column Name                          | Description                                                           |
+| ------------------------------------ | --------------------------------------------------------------------- |
+| token\_standard                      | The standard of the token, e.g., ERC721 or ERC1155.                   |
+| from\_address                        | The address of the sender.                                            |
+| to\_address                          | The address of the recipient.                                         |
+| token\_address                       | The contract address of the token.                                    |
+| token\_name                          | The name of the token.                                                |
+| token\_symbol                        | The symbol of the token.                                              |
+| token\_id                            | The unique identifier of the token.                                   |
+| amount                               | The amount of tokens transferred.                                     |
+| transaction\_from\_address           | The address of the sender in the transaction.                         |
+| transaction\_to\_address             | The address of the recipient in the transaction.                      |
+| transaction\_hash                    | The unique identifier of the transaction.                             |
+| transaction\_index                   | The position of the transaction within the block.                     |
+| log\_index                           | The position of the log within the block.                             |
+| block\_timestamp                     | The timestamp of the block containing the transaction.                |
+| block\_number                        | The number of the block containing the transaction.                   |
+| block\_hash                          | The unique identifier of the block containing the transaction.        |
+| event\_type                          | The type of event, e.g., erc1155\_transfer\_single, erc721\_transfer. |
+| unique\_id                           | A unique identifier for the transfer event.                           |
+| \_helper\_nft\_tokens\_\_updated\_at | The timestamp of the last update to the token information.            |

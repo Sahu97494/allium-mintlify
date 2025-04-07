@@ -1,0 +1,41 @@
+---
+title: "Inputs"
+---
+
+Inputs in Bitcoin transactions reference unspent outputs from previous transactions, using them to fund new transfers. Each input must match or exceed the value being spent, with any excess allocated to change or fees. Inputs are consumed in a First-In-First-Out (FIFO) manner, helping track the flow of funds.
+
+### Sample Query
+
+To find input utxos belonging to a specific address, do the following:
+
+```sql
+select
+    inputs.transaction_hash
+    utxo_id
+from bitcoin.mempool_inputs
+INNER JOIN bitcoin.mempool_outputs
+ON outputs.utxo_id = inputs.spent_utxo_id
+where inputs.block_timestamp >= current_timestamp - interval '1 hour'
+and inputs.block_timestamp < current_timestamp
+and outputs.address0 = 'bc1qvj7sa83e7j9l9dz60vxuy5n4dmp2q8vhml6ftj'
+```
+
+### Table Columns
+
+This table is indexed on spent_utxo_id, block_number, block_timestamp, transaction_hash. Query for a specific row with any of these columns to see faster query results.
+
+| Column Name            | Description                                                           | Example                                                              |
+| ---------------------- | --------------------------------------------------------------------- | -------------------------------------------------------------------- |
+| transaction_hash       | Transaction hash of input utxo                                        | cda25c1ccefcc07bdde18b3ceb372e46bead3c1e2dba2284e5e598f6ef770179     |
+| block_hash             | Block hash of the transaction input.                                  | 0000000000000000000373af917a0f20860073133a22a3bd3c4259d4349366d0     |
+| block_number           | Block number or block height of the transaction input.                | 772,155                                                              |
+| block_timestamp        | Block timestamp of the transaction input.                             | 2023-01-16 00:56:39                                                  |
+| index                  | The index of the input.                                               | 202                                                                  |
+| spent_utxo_id          | Spent UTXO ID generated from transaction hash and index.              | b425e59215c510fdd6881660230046b640426ea60a3fb7eaeb3ddb7984f14c4e:194 |
+| spent_transaction_hash | The transaction where this input utxo was spent (as an output)        | b425e59215c510fdd6881660230046b640426ea60a3fb7eaeb3ddb7984f14c4e     |
+| spent_output_index     | Index of output from spent transaction.                               | 194                                                                  |
+| script_asm             | The script public key in the form of string,                          | 00145814cbfd2ed36fba9cde2b29fc577e2242dd83af                         |
+| script_hex             | Hexadecimal representation of the bitcoin's script language op-codes. | 1600145814cbfd2ed36fba9cde2b29fc577e2242dd83af                       |
+| sequence               | The sequence number of the script.                                    | 4,294,967,295                                                        |
+| type                   | The addres type of intput                                             | scripthash                                                           |
+| input_id               | Input ID generated from transaction hash and index.                   | cda25c1ccefcc07bdde18b3ceb372e46bead3c1e2dba2284e5e598f6ef770179:202 |
