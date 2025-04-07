@@ -2755,6 +2755,13 @@ const docsJson = {
                     "api-reference/stream-endpoint/create-filters",
                     "api-reference/stream-endpoint/add-value-filters"
                   ]
+                },
+                {
+                  "group": "Holdings",
+                  "pages": [
+                    "api-reference/holdingsapi-overview",
+                    "api-reference/holdings-endpoint/holdings-history"
+                  ]
                 }
               ]
             }
