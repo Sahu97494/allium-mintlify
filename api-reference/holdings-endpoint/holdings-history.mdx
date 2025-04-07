@@ -1,0 +1,18 @@
+---
+title: "Holdings History"
+description: "Get historical aggregated usd holdings for an address."
+---
+
+This endpoint returns the aggregated usd holdings for provided addresses at all specified intervals for given time range and granularity. Balance and usd price of each asset is evaluated at every timestamp and returned in the endpoint. 
+
+**Supported Chains and Holdings**
+
+- **Solana - **sol and all spl tokens
+- **Bitcoin - **bitcoin
+
+| **Performance Metrics** | **Value**                      |
+| :---------------------- | :----------------------------- |
+| Query Latency           | p50 3s                         |
+| Pagination              | Up to 5000 aggregated holdings |
+| Data Freshness          | p50 4s                         |
+| Chain Coverage          | Solana, Bitcoin                |
