@@ -10,4 +10,176 @@ We will attempt to surface more invisible sol transfers and improve the attribut
 
 ### Table Columns
 
-<table data-full-width="true"><thead><tr><th width="245.00911458333331">Column</th><th width="506.3984375">Description</th><th width="92.76953125">Type</th><th>Example</th></tr></thead><tbody><tr><td>type</td><td><p>The type of balance change. Current available types:<br /><code>sol_transfer</code> - a sol transfer</p><p><code>spl_transfer</code> - a spl transfer between 2 existing token accounts<br /><code>new_spl_account</code> - creation of a new a spl token account with non-zero balance<br /><code>spl_changed_owner</code>- transfer of ownership of a token account, and thus it's balance within</p></td><td>varchar</td><td><code>sol_transfer</code></td></tr><tr><td>address</td><td>Address of the balance change</td><td>varchar</td><td>DxbwEA8LNprJpsoArgE9gLx5cbrY64pvaiaQLJC4Ng1w</td></tr><tr><td>token_account</td><td>Token account of the balance change, only available for an spl token account</td><td>varchar</td><td>5bWabVkoTkv617PFRX2VwLEmJREGxnP5GLUbPGvWu49g</td></tr><tr><td>mint</td><td>Mint of the balance change</td><td>varchar</td><td>So11111111111111111111111111111111111111112</td></tr><tr><td>symbol</td><td>Symbol of the token</td><td>varchar</td><td>SOL</td></tr><tr><td>decimals</td><td>Decimals of the token</td><td>number</td><td>6</td></tr><tr><td>pre_tx_balance</td><td>Balance at the start of the transaction</td><td>varchar</td><td>624361102</td></tr><tr><td>post_tx_balance</td><td>Balance at the end of the transaction</td><td>varchar</td><td>8069719271</td></tr><tr><td>tx_balance_change</td><td> Change in balance for the transaction, calculated by <code>post_tx_balance - pre_tx_balance</code></td><td>varchar</td><td>7445358169</td></tr><tr><td>transfers_raw_amount_sum</td><td>The sum of the transfers in/out of the address/account, extracted from the <code>solana.assets.transfers</code> table</td><td>varchar</td><td>12500</td></tr><tr><td>transfers_counterparties</td><td>The list of counterparties of all transfers of the address/account</td><td>variant</td><td><code>[</code><br /><code>"4zdNGgAtFsW1cQgHqkiWyRsxaAgxrSRRynnuunxzjxue"</code><br /><code>]</code></td></tr><tr><td>agg_transfers_details</td><td>Details about the transfers to/from the address/account.</td><td>variant</td><td><code>[</code><br /><code>\{</code><br /><code>"counterparty_address": "4zdNGgAtFsW1cQgHqkiWyRsxaAgxrSRRynnuunxzjxue",</code><br /><code>"raw_amount": 1.000000000000000e+00</code><br /><code>}</code><br /><code>]</code></td></tr><tr><td>is_attribution_complete</td><td>Reflects if the total balance change can be attribued to known transfers extracted from <code>solana.assets.transfers</code></td><td>boolean</td><td>true</td></tr><tr><td>block_slot</td><td>Block slot of the transfer.</td><td>varchar</td><td>190,430,409</td></tr><tr><td>block_height</td><td>Block height of the transfer</td><td>number</td><td>173,371,181</td></tr><tr><td>block_timestamp</td><td>Block timestamp of the transfer.</td><td>timestamp_ntz</td><td>2023-04-25 15:55:07</td></tr><tr><td>block_hash</td><td>Block hash of the transfer.</td><td>varchar</td><td>8cAnWkjiy7VENBH3h1pN2rFQJLJsujB87bTcfYJNnvtD</td></tr><tr><td>txn_id</td><td>Transaction ID of the transfer.</td><td>varchar</td><td>4iMB9gP6nf5atgDpofK9hUkBiqiLBxqtocMc64vHBwZvR8iJiuyBdcvaHBwCxk5W1szK9jFFo3XwsSZ2APdPo6Um</td></tr><tr><td>txn_index</td><td>Transaction Index of the transfer.</td><td>number</td><td>1,011</td></tr><tr><td>unique_id</td><td>Unique id of the transfer.</td><td>varchar</td><td>txn_id-4iMB9gP6nf5atgDpofK9hUkBiqiLBxqtocMc64vHBwZvR8iJiuyBdcvaHBwCxk5W1szK9jFFo3XwsSZ2APdPo6Um_i_index-2_ii_index-0</td></tr></tbody></table>
+<<table class="w-full border-collapse">
+  <thead>
+    <tr>
+      <th class="text-left">Column</th>
+      <th class="text-left">Description</th>
+      <th class="text-left">Type</th>
+      <th class="text-left">Example</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>type</td>
+      <td>
+        <p>The type of balance change. Current available types:</p>
+        <p><code>sol_transfer</code> - a sol transfer</p>
+        <p><code>spl_transfer</code> - a spl transfer between 2 existing token accounts</p>
+        <p><code>new_spl_account</code> - creation of a new a spl token account with non-zero balance</p>
+        <p><code>spl_changed_owner</code> - transfer of ownership of a token account, and thus its balance</p>
+      </td>
+      <td>varchar</td>
+      <td>
+        <code>sol_transfer</code>
+      </td>
+    </tr>
+    <tr>
+      <td>address</td>
+      <td>Address of the balance change</td>
+      <td>varchar</td>
+      <td>
+        DxbwEA8LNprJpsoArgE9gLx5cbrY64pvaiaQLJC4Ng1w
+      </td>
+    </tr>
+    <tr>
+      <td>token_account</td>
+      <td>
+        Token account of the balance change, only available for an spl token account
+      </td>
+      <td>varchar</td>
+      <td>
+        5bWabVkoTkv617PFRX2VwLEmJREGxnP5GLUbPGvWu49g
+      </td>
+    </tr>
+    <tr>
+      <td>mint</td>
+      <td>Mint of the balance change</td>
+      <td>varchar</td>
+      <td>
+        So11111111111111111111111111111111111111112
+      </td>
+    </tr>
+    <tr>
+      <td>symbol</td>
+      <td>Symbol of the token</td>
+      <td>varchar</td>
+      <td>SOL</td>
+    </tr>
+    <tr>
+      <td>decimals</td>
+      <td>Decimals of the token</td>
+      <td>number</td>
+      <td>6</td>
+    </tr>
+    <tr>
+      <td>pre_tx_balance</td>
+      <td>Balance at the start of the transaction</td>
+      <td>varchar</td>
+      <td>624361102</td>
+    </tr>
+    <tr>
+      <td>post_tx_balance</td>
+      <td>Balance at the end of the transaction</td>
+      <td>varchar</td>
+      <td>8069719271</td>
+    </tr>
+    <tr>
+      <td>tx_balance_change</td>
+      <td>
+        Change in balance for the transaction, calculated by <code>post_tx_balance - pre_tx_balance</code>
+      </td>
+      <td>varchar</td>
+      <td>7445358169</td>
+    </tr>
+    <tr>
+      <td>transfers_raw_amount_sum</td>
+      <td>
+        The sum of the transfers in/out of the address/account, extracted from the <code>solana.assets.transfers</code> table
+      </td>
+      <td>varchar</td>
+      <td>12500</td>
+    </tr>
+    <tr>
+      <td>transfers_counterparties</td>
+      <td>
+        The list of counterparties of all transfers of the address/account
+      </td>
+      <td>variant</td>
+      <td>
+          `[`<br/>
+          `  "4zdNGgAtFsW1cQgHqkiWyRsxaAgxrSRRynnuunxzjxue"`<br/>
+          `]`
+      </td>
+    </tr>
+    <tr>
+      <td>agg_transfers_details</td>
+      <td>Details about the transfers to/from the address/account</td>
+      <td>variant</td>
+      <td>
+          `[`<br/>
+          `  {`<br/>
+                `"counterparty_address": "4zdNGgAtFsW1cQgHqkiWyRsxaAgxrSRRynnuunxzjxue",`<br/>
+                `"raw_amount": 1.000000000000000e+00`<br/>
+          `  }`<br/>
+          `]`
+      </td>
+    </tr>
+    <tr>
+      <td>is_attribution_complete</td>
+      <td>
+        Reflects if the total balance change can be attributed to known transfers extracted from <code>solana.assets.transfers</code>
+      </td>
+      <td>boolean</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>block_slot</td>
+      <td>Block slot of the transfer</td>
+      <td>varchar</td>
+      <td>190,430,409</td>
+    </tr>
+    <tr>
+      <td>block_height</td>
+      <td>Block height of the transfer</td>
+      <td>number</td>
+      <td>173,371,181</td>
+    </tr>
+    <tr>
+      <td>block_timestamp</td>
+      <td>Block timestamp of the transfer</td>
+      <td>timestamp_ntz</td>
+      <td>2023-04-25 15:55:07</td>
+    </tr>
+    <tr>
+      <td>block_hash</td>
+      <td>Block hash of the transfer</td>
+      <td>varchar</td>
+      <td>
+        8cAnWkjiy7VENBH3h1pN2rFQJLJsujB87bTcfYJNnvtD
+      </td>
+    </tr>
+    <tr>
+      <td>txn_id</td>
+      <td>Transaction ID of the transfer</td>
+      <td>varchar</td>
+      <td>
+        4iMB9gP6nf5atgDpofK9hUkBiqiLBxqtocMc64vHBwZvR8iJiuyBdcvaHBwCxk5W1szK9jFFo3XwsSZ2APdPo6Um
+      </td>
+    </tr>
+    <tr>
+      <td>txn_index</td>
+      <td>Transaction Index of the transfer</td>
+      <td>number</td>
+      <td>1,011</td>
+    </tr>
+    <tr>
+      <td>unique_id</td>
+      <td>Unique id of the transfer</td>
+      <td>varchar</td>
+      <td>
+        txn_id-4iMB9gP6nf5atgDpofK9hUkBiqiLBxqtocMc64vHBwZvR8iJiuyBdcvaHBwCxk5W1szK9jFFo3XwsSZ2APdPo6Um_i_index-2_ii_index-0
+      </td>
+    </tr>
+  </tbody>
+</table>
