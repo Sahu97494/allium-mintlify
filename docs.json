@@ -113,16 +113,21 @@
         ]
       },
       {
-        "tab": "Guides",
+        "tab": "Solutions",
         "groups": [
           {
             "group": "Featured Solutions",
             "pages": [
-              "featured-solutions/wallets",
-              "featured-solutions/dexs",
-              "featured-solutions/stablecoins"
+              "solutions/wallets",
+              "solutions/dexs",
+              "solutions/stablecoins"
             ]
-          },
+          }
+        ]
+      },
+      {
+        "tab": "Guides",
+        "groups": [
           {
             "group": "Real-time Data (Chains)",
             "pages": [
